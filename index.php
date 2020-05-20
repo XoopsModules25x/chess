@@ -61,15 +61,15 @@ function chess_get_games()
     // ----------
 
     // offset of first row of challenges table to display (default to 0)
-    $cstart = intval(isset($_POST['cstart']) ? $_POST['cstart'] : @$_GET['cstart']);
+    $cstart = intval($_POST['cstart'] ?? @$_GET['cstart']);
     // offset of first row of games table to display (default to 0)
-    $gstart = intval(isset($_POST['gstart']) ? $_POST['gstart'] : @$_GET['gstart']);
+    $gstart = intval($_POST['gstart'] ?? @$_GET['gstart']);
     // challenges display option
-    $cshow  = intval(isset($_POST['cshow'])  ? $_POST['cshow']  : @$_GET['cshow']);
+    $cshow  = intval($_POST['cshow'] ?? @$_GET['cshow']);
     // games display option 1
-    $gshow1 = intval(isset($_POST['gshow1']) ? $_POST['gshow1'] : @$_GET['gshow1']);
+    $gshow1 = intval($_POST['gshow1'] ?? @$_GET['gshow1']);
     // games display option 2
-    $gshow2 = intval(isset($_POST['gshow2']) ? $_POST['gshow2'] : @$_GET['gshow2']);
+    $gshow2 = intval($_POST['gshow2'] ?? @$_GET['gshow2']);
 
     // set show-options to default if undefined
     if (!$cshow) {
@@ -226,14 +226,14 @@ function chess_get_games()
 
     // add usernames to $games
     foreach ($games as $k => $game) {
-        $games[$k]['username_white'] = isset($usernames[$game['white_uid']]) ? $usernames[$game['white_uid']] : '?';
-        $games[$k]['username_black'] = isset($usernames[$game['black_uid']]) ? $usernames[$game['black_uid']] : '?';
+        $games[$k]['username_white'] = $usernames[$game['white_uid']] ?? '?';
+        $games[$k]['username_black'] = $usernames[$game['black_uid']] ?? '?';
     }
 
     // add usernames to $challenges
     foreach ($challenges as $k => $challenge) {
-        $challenges[$k]['username_player1'] = isset($usernames[$challenge['player1_uid']]) ? $usernames[$challenge['player1_uid']] : '?';
-        $challenges[$k]['username_player2'] = isset($usernames[$challenge['player2_uid']]) ? $usernames[$challenge['player2_uid']] : '?';
+        $challenges[$k]['username_player1'] = $usernames[$challenge['player1_uid']] ?? '?';
+        $challenges[$k]['username_player2'] = $usernames[$challenge['player2_uid']] ?? '?';
     }
 
     $xoopsTpl->assign('chess_games', $games);

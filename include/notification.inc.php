@@ -79,8 +79,8 @@ function chess_notify_item_info($category, $item_id)
             $memberHandler = xoops_getHandler('member');
             $usernames      =  $memberHandler->getUserList($criteria);
 
-            $username_white =  isset($usernames[$gamedata['white_uid']]) ? $usernames[$gamedata['white_uid']] : _MD_CHESS_NA;
-            $username_black =  isset($usernames[$gamedata['black_uid']]) ? $usernames[$gamedata['black_uid']] : _MD_CHESS_NA;
+            $username_white = $usernames[$gamedata['white_uid']] ?? _MD_CHESS_NA;
+            $username_black = $usernames[$gamedata['black_uid']] ?? _MD_CHESS_NA;
 
             $date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : _MD_CHESS_NA;
         } else {

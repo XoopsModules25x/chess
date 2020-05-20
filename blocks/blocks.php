@@ -114,8 +114,8 @@ function b_chess_games_show($options)
 
     // add usernames to $games
     foreach ($games as $k => $game) {
-        $games[$k]['username_white'] = isset($usernames[$game['white_uid']]) ? $usernames[$game['white_uid']] : '?';
-        $games[$k]['username_black'] = isset($usernames[$game['black_uid']]) ? $usernames[$game['black_uid']] : '?';
+        $games[$k]['username_white'] = $usernames[$game['white_uid']] ?? '?';
+        $games[$k]['username_black'] = $usernames[$game['black_uid']] ?? '?';
     }
 
     $block['games'] = $games;
@@ -196,8 +196,8 @@ function b_chess_challenges_show($options)
 
     // add usernames to $challenges
     foreach ($challenges as $k => $challenge) {
-        $challenges[$k]['username_player1'] = isset($usernames[$challenge['player1_uid']]) ? $usernames[$challenge['player1_uid']] : '?';
-        $challenges[$k]['username_player2'] = isset($usernames[$challenge['player2_uid']]) ? $usernames[$challenge['player2_uid']] : '?';
+        $challenges[$k]['username_player1'] = $usernames[$challenge['player1_uid']] ?? '?';
+        $challenges[$k]['username_player2'] = $usernames[$challenge['player2_uid']] ?? '?';
     }
 
     $block['challenges'] = $challenges;
@@ -289,7 +289,7 @@ function b_chess_players_show($options)
 
     // add usernames to $players
     foreach ($players as $k => $player) {
-        $players[$k]['player_uname'] = isset($usernames[$player['player_uid']]) ? $usernames[$player['player_uid']] : '?';
+        $players[$k]['player_uname'] = $usernames[$player['player_uid']] ?? '?';
     }
 
     $block['players'] = $players;

@@ -196,7 +196,7 @@ function chess_uname_to_uid($uname)
 
     $uids = array_keys($users);
 
-    return isset($uids[0]) ? $uids[0] : 0;
+    return $uids[0] ?? 0;
 }
 
 /*** #*#DEBUG# testing something

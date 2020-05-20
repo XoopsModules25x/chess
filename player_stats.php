@@ -46,11 +46,11 @@ $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable cachin
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
-$player_uid   = intval(isset($_POST['player_uid']) ? $_POST['player_uid'] : @$_GET['player_uid']);
+$player_uid   = intval($_POST['player_uid'] ?? @$_GET['player_uid']);
 $player_uname = trim(@$_POST['player_uname']); // unsanitized
 $cstart       = intval(@$_GET['cstart']); // for page nav: offset of first row of results (challenges) to display (default to 0)
 $gstart       = intval(@$_GET['gstart']); // for page nav: offset of first row of results (games) to display (default to 0)
-$show_option  = intval(isset($_POST['show_option']) ? $_POST['show_option'] : @$_GET['show_option']);
+$show_option  = intval($_POST['show_option'] ?? @$_GET['show_option']);
 
 #var_dump($_REQUEST);#*#DEBUG#
 
@@ -250,14 +250,14 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 
     // add usernames to $games
     foreach ($games as $k => $game) {
-        $games[$k]['white_uname'] = isset($usernames[$game['white_uid']]) ? $usernames[$game['white_uid']] : '?';
-        $games[$k]['black_uname'] = isset($usernames[$game['black_uid']]) ? $usernames[$game['black_uid']] : '?';
+        $games[$k]['white_uname'] = $usernames[$game['white_uid']] ?? '?';
+        $games[$k]['black_uname'] = $usernames[$game['black_uid']] ?? '?';
     }
 
     // add usernames to $challenges
     foreach ($challenges as $k => $challenge) {
-        $challenges[$k]['player1_uname'] = isset($usernames[$challenge['player1_uid']]) ? $usernames[$challenge['player1_uid']] : '?';
-        $challenges[$k]['player2_uname'] = isset($usernames[$challenge['player2_uid']]) ? $usernames[$challenge['player2_uid']] : '?';
+        $challenges[$k]['player1_uname'] = $usernames[$challenge['player1_uid']] ?? '?';
+        $challenges[$k]['player2_uname'] = $usernames[$challenge['player2_uid']] ?? '?';
     }
 
     // ---------------------------------------------------

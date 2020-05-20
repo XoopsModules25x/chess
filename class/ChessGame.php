@@ -1939,7 +1939,7 @@ class ChessGame
             'N' => _MD_CHESS_MOVE_KNIGHT,
             'P' => _MD_CHESS_MOVE_PAWN
         ];
-        return isset($names[$short]) ? $names[$short] : _MD_CHESS_MOVE_EMPTY;
+        return $names[$short] ?? _MD_CHESS_MOVE_EMPTY;
     }
 
     /**

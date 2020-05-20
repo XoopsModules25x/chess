@@ -152,7 +152,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     // add usernames to $players
     foreach ($players as $k => $player) {
-        $players[$k]['player_uname'] = isset($usernames[$player['player_uid']]) ? $usernames[$player['player_uid']] : '?';
+        $players[$k]['player_uname'] = $usernames[$player['player_uid']] ?? '?';
     }
 
     // Display form for arbiter to recalculate ratings.
