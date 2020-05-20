@@ -1,0 +1,50 @@
+Installing this module:
+
+1) Extract all of the files into the appropriate location within the Xoops directory on your server. None of these files require write permission. Note that there are two files that are located outside of the modules subdirectory: class/smarty/plugins/modifier.xoops_format_date.php and include/phpdate.js. The subdirectory modules/chess/docs is only documentation, and need not be installed on your server.  
+
+2) Use the Xoops Control Panel >> System Configuration >> Modules Administration page to install the Chess module.
+
+3) Use the Xoops Control Panel >> System Configuration >> Groups page to set the desired Module Admin rights, Module Access rights and Block Access Rights for this module.
+
+4) Use the Xoops Control Panel >> System Configuration >> Blocks Administration page to configure the blocks for this module.
+
+5) Use the Xoops Control Panel >> Chess Configuration page to review the settings for this module, and make any desired changes.
+
+Upgrading from version 1.0.0:
+
+1) Uninstall the chess module, and then remove the directory modules/chess.
+
+2) Perform the above instructions for "Installing this module".
+
+Upgrading from version 1.0.1:
+
+1) Replace the following files with the ones contained within this distribution:
+
+modules/chess/class/chessgame.inc.php 
+modules/chess/docs/INSTALL.txt
+modules/chess/docs/TODO.txt
+modules/chess/templates/chess_game_main.html
+modules/chess/xoops_version.php
+
+2) Use the Xoops Control Panel >> System Configuration >> Modules Administration page to update the Chess module.
+
+3) Either delete any existing games, or repair them by removing any extraneous text from the beginning of the column chess_games.pgn_movetext.
+
+   Examples:
+
+Incorrect: "* 1. b3 e6 2. Nf3 Nf6 *"
+Correct:   "1. b3 e6 2. Nf3 Nf6 *"
+
+Incorrect: "1-0 {Black resigned.} 1. e3 c5 2. h4 1-0 {Black resigned.}
+Correct:   "1. e3 c5 2. h4 1-0 {Black resigned.}"
+
+Upgrading from version 1.0.2 or 1.0.3:
+
+1) Replace the following files with the ones contained within this distribution:
+
+modules/chess/docs/INSTALL.txt
+modules/chess/docs/TODO.txt
+modules/chess/templates/chess_game_main.html
+modules/chess/xoops_version.php
+
+2) Use the Xoops Control Panel >> System Configuration >> Modules Administration page to update the Chess module.

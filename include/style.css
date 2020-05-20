@@ -1,0 +1,16 @@
+/* changed colors from original OCC scheme to match Xoops CSS
+ #eeeeff => #E9E9E9
+ #9999aa => #639ACE
+*/
+table.chessBoard {width: 0;}
+/***
+td.chessWhitetile {background-image: url(<{$smarty.const.XOOPS_URL}>/modules/chess/images/wcg/w_square.jpg);}
+td.chessBlacktile {background-image: url(<{$smarty.const.XOOPS_URL}>/modules/chess/images/wcg/b_square.jpg);}
+***/
+td.chessWhitetile {background-image: url(../images/wcg/w_square.jpg);}
+td.chessBlacktile {background-image: url(../images/wcg/b_square.jpg);}
+td.chessLabel {font-weight: bold; vertical-align: middle;}
+div.chessLabel {font-weight: bold; vertical-align: middle;}
+
+/* for preloading images */
+.chessHiddenPic {display:none;}

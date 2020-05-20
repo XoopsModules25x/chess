@@ -1,0 +1,104 @@
+********
+* TODO *
+********
+
+Add user-friendlier way to specify setup position when creating a new game?
+
+Tournaments?
+
+Add a new table chess_players?
+ - would be needed for keeping track of player ratings, if that were implemented.
+ - could be used for player confirm-move preferences, now stored in chess_games table.
+
+Index page (lists of challenges and games)
+ - need to paginate, to limit number of items listed.
+ - need to be able to sort by different columns (Created, Started, Last move, etc.)
+
+Rework game page
+ - display opponent's last move
+
+Finish cleaning up chessgame.inc.php
+
+Make derived class from class ChessGame, to be used by game.php.
+ - additional functionality, such as draw-offer and resign
+ - or maybe add more to class ChessGame
+
+Look into detecting stalemate when pieces other than the king have no legal moves (because the moves would place the king in check).
+
+Check for inconsistencies in initial FEN setup:
+ - impossible piece placements: e.g., more than 1 king or 8 pawns, pawns on unreachable tiles, other?
+
+********
+* TEST *
+********
+
+Do more testing of move-handling, including stalemate.
+
+If a move is made as part of a draw-claim, and the move is valid but the draw-claim isn't valid, the move doesn't get stored in the database.  The functions that check draw-claims need to return the move-result and the draw-claim-result separately.
+ - fixed, not fully tested
+
+Message stating that game was drawn due to claim is not displayed, since that message is stored in $move_result, and that string is displayed as part of the move-form, which is not displayed if game is over.
+ - fixed, not fully tested
+
+Allow player to delete game, if applicable. (?)
+ - implemented, not fully tested
+
+********
+* DONE *
+********
+
+Possible bug:
+http://localhost/xoops/beta/modules/chess/game.php?game_id=23
+Select Claim draw (threefold repetition) and Submit.
+Error [Xoops]: Failed to perform move 0-0: ERROR: You cannot castle. in file C:\document\BigApache\htdocs\xoops\beta\modules\chess\game.php line 595
+ - Not a bug. The game had an illegal move, possible since the game was stored while the move-engine was still being debugged.
+
+Disable caching for help page, or use Smarty include-function to handle dynamic part (dependence on module options or admin-view).
+ - disabled caching
+
+Rename "pending games" to "challenges".
+
+Finish FEN startup option
+ - check for validity
+ - use in initializing game
+
+Javascript click-to-move does not recognize en passant capure
+ - the "-" needs to be manually changed to "x" in the move textbox
+ - should be possible for the Javascript to do a special check for a diagnonal pawn move to an empty square (possibly only the current en passant target square, if any), and replace the "-" with an "x"
+
+Add Javascript popup window for pawn-promotion.
+ - also verify that pawn promotion is handled correctly in handleMove()
+
+Update help file.
+
+Automatically detect certain forced-draw conditions.
+ - K vs.K, K vs. K+N, K vs. K+B
+
+Finish admin functions
+
+Check for inconsistencies in initial FEN setup:
+ - if castling availability is indicated, then the appropriate king and rook must be on the proper tiles
+ - if an en passant target square is indicated, then there must be a pawn of the appropriate color on the proper tile
+ - if an en passant target square is indicated, then the appropriate color must be active
+
+Handle some draw-claims automatically.
+ - 50-move-rule
+ - threefold-repetition rule
+ - *** a draw-claim can only be made by a player who has the move
+
+Rework game page
+ - use standard Xoops CSS (and form class?)
+ - elements "jump around" when page is refreshed
+   - use fixed-size tables?
+ - is page too complicated?
+ - move PGN/FEN display to separate page?
+
+Caching - either figure out how to cache pages appropriate to current options (is-player, has-move, etc.), or figure out how to prevent caching.
+ - Disabled module-wide caching in create.php and game.php.
+ - Caching is ok in index.php, since the content is not user-dependent.
+
+Implement block(s):
+ - open challenges (option: max # to display)
+ - active games (started) (option: max # to display)
+
+Allow player to delete pending game.
