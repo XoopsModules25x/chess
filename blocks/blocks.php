@@ -36,7 +36,7 @@ function b_chess_games_show($options)
 	global $xoopsModule, $xoopsDB;
 
 	// don't display this block within owning module
-	if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+	if (is_object($xoopsModule) and 'chess' == $xoopsModule->getVar('dirname')) {
 		return [];
 	}
 
@@ -118,7 +118,7 @@ function b_chess_challenges_show($options)
 	global $xoopsModule, $xoopsDB;
 
 	// don't display this block within owning module
-	if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+	if (is_object($xoopsModule) and 'chess' == $xoopsModule->getVar('dirname')) {
 		return [];
 	}
 
@@ -182,9 +182,9 @@ function b_chess_challenges_show($options)
  */
 function b_chess_games_edit($options)
 {
-	$show_inplay    = $options[1] == 1 ? "checked='checked'" : '';
-	$show_concluded = $options[1] == 2 ? "checked='checked'" : '';
-	$show_both      = $options[1] == 3 ? "checked='checked'" : '';
+	$show_inplay    = 1 == $options[1] ? "checked='checked'" : '';
+	$show_concluded = 2 == $options[1] ? "checked='checked'" : '';
+	$show_both      = 3 == $options[1] ? "checked='checked'" : '';
 
 	$form = '
 		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
@@ -204,9 +204,9 @@ function b_chess_games_edit($options)
  */
 function b_chess_challenges_edit($options)
 {
-	$show_open = $options[1] == 1 ? "checked='checked'" : '';
-	$show_user = $options[1] == 2 ? "checked='checked'" : '';
-	$show_both = $options[1] == 3 ? "checked='checked'" : '';
+	$show_open = 1 == $options[1] ? "checked='checked'" : '';
+	$show_user = 2 == $options[1] ? "checked='checked'" : '';
+	$show_both = 3 == $options[1] ? "checked='checked'" : '';
 
 	$form = '
 		' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />

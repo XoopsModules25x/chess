@@ -53,7 +53,7 @@ function smarty_modifier_xoops_format_date($timestamp, $format, $nojavascript=nu
 
 	$use_javascript = true;
 	if (isset($nojavascript)) {
-		if (strtolower($nojavascript) == 'nojavascript') {
+		if ('nojavascript' == strtolower($nojavascript)) {
 			$use_javascript = false;
 		} else {
 			trigger_error("modifier xoops_format_date: 'nojavascript' parameter is '$nojavascript', expecting 'nojavascript'");

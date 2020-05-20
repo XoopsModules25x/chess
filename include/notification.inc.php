@@ -35,12 +35,12 @@ function chess_notify_item_info($category, $item_id)
 	$module_handler = xoops_getHandler('module');
 	$module         = $module_handler->getByDirname('chess');
 
-	if ($category == 'global') {
+	if ('global' == $category) {
 		$item['name'] = 'Chess';
 		$item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/';
 		return $item;
 
-	} elseif ($category == 'game') {
+	} elseif ('game' == $category) {
 
 		global $xoopsDB;
 
@@ -53,7 +53,7 @@ function chess_notify_item_info($category, $item_id)
 		$gamedata = $xoopsDB->fetchArray($result);
 		$xoopsDB->freeRecordSet($result);
 
-	 	if ($gamedata !== FALSE) {
+	 	if (FALSE !== $gamedata) {
 
 			$member_handler = xoops_getHandler('member');
 

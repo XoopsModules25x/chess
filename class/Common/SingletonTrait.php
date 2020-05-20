@@ -29,7 +29,7 @@ trait SingletonTrait {
      * call this method to get instance
      **/
     public static function getInstance(){
-        if (static::$instance === null){
+        if (null === static::$instance){
             static::$instance = new static();
         }
         return static::$instance;

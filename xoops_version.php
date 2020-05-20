@@ -53,7 +53,7 @@ $grouparray     = [];
 $member_handler = xoops_getHandler('member');
 $groups         = $member_handler->getGroups();
 foreach ($groups as $group) {
-	if ($group->getVar('groupid') != XOOPS_GROUP_ANONYMOUS) {
+	if (XOOPS_GROUP_ANONYMOUS != $group->getVar('groupid')) {
 		$grouparray[$group->getVar('name')] = $group->getVar('groupid');
 	}
 }

@@ -151,7 +151,7 @@ function chess_can_delete($uid = null)
 function chess_to_pgn_string($data)
 {
 #var_dump('chess_to_pgn_string, data=', $data);#*#DEBUG#
-	if ($data['datetime'] == '0000-00-00 00:00:00') {
+	if ('0000-00-00 00:00:00' == $data['datetime']) {
 		$datetime = '????.??.?? ??:??:??';
 	} else {
 		$datetime = str_replace('-', '.', $data['datetime']);

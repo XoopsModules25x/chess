@@ -84,7 +84,7 @@ if ($cancel_challenge1) {
 
 } elseif ($cancel_challenge3) {
 
-	if ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+	if (_CHESS_GAMETYPE_OPEN == $gametype or _CHESS_GAMETYPE_USER == $gametype) {
 		chess_show_create_form2($gametype, $fen);
 	} else {
 		chess_show_create_form1($gametype, $fen);
@@ -99,7 +99,7 @@ if ($cancel_challenge1) {
 	$fen_error = chess_fen_error($fen);
 	if (!empty($fen_error)) {
 		chess_show_create_form1($gametype, $fen, _MD_CHESS_FEN_INVALID . ': ' . $fen_error);
-	} elseif ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+	} elseif (_CHESS_GAMETYPE_OPEN == $gametype or _CHESS_GAMETYPE_USER == $gametype) {
 		chess_show_create_form2($gametype, $fen);
 	} else {
 		chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid);
@@ -107,7 +107,7 @@ if ($cancel_challenge1) {
 
 } elseif ($submit_challenge2) {
 
-	if ($gametype == _CHESS_GAMETYPE_USER) {
+	if (_CHESS_GAMETYPE_USER == $gametype) {
 		if (empty($opponent)) {
 			chess_show_create_form2($gametype, $fen, $coloroption, $opponent_uid, _MD_CHESS_OPPONENT_MISSING);
 		} elseif (!$opponent_uid) {
@@ -123,10 +123,10 @@ if ($cancel_challenge1) {
 
 } elseif ($submit_challenge3) {
 
-	if ($gametype == _CHESS_GAMETYPE_OPEN) {
+	if (_CHESS_GAMETYPE_OPEN == $gametype) {
 			chess_create_challenge($gametype, $fen, $coloroption, $notify_accept, $notify_move);
 			redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
-	} elseif ($gametype == _CHESS_GAMETYPE_USER) {
+	} elseif (_CHESS_GAMETYPE_USER == $gametype) {
 		if (empty($opponent)) {
 			chess_show_create_form2($gametype, $fen, $coloroption, $opponent_uid, _MD_CHESS_OPPONENT_MISSING);
 		} elseif (!$opponent_uid) {
@@ -137,7 +137,7 @@ if ($cancel_challenge1) {
 			chess_create_challenge($gametype, $fen, $coloroption, $notify_accept, $notify_move, $opponent_uid);
 			redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
 		}
-	} elseif ($gametype == _CHESS_GAMETYPE_SELF) {
+	} elseif (_CHESS_GAMETYPE_SELF == $gametype) {
 		$game_id = chess_create_game($uid, $uid, $fen);
 		redirect_header(XOOPS_URL . "/modules/chess/game.php?game_id=$game_id", _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
 	} else {
@@ -241,7 +241,7 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
 	$opponent_user     = $member_handler->getUser($opponent_uid);
 	$opponent_username =  is_object($opponent_user) ? $opponent_user->getVar('uname') : '';
 
-	if ($gametype == _CHESS_GAMETYPE_USER) {
+	if (_CHESS_GAMETYPE_USER == $gametype) {
 		$form->addElement(new XoopsFormText(_MD_CHESS_LABEL_OPPONENT . ':', 'opponent', _CHESS_TEXTBOX_OPPONENT_SIZE,
 			_CHESS_TEXTBOX_OPPONENT_MAXLEN, $opponent_username));
 	}
@@ -304,7 +304,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid)
 		$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_FEN_SETUP . ':', $fen));
 	}
 
-	if ($gametype == _CHESS_GAMETYPE_USER) {
+	if (_CHESS_GAMETYPE_USER == $gametype) {
 
 		$member_handler    = xoops_getHandler('member');
 		$opponent_user     = $member_handler->getUser($opponent_uid);
@@ -313,7 +313,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid)
 		$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_OPPONENT . ':', $opponent_username));
 	}
 
-	if ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+	if (_CHESS_GAMETYPE_OPEN == $gametype or _CHESS_GAMETYPE_USER == $gametype) {
 
 		switch($coloroption) {
 			case _CHESS_COLOROPTION_OPPONENT:
@@ -339,7 +339,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid)
 		$uid                  = $xoopsUser->getVar('uid');
 		$mid                  = $xoopsModule->getVar('mid');
 		$notification_handler = xoops_getHandler('notification');
-		$is_subscribed        = $notification_handler->isSubscribed('global', 0, 'notify_accept_challenge', $mid, $uid) != 0;
+		$is_subscribed        = 0 != $notification_handler->isSubscribed('global', 0, 'notify_accept_challenge', $mid, $uid);
 
 		// Display checkbox with checked-state reflecting subscription status.
 		$checked_value = 1;
@@ -424,7 +424,7 @@ function chess_show_accept_form($challenge_id)
 		$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_FEN_SETUP . ':', $row['fen']));
 	}
 
-	if ($row['color_option'] == _CHESS_COLOROPTION_OPPONENT) {
+	if (_CHESS_COLOROPTION_OPPONENT == $row['color_option']) {
 		$radio_color = new XoopsFormRadio(_MD_CHESS_LABEL_COLOR . ':', 'coloroption', _CHESS_COLOROPTION_RANDOM);
 		$radio_color->addOption(_CHESS_COLOROPTION_RANDOM,   _MD_CHESS_RADIO_COLOR_RANDOM);
 		$radio_color->addOption(_CHESS_COLOROPTION_WHITE,    _MD_CHESS_RADIO_COLOR_WHITE);
@@ -591,7 +591,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
 	$uid = $xoopsUser ? $xoopsUser->getVar('uid') : 0;
 
-	if ($row['game_type'] == _CHESS_GAMETYPE_USER and $uid != $row['player2_uid']) {
+	if (_CHESS_GAMETYPE_USER == $row['game_type'] and $uid != $row['player2_uid']) {
 		redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_WRONG_PLAYER2);
 	} elseif ($uid == $row['player1_uid']) {
 		redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_SAME_PLAYER2);
@@ -605,7 +605,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
 				default:
 				case _CHESS_COLOROPTION_RANDOM:
-					if (mt_rand(1, 2) == 1) {
+					if (1 == mt_rand(1, 2)) {
 						$white_uid = $row['player1_uid'];
 						$black_uid = $uid;
 					} else {
@@ -628,7 +628,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
 		default:
 		case _CHESS_COLOROPTION_RANDOM:
-			if (mt_rand(1, 2) == 1) {
+			if (1 == mt_rand(1, 2)) {
 				$white_uid = $row['player1_uid'];
 				$black_uid = $uid;
 			} else {
@@ -746,9 +746,9 @@ function chess_create_challenge($gametype, $fen, $coloroption, $notify_accept, $
 	// Notify any subscribers that a challenge has been offered.
 	$player1_username = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
 	$extra_tags = ['CHESS_CHALLENGER' => $player1_username, 'CHESS_CHALLENGE_ID' => $challenge_id];
-	if ($gametype == _CHESS_GAMETYPE_OPEN) {
+	if (_CHESS_GAMETYPE_OPEN == $gametype) {
 		$notification_handler->triggerEvent('global', 0, 'notify_challenge_open', $extra_tags);
-	} elseif ($gametype == _CHESS_GAMETYPE_USER) {
+	} elseif (_CHESS_GAMETYPE_USER == $gametype) {
 		$notification_handler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, [$opponent_uid]);
 	}
 }
