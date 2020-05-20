@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -38,10 +38,10 @@
 
 /**#@+
  */
-require_once '../../mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$xoopsOption['template_main'] = 'chess_game_main.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'chess_game_main.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/class/chessgame.inc.php';
@@ -84,7 +84,7 @@ function chess_game()
         redirect_header(
             XOOPS_URL . '/modules/chess/',
             _CHESS_REDIRECT_DELAY_FAILURE,
-            _MD_CHESS_TOKEN_ERROR . '<br />' . implode('<br />', $GLOBALS['xoopsSecurity']->getErrors())
+            _MD_CHESS_TOKEN_ERROR . '<br>' . implode('<br>', $GLOBALS['xoopsSecurity']->getErrors())
         );
     }
 
@@ -363,16 +363,16 @@ function chess_game()
 
     // If a move (or other action) was made, notify any subscribers.
     if (!empty($notify)) {
-        $notification_handler = xoops_gethandler('notification');
+        $notificationHandler = xoops_getHandler('notification');
 
-        $notification_handler->triggerEvent('game', $game_id, 'notify_game_move', array('CHESS_ACTION' => $notify));
+        $notificationHandler->triggerEvent('game', $game_id, 'notify_game_move', array('CHESS_ACTION' => $notify));
 
         // admin notifications
         if ($movetype == _CHESS_MOVETYPE_WANT_ARBITRATION) {
             $event      = 'notify_request_arbitration';
             $username   =  $xoopsUser ? $xoopsUser->getVar('uname') : '(' ._MD_CHESS_UNKNOWN. ')';
             $extra_tags = array('CHESS_REQUESTOR' => $username, 'CHESS_GAME_ID' => $game_id, 'CHESS_EXPLAIN' => $move_explain);
-            $notification_handler->triggerEvent('global', 0, $event, $extra_tags);
+            $notificationHandler->triggerEvent('global', 0, $event, $extra_tags);
         }
     }
 
@@ -417,7 +417,7 @@ function chess_put_game($game_id, $gamedata)
     $movetext_q  = $myts->addslashes($gamedata['pgn_movetext']);
 
     $table  = $xoopsDB->prefix('chess_games');
-    #echo "updating database table $table<br />\n";#*#DEBUG#
+    #echo "updating database table $table<br>\n";#*#DEBUG#
     $xoopsDB->query(trim("
 		UPDATE $table
 		SET
@@ -491,9 +491,9 @@ function chess_move(&$gamedata, $move)
 
     $chessgame = new ChessGame($gamestate);
 
-    #echo "Performing move: '$move'<br />\n";#*#DEBUG#
+    #echo "Performing move: '$move'<br>\n";#*#DEBUG#
     [$move_performed, $move_result_text] = $chessgame->move($move);
-    #echo "Move result: '$move_result_text'<br />\n";#*#DEBUG#
+    #echo "Move result: '$move_result_text'<br>\n";#*#DEBUG#
 
     if ($move_performed) {
 
@@ -504,7 +504,7 @@ function chess_move(&$gamedata, $move)
 
         #*#DEBUG# - start
         #if ($new_gamestate['fen_castling_availability'] != $gamedata['fen_castling_availability']) {
-        #	echo "*** castling_availability changed from '{$gamedata['fen_castling_availability']}' to '{$new_gamestate['fen_castling_availability']}' ***<br />\n";
+        #	echo "*** castling_availability changed from '{$gamedata['fen_castling_availability']}' to '{$new_gamestate['fen_castling_availability']}' ***<br>\n";
         #}
         #*#DEBUG# - end
 
@@ -578,7 +578,7 @@ function chess_is_draw_threefold_repetition($gamedata)
     // board position against which to check for repetitions
     $last_board_state = "{$gamedata['fen_piece_placement']} {$gamedata['fen_active_color']} {$gamedata['fen_castling_availability']} {$gamedata['fen_en_passant_target_square']}";
     $last_move_number = $gamedata['fen_fullmove_number'];
-    #echo "last_board_state='$last_board_state'<br />\n";#*#DEBUG#
+    #echo "last_board_state='$last_board_state'<br>\n";#*#DEBUG#
     if (CHESS_LOG_3FOLD) {
         $log[] = sprintf("%08x %03d%1s %s", crc32($last_board_state), $gamedata['fen_fullmove_number'], $gamedata['fen_active_color'], $last_board_state);
     }
@@ -608,7 +608,7 @@ function chess_is_draw_threefold_repetition($gamedata)
     $repeats[] = $gamedata['fen_fullmove_number'] . $gamedata['fen_active_color'];
 
     // Compare initial board position with last board position, unless the move number is the same, meaning that there haven't been any moves.
-    #echo "FEN: '{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']} {$tmp_gamedata['fen_halfmove_clock']} {$tmp_gamedata['fen_fullmove_number']}'<br />\n";#*#DEBUG#
+    #echo "FEN: '{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']} {$tmp_gamedata['fen_halfmove_clock']} {$tmp_gamedata['fen_fullmove_number']}'<br>\n";#*#DEBUG#
     $board_state = "{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']}";
     if ($tmp_gamedata['fen_fullmove_number'] != $last_move_number && $board_state == $last_board_state) {
         $repeats[] = $tmp_gamedata['fen_fullmove_number'] . $tmp_gamedata['fen_active_color'];
@@ -618,9 +618,9 @@ function chess_is_draw_threefold_repetition($gamedata)
         #*#DEBUG# - start
 /***
         if (count($repeats) >= 3) {
-            echo "*** Three repetitions! {$repeats[1]},{$repeats[2]},{$repeats[0]} ***<br />\n";
+            echo "*** Three repetitions! {$repeats[1]},{$repeats[2]},{$repeats[0]} ***<br>\n";
         } elseif (count($repeats) >= 2) {
-            echo "*** Two repetitions!  {$repeats[1]},{$repeats[0]} ***<br />\n";
+            echo "*** Two repetitions!  {$repeats[1]},{$repeats[0]} ***<br>\n";
         }
 ***/
 #*#DEBUG# - end
@@ -633,7 +633,7 @@ function chess_is_draw_threefold_repetition($gamedata)
     // Compare board positions after each move with last board position.
     foreach ($movelist as $fullmove) {
 
-        #echo "'{$fullmove[0]}' '{$fullmove[1]}' '{$fullmove[2]}'<br />\n";#*#DEBUG#
+        #echo "'{$fullmove[0]}' '{$fullmove[1]}' '{$fullmove[2]}'<br>\n";#*#DEBUG#
         if (CHESS_LOG_3FOLD) {
             #$log[] = "'{$fullmove[0]}' '{$fullmove[1]}' '{$fullmove[2]}'";#*#LOG_3FOLD# #*#DEBUG#
         }
@@ -649,12 +649,12 @@ function chess_is_draw_threefold_repetition($gamedata)
             $move = str_replace('+', '', $move);
             $move = str_replace('#', '', $move);
 
-            #echo "Performing move: '$move'<br />\n";#*#DEBUG#
+            #echo "Performing move: '$move'<br>\n";#*#DEBUG#
             [$tmp_move_performed, $tmp_move_result_text] = $chessgame->move($move);
-            #echo "Move result: '$tmp_move_result_text'<br />\n";#*#DEBUG#
+            #echo "Move result: '$tmp_move_result_text'<br>\n";#*#DEBUG#
             $tmp_move_performed or trigger_error("Failed to perform move $move: $tmp_move_result_text", E_USER_ERROR);
             $tmp_gamedata = $chessgame->gamestate();
-            #echo "FEN: '{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']} {$tmp_gamedata['fen_halfmove_clock']} {$tmp_gamedata['fen_fullmove_number']}'<br />\n";#*#DEBUG#
+            #echo "FEN: '{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']} {$tmp_gamedata['fen_halfmove_clock']} {$tmp_gamedata['fen_fullmove_number']}'<br>\n";#*#DEBUG#
             $board_state = "{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']}";
             if (CHESS_LOG_3FOLD) {
                 $log[] = sprintf("%08x %03d%1s %s", crc32($board_state), $tmp_gamedata['fen_fullmove_number'], $tmp_gamedata['fen_active_color'], $board_state);
@@ -664,9 +664,9 @@ function chess_is_draw_threefold_repetition($gamedata)
                 #*#DEBUG# - start
                 /***
                                 if (count($repeats) >= 3) {
-                                    echo "*** Three repetitions! {$repeats[1]},{$repeats[2]},{$repeats[0]} ***<br />\n";
+                                    echo "*** Three repetitions! {$repeats[1]},{$repeats[2]},{$repeats[0]} ***<br>\n";
                                 } elseif (count($repeats) >= 2) {
-                                    echo "*** Two repetitions!  {$repeats[1]},{$repeats[0]} ***<br />\n";
+                                    echo "*** Two repetitions!  {$repeats[1]},{$repeats[0]} ***<br>\n";
                                 }
                 ***/
                 #*#DEBUG# - end
@@ -752,13 +752,13 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     global $xoopsTpl;
 
     $xoopsTpl->assign('xoops_module_header', '
-		<link rel="stylesheet" type="text/css" media="screen" href="' .XOOPS_URL. '/modules/chess/include/style.css" />
+		<link rel="stylesheet" type="text/css" media="screen" href="' .XOOPS_URL. '/modules/chess/include/style.css">
 	');
 
-    $member_handler = xoops_gethandler('member');
-    $white_user     = $member_handler->getUser($gamedata['white_uid']);
+    $memberHandler = xoops_getHandler('member');
+    $white_user     = $memberHandler->getUser($gamedata['white_uid']);
     $white_username =  is_object($white_user) ? $white_user->getVar('uname') : '?';
-    $black_user     = $member_handler->getUser($gamedata['black_uid']);
+    $black_user     = $memberHandler->getUser($gamedata['black_uid']);
     $black_username =  is_object($black_user) ? $black_user->getVar('uname') : '?';
 
     // Determine whether board is flipped (black at bottom) or "normal" (white at bottom).
@@ -891,7 +891,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
                 $susp_type_display = _MD_CHESS_LABEL_ERROR;
                 break;
         }
-        $susp_user     = $member_handler->getUser($susp_uid);
+        $susp_user     = $memberHandler->getUser($susp_uid);
         $susp_username =  is_object($susp_user) ? $susp_user->getVar('uname') : _MD_CHESS_UNKNOWN;
         $suspend_info = array(
             'date'   => strtotime($susp_date),

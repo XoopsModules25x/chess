@@ -48,7 +48,7 @@
 <div class="head" align="center"><{$chess_players_pagenav}>&nbsp;</div>
 
 <{if $chess_provisional_ratings_present}>
-	<br /><br />
+	<br><br>
 	<b>*</b><{$chess_provisional_games|string_format:$smarty.const._MD_CHESS_PROVISIONAL}>
 <{/if}>
 
@@ -57,7 +57,7 @@
 
 <{if isset($form1)}>
 
-	<br /><br />
+	<br><br>
 	
 	<form name='<{$form1.name}>' id='<{$form1.name}>' action='<{$form1.action}>' method='<{$form1.method}>' <{$form1.extra}>>
 	

@@ -1,6 +1,6 @@
 <form name="cmdform" method='post' action='game.php?game_id=<{$chess_gamedata.game_id}>'>
 
-<input type='hidden' name='orientation' value='<{$chess_orientation}>' />
+<input type='hidden' name='orientation' value='<{$chess_orientation}>'>
 
 <table>
 
@@ -30,7 +30,7 @@
 
 <{if $chess_move_result}>
 
-	<br />
+	<br>
 
 	<table>
 	<tr>
@@ -42,7 +42,7 @@
 
 <{if $chess_draw_claim_error_text}>
 
-	<br />
+	<br>
 
 	<table>
 	<tr>
@@ -54,7 +54,7 @@
 
 <{* if user is a player, provide player controls *}>
 <{if $chess_user_color}>
-	<br />
+	<br>
 
 	<table>
 		<tr>
@@ -67,22 +67,22 @@
 	<{if $chess_gamedata.start_date}>
 		<tr>
 			<td class="odd" style="text-align:left">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_NORMAL}>' checked='checked' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_NORMAL}>' checked>
 				<{$smarty.const._MD_CHESS_NORMAL_MOVE}>
 			</td>
 			<td class="odd" style="text-align:center; vertical-align: middle;" rowspan="3">
-				<input type='text' name='chessmove' maxlength='8' size='10' />
+				<input type='text' name='chessmove' maxlength='8' size='10'>
 			</td>
 		</tr>
 		<tr>
 			<td class="odd" style="text-align:left">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_CLAIM_DRAW_50}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_CLAIM_DRAW_50}>'>
 				<{$smarty.const._MD_CHESS_CLAIM_DRAW_50}>
 			</td>
 		</tr>
 		<tr>
 			<td class="odd" style="text-align:left">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_CLAIM_DRAW_3}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_CLAIM_DRAW_3}>'>
 				<{$smarty.const._MD_CHESS_CLAIM_DRAW_3}>
 			</td>
 		</tr>
@@ -93,7 +93,7 @@
 <{if $chess_user_color}>
 	<tr>
 		<td class="odd" style="text-align:left" colspan="2">
-			<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_RESIGN}>' />
+			<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_RESIGN}>'>
 			<{$smarty.const._MD_CHESS_RESIGN}>
 		</td>
 	</tr>
@@ -103,7 +103,7 @@
 
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_OFFER_DRAW}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_OFFER_DRAW}>'>
 				<{$smarty.const._MD_CHESS_OFFER_DRAW}>
 			</td>
 		</tr>
@@ -113,14 +113,14 @@
 
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_ACCEPT_DRAW}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_ACCEPT_DRAW}>'>
 				<{$smarty.const._MD_CHESS_ACCEPT_DRAW}>
 			</td>
 		</tr>
 
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_REJECT_DRAW}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_REJECT_DRAW}>'>
 				<{$smarty.const._MD_CHESS_REJECT_DRAW}>
 			</td>
 		</tr>
@@ -131,7 +131,7 @@
 	<{if $selfplay}>
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_RESTART}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_RESTART}>'>
 				<{$smarty.const._MD_CHESS_RESTART}>
 			</td>
 		</tr>
@@ -141,7 +141,7 @@
 	<{if $selfplay or $chess_allow_delete}>
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
-				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_DELETE}>' />
+				<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_DELETE}>'>
 				<{$smarty.const._MD_CHESS_DELETE}>
 			</td>
 		</tr>
@@ -151,23 +151,23 @@
 	</tr>
 	<tr>
 		<td class="odd" style="text-align:left">
-			<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_WANT_ARBITRATION}>' />
+			<input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_WANT_ARBITRATION}>'>
 			<{$smarty.const._MD_CHESS_WANT_ARBITRATION}>
 		</td>
 		<td class="odd" style="text-align:center">
-			<input type="text" name='move_explain' size="30" maxlength="<{$smarty.const._CHESS_TEXTBOX_EXPLAIN_MAXLEN}>" value="<{$smarty.const._MD_CHESS_MOVE_EXPLAIN}>" />
+			<input type="text" name='move_explain' size="30" maxlength="<{$smarty.const._CHESS_TEXTBOX_EXPLAIN_MAXLEN}>" value="<{$smarty.const._MD_CHESS_MOVE_EXPLAIN}>">
 		</td>
 	</tr>
 
 	<tr>
 		<td class="odd" style="text-align:center" colspan="2">
 
-		<input type='submit' name='submit_move' value='<{$smarty.const._MD_CHESS_BUTTON_MOVE}>' onClick="return confirmAction();" />
+		<input type='submit' name='submit_move' value='<{$smarty.const._MD_CHESS_BUTTON_MOVE}>' onClick="return confirmAction();">
 
 		<{* The confirm checkbox is only applicable if Javascript is enabled. *}>
 		<script type="text/javascript">
 			window.document.write('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
-			window.document.write('<input type="checkbox" name="confirm" value="1" <{if $chess_confirm}>checked="checked"<{/if}> />');
+			window.document.write('<input type="checkbox" name="confirm" value="1" <{if $chess_confirm}>checked<{/if}>>');
 			window.document.write('<{$smarty.const._MD_CHESS_CONFIRM}>');
 		</script>
 

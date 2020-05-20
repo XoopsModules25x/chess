@@ -327,9 +327,9 @@
 
 <tr><td class="odd">
 <{$smarty.const._HE_CHESS_MISC_010}>
-<br /><br />
+<br><br>
 <div style="text-align:center">
-<img src="images/stalemate.png" alt="<{$smarty.const._HE_CHESS_MISC_010_IMAGE}>" width="165" height="162" border="0" />
+<img src="images/stalemate.png" alt="<{$smarty.const._HE_CHESS_MISC_010_IMAGE}>" width="165" height="162" border="0">
 </div>
 </td></tr>
 

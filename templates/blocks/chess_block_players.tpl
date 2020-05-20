@@ -46,7 +46,7 @@
 	</table>
 	
 	<{if $chess_provisional_ratings_present}>
-		<br /><br />
+		<br><br>
 		<b>*</b><{$block.provisional_games|string_format:$smarty.const._MB_CHESS_PROVISIONAL}>
 	<{/if}>
 

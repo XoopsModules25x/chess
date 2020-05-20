@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -42,7 +42,7 @@
 
 /**#@+
  */
-require_once '../../mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -82,7 +82,7 @@ if (($submit_challenge1 || $submit_challenge2 || $submit_challenge3 || $submit_a
     redirect_header(
         XOOPS_URL . '/modules/chess/',
         _CHESS_REDIRECT_DELAY_FAILURE,
-        _MD_CHESS_TOKEN_ERROR . '<br />' . implode('<br />', $GLOBALS['xoopsSecurity']->getErrors())
+        _MD_CHESS_TOKEN_ERROR . '<br>' . implode('<br>', $GLOBALS['xoopsSecurity']->getErrors())
     );
 }
 
@@ -236,8 +236,8 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
         $form->addElement(new XoopsFormLabel(_MD_CHESS_ERROR . ':', '<div class="errorMsg">' . $error_msg . '</div>'));
     }
 
-    $member_handler    = xoops_gethandler('member');
-    $opponent_user     = $member_handler->getUser($opponent_uid);
+    $memberHandler    = xoops_getHandler('member');
+    $opponent_user     = $memberHandler->getUser($opponent_uid);
     $opponent_username =  is_object($opponent_user) ? $opponent_user->getVar('uname') : '';
 
     if ($gametype == _CHESS_GAMETYPE_USER) {
@@ -291,8 +291,8 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
  */
 function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $rated)
 {
-    $member_handler           = xoops_gethandler('member');
-    $opponent_user            = $member_handler->getUser($opponent_uid);
+    $memberHandler           = xoops_getHandler('member');
+    $opponent_user            = $memberHandler->getUser($opponent_uid);
     $opponent_username        =  is_object($opponent_user) ? $opponent_user->getVar('uname') : '';
 
     $form = new XoopsThemeForm(_MD_CHESS_CREATE_FORM, 'create_form3', 'create.php', 'post', true);
@@ -326,8 +326,8 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
     }
 
     if ($gametype == _CHESS_GAMETYPE_USER) {
-        $member_handler    = xoops_gethandler('member');
-        $opponent_user     = $member_handler->getUser($opponent_uid);
+        $memberHandler    = xoops_getHandler('member');
+        $opponent_user     = $memberHandler->getUser($opponent_uid);
         $opponent_username =  is_object($opponent_user) ? $opponent_user->getVar('uname') : '';
 
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_OPPONENT . ':', $opponent_username));
@@ -361,8 +361,8 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
         global $xoopsModule, $xoopsUser;
         $uid = $xoopsUser->getVar('uid');
         $mid                  = $xoopsModule->getVar('mid');
-        $notification_handler = xoops_gethandler('notification');
-        $is_subscribed        = $notification_handler->isSubscribed('global', 0, 'notify_accept_challenge', $mid, $uid) != 0;
+        $notificationHandler = xoops_getHandler('notification');
+        $is_subscribed        = $notificationHandler->isSubscribed('global', 0, 'notify_accept_challenge', $mid, $uid) != 0;
 
         // Display checkbox with checked-state reflecting subscription status.
         $checked_value = 1;
@@ -416,14 +416,14 @@ function chess_show_accept_form($challenge_id)
 
     $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], "m")));
 
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
 
     switch ($row['game_type']) {
         case _CHESS_GAMETYPE_OPEN:
             $label_gametype = _MD_CHESS_LABEL_GAMETYPE_OPEN;
             break;
         case _CHESS_GAMETYPE_USER:
-            $player2_user     = $member_handler->getUser($row['player2_uid']);
+            $player2_user     = $memberHandler->getUser($row['player2_uid']);
             $player2_username =  is_object($player2_user) ? $player2_user->getVar('uname') : '?';
             $label_gametype = _MD_CHESS_LABEL_GAMETYPE_USER . ': ' . $player2_username;
             break;
@@ -436,7 +436,7 @@ function chess_show_accept_form($challenge_id)
     }
     $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_GAMETYPE . ':', $label_gametype));
 
-    $player1_user     = $member_handler->getUser($row['player1_uid']);
+    $player1_user     = $memberHandler->getUser($row['player1_uid']);
     $player1_username =  is_object($player1_user) ? $player1_user->getVar('uname') : '?';
     $form->addElement(new XoopsFormLabel(
         _MD_CHESS_LABEL_CHALLENGER . ':',
@@ -533,14 +533,14 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
 
     $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], "m")));
 
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
 
     switch ($row['game_type']) {
         case _CHESS_GAMETYPE_OPEN:
             $label_gametype = _MD_CHESS_LABEL_GAMETYPE_OPEN;
             break;
         case _CHESS_GAMETYPE_USER:
-            $player2_user     = $member_handler->getUser($row['player2_uid']);
+            $player2_user     = $memberHandler->getUser($row['player2_uid']);
             $player2_username =  is_object($player2_user) ? $player2_user->getVar('uname') : '?';
             $label_gametype = _MD_CHESS_LABEL_GAMETYPE_USER . ': ' . $player2_username;
             break;
@@ -553,7 +553,7 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
     }
     $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_GAMETYPE . ':', $label_gametype));
 
-    $player1_user     = $member_handler->getUser($row['player1_uid']);
+    $player1_user     = $memberHandler->getUser($row['player1_uid']);
     $player1_username =  is_object($player1_user) ? $player1_user->getVar('uname') : '?';
     $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_CHALLENGER . ':', $player1_username));
 
@@ -692,9 +692,9 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
     // Notify player 1 that his challenge has been accepted (if he has subscribed to the notification).
     $player2_username     = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
-    $notification_handler = xoops_gethandler('notification');
+    $notificationHandler = xoops_getHandler('notification');
     $extra_tags           = array('CHESS_PLAYER' => $player2_username, 'CHESS_GAME_ID' => $game_id);
-    $notification_handler->triggerEvent('global', 0, 'notify_accept_challenge', $extra_tags, array($row['player1_uid']));
+    $notificationHandler->triggerEvent('global', 0, 'notify_accept_challenge', $extra_tags, array($row['player1_uid']));
 
     redirect_header(XOOPS_URL . "/modules/chess/game.php?game_id=$game_id", _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
 }
@@ -772,22 +772,22 @@ function chess_create_challenge($gametype, $fen, $coloroption, $rated, $notify_a
 
     $challenge_id = $xoopsDB->getInsertId();
 
-    $notification_handler = xoops_gethandler('notification');
+    $notificationHandler = xoops_getHandler('notification');
 
     // Update the challenger's subscription for receiving a notification when the challenge is accepted.
     if ($notify_accept) {
-        $notification_handler->subscribe('global', 0, 'notify_accept_challenge');
+        $notificationHandler->subscribe('global', 0, 'notify_accept_challenge');
     } else {
-        $notification_handler->unsubscribe('global', 0, 'notify_accept_challenge');
+        $notificationHandler->unsubscribe('global', 0, 'notify_accept_challenge');
     }
 
     // Notify any subscribers that a challenge has been offered.
     $player1_username = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
     $extra_tags = array('CHESS_CHALLENGER' => $player1_username, 'CHESS_CHALLENGE_ID' => $challenge_id);
     if ($gametype == _CHESS_GAMETYPE_OPEN) {
-        $notification_handler->triggerEvent('global', 0, 'notify_challenge_open', $extra_tags);
+        $notificationHandler->triggerEvent('global', 0, 'notify_challenge_open', $extra_tags);
     } elseif ($gametype == _CHESS_GAMETYPE_USER) {
-        $notification_handler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, array($opponent_uid));
+        $notificationHandler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, array($opponent_uid));
     }
 }
 
@@ -865,16 +865,16 @@ function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_pl
 
     $game_id = $xoopsDB->getInsertId();
 
-    $notification_handler = xoops_gethandler('notification');
+    $notificationHandler = xoops_getHandler('notification');
 
     // If requested, subscribe the challenger to receive a notification when a new move is made.
     if ($notify_move_player1_uid) {
-        $notification_handler->subscribe('game', $game_id, 'notify_game_move', null, null, $notify_move_player1_uid);
+        $notificationHandler->subscribe('game', $game_id, 'notify_game_move', null, null, $notify_move_player1_uid);
     }
 
     // If requested, subscribe the accepter to receive a notification when a new move is made.
     if ($notify_move_player2) {
-        $notification_handler->subscribe('game', $game_id, 'notify_game_move');
+        $notificationHandler->subscribe('game', $game_id, 'notify_game_move');
     }
 
     return $game_id;

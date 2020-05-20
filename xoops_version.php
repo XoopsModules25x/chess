@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -133,8 +133,8 @@ $modversion['helpsection'] = [
 
 // Config
 $grouparray     = [];
-$member_handler = xoops_getHandler('member');
-$groups         = $member_handler->getGroups();
+$memberHandler = xoops_getHandler('member');
+$groups         = $memberHandler->getGroups();
 foreach ($groups as $group) {
     if (XOOPS_GROUP_ANONYMOUS != $group->getVar('groupid')) {
         $grouparray[$group->getVar('name')] = $group->getVar('groupid');

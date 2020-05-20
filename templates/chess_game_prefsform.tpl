@@ -28,7 +28,7 @@
 
 		&nbsp;&nbsp;&nbsp;&nbsp;
 
-		<input type='submit' class='formButton' name='submit_refresh' value='<{$smarty.const._MD_CHESS_BUTTON_REFRESH}>' />
+		<input type='submit' class='formButton' name='submit_refresh' value='<{$smarty.const._MD_CHESS_BUTTON_REFRESH}>'>
 	</td>
 </tr>
 </table>

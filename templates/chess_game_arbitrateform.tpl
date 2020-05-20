@@ -91,24 +91,24 @@ function confirmArbiterAction()
 	<{if $chess_gamedata.pgn_result eq '*'}>
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
-				<input type='radio' name='arbiter_action' value='<{$smarty.const._CHESS_ARBITER_RESUME}>' />
+				<input type='radio' name='arbiter_action' value='<{$smarty.const._CHESS_ARBITER_RESUME}>'>
 				<{$smarty.const._MD_CHESS_ARBITER_RESUME}>
 			</td>
 		</tr>
 		<tr>
 			<td class="odd" style="text-align:left">
-				<input type='radio' name='arbiter_action' value='<{$smarty.const._CHESS_ARBITER_DRAW}>' />
+				<input type='radio' name='arbiter_action' value='<{$smarty.const._CHESS_ARBITER_DRAW}>'>
 				<{$smarty.const._MD_CHESS_ARBITER_DRAW}>
 			</td>
 			<td class="odd" style="text-align:center">
-				<input type="text" name='arbiter_explain' size="30" maxlength="<{$smarty.const._CHESS_TEXTBOX_EXPLAIN_MAXLEN}>" value="<{$smarty.const._MD_CHESS_ARBITER_EXPLAIN}>" />
+				<input type="text" name='arbiter_explain' size="30" maxlength="<{$smarty.const._CHESS_TEXTBOX_EXPLAIN_MAXLEN}>" value="<{$smarty.const._MD_CHESS_ARBITER_EXPLAIN}>">
 			</td>
 		</tr>
 	<{/if}>
 
 	<tr>
 		<td class="odd" style="text-align:left" colspan="2">
-			<input type='radio' name='arbiter_action'    value='<{$smarty.const._CHESS_ARBITER_DELETE}>' />
+			<input type='radio' name='arbiter_action'    value='<{$smarty.const._CHESS_ARBITER_DELETE}>'>
 			<{$smarty.const._MD_CHESS_ARBITER_DELETE}>
 		</td>
 	</tr>
@@ -118,11 +118,11 @@ function confirmArbiterAction()
 	<{if $chess_gamedata.pgn_result eq '*'}>
 		<tr>
 			<td class="odd" style="text-align:left">
-				<input type='radio' name='arbiter_action' value='<{$smarty.const._CHESS_ARBITER_SUSPEND}>' />
+				<input type='radio' name='arbiter_action' value='<{$smarty.const._CHESS_ARBITER_SUSPEND}>'>
 				<{$smarty.const._MD_CHESS_ARBITER_SUSPEND}>
 			</td>
 			<td class="odd" style="text-align:center">
-				<input type="text" name='arbiter_explain' size="30" maxlength="<{$smarty.const._CHESS_TEXTBOX_EXPLAIN_MAXLEN}>" value="<{$smarty.const._MD_CHESS_ARBITER_EXPLAIN}>" />
+				<input type="text" name='arbiter_explain' size="30" maxlength="<{$smarty.const._CHESS_TEXTBOX_EXPLAIN_MAXLEN}>" value="<{$smarty.const._MD_CHESS_ARBITER_EXPLAIN}>">
 			</td>
 		</tr>
 	<{/if}>
@@ -131,16 +131,16 @@ function confirmArbiterAction()
 
 <tr>
 	<td class="odd" style="text-align:left" colspan="2">
-		<input type='radio' name='arbiter_action'       value='<{$smarty.const._CHESS_ARBITER_NOACTION}>' checked="checked" />
+		<input type='radio' name='arbiter_action'       value='<{$smarty.const._CHESS_ARBITER_NOACTION}>' checked>
 		<{$smarty.const._MD_CHESS_ARBITER_NOACTION}>
 	</td>
 </tr>
 
 <tr>
 	<td class="odd" style="text-align:center" colspan="2">
-		<input type='submit' name='submit_arbitrate'    value='<{$smarty.const._MD_CHESS_BUTTON_ARBITRATE}>' onClick="return confirmArbiterAction();" />
+		<input type='submit' name='submit_arbitrate'    value='<{$smarty.const._MD_CHESS_BUTTON_ARBITRATE}>' onClick="return confirmArbiterAction();">
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type='checkbox' name='show_arbiter_ctrl' value='1' checked="checked" />
+		<input type='checkbox' name='show_arbiter_ctrl' value='1' checked>
 		<{$smarty.const._MD_CHESS_ARBITER_SHOWCTRL}>
 	</td>
 </tr>

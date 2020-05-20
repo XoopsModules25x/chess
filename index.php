@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -34,9 +34,9 @@
 
 /**#@+
  */
-include '../../mainfile.php';
-$xoopsOption['template_main'] = 'chess_games.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require dirname(dirname(__DIR__)) . '/mainfile.php';
+$GLOBALS['xoopsOption']['template_main'] = 'chess_games.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
@@ -46,7 +46,7 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
 
 chess_get_games();
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
 /**#@-*/
 
 /**
@@ -129,7 +129,7 @@ function chess_get_games()
 
     $games = array();
 
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $games[] = array(
             'game_id'          => $row['game_id'],
             'white_uid'        => $row['white_uid'],
@@ -190,7 +190,7 @@ function chess_get_games()
 
     $challenges = array();
 
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $challenges[] = array(
             'challenge_id' => $row['challenge_id'],
             'game_type'    => $row['game_type'],
@@ -220,9 +220,9 @@ function chess_get_games()
     // ---------
 
     // get mapping of user IDs to usernames
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
     $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-    $usernames      =  $member_handler->getUserList($criteria);
+    $usernames      =  $memberHandler->getUserList($criteria);
 
     // add usernames to $games
     foreach ($games as $k => $game) {
@@ -276,8 +276,8 @@ function chess_get_games()
 
     #*#DEBUG# - trying something unrelated to the chess module
 /***
-    $config_handler =& xoops_gethandler('config');
-    $clist = $config_handler->getConfigList(18);
+    $configHandler = xoops_getHandler('config');
+    $clist = $configHandler->getConfigList(18);
     var_dump('clist', $clist);
 ***/
 }

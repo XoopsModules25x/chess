@@ -180,7 +180,7 @@
 
 		<{if !empty($chess_movelist)}>
 
-			<br />
+			<br>
 			<table>
 			<tr>
 				<td class="head" style="text-align:center" colspan="3"><{$smarty.const._MD_CHESS_MOVE_LIST}></td>
@@ -196,7 +196,7 @@
 			</table>
 		<{/if}>
 
-		<br />
+		<br>
 
 		<table>
 		<tr>
@@ -204,14 +204,14 @@
 		</tr>
 		<tr>
 			<td class="odd">
-				<b><{$smarty.const._MD_CHESS_PGN_FULL}> (<{$smarty.const._MD_CHESS_PGN_ABBREV}>)</b><br />
+				<b><{$smarty.const._MD_CHESS_PGN_FULL}> (<{$smarty.const._MD_CHESS_PGN_ABBREV}>)</b><br>
 				<{* textarea tag not part of a form, only used for display purposes, and to allow easy copying *}>
 				<textarea name="pgn_display" rows="3" cols="40"><{$chess_pgn_string}></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td class="odd">
-				<b><{$smarty.const._MD_CHESS_FEN_FULL}> (<{$smarty.const._MD_CHESS_FEN_ABBREV}>)</b><br />
+				<b><{$smarty.const._MD_CHESS_FEN_FULL}> (<{$smarty.const._MD_CHESS_FEN_ABBREV}>)</b><br>
 				<{* textarea tag not part of a form, only used for display purposes, and to allow easy copying *}>
 				<{strip}>
 				<textarea name="fen_display" rows="1" cols="40">
@@ -236,7 +236,7 @@
 		<{if $can_move}>
 
 			<noscript>
-				<br />
+				<br>
 
 				<table>
 				<tr>
@@ -250,7 +250,7 @@
 		<{* display captured pieces *}>
 		<{if !empty($chess_captured_pieces.white) or !empty($chess_captured_pieces.black)}>
 
-			<br />
+			<br>
 
 			<table border="0">
 			<tr>
@@ -262,7 +262,7 @@
 				<tr>
 					<td class="odd" style="text-align:left">
 						<{foreach from=$captured_pieces_color item=piece}>
-							<img border="0" width="20" height="21" alt="<{$chess_pieces[$piece].alt}>" src="images/wcg/s<{$chess_pieces[$piece].name}>.gif" />
+							<img border="0" width="20" height="21" alt="<{$chess_pieces[$piece].alt}>" src="images/wcg/s<{$chess_pieces[$piece].name}>.gif">
 						<{/foreach}>
 					</td>
 					<{if empty($captured_pieces_color)}>
@@ -274,13 +274,13 @@
 
 		<{/if}>
 
-		<br />
+		<br>
 
 		<{include file="db:chess_game_prefsform.tpl"}>
 
 		<{if $chess_show_arbitration_controls}>
 
-			<br />
+			<br>
 			<{include file="db:chess_game_arbitrateform.tpl"}>
 
 		<{/if}>
@@ -291,10 +291,10 @@
 
 <{* #*#DEBUG# *}>
 <{***
-<br />
-Debug info:<br />
+<br>
+Debug info:<br>
 <{foreach from=$chess_gamedata key=key item=value}>
-gamedata['<{$key}>']='<{$value}>'<br />
+gamedata['<{$key}>']='<{$value}>'<br>
 <{/foreach}>
 ***}>
 
@@ -322,37 +322,37 @@ gamedata['<{$key}>']='<{$value}>'<br />
 
 <{* preload images *}>
 
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wking.gif"     />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wqueen.gif"    />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wrook.gif"     />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wbishop.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wknight.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wpawn.gif"     />
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wking.gif"    >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wqueen.gif"   >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wrook.gif"    >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wbishop.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wknight.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wpawn.gif"    >
 
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bking.gif"     />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bqueen.gif"    />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/brook.gif"     />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bbishop.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bknight.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bpawn.gif"     />
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bking.gif"    >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bqueen.gif"   >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/brook.gif"    >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bbishop.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bknight.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bpawn.gif"    >
 
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/w_square.jpg"  />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/b_square.jpg"  />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/empty.gif"     />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/spacer.gif"        />
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/w_square.jpg" >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/b_square.jpg" >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/empty.gif"    >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/spacer.gif"       >
 
 <{if $can_move}>
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wking_h.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wqueen_h.gif"  />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wrook_h.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wbishop_h.gif" />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wknight_h.gif" />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wpawn_h.gif"   />
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wking_h.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wqueen_h.gif" >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wrook_h.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wbishop_h.gif">
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wknight_h.gif">
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/wpawn_h.gif"  >
 
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bking_h.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bqueen_h.gif"  />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/brook_h.gif"   />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bbishop_h.gif" />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bknight_h.gif" />
-<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bpawn_h.gif"   />
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bking_h.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bqueen_h.gif" >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/brook_h.gif"  >
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bbishop_h.gif">
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bknight_h.gif">
+<img class="chessHiddenPic" height="1" width="1" alt="-" src="images/wcg/bpawn_h.gif"  >
 <{/if}>

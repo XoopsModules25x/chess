@@ -23,7 +23,7 @@
 
 <{* player's challenges *}>
 
-<br />
+<br>
 
 <table class="outer">
 	<tr class="outer">
@@ -76,7 +76,7 @@
 
 <{* player's games *}>
 
-<br />
+<br>
 
 <table class="outer">
 
@@ -142,7 +142,7 @@
 <{* only display stats if rating feature enabled *}>
 <{if $chess_rating_system != 'none'}>
 
-	<br />
+	<br>
 	
 	<table>
 
@@ -193,7 +193,7 @@
 	</table>
 
 	<{if isset($chess_player.rating) && $chess_player.games_played < $chess_provisional_games}>
-		<br /><br />
+		<br><br>
 		<b>*</b><{$chess_provisional_games|string_format:$smarty.const._MD_CHESS_PROVISIONAL}>
 	<{/if}>
 
@@ -202,7 +202,7 @@
 
 <{* link to player's profile *}>
 
-<br />
+<br>
 
 <table>
 	<tr class="head">

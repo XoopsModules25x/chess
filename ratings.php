@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -34,7 +34,7 @@
 
 /**#@+
  */
-require_once '../../mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
@@ -46,7 +46,7 @@ if (chess_moduleConfig('rating_system') == 'none') {
     redirect_header(XOOPS_URL . '/modules/chess/index.php', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_RATINGS_OFF);
 }
 
-$xoopsOption['template_main'] = 'chess_ratings.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'chess_ratings.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -62,7 +62,7 @@ if ($submit_recalc_ratings && is_object($GLOBALS['xoopsSecurity']) && !$GLOBALS[
     redirect_header(
         XOOPS_URL . '/modules/chess/ratings.php',
         _CHESS_REDIRECT_DELAY_FAILURE,
-        _MD_CHESS_TOKEN_ERROR . '<br />' . implode('<br />', $GLOBALS['xoopsSecurity']->getErrors())
+        _MD_CHESS_TOKEN_ERROR . '<br>' . implode('<br>', $GLOBALS['xoopsSecurity']->getErrors())
     );
 }
 
@@ -132,7 +132,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     $players = array();
     
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
 
         // save user IDs that will require mapping to usernames
         $userids[] = $row['player_uid'];
@@ -146,9 +146,9 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
     $xoopsDB->freeRecordSet($result);
 
     // get mapping of user IDs to usernames
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
     $criteria       =  new Criteria('uid', '(' . implode(',', $userids) . ')', 'IN');
-    $usernames      =  $member_handler->getUserList($criteria);
+    $usernames      =  $memberHandler->getUserList($criteria);
 
     // add usernames to $players
     foreach ($players as $k => $player) {

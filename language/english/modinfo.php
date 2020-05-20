@@ -18,7 +18,7 @@ define('_MI_CHESS', 'Chess');
 define('_MI_CHESS_DES', 'Allows users to play chess games against each other.');
 define('_MI_CHESS_CREDITS', '
 	Jacques Masscrier and Pierre Fran篩s Gagnon (french language pack).
-	<br />
+	<br>
 	CXR Rating System used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
 ');
 define('_MI_CHESS_NAME', 'Chess');
@@ -67,28 +67,28 @@ define('_MI_CHESS_MAX_ITEMS_DES', 'Applies to games, challenges and players.');
 define('_MI_CHESS_RATING_SYSTEM', 'Player rating system');
 define('_MI_CHESS_RATING_SYSTEM_DES', '
 	Available rating systems:
-	<br /><br />
+	<br><br>
 	&nbsp;&nbsp;' ._MI_CHESS_RATING_SYSTEM_CXR. '    - Adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
-	<br /><br />
+	<br><br>
 	&nbsp;&nbsp;' ._MI_CHESS_RATING_SYSTEM_LINEAR. ' - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
-	<br /><br />
+	<br><br>
 	Select "' ._MI_CHESS_RATING_SYSTEM_NONE. '" to disable the rating feature.
-	<br /><br />
+	<br><br>
 	After changing this setting, you should rebuild the player ratings data from Main Menu >> Chess >>
 	' ._MI_CHESS_SMNAME4. '.
 ');
 define('_MI_CHESS_INITIAL_RATING', 'Initial player rating');
 define('_MI_CHESS_INITIAL_RATING_DES', '
 	If the "' ._MI_CHESS_RATING_SYSTEM_CXR. '" rating system is selected, this value should be between 800 and 2000.
-	<br /><br />
+	<br><br>
 	Applies only if a player rating system is selected.
-	<br /><br />
+	<br><br>
 	If you change this value, you should rebuild the player ratings data from Main Menu >> Chess >> ' ._MI_CHESS_SMNAME4. '.
 ');
 define('_MI_CHESS_ALLOW_UNRATED', 'Allow unrated games?');
 define('_MI_CHESS_ALLOW_UNRATED_DES', '
 	When offering a challenge, may the player exclude the game from use in rating calculations?
-	<br /><br />
+	<br><br>
 	Applies only if a player rating system is selected.
 ');
 

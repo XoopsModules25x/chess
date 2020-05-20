@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -35,15 +35,15 @@
 /**#@+
  */
 
-include '../../mainfile.php';
-$xoopsOption['template_main'] = 'chess_help.tpl';
+require dirname(dirname(__DIR__)) . '/mainfile.php';
+$GLOBALS['xoopsOption']['template_main'] = 'chess_help.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/'.$xoopsModule->getVar('dirname').'/include/functions.inc.php';
 if (file_exists(XOOPS_ROOT_PATH . '/modules/'.$xoopsModule->getVar('dirname').'/language/'.$xoopsConfig['language'].'/help.php')) {
-    include_once XOOPS_ROOT_PATH . '/modules/'.$xoopsModule->getVar('dirname').'/language/'.$xoopsConfig['language'].'/help.php';
+    require_once XOOPS_ROOT_PATH . '/modules/'.$xoopsModule->getVar('dirname').'/language/'.$xoopsConfig['language'].'/help.php';
 } else {
-    include_once XOOPS_ROOT_PATH . '/modules/'.$xoopsModule->getVar('dirname').'/language/english/help.php';
+    require_once XOOPS_ROOT_PATH . '/modules/'.$xoopsModule->getVar('dirname').'/language/english/help.php';
 }
 
 $rating_system          = chess_moduleConfig('rating_system');
@@ -62,6 +62,6 @@ $xoopsTpl->assign('chess_allow_unrated_games', chess_moduleConfig('allow_unrated
 $xoopsTpl->assign('chess_allow_delete', chess_can_delete());
 $xoopsTpl->assign('chess_is_admin', is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->getVar('mid')));
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';
 
 /**#@-*/

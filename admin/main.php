@@ -2,7 +2,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -33,7 +33,7 @@
 
 /**#@+
  */
-require_once 'admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
@@ -103,7 +103,7 @@ function chess_admin_suspended_games()
 {
     global $start, $max_items_to_display, $op, $xoopsDB, $xoopsModule;
 
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
 
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
     // and one with a limit clause to get the data for display on the current page.
@@ -130,11 +130,11 @@ function chess_admin_suspended_games()
     if ($xoopsDB->getRowsNum($result) > 0) {
         echo '<h3>' ._AM_CHESS_SUSPENDED_GAMES. "</h3>\n";
 
-        while ($row = $xoopsDB->fetchArray($result)) {
-            $user_white     = $member_handler->getUser($row['white_uid']);
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
+            $user_white     = $memberHandler->getUser($row['white_uid']);
             $username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
 
-            $user_black     = $member_handler->getUser($row['black_uid']);
+            $user_black     = $memberHandler->getUser($row['black_uid']);
             $username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
             $date = $row['start_date'] ? date('Y.m.d', $row['start_date']) : 'not yet started';
@@ -156,7 +156,7 @@ function chess_admin_suspended_games()
                     break;
             }
 
-            $suspender_user     = $member_handler->getUser($suspender_uid);
+            $suspender_user     = $memberHandler->getUser($suspender_uid);
             $suspender_username =  is_object($suspender_user) ? $suspender_user->getVar('uname') : _AM_CHESS_UNKNOWN_USER;
 
             $form->addElement(new XoopsFormLabel(_AM_CHESS_WHEN_SUSPENDED    . ':', formatTimestamp(strtotime($date))));
@@ -187,7 +187,7 @@ function chess_admin_active_games()
 {
     global $start, $max_items_to_display, $op, $xoopsDB, $xoopsModule;
 
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
 
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
     // and one with a limit clause to get the data for display on the current page.
@@ -210,11 +210,11 @@ function chess_admin_active_games()
     if ($xoopsDB->getRowsNum($result) > 0) {
         echo '<h3>' ._AM_CHESS_ACTIVE_GAMES. "</h3>\n";
 
-        while ($row = $xoopsDB->fetchArray($result)) {
-            $user_white     = $member_handler->getUser($row['white_uid']);
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
+            $user_white     = $memberHandler->getUser($row['white_uid']);
             $username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
 
-            $user_black     = $member_handler->getUser($row['black_uid']);
+            $user_black     = $memberHandler->getUser($row['black_uid']);
             $username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
             $date = $row['start_date'] ? date('Y.m.d', $row['start_date']) : 'not yet started';
@@ -245,7 +245,7 @@ function chess_admin_challenges()
 {
     global $start, $max_items_to_display, $op, $xoopsDB, $xoopsModule;
 
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
 
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
     // and one with a limit clause to get the data for display on the current page.
@@ -267,11 +267,11 @@ function chess_admin_challenges()
     if ($xoopsDB->getRowsNum($result) > 0) {
         echo '<h3>' ._AM_CHESS_CHALLENGES. "</h3>\n";
 
-        while ($row = $xoopsDB->fetchArray($result)) {
-            $user_player1     = $member_handler->getUser($row['player1_uid']);
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
+            $user_player1     = $memberHandler->getUser($row['player1_uid']);
             $username_player1 =  is_object($user_player1) ? $user_player1->getVar('uname') : '?';
 
-            $user_player2     = $member_handler->getUser($row['player2_uid']);
+            $user_player2     = $memberHandler->getUser($row['player2_uid']);
             $username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '(open)';
 
             $date = date('Y.m.d', $row['create_date']);

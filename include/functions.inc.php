@@ -57,10 +57,10 @@ function chess_moduleConfig($option)
         $value = $xoopsModuleConfig[$option];
     } else { // for use within a block
     
-        $module_handler = xoops_gethandler('module');
-        $module         = $module_handler->getByDirname('chess');
-        $config_handler = xoops_gethandler('config');
-        $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+        $moduleHandler = xoops_getHandler('module');
+        $module         = $moduleHandler->getByDirname('chess');
+        $configHandler = xoops_getHandler('config');
+        $moduleConfig   = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
         if (isset($moduleConfig[$option])) {
             $value = $moduleConfig[$option];
@@ -83,8 +83,8 @@ function chess_can_play($uid = null)
     global $xoopsUser;
 
     if (isset($uid)) {
-        $member_handler = xoops_gethandler('member');
-        $user           = $member_handler->getUser($uid);
+        $memberHandler = xoops_getHandler('member');
+        $user           = $memberHandler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
         $user =& $xoopsUser;
     } else {
@@ -115,8 +115,8 @@ function chess_can_delete($uid = null)
     global $xoopsUser;
 
     if (isset($uid)) {
-        $member_handler = xoops_gethandler('member');
-        $user           = $member_handler->getUser($uid);
+        $memberHandler = xoops_getHandler('member');
+        $user           = $memberHandler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
         $user =& $xoopsUser;
     } else {
@@ -191,8 +191,8 @@ function chess_uname_to_uid($uname)
     $criteria->add(new Criteria('uname', MyTextSanitizer::addSlashes($uname)));
     $criteria->setLimit(1);
 
-    $member_handler = xoops_gethandler('member');
-    $users = $member_handler->getUserList($criteria);
+    $memberHandler = xoops_getHandler('member');
+    $users = $memberHandler->getUserList($criteria);
 
     $uids = array_keys($users);
 

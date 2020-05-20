@@ -62,7 +62,7 @@
 
 <div class="head" align="center"><{$chess_challenges_pagenav}>&nbsp;</div>
 
-<br />
+<br>
 
 <a name="games"></a>
 

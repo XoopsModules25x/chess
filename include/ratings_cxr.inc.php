@@ -20,7 +20,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 //  The CXR Rating System algorithm is used by permission of Chess Express   //
-//  Ratings, Inc. <http://chess-express.com/>.                               //
+//  Ratings, Inc. <http://chess-express.com>.                               //
 //  ------------------------------------------------------------------------ //
 
 /**

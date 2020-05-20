@@ -35,8 +35,8 @@ function perform()
     $games_table      = 'chess_games';
     $ratings_table    = 'chess_ratings';
 
-    @mysql_connect(DBHOST, DBUSER, DBPASS) or trigger_error('[' .mysql_errno(). '] ' .mysql_error(), E_USER_ERROR);
-    mysql_select_db(DBNAME)                or trigger_error('[' .mysql_errno(). '] ' .mysql_error(), E_USER_ERROR);
+    @mysql_connect(DBHOST, DBUSER, DBPASS) or trigger_error('[' .$GLOBALS['xoopsDB']->errno(). '] ' .$GLOBALS['xoopsDB']->error(), E_USER_ERROR);
+    mysqli_select_db($GLOBALS['xoopsDB']->conn, DBNAME)                or trigger_error('[' .$GLOBALS['xoopsDB']->errno(). '] ' .$GLOBALS['xoopsDB']->error(), E_USER_ERROR);
 
     // For safety, don't generate test data unless the tables are empty.
 
@@ -145,7 +145,7 @@ function perform()
 		");
     }
 
-    mysql_close();
+    $GLOBALS['xoopsDB']->close();
 }
 
 /**
@@ -157,25 +157,25 @@ function perform()
 function table_empty($table)
 {
     $result = do_query("SELECT COUNT(*) FROM $table");
-    list($num_rows) = mysql_fetch_row($result);
-    mysql_free_result($result);
+    list($num_rows) = $GLOBALS['xoopsDB']->fetchRow($result);
+    $GLOBALS['xoopsDB']->freeRecordSet($result);
     return $num_rows == 0;
 }
 
 /**
  * Perform MySQL query.
  *
- * If the result from mysql_query() is false, trigger_error() is called to display the error.
+ * If the result from $GLOBALS['xoopsDB']->queryF() is false, trigger_error() is called to display the error.
  *
  * @param string $query The query to perform
- * @return resource Return from mysql_query()
+ * @return resource Return from $GLOBALS['xoopsDB']->queryF()
  */
 function do_query($query)
 {
-    $result = mysql_query($query);
+    $result = $GLOBALS['xoopsDB']->queryF($query);
     if ($result === false) {
-        $errno = mysql_errno();
-        $error = mysql_error();
+        $errno = $GLOBALS['xoopsDB']->errno();
+        $error = $GLOBALS['xoopsDB']->error();
         trigger_error("[$errno] $error\n$query", E_USER_ERROR);
     }
     return $result;

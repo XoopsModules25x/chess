@@ -9,6 +9,6 @@
 
 /**#@+
  */
-include '../../mainfile.php';
-include XOOPS_ROOT_PATH.'/include/notification_update.php';
+require dirname(dirname(__DIR__)) . '/mainfile.php';
+require XOOPS_ROOT_PATH.'/include/notification_update.php';
 /**#@-*/

@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -39,9 +39,9 @@
 // but not when viewing the notifications page via notifications.php.
 global $xoopsConfig;
 if (file_exists(XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php")) {
-    include_once XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php";
+    require_once XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php";
 } else {
-    include_once XOOPS_ROOT_PATH . '/modules/chess/language/english/main.php';
+    require_once XOOPS_ROOT_PATH . '/modules/chess/language/english/main.php';
 }
 /**#@-*/
 
@@ -76,8 +76,8 @@ function chess_notify_item_info($category, $item_id)
 
             // get mapping of user IDs to usernames
             $criteria       =  new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
-            $member_handler = xoops_gethandler('member');
-            $usernames      =  $member_handler->getUserList($criteria);
+            $memberHandler = xoops_getHandler('member');
+            $usernames      =  $memberHandler->getUserList($criteria);
 
             $username_white =  isset($usernames[$gamedata['white_uid']]) ? $usernames[$gamedata['white_uid']] : _MD_CHESS_NA;
             $username_black =  isset($usernames[$gamedata['black_uid']]) ? $usernames[$gamedata['black_uid']] : _MD_CHESS_NA;

@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -233,7 +233,7 @@ function chess_check_tables($table_names)
         $table_status = '*** STATUS UNKNOWN ***';
 
         // The query may return multiple rows.  Only the last row is normally of interest, so only that row is saved.
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             $table_status = $row['Msg_text'];
         }
 
@@ -282,6 +282,6 @@ function chess_set_message($module, $text = '', $error = false)
     if (is_object($module) && method_exists($module, 'setMessage')) {
         $module->setMessage($text);
     } else {
-        echo "<code>$text</code><br />\n";
+        echo "<code>$text</code><br>\n";
     }
 }

@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://www.xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -34,14 +34,14 @@
 
 /**#@+
  */
-require_once '../../mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
 
-$xoopsOption['template_main'] = 'chess_player_stats.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'chess_player_stats.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 
@@ -60,8 +60,8 @@ if (!empty($player_uname)) {
 
 // Otherwise, if player user ID provided, map it to a username.
 } elseif ($player_uid != 0) {
-    $member_handler = xoops_gethandler('member');
-    $player_user    = $member_handler->getUser($player_uid);
+    $memberHandler = xoops_getHandler('member');
+    $player_user    = $memberHandler->getUser($player_uid);
     $player_uname   =  is_object($player_user) ? $player_user->getVar('uname') : '';
 }
 
@@ -162,7 +162,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     
     $games = array();
     
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $games[] = array(
             'game_id'          => $row['game_id'],
             'white_uid'        => $row['white_uid'],
@@ -214,7 +214,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     
     $challenges = array();
     
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $challenges[] = array(
             'challenge_id' => $row['challenge_id'],
             'game_type'    => $row['game_type'],
@@ -244,9 +244,9 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     // ---------
 
     // get mapping of user IDs to usernames
-    $member_handler = xoops_gethandler('member');
+    $memberHandler = xoops_getHandler('member');
     $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-    $usernames      =  $member_handler->getUserList($criteria);
+    $usernames      =  $memberHandler->getUserList($criteria);
 
     // add usernames to $games
     foreach ($games as $k => $game) {
@@ -271,7 +271,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 			ORDER BY rating DESC, player_uid ASC
 		");
         $ranking = 0;
-        while ($row = $xoopsDB->fetchArray($result)) {
+        while (false !== ($row = $xoopsDB->fetchArray($result))) {
             if ($row['games_played'] >= $num_provisional_games) {
                 ++$ranking;
             }

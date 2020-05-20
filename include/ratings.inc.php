@@ -154,7 +154,7 @@ function chess_recalc_ratings()
     $players = array();
 
     // process the games
-    while ($row = $xoopsDB->fetchArray($result)) {
+    while (false !== ($row = $xoopsDB->fetchArray($result))) {
 
 #var_dump($row);#*#DEBUG#
         if (!isset($players[$row['white_uid']])) {
