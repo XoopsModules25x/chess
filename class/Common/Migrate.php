@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Chess\Common;
 
@@ -34,7 +34,7 @@ class Migrate extends \Xmf\Database\Migrate
      * @throws \InvalidArgumentException
      */
 
-    public function __construct(Common\Configurator $configurator = null)
+    public function __construct(?Common\Configurator $configurator = null)
     {
         if (null !== $configurator) {
             $this->renameTables = $configurator->renameTables;

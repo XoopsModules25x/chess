@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Generate test data in MySQL database tables for chess module.
@@ -57,15 +57,15 @@ function perform()
     for ($i = 0; $i < NUM_CHALLENGES; ++$i) {
         $game_type = rand_array_value($game_types);
 
-        $fen_index = mt_rand(1, 10);
+        $fen_index = random_int(1, 10);
 
         $fen = 10 == $fen_index ? 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' : '';
 
         $color_option = rand_array_value($color_options);
 
-        $notify_move_player1 = mt_rand(0, 1);
+        $notify_move_player1 = random_int(0, 1);
 
-        $player1_uid = mt_rand(1, NUM_USERS);
+        $player1_uid = random_int(1, NUM_USERS);
 
         if ('open' == $game_type) {
             $player2_uid = 0;
@@ -73,7 +73,7 @@ function perform()
             // select $player2_uid != $player1_uid
 
             do {
-                $player2_uid = mt_rand(1, NUM_USERS);
+                $player2_uid = random_int(1, NUM_USERS);
             } while ($player2_uid == $player1_uid);
         }
 
@@ -81,9 +81,9 @@ function perform()
 
         $create_date_min = $create_date_max - 30 * 24 * 3600;
 
-        $create_date = date('Y-m-d H:i:s', mt_rand($create_date_min, $create_date_max));
+        $create_date = date('Y-m-d H:i:s', random_int($create_date_min, $create_date_max));
 
-        $is_rated = mt_rand(0, 1);
+        $is_rated = random_int(0, 1);
 
         do_query("
 			INSERT INTO $challenges_table
@@ -106,13 +106,13 @@ function perform()
     $suspended_explains = ['foo', 'bar', 'baz', 'quux'];
 
     for ($i = 0; $i < NUM_GAMES; ++$i) {
-        $white_uid = mt_rand(1, NUM_USERS);
+        $white_uid = random_int(1, NUM_USERS);
 
-        $black_uid = mt_rand(1, NUM_USERS);
+        $black_uid = random_int(1, NUM_USERS);
 
         // Force some games to be self-play.
 
-        if (10 == mt_rand(1, 10)) {
+        if (10 == random_int(1, 10)) {
             $black_uid = $white_uid;
         }
 
@@ -120,26 +120,26 @@ function perform()
 
         $create_date_min = $create_date_max - 365 * 24 * 3600;
 
-        $create_date_sec = mt_rand($create_date_min, $create_date_max);
+        $create_date_sec = random_int($create_date_min, $create_date_max);
 
         $create_date = date('Y-m-d H:i:s', $create_date_sec);
 
-        $is_started = mt_rand(1, 4) < 4;
+        $is_started = random_int(1, 4) < 4;
 
-        $start_date_sec = $is_started ? $create_date_sec + mt_rand(3600, 3 * 24 * 3600) : 0;
+        $start_date_sec = $is_started ? $create_date_sec + random_int(3600, 3 * 24 * 3600) : 0;
 
         $start_date = $is_started ? date('Y-m-d H:i:s', $start_date_sec) : '0000-00-00 00:00:00';
 
-        $multiple_moves = $is_started && mt_rand(1, 10) < 10;
+        $multiple_moves = $is_started && random_int(1, 10) < 10;
 
-        $last_date_sec = $multiple_moves ? $start_date_sec + mt_rand(3600, 90 * 24 * 3600) : 0;
+        $last_date_sec = $multiple_moves ? $start_date_sec + random_int(3600, 90 * 24 * 3600) : 0;
 
         $last_date = $multiple_moves ? date('Y-m-d H:i:s', $last_date_sec) : '0000-00-00 00:00:00';
 
         $pgn_result = $multiple_moves ? rand_array_value($pgn_results) : '*';
 
-        if ($multiple_moves && '*' == $pgn_result && 5 == mt_rand(1, 5)) {
-            $suspended_date = date('Y-m-d H:i:s', $last_date_sec + mt_rand(60, 72 * 3600));
+        if ($multiple_moves && '*' == $pgn_result && 5 == random_int(1, 5)) {
+            $suspended_date = date('Y-m-d H:i:s', $last_date_sec + random_int(60, 72 * 3600));
 
             $suspended_uids = [1, $white_uid, $black_uid];
 
@@ -154,7 +154,7 @@ function perform()
             $suspended = '';
         }
 
-        $is_rated = $white_uid != $black_uid ? mt_rand(0, 1) : 0;
+        $is_rated = $white_uid != $black_uid ? random_int(0, 1) : 0;
 
         do_query("
 			INSERT INTO $games_table

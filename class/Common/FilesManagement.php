@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace XoopsModules\Chess\Common;
 
@@ -37,7 +37,7 @@ trait FilesManagement
 
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             echo 'Caught exception: ', $e->getMessage(), '<br>';
         }
     }

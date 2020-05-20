@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // $Id$
 //  ------------------------------------------------------------------------ //
@@ -720,7 +720,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
             switch ($coloroption) {
                 default:
                 case _CHESS_COLOROPTION_RANDOM:
-                    if (1 == mt_rand(1, 2)) {
+                    if (1 == random_int(1, 2)) {
                         $white_uid = $row['player1_uid'];
 
                         $black_uid = $uid;
@@ -742,7 +742,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
             break;
         default:
         case _CHESS_COLOROPTION_RANDOM:
-            if (1 == mt_rand(1, 2)) {
+            if (1 == random_int(1, 2)) {
                 $white_uid = $row['player1_uid'];
 
                 $black_uid = $uid;

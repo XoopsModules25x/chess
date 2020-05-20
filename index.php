@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 // $Id$
 //  ------------------------------------------------------------------------ //
@@ -65,23 +65,23 @@ function chess_get_games()
 
     // offset of first row of challenges table to display (default to 0)
 
-    $cstart = (int)(isset($_POST['cstart']) ? $_POST['cstart'] : @$_GET['cstart']);
+    $cstart = (int)($_POST['cstart'] ?? @$_GET['cstart']);
 
     // offset of first row of games table to display (default to 0)
 
-    $gstart = (int)(isset($_POST['gstart']) ? $_POST['gstart'] : @$_GET['gstart']);
+    $gstart = (int)($_POST['gstart'] ?? @$_GET['gstart']);
 
     // challenges display option
 
-    $cshow = (int)(isset($_POST['cshow']) ? $_POST['cshow'] : @$_GET['cshow']);
+    $cshow = (int)($_POST['cshow'] ?? @$_GET['cshow']);
 
     // games display option 1
 
-    $gshow1 = (int)(isset($_POST['gshow1']) ? $_POST['gshow1'] : @$_GET['gshow1']);
+    $gshow1 = (int)($_POST['gshow1'] ?? @$_GET['gshow1']);
 
     // games display option 2
 
-    $gshow2 = (int)(isset($_POST['gshow2']) ? $_POST['gshow2'] : @$_GET['gshow2']);
+    $gshow2 = (int)($_POST['gshow2'] ?? @$_GET['gshow2']);
 
     // set show-options to default if undefined
 
