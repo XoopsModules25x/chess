@@ -1186,12 +1186,12 @@ class ChessGame
 
                     if ((isset($not_found) && $not_found) || '' == $pos) {
                         return $this->move_msg(_MD_CHESS_MOVE_CANNOT_FIND_PAWN, $player, $move[0]); // "cannot find $player pawn in column $move[0]"
-                    }  
+                    }
 
                     $this->ac_move = \sprintf('P%s-%s%s', $pos, $move, $pawn_upg);
 
                     return '';
-                }  
+                }
 
                 /* notation: [a-h][a-h] for pawn attack no longer allowed
                  * except for history browser */
@@ -1233,12 +1233,12 @@ class ChessGame
                 }
 
                 $this->ac_move = \sprintf(
-                            'P%s%dx%s%d',
-                            $move[0],
-                            $pawn_line,
-                            $move[1],
-                            $dest_line
-                        );
+                    'P%s%dx%s%d',
+                    $move[0],
+                    $pawn_line,
+                    $move[1],
+                    $dest_line
+                );
 
                 return '';
             }
@@ -1287,7 +1287,7 @@ class ChessGame
                 );
 
                 return '';
-            }  
+            }
 
             /* two figures which may cause ambiguity */
 
@@ -1298,16 +1298,16 @@ class ChessGame
             } // "coordinate $dest_coord is invalid"
 
             $fig1_can_reach = $this->tileIsReachable(
-                    $move[0],
-                    $this->boardCoordToIndex($pos1),
-                    $dest_pos
-                );
+                $move[0],
+                $this->boardCoordToIndex($pos1),
+                $dest_pos
+            );
 
             $fig2_can_reach = $this->tileIsReachable(
-                    $move[0],
-                    $this->boardCoordToIndex($pos2),
-                    $dest_pos
-                );
+                $move[0],
+                $this->boardCoordToIndex($pos2),
+                $dest_pos
+            );
 
             if (!$fig1_can_reach && !$fig2_can_reach) {
                 return $this->move_msg(_MD_CHESS_MOVE_NEITHER_CAN_REACH, $move[0], $this->getFullFigureName($move[0]), $dest_coord);
@@ -1353,41 +1353,41 @@ class ChessGame
 
                 if ($move_fig1) {
                     $this->ac_move = \sprintf(
-                                '%s%s%s%s',
-                                $move[0],
-                                $pos1,
-                                $action,
-                                $dest_coord
-                            );
+                        '%s%s%s%s',
+                        $move[0],
+                        $pos1,
+                        $action,
+                        $dest_coord
+                    );
                 } else {
                     $this->ac_move = \sprintf(
-                                '%s%s%s%s',
-                                $move[0],
-                                $pos2,
-                                $action,
-                                $dest_coord
-                            );
+                        '%s%s%s%s',
+                        $move[0],
+                        $pos2,
+                        $action,
+                        $dest_coord
+                    );
                 }
 
                 return;
-            }  
+            }
 
             if ($fig1_can_reach) {
                 $this->ac_move = \sprintf(
-                            '%s%s%s%s',
-                            $move[0],
-                            $pos1,
-                            $action,
-                            $dest_coord
-                        );
+                    '%s%s%s%s',
+                    $move[0],
+                    $pos1,
+                    $action,
+                    $dest_coord
+                );
             } else {
                 $this->ac_move = \sprintf(
-                            '%s%s%s%s',
-                            $move[0],
-                            $pos2,
-                            $action,
-                            $dest_coord
-                        );
+                    '%s%s%s%s',
+                    $move[0],
+                    $pos2,
+                    $action,
+                    $dest_coord
+                );
             }
 
             return '';

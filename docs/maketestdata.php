@@ -1,4 +1,4 @@
- <?php
+<?php
 
 /**
  * Generate test data in MySQL database tables for chess module.
@@ -221,5 +221,3 @@ function do_query($query)
  {
      return $array[array_rand($array)];
  }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 // $Id$
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -716,7 +717,6 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
     switch ($row['color_option']) {
         case _CHESS_COLOROPTION_OPPONENT:
-
             switch ($coloroption) {
                 default:
                 case _CHESS_COLOROPTION_RANDOM:
