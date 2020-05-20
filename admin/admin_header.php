@@ -26,7 +26,6 @@ require  dirname(__DIR__) . '/include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-/** @var \XoopsModules\Chess\Helper $helper */
 $helper = \XoopsModules\Chess\Helper::getInstance();
 
 /** @var \Xmf\Module\Admin $adminObject */

@@ -27,6 +27,10 @@
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
 
 // ----------------------------------
+/**
+ * @param $options
+ * @return array
+ */
 function b_chess_games_show($options)
 {
 	global $xoopsModule, $xoopsDB;
@@ -105,6 +109,10 @@ function b_chess_games_show($options)
 }
 
 // ------------------------------------------
+/**
+ * @param $options
+ * @return array
+ */
 function b_chess_challenges_show($options)
 {
 	global $xoopsModule, $xoopsDB;
@@ -168,6 +176,10 @@ function b_chess_challenges_show($options)
 }
 
 // -----------------------------------
+/**
+ * @param $options
+ * @return string
+ */
 function b_chess_games_edit($options)
 {
 	$show_inplay    = $options[1] == 1 ? "checked='checked'" : '';
@@ -186,6 +198,10 @@ function b_chess_games_edit($options)
 }
 
 // ------------------------------------------
+/**
+ * @param $options
+ * @return string
+ */
 function b_chess_challenges_edit($options)
 {
 	$show_open = $options[1] == 1 ? "checked='checked'" : '';

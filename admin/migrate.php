@@ -53,10 +53,8 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-/** @var Chess\Common\Configurator $configurator */
 $configurator = new Chess\Common\Configurator();
 
-/** @var \XoopsModules\Chess\Common\Migrate $migrator */
 $migrator = new \XoopsModules\Chess\Common\Migrate($configurator);
 
 $op = Request::getCmd('op', 'default');

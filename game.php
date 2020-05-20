@@ -367,6 +367,10 @@ function chess_game()
 // ------------------------------
 // Fetch game data from database.
 
+/**
+ * @param $game_id
+ * @return array|bool|false
+ */
 function chess_get_game($game_id)
 {
 	global $xoopsDB;
@@ -383,6 +387,10 @@ function chess_get_game($game_id)
 // -----------------------------------------
 // Store game data in database.
 
+/**
+ * @param $game_id
+ * @param $gamedata
+ */
 function chess_put_game($game_id, $gamedata)
 {
 	global $xoopsDB;
@@ -419,6 +427,9 @@ function chess_put_game($game_id, $gamedata)
 // --------------------------
 // Delete game from database.
 
+/**
+ * @param $game_id
+ */
 function chess_delete_game($game_id)
 {
 	global $xoopsModule, $xoopsDB;
@@ -434,6 +445,11 @@ function chess_delete_game($game_id)
 }
 
 // -----------------------------------
+/**
+ * @param $gamedata
+ * @param $move
+ * @return array
+ */
 function chess_move(&$gamedata, $move)
 {
 	$gamestate = [
@@ -495,6 +511,10 @@ function chess_move(&$gamedata, $move)
 //   $draw_claim_valid - true if draw-claim is correct, otherwise false
 //   $draw_claim_text  - string describing draw-claim result
 
+/**
+ * @param $gamedata
+ * @return array
+ */
 function chess_is_draw_50_move_rule($gamedata)
 {
 	#var_dump('gamedata', $gamedata);#*#DEBUG#
@@ -520,6 +540,10 @@ function chess_is_draw_50_move_rule($gamedata)
 //   $draw_claim_valid - true if draw-claim is correct, otherwise false
 //   $draw_claim_text  - string describing draw-claim result
 
+/**
+ * @param $gamedata
+ * @return array
+ */
 function chess_is_draw_threefold_repetition($gamedata)
 {
 	#var_dump('gamedata', $gamedata);#*#DEBUG#
@@ -643,6 +667,10 @@ function chess_is_draw_threefold_repetition($gamedata)
 
 // ----------------------------------------------
 // Convert pgn_movetext into Nx3 array $movelist.
+/**
+ * @param $movetext
+ * @return array
+ */
 function chess_make_movelist($movetext)
 {
 	$movelist    = [];
@@ -667,6 +695,15 @@ function chess_make_movelist($movetext)
 }
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------
+/**
+ * @param        $gamedata
+ * @param        $orientation
+ * @param        $user_color
+ * @param        $move_performed
+ * @param string $move_result_text
+ * @param string $draw_claim_error_text
+ * @param bool   $show_arbiter_ctrl
+ */
 function chess_show_board($gamedata, $orientation, $user_color, $move_performed, $move_result_text = '', $draw_claim_error_text = '', $show_arbiter_ctrl = false)
 {
 	global $xoopsTpl;
@@ -838,6 +875,9 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 // --------------------------------------------------------------
 // For testing caching. #*#DEBUG#
 // Must start with "insert_" to be accessed by Smarty insert tag.
+/**
+ * @return false|string
+ */
 function insert_chess_show_date()
 {
 	return date('Y-m-d H:i:s');

@@ -42,6 +42,11 @@ class DBFactory {
             new PDO('mysql:dbname=foodb;port=3305;host=127.0.0.1','foouser','foopass');
     }
 }
+
+/**
+ * Class DBFactoryChild
+ * @package XoopsModules\Chess\Common
+ */
 class DBFactoryChild extends DBFactory {
     /**
      * we repeating the inst so that it will differentiate it

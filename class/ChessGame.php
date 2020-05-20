@@ -42,6 +42,10 @@ namespace XoopsModules\Chess;
 // In addition to the above, there are utility methods for converting between Standard Algebraic
 // Notation (SAN) and a notation similar to Long Algebraic Notation.
 
+/**
+ * Class ChessGame
+ * @package XoopsModules\Chess
+ */
 class ChessGame
 {
     // The game state is represented as an array with the following elements:
@@ -102,6 +106,10 @@ class ChessGame
     //      echo "'$fen' invalid: $chessgame\n";
     //    }
 
+    /**
+     * ChessGame constructor.
+     * @param null $param
+     */
     public function __construct($param = null)
     {
         // for now
@@ -124,6 +132,10 @@ class ChessGame
     // The first element is a boolean - true if the move was performed and the game state has been updated, false otherwise.
     // The second element is a text message.
 
+    /**
+     * @param $move
+     * @return array
+     */
     public function move($move)
     {
         return $this->handleMove($move);
@@ -132,6 +144,9 @@ class ChessGame
     // -----------------------------------
     // Return array containing game state.
 
+    /**
+     * @return array|null
+     */
     public function gamestate()
     {
         return $this->gamestate;
@@ -149,6 +164,10 @@ class ChessGame
     //
     // Returns an empty string on success, and an error message on failure.
 
+    /**
+     * @param null $fen
+     * @return string
+     */
     public function init_gamestate($fen = null)
     {
         $this->gamestate = [];
@@ -229,6 +248,12 @@ class ChessGame
      * change for each iteration. return true if not blocked.
      * all values are given for 1dim board.
      */
+    /**
+     * @param $start
+     * @param $end
+     * @param $change
+     * @return int
+     */
     public function pathIsNotBlocked($start, $end, $change)
     {
         for ($pos = $start; $pos != $end; $pos += $change) {
@@ -244,6 +269,12 @@ class ChessGame
 
     /* get the empty tiles between start and end as an 1dim array.
      * whether the path is clear is not checked.
+     */
+    /**
+     * @param $start
+     * @param $end
+     * @param $change
+     * @return array
      */
     public function getPath($start, $end, $change)
     {
@@ -261,6 +292,12 @@ class ChessGame
      * no additional checks as in tileIsReachable are
      * performed. rook, queen and bishop are the only
      * units that can have empty tiles in between.
+     */
+    /**
+     * @param $fig
+     * @param $fig_pos
+     * @param $dest_pos
+     * @return int
      */
     public function getPathChange($fig, $fig_pos, $dest_pos)
     {
@@ -304,6 +341,12 @@ class ChessGame
      * at tile fig_pos. it is not checked whether the tile
      * itself is occupied but only the tiles in between.
      * this function does not check pawns.
+     */
+    /**
+     * @param $fig
+     * @param $fig_pos
+     * @param $dest_pos
+     * @return int|void
      */
     public function tileIsReachable($fig, $fig_pos, $dest_pos)
     {
@@ -421,6 +464,11 @@ class ChessGame
     /* check whether pawn at figpos may attack destpos.
      * by meaning whether it is diagonal.
      */
+    /**
+     * @param $fig_pos
+     * @param $dest_pos
+     * @return int
+     */
     public function checkPawnAttack($fig_pos, $dest_pos)
     {
         if ($this->board[$fig_pos]{0} == 'w') {
@@ -445,6 +493,11 @@ class ChessGame
      * first move may be two tiles instead of just one.
      * again the last tile is not checked but just the path
      * in between.
+     */
+    /**
+     * @param $fig_pos
+     * @param $dest_pos
+     * @return int
      */
     public function checkPawnMove($fig_pos, $dest_pos)
     {
@@ -481,6 +534,11 @@ class ChessGame
     /* check all figures of 'opp' whether they attack
      * the given position
      */
+    /**
+     * @param $opp
+     * @param $dest_pos
+     * @return int
+     */
     public function tileIsUnderAttack($opp, $dest_pos)
     {
         #var_dump('tileIsUnderAttack, opp', $opp, 'dest_pos', $dest_pos, 'board', $board);#*#DEBUG#
@@ -499,6 +557,11 @@ class ChessGame
     /* check all figures of 'opp' whether they attack
      * the king of player
      */
+    /**
+     * @param $player
+     * @param $opp
+     * @return int
+     */
     public function kingIsUnderAttack($player, $opp)
     {
         #var_dump('kingIsUnderAttack, player', $player, 'opp', $opp, 'board', $board);#*#DEBUG#
@@ -514,6 +577,11 @@ class ChessGame
     }
 
     /* check whether player's king is check mate
+     */
+    /**
+     * @param $player
+     * @param $opp
+     * @return int
      */
     public function isCheckMate($player, $opp)
     {
@@ -631,6 +699,11 @@ class ChessGame
     /* TODO: recognize when move is not possible because of
      * check
      */
+    /**
+     * @param $player
+     * @param $opp
+     * @return int
+     */
     public function isStaleMate($player, $opp)
     {
         for ($i = 0; $i < 64; $i++) if ($this->board[$i]{0} == $player) switch ($this->board[$i]{1}) {
@@ -742,6 +815,10 @@ class ChessGame
     //   echo move_msg('cannot find {$param[1]} pawn in column {$param[2]}', 'b', 'e');
     //    - prints: "cannot find b pawn in column e"
 
+    /**
+     * @param $text
+     * @return mixed
+     */
     public function move_msg($text)
     {
         $param = func_get_args();
@@ -751,6 +828,11 @@ class ChessGame
 
     /* Translate Standard Algebraic Notation (SAN) into a full move description in $this->ac_move.
      * Return empty string if successful, otherwise return error message.
+     */
+    /**
+     * @param $player
+     * @param $move
+     * @return mixed|string|void
      */
     public function completeMove($player, $move)
     {
@@ -1017,6 +1099,11 @@ class ChessGame
      * a full move. if this fails there is no warning
      * but the move is kept anchanged
      */
+    /**
+     * @param $player
+     * @param $move
+     * @return false|string
+     */
     public function convertFullToChessNotation($player, $move)
     {
         $new_move = $move;
@@ -1066,6 +1153,10 @@ class ChessGame
      * The return value is an two-element array.
      * The first element is a boolean - true if the move was performed and the game state has been updated, false otherwise.
      * The second element is a text message.
+     */
+    /**
+     * @param $move
+     * @return array
      */
     public function handleMove($move)
     {
@@ -1505,12 +1596,21 @@ class ChessGame
     }
 
     // ------------------------------
+
+    /**
+     * @param $position
+     * @return bool
+     */
     public function is_empty_tile($position)
     {
         return $this->board[$position] == '00';
     }
 
     // ---------------------------
+
+    /**
+     * @param $position
+     */
     public function clear_tile($position)
     {
         $this->board[$position] = '00';
@@ -1524,6 +1624,9 @@ class ChessGame
     // If piece placement is valid, return true.
     // Otherwise, return false.
 
+    /**
+     * @return bool
+     */
     public function fen_piece_placement_to_board()
     {
         if (empty($this->gamestate['fen_piece_placement']) || strlen($this->gamestate['fen_piece_placement']) > 71) {
@@ -1613,6 +1716,9 @@ class ChessGame
     // Return true if only the following pieces remain: K vs. K, K vs. K+B or K vs. K+N
     // Otherwise return false.
 
+    /**
+     * @return bool
+     */
     public function insufficient_mating_material()
     {
         $pieces      = strtoupper($this->gamestate['fen_piece_placement']);
@@ -1632,6 +1738,10 @@ class ChessGame
     // They're placed within the class only for name-scoping.
 
     /* convert board coords [a-h][1-8] to 1dim index [0..63] */
+    /**
+     * @param $coord
+     * @return float|int
+     */
     public function boardCoordToIndex($coord)
     {
         //echo $coord," --> ";
@@ -1673,6 +1783,10 @@ class ChessGame
     }
 
     /* convert board index [0..63] to coords [a-h][1-8] */
+    /**
+     * @param $index
+     * @return string
+     */
     public function boardIndexToCoord($index)
     {
         //echo $index," --> ";
@@ -1686,6 +1800,10 @@ class ChessGame
         return $coord;
     }
 
+    /**
+     * @param $short
+     * @return mixed|string
+     */
     public function getFullFigureName($short)
     {
         static $names = [
@@ -1699,6 +1817,10 @@ class ChessGame
         return isset($names[$short]) ? $names[$short] : _MD_CHESS_MOVE_EMPTY;
     }
 
+    /**
+     * @param $fig_pos
+     * @return array
+     */
     public function getAdjTiles($fig_pos)
     {
         $adj_tiles = [];

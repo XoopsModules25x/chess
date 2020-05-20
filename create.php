@@ -178,6 +178,11 @@ require_once XOOPS_ROOT_PATH.'/footer.php';
 
 // -------------------------------
 // Get game type from user.
+/**
+ * @param string $gametype
+ * @param string $fen
+ * @param string $error_msg
+ */
 function chess_show_create_form1($gametype = _CHESS_GAMETYPE_OPEN, $fen = '', $error_msg = '')
 {
 	$form = new XoopsThemeForm(_MD_CHESS_CREATE_FORM, 'create_form1', 'create.php');
@@ -214,6 +219,13 @@ function chess_show_create_form1($gametype = _CHESS_GAMETYPE_OPEN, $fen = '', $e
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Get color option from user and, if game type is "Individual challenge", get opponent.
+/**
+ * @param        $gametype
+ * @param        $fen
+ * @param string $coloroption
+ * @param int    $opponent_uid
+ * @param string $error_msg
+ */
 function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPTION_OPPONENT, $opponent_uid = 0, $error_msg = '')
 {
 	$form = new XoopsThemeForm(_MD_CHESS_CREATE_FORM, 'create_form2', 'create.php');
@@ -251,6 +263,12 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
 
 // ---------------------------------------------------------------------
 // Get user confirmation.
+/**
+ * @param $gametype
+ * @param $fen
+ * @param $coloroption
+ * @param $opponent_uid
+ */
 function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid)
 {
 	$member_handler    = xoops_getHandler('member');
@@ -346,6 +364,9 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid)
 
 // -----------------------------------------------
 // Get user challenge acceptance.
+/**
+ * @param $challenge_id
+ */
 function chess_show_accept_form($challenge_id)
 {
 	global $xoopsDB, $xoopsUser;
@@ -443,6 +464,11 @@ function chess_show_accept_form($challenge_id)
 
 // -----------------------------------------------------------------------------------
 // Delete challenge.
+/**
+ * @param        $challenge_id
+ * @param        $show_arbiter_ctrl
+ * @param string $error_msg
+ */
 function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = '')
 {
 	global $xoopsDB;
@@ -538,6 +564,11 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
 }
 
 // ------------------------------------------------------------------------------------------------
+/**
+ * @param      $challenge_id
+ * @param      $coloroption
+ * @param bool $notify_move_player2
+ */
 function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player2 = false)
 {
 	global $xoopsDB, $xoopsUser;
@@ -636,6 +667,10 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 // ---------------------------------------------------------------------
 // Return true if the current user offered the specified challenge game.
 
+/**
+ * @param $challenge_id
+ * @return bool
+ */
 function chess_is_challenger($challenge_id)
 {
 	global $xoopsDB, $xoopsUser;
@@ -658,6 +693,14 @@ function chess_is_challenger($challenge_id)
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
+/**
+ * @param     $gametype
+ * @param     $fen
+ * @param     $coloroption
+ * @param     $notify_accept
+ * @param     $notify_move_player1
+ * @param int $opponent_uid
+ */
 function chess_create_challenge($gametype, $fen, $coloroption, $notify_accept, $notify_move_player1, $opponent_uid = 0)
 {
 	#$where = __CLASS__ . '::' . __FUNCTION__;#*#DEBUG#
@@ -713,6 +756,9 @@ function chess_create_challenge($gametype, $fen, $coloroption, $notify_accept, $
 // -------------------------------------------------
 // Delete challenge from database.
 
+/**
+ * @param $challenge_id
+ */
 function chess_delete_challenge($challenge_id)
 {
 	global $xoopsDB;
@@ -726,6 +772,14 @@ function chess_delete_challenge($challenge_id)
 }
 
 // -----------------------------------------------------------------------------------------------------------------
+/**
+ * @param      $white_uid
+ * @param      $black_uid
+ * @param      $fen
+ * @param int  $notify_move_player1_uid
+ * @param bool $notify_move_player2
+ * @return int
+ */
 function chess_create_game($white_uid, $black_uid, $fen, $notify_move_player1_uid = 0, $notify_move_player2 = false)
 {
 	#$where = __CLASS__ . '::' . __FUNCTION__;#*#DEBUG#
@@ -790,6 +844,10 @@ function chess_create_game($white_uid, $black_uid, $fen, $notify_move_player1_ui
 // Check whether a FEN setup position is valid.
 // If valid, return empty string, otherwise return error message.
 
+/**
+ * @param $fen
+ * @return string
+ */
 function chess_fen_error($fen)
 {
 	if (!empty($fen)) {
@@ -807,6 +865,10 @@ function chess_fen_error($fen)
 // If the specified username is valid and is allowed to play chess, return its user ID.
 // Otherwise return zero.
 
+/**
+ * @param $username
+ * @return int|mixed
+ */
 function chess_opponent_uid($username)
 {
 	global $xoopsDB;

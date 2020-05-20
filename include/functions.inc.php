@@ -26,6 +26,11 @@
 // $allowed_characters must not contain any regex symbols such as \w or \s,
 // since preg_quote() mishandles those.  But \' and \" are ok.
 
+/**
+ * @param        $text
+ * @param string $allowed_characters
+ * @return string|string[]|null
+ */
 function chess_sanitize($text, $allowed_characters = 'A-Za-z0-9') {
 
 	$char_class = preg_quote($allowed_characters, '/');
@@ -35,6 +40,10 @@ function chess_sanitize($text, $allowed_characters = 'A-Za-z0-9') {
 // --------------------------------------
 // Get module configuration option value.
 
+/**
+ * @param $option
+ * @return mixed
+ */
 function chess_moduleConfig($option)
 {
 	$module_handler = xoops_getHandler('module');
@@ -49,6 +58,10 @@ function chess_moduleConfig($option)
 //
 // $uid - user number of user to check, defaults to current user
 
+/**
+ * @param null $uid
+ * @return bool
+ */
 function chess_can_play($uid = null)
 {
 	global $xoopsUser;
@@ -86,6 +99,10 @@ function chess_can_play($uid = null)
 //
 // $uid - user number of user to check, defaults to current user
 
+/**
+ * @param null $uid
+ * @return bool
+ */
 function chess_can_delete($uid = null)
 {
 	global $xoopsUser;
@@ -127,6 +144,10 @@ function chess_can_delete($uid = null)
 //       Use '?' for each unknown digit.  If the entire datetime is unknown, use either '????-??-?? ??:??:??' or '0000-00-00 00:00:00'.
 //    'event', 'site', 'round', 'white', 'black', 'result', 'setup', 'fen', 'movetext' - strings (use '?' for entire string if value unknown)
 
+/**
+ * @param $data
+ * @return string
+ */
 function chess_to_pgn_string($data)
 {
 #var_dump('chess_to_pgn_string, data=', $data);#*#DEBUG#
