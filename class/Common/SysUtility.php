@@ -166,9 +166,7 @@ class SysUtility
 
         $row = $GLOBALS['xoopsDB']->fetchBoth($result);
 
-        $enumList = \explode(',', \str_replace("'", '', \mb_substr($row['COLUMN_TYPE'], 5, -6)));
-
-        return $enumList;
+        return \explode(',', \str_replace("'", '', \mb_substr($row['COLUMN_TYPE'], 5, -6)));
     }
 
     /**
@@ -377,6 +375,6 @@ class SysUtility
 
         $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
 
-        return ($xoopsDB->getRowsNum($result) > 0);
+        return $xoopsDB->getRowsNum($result) > 0;
     }
 }

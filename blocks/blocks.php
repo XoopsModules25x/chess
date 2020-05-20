@@ -349,7 +349,7 @@ function b_chess_games_edit($options)
 
     $show_unrated = 2 == $options[2] ? 'checked' : '';
 
-    $form = '
+    return '
 		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
 		<br>
 		<br>
@@ -361,8 +361,6 @@ function b_chess_games_edit($options)
 		<input type='radio' name='options[2]' value='1' $show_rated_only> " . _MB_CHESS_SHOW_GAMES_RATED . "
 		<input type='radio' name='options[2]' value='2' $show_unrated   > " . _MB_CHESS_SHOW_GAMES_UNRATED . '
 	';
-
-    return $form;
 }
 
 /**
@@ -379,15 +377,13 @@ function b_chess_challenges_edit($options)
 
     $show_both = 3 == $options[1] ? 'checked' : '';
 
-    $form = '
+    return '
 		' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
 		<br>
 		<input type='radio' name='options[1]' value='1' $show_open> " . _MB_CHESS_SHOW_CHALLENGES_OPEN . "
 		<input type='radio' name='options[1]' value='2' $show_user> " . _MB_CHESS_SHOW_CHALLENGES_USER . "
 		<input type='radio' name='options[1]' value='3' $show_both> " . _MB_CHESS_SHOW_CHALLENGES_BOTH . '
 	';
-
-    return $form;
 }
 
 /**
@@ -402,12 +398,10 @@ function b_chess_players_edit($options)
 
     $show_all = 2 == $options[1] ? 'checked' : '';
 
-    $form = '
+    return '
 		' . _MB_CHESS_NUM_PLAYERS . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
 		<br>
 		<input type='radio' name='options[1]' value='1' $show_nonprovisional> " . _MB_CHESS_SHOW_NONPROVISIONAL . "
 		<input type='radio' name='options[1]' value='2' $show_all           > " . _MB_CHESS_SHOW_ALL_RATINGS . '
 	';
-
-    return $form;
 }

@@ -59,7 +59,7 @@ function perform()
 
         $fen_index = mt_rand(1, 10);
 
-        $fen = (10 == $fen_index) ? 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' : '';
+        $fen = 10 == $fen_index ? 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' : '';
 
         $color_option = rand_array_value($color_options);
 

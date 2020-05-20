@@ -1017,7 +1017,7 @@ function chess_opponent_uid($username)
 {
     $uid = chess_uname_to_uid($username);
 
-    $can_play = ($uid > 0) ? chess_can_play($uid) : false;
+    $can_play = $uid > 0 ? chess_can_play($uid) : false;
 
     return $can_play ? $uid : 0;
 }

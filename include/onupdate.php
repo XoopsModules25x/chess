@@ -32,7 +32,7 @@ function tableExists($tablename)
 {
     $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
 
-    return ($GLOBALS['xoopsDB']->getRowsNum($result) > 0);
+    return $GLOBALS['xoopsDB']->getRowsNum($result) > 0;
 }
 
 /**

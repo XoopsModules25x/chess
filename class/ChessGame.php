@@ -60,7 +60,7 @@ class ChessGame
      * If empty string (''), indicates this is a valid object; otherwise contains an error message.
      * Should be checked after creating an instance of this class.
      *
-     * @var string $error
+     * @var string
      */
 
     public $error;
@@ -85,7 +85,7 @@ class ChessGame
      *
      * Each element is a string.
      *
-     * @var array $gamestate
+     * @var array
      */
 
     public $gamestate;
@@ -111,42 +111,42 @@ class ChessGame
      *
      * For example, $board[17] is tile b3 and $board[55] is tile h7.
      *
-     * @var array $board
+     * @var array
      */
 
     public $board;
 
     /**
      * for auto-completion of moves
-     * @var string $ac_move
+     * @var string
      */
 
     public $ac_move;
 
     /**
      * array of white's pieces
-     * @var array $w_figures
+     * @var array
      */
 
     public $w_figures;
 
     /**
      * array of black's pieces
-     * @var array $b_figures
+     * @var array
      */
 
     public $b_figures;
 
     /**
      * updated by handleMove, not used now but might be used in future
-     * @var string $last_move
+     * @var string
      */
 
     public $last_move;
 
     /**
      * updated by handleMove, not used now but might be used in future
-     * @var string $captured_piece
+     * @var string
      */
 
     public $captured_piece;
@@ -415,27 +415,27 @@ class ChessGame
         switch ($fig) {
             /* bishop */
             case 'B':
-                $change = ($dy < $fy) ? -8 : 8;
-                $change += ($dx < $fx) ? -1 : 1;
+                $change = $dy < $fy ? -8 : 8;
+                $change += $dx < $fx ? -1 : 1;
                 break;
             /* rook */
             case 'R':
                 if ($fx == $dx) {
-                    $change = ($dy < $fy) ? -8 : 8;
+                    $change = $dy < $fy ? -8 : 8;
                 } else {
-                    $change = ($dx < $fx) ? -1 : 1;
+                    $change = $dx < $fx ? -1 : 1;
                 }
                 break;
             /* queen */
             case 'Q':
                 if (\abs($fx - $dx) == \abs($fy - $dy)) {
-                    $change = ($dy < $fy) ? -8 : 8;
+                    $change = $dy < $fy ? -8 : 8;
 
-                    $change += ($dx < $fx) ? -1 : 1;
+                    $change += $dx < $fx ? -1 : 1;
                 } elseif ($fx == $dx) {
-                    $change = ($dy < $fy) ? -8 : 8;
+                    $change = $dy < $fy ? -8 : 8;
                 } else {
-                    $change = ($dx < $fx) ? -1 : 1;
+                    $change = $dx < $fx ? -1 : 1;
                 }
                 break;
         }
@@ -599,19 +599,19 @@ class ChessGame
     public function checkPawnAttack($fig_pos, $dest_pos)
     {
         if ('w' == $this->board[$fig_pos][0]) {
-            if (($fig_pos % 8) > 0 && $dest_pos == $fig_pos + 7) {
+            if ($fig_pos % 8 > 0 && $dest_pos == $fig_pos + 7) {
                 return 1;
             }
 
-            if (($fig_pos % 8) < 7 && $dest_pos == $fig_pos + 9) {
+            if ($fig_pos % 8 < 7 && $dest_pos == $fig_pos + 9) {
                 return 1;
             }
         } elseif ('b' == $this->board[$fig_pos][0]) {
-            if (($fig_pos % 8) < 7 && $dest_pos == $fig_pos - 7) {
+            if ($fig_pos % 8 < 7 && $dest_pos == $fig_pos - 7) {
                 return 1;
             }
 
-            if (($fig_pos % 8) > 0 && $dest_pos == $fig_pos - 9) {
+            if ($fig_pos % 8 > 0 && $dest_pos == $fig_pos - 9) {
                 return 1;
             }
         }
@@ -936,11 +936,11 @@ class ChessGame
                                 return 0;
                             }
 
-                            if (($i % 8) > 0 && $this->board[$i + 7][0] != $player) {
+                            if ($i % 8 > 0 && $this->board[$i + 7][0] != $player) {
                                 return 0;
                             }
 
-                            if (($i % 8) < 7 && $this->board[$i + 9][0] != $player) {
+                            if ($i % 8 < 7 && $this->board[$i + 9][0] != $player) {
                                 return 0;
                             }
                         } else {
@@ -948,11 +948,11 @@ class ChessGame
                                 return 0;
                             }
 
-                            if (($i % 8) > 0 && $this->board[$i - 9][0] != $player) {
+                            if ($i % 8 > 0 && $this->board[$i - 9][0] != $player) {
                                 return 0;
                             }
 
-                            if (($i % 8) < 7 && $this->board[$i - 7][0] != $player) {
+                            if ($i % 8 < 7 && $this->board[$i - 7][0] != $player) {
                                 return 0;
                             }
                         }
@@ -1492,13 +1492,13 @@ class ChessGame
         $cur_player = $this->gamestate['fen_active_color']; /* b or w */
 
         if ('w' != $cur_player && 'b' != $cur_player) {
-            return([false, "handleMove, internal error: player='$cur_player'"]);
+            return [false, "handleMove, internal error: player='$cur_player'"];
         }
 
-        $cur_opp = ('w' == $cur_player) ? 'b' : 'w';
+        $cur_opp = 'w' == $cur_player ? 'b' : 'w';
 
         if ('*' != $this->gamestate['pgn_result']) {
-            return([false, _MD_CHESS_MOVE_GAME_OVER]);
+            return [false, _MD_CHESS_MOVE_GAME_OVER];
         }
 
         // get castling availability flags
@@ -1555,19 +1555,19 @@ class ChessGame
 
             if ('b' == $cur_player) {
                 if (!$black_may_castle_short) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot castle short any longer!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot castle short any longer!
                 }
 
                 if (!$this->is_empty_tile(61) || !$this->is_empty_tile(62)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // Cannot castle short because the way is blocked!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // Cannot castle short because the way is blocked!
                 }
 
                 if ($this->kingIsUnderAttack('b', 'w')) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot escape check by castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot escape check by castling!
                 }
 
                 if ($this->tileIsUnderAttack('w', 62) || $this->tileIsUnderAttack('w', 61)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // A tile the king passes over or into would be under attack after short castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // A tile the king passes over or into would be under attack after short castling!
                 }
 
                 $this->clear_tile(60);
@@ -1583,19 +1583,19 @@ class ChessGame
                 $black_may_castle_long = false;
             } else {
                 if (!$white_may_castle_short) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot castle short any longer!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot castle short any longer!
                 }
 
                 if (!$this->is_empty_tile(5) || !$this->is_empty_tile(6)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // Cannot castle short because the way is blocked!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // Cannot castle short because the way is blocked!
                 }
 
                 if ($this->kingIsUnderAttack('w', 'b')) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot escape check by castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot escape check by castling!
                 }
 
                 if ($this->tileIsUnderAttack('b', 5) || $this->tileIsUnderAttack('b', 6)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // A tile the king passes over or into would be under attack after short castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // A tile the king passes over or into would be under attack after short castling!
                 }
 
                 $this->clear_tile(4);
@@ -1621,19 +1621,19 @@ class ChessGame
 
             if ('b' == $cur_player) {
                 if (!$black_may_castle_long) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot castle long any longer!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot castle long any longer!
                 }
 
                 if (!$this->is_empty_tile(57) || !$this->is_empty_tile(58) || !$this->is_empty_tile(59)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // Cannot castle long because the way is blocked!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // Cannot castle long because the way is blocked!
                 }
 
                 if ($this->kingIsUnderAttack('b', 'w')) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot escape check by castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot escape check by castling!
                 }
 
                 if ($this->tileIsUnderAttack('w', 58) || $this->tileIsUnderAttack('w', 59)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // A tile the king passes over or into would be under attack after short castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // A tile the king passes over or into would be under attack after short castling!
                 }
 
                 $this->clear_tile(56);
@@ -1649,19 +1649,19 @@ class ChessGame
                 $black_may_castle_long = false;
             } else {
                 if (!$white_may_castle_long) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot castle long any longer!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot castle long any longer!
                 }
 
                 if (!$this->is_empty_tile(1) || !$this->is_empty_tile(2) || !$this->is_empty_tile(3)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // Cannot castle long because the way is blocked!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // Cannot castle long because the way is blocked!
                 }
 
                 if ($this->kingIsUnderAttack('w', 'b')) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // You cannot escape check by castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // You cannot escape check by castling!
                 }
 
                 if ($this->tileIsUnderAttack('b', 2) || $this->tileIsUnderAttack('b', 3)) {
-                    return([false, _MD_CHESS_MOVE_NO_CASTLE]); // A tile the king passes over or into would be under attack after short castling!
+                    return [false, _MD_CHESS_MOVE_NO_CASTLE]; // A tile the king passes over or into would be under attack after short castling!
                 }
 
                 $this->clear_tile(0);
@@ -1691,7 +1691,7 @@ class ChessGame
             $ac_error = $this->completeMove($cur_player, \trim($move));
 
             if ('' != $ac_error) {
-                return([false, $ac_error]);
+                return [false, $ac_error];
             } // "ERROR: autocomplete: $ac_error"
 
             $move = $this->ac_move;
@@ -1705,7 +1705,7 @@ class ChessGame
 
             if ($c >= 'A' && $c <= 'Z') {
                 if ('N' != $c && 'B' != $c && 'R' != $c && 'Q' != $c) {
-                    return([false, _MD_CHESS_MOVE_INVALID_PIECE]);
+                    return [false, _MD_CHESS_MOVE_INVALID_PIECE];
                 }
             } // "ERROR: only N (knight), B (bishop), R (rook) and Q (queen) are valid chessman identifiers"
 
@@ -1725,7 +1725,7 @@ class ChessGame
             $fig_name = $this->getFullFigureName($fig_type);
 
             if ('empty' == $fig_name) {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_UNKNOWN_FIGURE, $fig_type)]);
+                return [false, $this->move_msg(_MD_CHESS_MOVE_UNKNOWN_FIGURE, $fig_type)];
             } // "ERROR: Figure $fig_type is unknown!"
 
             $fig_coord = \mb_substr($move, 1, 2);
@@ -1733,21 +1733,21 @@ class ChessGame
             $fig_pos = $this->boardCoordToIndex($fig_coord);
 
             if (64 == $fig_pos) {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $fig_coord)]);
+                return [false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $fig_coord)];
             } // "ERROR: $fig_coord is invalid!"
 
             /* DEBUG  echo "fig_type: $fig_type, fig_pos: $fig_pos<BR>"; */
 
             if ($this->is_empty_tile($fig_pos)) {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_TILE_EMPTY, $fig_coord)]);
+                return [false, $this->move_msg(_MD_CHESS_MOVE_TILE_EMPTY, $fig_coord)];
             } // "ERROR: Tile $fig_coord is empty."
 
             if ($this->board[$fig_pos][0] != $cur_player) {
-                return([false, _MD_CHESS_MOVE_NOT_YOUR_PIECE]);
+                return [false, _MD_CHESS_MOVE_NOT_YOUR_PIECE];
             } // "ERROR: Figure does not belong to you!"
 
             if ($this->board[$fig_pos][1] != $fig_type) {
-                return([false, _MD_CHESS_MOVE_NOEXIST_FIGURE]);
+                return [false, _MD_CHESS_MOVE_NOEXIST_FIGURE];
             } // "ERROR: Figure does not exist!"
 
             /* get target index */
@@ -1757,11 +1757,11 @@ class ChessGame
             $dest_pos = $this->boardCoordToIndex($dest_coord);
 
             if (64 == $dest_pos) {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $dest_coord)]);
+                return [false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $dest_coord)];
             } // "ERROR: $dest_coord is invalid!"
 
             if ($dest_pos == $fig_pos) {
-                return([false, _MD_CHESS_MOVE_START_END_SAME]);
+                return [false, _MD_CHESS_MOVE_START_END_SAME];
             }
 
             /* DEBUG  echo "dest_pos: $dest_pos<BR>"; */
@@ -1779,7 +1779,7 @@ class ChessGame
             } /* attack */
 
             else {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_UNKNOWN_ACTION, $action)]);
+                return [false, $this->move_msg(_MD_CHESS_MOVE_UNKNOWN_ACTION, $action)];
             } // "ERROR: $action is unknown! Please use \"-\" for a move and \"x\" for an attack."
 
             /* if attack an enemy unit must be present on tile
@@ -1793,15 +1793,15 @@ class ChessGame
 
             if ('P' != $fig_type) {
                 if (!$this->tileIsReachable($fig_type, $fig_pos, $dest_pos)) {
-                    return([false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord)]);
+                    return [false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord)];
                 } // "ERROR: Tile $dest_coord is out of moving range for $fig_name at $fig_coord!"
             } else {
                 if ('M' == $action && !$this->checkPawnMove($fig_pos, $dest_pos)) {
-                    return([false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord)]);
+                    return [false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord)];
                 } // "ERROR: Tile $dest_coord is out of moving range for $fig_name at $fig_coord!"
 
                 if ('A' == $action && !$this->checkPawnAttack($fig_pos, $dest_pos)) {
-                    return([false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord)]);
+                    return [false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord)];
                 } // "ERROR: Tile $dest_coord is out of attacking range for $fig_name at $fig_coord!"
             }
 
@@ -1810,7 +1810,7 @@ class ChessGame
             /* check action */
 
             if ('M' == $action && !$this->is_empty_tile($dest_pos)) {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_OCCUPIED, $dest_coord)]); // "ERROR: Tile $dest_coord is occupied. You cannot move there."
+                return [false, $this->move_msg(_MD_CHESS_MOVE_OCCUPIED, $dest_coord)]; // "ERROR: Tile $dest_coord is occupied. You cannot move there."
             }
 
             if ('A' == $action && $this->is_empty_tile($dest_pos)) {
@@ -1822,15 +1822,15 @@ class ChessGame
                     }
 
                     if (0 == $en_passant_capture_performed) {
-                        return([false, _MD_CHESS_MOVE_NO_EN_PASSANT]); // "ERROR: en-passant no longer possible!"
+                        return [false, _MD_CHESS_MOVE_NO_EN_PASSANT]; // "ERROR: en-passant no longer possible!"
                     }
                 } else {
-                    return([false, $this->move_msg(_MD_CHESS_MOVE_ATTACK_EMPTY, $dest_coord)]); // "ERROR: Tile $dest_coord is empty. You cannot attack it."
+                    return [false, $this->move_msg(_MD_CHESS_MOVE_ATTACK_EMPTY, $dest_coord)]; // "ERROR: Tile $dest_coord is empty. You cannot attack it."
                 }
             }
 
             if ('A' == $action && $this->board[$dest_pos][0] == $cur_player) {
-                return([false, $this->move_msg(_MD_CHESS_MOVE_ATTACK_SELF, $dest_coord)]); // "ERROR: You cannot attack own unit at $dest_coord."
+                return [false, $this->move_msg(_MD_CHESS_MOVE_ATTACK_SELF, $dest_coord)]; // "ERROR: You cannot attack own unit at $dest_coord."
             }
 
             /* backup affected tiles */
@@ -1880,7 +1880,7 @@ class ChessGame
                     }
                 }
 
-                return([false, _MD_CHESS_MOVE_IN_CHECK]); // "ERROR: Move is invalid because king would be under attack then."
+                return [false, _MD_CHESS_MOVE_IN_CHECK]; // "ERROR: Move is invalid because king would be under attack then."
             }
 
             // check whether this forbids any castling
@@ -2177,7 +2177,7 @@ class ChessGame
                 if (!$this->is_empty_tile($index)) {
                     $tile = $this->board[$index];
 
-                    $piece = ('w' == $tile[0]) ? $tile[1] : \mb_strtolower($tile[1]); // 'K','Q','R','B','N' or 'P' (uppercase for white, lowercase for black)
+                    $piece = 'w' == $tile[0] ? $tile[1] : \mb_strtolower($tile[1]); // 'K','Q','R','B','N' or 'P' (uppercase for white, lowercase for black)
                 } else {
                     $piece = 'x'; // temporarily mark each empty tile with 'x'
                 }
@@ -2219,7 +2219,7 @@ class ChessGame
 
         $num_pawns = (int)@$counts[ord('P')];
 
-        return (0 == $num_queens && 0 == $num_rooks && ($num_bishops + $num_knights) <= 1 && 0 == $num_pawns);
+        return 0 == $num_queens && 0 == $num_rooks && ($num_bishops + $num_knights) <= 1 && 0 == $num_pawns;
     }
 
     // --------------------------
@@ -2263,11 +2263,9 @@ class ChessGame
             return 64;
         } /* erronous coord */
 
-        $index = $y * 8 + $x;
+        return $y * 8 + $x;
 
         //echo "$index | ";
-
-        return $index;
     }
 
     /**
@@ -2291,11 +2289,7 @@ class ChessGame
 
         $x = \chr(($index % 8) + 97);
 
-        $coord = "$x$y";
-
-        //echo "$coord | ";
-
-        return $coord;
+        return "$x$y";
     }
 
     /**

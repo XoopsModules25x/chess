@@ -77,9 +77,7 @@ $adminObject->displayIndex();
  */
 function loadAdminConfig($yamlFile)
 {
-    $config = \Xmf\Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
-
-    return $config;
+    return \Xmf\Yaml::readWrapped($yamlFile);
 }
 
 /**

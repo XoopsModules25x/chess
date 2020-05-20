@@ -163,7 +163,7 @@ trait VersionChecks
                         $latestVersion = \str_replace('final', '', mb_strtolower($latestVersion));
                     }
 
-                    $moduleVersion = ($helper->getModule()->getInfo('version') . '_' . $helper->getModule()->getInfo('module_status'));
+                    $moduleVersion = $helper->getModule()->getInfo('version') . '_' . $helper->getModule()->getInfo('module_status');
 
                     //"PHP-standardized" version
 
