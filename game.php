@@ -841,7 +841,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 		'Q' => 1, 'R' => 2, 'B' => 2, 'N' => 2, 'P' => 8,
 		'q' => 1, 'r' => 2, 'b' => 2, 'n' => 2, 'p' => 8,
     ];
-	for ($i = 0; $i < strlen($gamedata['fen_piece_placement']); ++$i) {
+	for ($i = 0, $iMax = strlen($gamedata['fen_piece_placement']); $i < $iMax; ++$i) {
 		$piece = $gamedata['fen_piece_placement']{$i};
 		if (!empty($captured_pieces_all[$piece])) {
 			--$captured_pieces_all[$piece];
