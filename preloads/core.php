@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -26,7 +26,6 @@ class ChessCorePreload extends XoopsPreloadItem
     /**
      * @param $args
      */
-
     public static function eventCoreIncludeCommonEnd($args)
     {
         require __DIR__ . '/autoloader.php';

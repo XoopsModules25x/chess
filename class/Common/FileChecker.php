@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -42,7 +42,6 @@ class FileChecker
      * @param string      $redirectFile
      * @return bool|string
      */
-
     public static function getFileStatus($file_path, $original_file_path, $redirectFile)
     {
         global $pathIcon16;
@@ -104,7 +103,6 @@ class FileChecker
      *
      * @return bool
      */
-
     public static function copyFile($source_path, $destination_path)
     {
         $source_path = \str_replace('..', '', $source_path);
@@ -120,7 +118,6 @@ class FileChecker
      *
      * @return bool
      */
-
     public static function compareFiles($file1_path, $file2_path)
     {
         if (!self::fileExists($file1_path) || !self::fileExists($file2_path)) {
@@ -147,7 +144,6 @@ class FileChecker
      *
      * @return bool
      */
-
     public static function fileExists($file_path)
     {
         return \is_file($file_path);
@@ -159,7 +155,6 @@ class FileChecker
      *
      * @return bool
      */
-
     public static function setFilePermissions($target, $mode = 0777)
     {
         $target = \str_replace('..', '', $target);

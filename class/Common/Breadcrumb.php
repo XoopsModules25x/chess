@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -51,7 +51,6 @@ class Breadcrumb
      * @param string $title
      * @param string $link
      */
-
     public function addLink($title = '', $link = '')
     {
         $this->bread[] = [
@@ -63,7 +62,6 @@ class Breadcrumb
     /**
      * Render BreadCrumb
      */
-
     public function render()
     {
         if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {

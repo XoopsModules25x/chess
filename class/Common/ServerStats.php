@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -24,7 +24,6 @@ trait ServerStats
      *
      * @return string
      */
-
     public static function getServerStats()
     {
         $moduleDirName = \basename(\dirname(\dirname(__DIR__)));

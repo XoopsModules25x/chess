@@ -30,7 +30,7 @@ instead of using a function call.
 
 		<td>
 			<a href="javascript:void(0)" onClick="javascript:window.opener.document.cmdform.chessmove.value += \'=<{$piece|upper}>\';window.close();">
-			<img border="1" width="36" height="36" alt="<{$chess_pieces[$piece].alt}>" title="<{$chess_pieces[$piece].alt}>" src="images/wcg/<{$chess_pieces[$piece].name}>.gif">
+			<img border="1" width="36" height="36" alt="<{$chess_pieces[$piece].alt}>" title="<{$chess_pieces[$piece].alt}>" src="assets/images/wcg/<{$chess_pieces[$piece].name}>.gif">
 			</a>
 		</td>
 

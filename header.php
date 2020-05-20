@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //

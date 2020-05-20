@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * @see http://www.php-fig.org/psr/psr-4/examples/

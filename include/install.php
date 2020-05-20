@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 // $Id$
 //  ------------------------------------------------------------------------ //
@@ -240,7 +240,7 @@ function xoops_module_update_chess($module, $oldversion)
 
         // Initialize ratings table.
         chess_set_message($module, _MI_CHESS_INIT_RATINGS_TABLE);
-        require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
+        require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.php';
         chess_recalc_ratings();
     ***/
 

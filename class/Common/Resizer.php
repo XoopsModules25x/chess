@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -48,7 +48,6 @@ class Resizer
      * resize image if size exceed given width/height
      * @return string|bool
      */
-
     public function resizeImage()
     {
         // check file extension
@@ -140,7 +139,6 @@ class Resizer
     /**
      * @return bool|string
      */
-
     public function resizeAndCrop()
     {
         // check file extension
@@ -300,7 +298,6 @@ class Resizer
     /**
      * @return bool|string
      */
-
     public function rotateImage()
     {
         // check file extension

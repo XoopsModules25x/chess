@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -26,7 +26,6 @@ trait ModuleStats
      * @param array $moduleStats
      * @return array
      */
-
     public static function getModuleStats($configurator, $moduleStats)
     {
         if (\count($configurator->moduleStats) > 0) {

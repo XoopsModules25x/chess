@@ -17,7 +17,7 @@ Candidates for new indices:
 	pgn_result - admin/index.php, list active games
 	create_date+start_date+last_date - admin/index.php, list active games
 	white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - blocks/blocks.php, list games
-	is_rated, white_uid, black_uid, pgn_result - include/functions.inc.php, ratings calc
+	is_rated, white_uid, black_uid, pgn_result - include/functions.php, ratings calc
 	white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - index.php, list games
 	white_uid, black_uid, is_rated, create_date+start_date+last_date - player_stats.php, list games
  - chess_challenges (primary key = challenge_id)

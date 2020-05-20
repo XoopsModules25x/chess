@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -26,7 +26,6 @@ trait FilesManagement
      *
      * @throws \RuntimeException
      */
-
     public static function createFolder($folder)
     {
         try {
@@ -47,7 +46,6 @@ trait FilesManagement
      * @param $folder
      * @return bool
      */
-
     public static function copyFile($file, $folder)
     {
         return \copy($file, $folder);
@@ -57,7 +55,6 @@ trait FilesManagement
      * @param $src
      * @param $dst
      */
-
     public static function recurseCopy($src, $dst)
     {
         $dir = \opendir($src);
@@ -89,7 +86,6 @@ trait FilesManagement
      * @param       string $dest   Destination path
      * @return      bool     Returns true on success, false on failure
      */
-
     public static function xcopy($source, $dest)
     {
         // Check for symlinks
@@ -147,7 +143,6 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-
     public static function deleteDirectory($src)
     {
         // Only continue if user is a 'global' Admin
@@ -204,7 +199,6 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-
     public static function rrmdir($src)
     {
         // Only continue if user is a 'global' Admin
@@ -253,7 +247,6 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-
     public static function rmove($src, $dest)
     {
         // Only continue if user is a 'global' Admin
@@ -305,7 +298,6 @@ trait FilesManagement
      *
      * @return bool true on success
      */
-
     public static function rcopy($src, $dest)
     {
         // Only continue if user is a 'global' Admin

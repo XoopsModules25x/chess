@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 use XoopsModules\Chess;
 
@@ -46,9 +46,8 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $GLOBALS['xoopsOption']['template_main'] = 'chess_game_main.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
-require_once XOOPS_ROOT_PATH . '/modules/chess/class/chessgame.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
 chess_game();
 
@@ -535,7 +534,7 @@ function chess_put_game($game_id, $gamedata)
     }
 
     if ('*' != $gamedata['pgn_result'] && '1' == $gamedata['is_rated']) {
-        require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
+        require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.php';
 
         chess_ratings_adj($game_id);
     }
@@ -913,7 +912,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     global $xoopsTpl;
 
     $xoopsTpl->assign('xoops_module_header', '
-		<link rel="stylesheet" type="text/css" media="screen" href="' . XOOPS_URL . '/modules/chess/include/style.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="' . XOOPS_URL . '/modules/chess/assets/css/style.css">
 	');
 
     $memberHandler = xoops_getHandler('member');

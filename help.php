@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 // $Id$
 //  ------------------------------------------------------------------------ //
@@ -40,7 +40,7 @@ require dirname(dirname(__DIR__)) . '/mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'chess_help.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
-require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/functions.php';
 if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/help.php')) {
     require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/help.php';
 } else {

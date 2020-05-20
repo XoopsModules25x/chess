@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -43,7 +43,6 @@ class DirectoryChecker
      *
      * @return bool|string
      */
-
     public static function getDirectoryStatus($path, $mode = 0777, $redirectFile = null)
     {
         global $pathIcon16;
@@ -133,7 +132,6 @@ class DirectoryChecker
      *
      * @return bool
      */
-
     public static function createDirectory($target, $mode = 0777)
     {
         $target = \str_replace('..', '', $target);
@@ -149,7 +147,6 @@ class DirectoryChecker
      *
      * @return bool
      */
-
     public static function setDirectoryPermissions($target, $mode = 0777)
     {
         $target = \str_replace('..', '', $target);
@@ -162,7 +159,6 @@ class DirectoryChecker
      *
      * @return bool
      */
-
     public static function dirExists($dir_path)
     {
         return \is_dir($dir_path);

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -37,7 +37,7 @@
 /**#@+
  */
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 /**#@-*/
 
 /**
@@ -244,7 +244,7 @@ function b_chess_players_show($options)
         return [];
     }
 
-    require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
+    require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.php';
 
     $moduleHandler = xoops_getHandler('module');
 

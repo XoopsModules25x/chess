@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -44,7 +44,6 @@ class SysUtility
      *
      * @return object
      */
-
     public static function getInstance()
     {
         static $instance;
@@ -63,7 +62,6 @@ class SysUtility
      *
      * @return mixed
      */
-
     public static function cloneRecord($tableName, $id_field, $id)
     {
         $new_id = false;
@@ -104,7 +102,6 @@ class SysUtility
     /**
      * @param $content
      */
-
     public static function metaKeywords($content)
     {
         global $xoopsTpl, $xoTheme;
@@ -123,7 +120,6 @@ class SysUtility
     /**
      * @param $content
      */
-
     public static function metaDescription($content)
     {
         global $xoopsTpl, $xoTheme;
@@ -145,7 +141,6 @@ class SysUtility
      *
      * @return array
      */
-
     public static function enumerate($tableName, $columnName)
     {
         $table = $GLOBALS['xoopsDB']->prefix($tableName);
@@ -182,7 +177,6 @@ class SysUtility
      *
      * @return string Trimmed string.
      */
-
     public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
     {
         if ($considerHtml) {
@@ -320,7 +314,6 @@ class SysUtility
      * @param array|null         $options
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
-
     public static function getEditor($helper = null, $options = null)
     {
         /** @var Helper $helper */
@@ -368,7 +361,6 @@ class SysUtility
      *
      * @return bool
      */
-
     public function fieldExists($fieldname, $table)
     {
         global $xoopsDB;

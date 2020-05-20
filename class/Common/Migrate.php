@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -33,7 +33,6 @@ class Migrate extends \Xmf\Database\Migrate
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      */
-
     public function __construct(?Common\Configurator $configurator = null)
     {
         if (null !== $configurator) {
@@ -48,7 +47,6 @@ class Migrate extends \Xmf\Database\Migrate
     /**
      * change table prefix if needed
      */
-
     private function changePrefix()
     {
         foreach ($this->renameTables as $oldName => $newName) {
@@ -64,7 +62,6 @@ class Migrate extends \Xmf\Database\Migrate
      * @param string $tableName  table to convert
      * @param string $columnName column with IP address
      */
-
     private function convertIPAddresses($tableName, $columnName)
     {
         if ($this->tableHandler->useTable($tableName)) {
@@ -87,7 +84,6 @@ class Migrate extends \Xmf\Database\Migrate
     /**
      * Move do* columns from newbb_posts to newbb_posts_text table
      */
-
     private function moveDoColumns()
     {
         $tableName = 'newbb_posts_text';
@@ -119,7 +115,6 @@ class Migrate extends \Xmf\Database\Migrate
      *   table and column renames
      *   data conversions
      */
-
     protected function preSyncActions()
     {
         // change 'bb' table prefix to 'newbb'

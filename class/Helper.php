@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess;
 
@@ -31,7 +31,6 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @param bool $debug
      */
-
     public function __construct($debug = false)
     {
         $this->debug = $debug;
@@ -46,7 +45,6 @@ class Helper extends \Xmf\Module\Helper
      *
      * @return \XoopsModules\Chess\Helper
      */
-
     public static function getInstance($debug = false)
     {
         static $instance;
@@ -61,7 +59,6 @@ class Helper extends \Xmf\Module\Helper
     /**
      * @return string
      */
-
     public function getDirname()
     {
         return $this->dirname;
@@ -74,7 +71,6 @@ class Helper extends \Xmf\Module\Helper
      *
      * @return bool|\XoopsObjectHandler|\XoopsPersistableObjectHandler
      */
-
     public function getHandler($name)
     {
         $ret = false;

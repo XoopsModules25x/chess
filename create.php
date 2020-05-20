@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 // $Id$
 //  ------------------------------------------------------------------------ //
@@ -50,7 +50,7 @@ $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable cachin
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
 #var_dump($_REQUEST);#*#DEBUG#
 
@@ -60,9 +60,9 @@ if (!chess_can_play()) {
 
 // user input
 $gametype = chess_sanitize(@$_POST['gametype']);
-$opponent = chess_sanitize(trim(@$_POST['opponent']), _CHESS_USERNAME_ALLOWED_CHARACTERS);
+$opponent = chess_sanitize(trim((string)@$_POST['opponent']), _CHESS_USERNAME_ALLOWED_CHARACTERS);
 $opponent_uid = !empty($opponent) ? chess_opponent_uid($opponent) : 0;
-$fen = chess_moduleConfig('allow_setup') ? chess_sanitize(trim(@$_POST['fen']), 'A-Za-z0-9 /-') : '';
+$fen = chess_moduleConfig('allow_setup') ? chess_sanitize(trim((string)@$_POST['fen']), 'A-Za-z0-9 /-') : '';
 $coloroption = chess_sanitize(@$_POST['coloroption']);
 $rated = (int)@$_REQUEST['rated'];
 $notify_accept = isset($_POST['notify_accept']);
@@ -683,9 +683,10 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
 /**
  * Accept a challenge.
  *
- * @param int    $challenge_id         Challenge ID
- * @param string $coloroption          _CHESS_COLOROPTION_OPPONENT, _CHESS_COLOROPTION_RANDOM, _CHESS_COLOROPTION_WHITE or _CHESS_COLOROPTION_BLACK
- * @param bool   $notify_move_player2  If true, subscribe the accepter to receive a notification when a new move is made.
+ * @param int    $challenge_id        Challenge ID
+ * @param string $coloroption         _CHESS_COLOROPTION_OPPONENT, _CHESS_COLOROPTION_RANDOM, _CHESS_COLOROPTION_WHITE or _CHESS_COLOROPTION_BLACK
+ * @param bool   $notify_move_player2 If true, subscribe the accepter to receive a notification when a new move is made.
+ * @throws \Exception
  */
 function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player2 = false)
 {
@@ -722,11 +723,9 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
                 case _CHESS_COLOROPTION_RANDOM:
                     if (1 == random_int(1, 2)) {
                         $white_uid = $row['player1_uid'];
-
                         $black_uid = $uid;
                     } else {
                         $white_uid = $uid;
-
                         $black_uid = $row['player1_uid'];
                     }
                     break;
@@ -921,8 +920,6 @@ function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_pl
 
     #var_dump('white_uid', $white_uid, 'black_uid', $black_uid);#*#DEBUG#
 
-    require_once XOOPS_ROOT_PATH . '/modules/chess/class/chessgame.inc.php';
-
     $chessgame = new Chess\ChessGame($fen);
 
     empty($chessgame->error) or trigger_error('chessgame invalid', E_USER_ERROR);
@@ -993,7 +990,6 @@ function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_pl
 function chess_fen_error($fen)
 {
     if (!empty($fen)) {
-        require_once XOOPS_ROOT_PATH . '/modules/chess/class/chessgame.inc.php';
 
         $chessgame = new Chess\ChessGame($fen);
 

@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -20,9 +20,12 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+//  The CXR Rating System algorithm is used by permission of Chess Express   //
+//  Ratings, Inc. <http://chess-express.com>.                               //
+//  ------------------------------------------------------------------------ //
 
 /**
- * Ratings functions specific to Linear rating system.
+ * Ratings functions specific to CXR rating system.
  *
  * @package chess
  * @subpackage ratings
@@ -34,7 +37,7 @@
  */
 
 /**
- * Update the players' ratings for an individual game, using the Linear rating system.
+ * Update the players' ratings for an individual game, using the CXR rating system.
  *
  * @param int    $white_rating  White's current rating
  * @param int    $white_games   Number of rated games that white has played
@@ -45,7 +48,7 @@
  *  - $white_rating_new - white's new rating
  *  - $black_rating_new - black's new rating
  */
-function chess_ratings_adj_linear($white_rating, $white_games, $black_rating, $black_games, $pgn_result)
+function chess_ratings_adj_cxr($white_rating, $white_games, $black_rating, $black_games, $pgn_result)
 {
     // compute score: +1 for win, 0 for draw, -1 for loss
 
@@ -62,15 +65,79 @@ function chess_ratings_adj_linear($white_rating, $white_games, $black_rating, $b
             break;
     }
 
-    return [$white_rating + $S * 10, $black_rating - $S * 10];
+    if (($white_games < 5 && $black_games < 5) || ($white_games > 5 && $black_games > 5)) {
+        // Formula 1: Rnew = Rold + (S x 21) + (Ropponent - Rold) / 25
+
+        $w_new = ($S * 21) + ($black_rating - $white_rating) / 25;
+
+        $b_new = (-$S * 21) + ($white_rating - $black_rating) / 25;
+    } elseif ($white_games > 5 && $black_games < 5) {
+        // Formula 2: Rnew = Rold + (S x 6) + (Ropponent - Rold) / 100
+
+        $w_new = ($S * 6) + ($black_rating - $white_rating) / 100;
+
+        // Formula 3: Rnew = (4/5) x Rold + (1/5) x Ropponent + (S x 80)
+
+        $b_new = ($white_rating / 5) + ($S * -80) - ($black_rating / 5);
+    } else {
+        // Formula 2: Rnew = Rold + (S x 6) + (Ropponent - Rold) / 100
+
+        $b_new = ($S * 6) + ($white_rating - $black_rating) / 100;
+
+        // Formula 3: Rnew = (4/5) x Rold + (1/5) x Ropponent + (S x 80)
+
+        $w_new = ($black_rating / 5) + ($S * -80) - ($white_rating / 5);
+    }
+
+    // Rule R1: The winning rated player must gain at least two points.
+
+    // Rule R2: The losing rated player must lose at least two points.
+
+    if (abs($w_new) < 2) {
+        $w_new = $S * 2;
+    }
+
+    if (abs($b_new) < 2) {
+        $b_new = $S * -2;
+    }
+
+    // Rule R3: The rated player must not gain nor lose more than 41 points.
+
+    if (abs($w_new) > 41) {
+        $w_new = $S * 41;
+    }
+
+    if (abs($b_new) > 41) {
+        $b_new = $S * -41;
+    }
+
+    if (1 == $S) {
+        if ($white_games < 5 && $w_new < 0) {
+            $w_new = 2;
+        }
+
+        if ($black_games < 5 && $b_new > 0) {
+            $b_new = -2;
+        }
+    } elseif (-1 == $S) {
+        if ($white_games < 5 && $w_new > 0) {
+            $w_new = -2;
+        }
+
+        if ($black_games < 5 && $b_new < 0) {
+            $b_new = 2;
+        }
+    }
+
+    return [$white_rating + $w_new, $black_rating + $b_new];
 }
 
 /**
- * Get the number of provisional games used in the Linear rating system.
+ * Get the number of provisional games used in the CXR rating system.
  *
  * @return int  Number of provisional games
  */
-function chess_ratings_num_provisional_games_linear()
+function chess_ratings_num_provisional_games_cxr()
 {
-    return 2;
+    return 5;
 }

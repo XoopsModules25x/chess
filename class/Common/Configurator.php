@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -55,7 +55,6 @@ class Configurator
     /**
      * Configurator constructor.
      */
-
     public function __construct()
     {
 //        $moduleDirName      = basename(dirname(dirname(__DIR__)));

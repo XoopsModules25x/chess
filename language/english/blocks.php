@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * Language strings for blocks (en)
@@ -59,5 +59,8 @@ define('_MB_CHESS_NO_NONPROV_GAMES', 'No rated games have been completed (player
 
 // miscellaneous
 define('_MB_CHESS_ERROR', '*error*');
+define('_MB_CHESS_LABEL_NO_GAMES', 'No Games');
+
+
 
 /**#@-*/

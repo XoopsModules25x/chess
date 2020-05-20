@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
@@ -37,7 +37,7 @@
 require_once __DIR__ . '/admin_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
 // user input
 $op = chess_sanitize(@$_GET['op']);

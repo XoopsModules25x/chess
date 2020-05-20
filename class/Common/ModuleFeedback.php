@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -43,7 +43,6 @@ class ModuleFeedback extends \XoopsObject
      *
      * @param null
      */
-
     public function __construct()
     {
     }
@@ -53,7 +52,6 @@ class ModuleFeedback extends \XoopsObject
      *
      * @param null
      */
-
     public static function getInstance()
     {
         static $instance = false;
@@ -69,7 +67,6 @@ class ModuleFeedback extends \XoopsObject
      * @param bool $action
      * @return \XoopsThemeForm
      */
-
     public function getFormFeedback($action = false)
     {
         if (false === $action) {

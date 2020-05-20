@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 $moduleDirName = basename(dirname(__DIR__));

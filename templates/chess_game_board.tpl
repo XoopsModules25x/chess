@@ -13,13 +13,13 @@
 	function highlight(image_tag_name, piece_name) {
 	   this.image_tag_name = image_tag_name;
 	   this.piece_name     = piece_name;
-		window.document.images[this.image_tag_name].src = 'images/wcg/' + this.piece_name + '_h.gif';
+		window.document.images[this.image_tag_name].src = 'assets/images/wcg/' + this.piece_name + '_h.gif';
 	}
 
 	<{* method tile::unhighlight *}>
 	function unhighlight() {
 		if (this.image_tag_name && this.piece_name) {
-			window.document.images[this.image_tag_name].src = 'images/wcg/' + this.piece_name + '.gif';
+			window.document.images[this.image_tag_name].src = 'assets/images/wcg/' + this.piece_name + '.gif';
 		}
 	   this.image_tag_name = '';
 	   this.piece_name     = '';
@@ -146,7 +146,7 @@ which indicates that template variable xoops_module_header is missing from the t
 						</script>
 					<{/if}>
 
-					<img name="<{$fr}>" border="0" width="36" height="36" alt="<{$chess_pieces[$piece].alt}>" src="images/wcg/<{$chess_pieces[$piece].name}>.gif">
+					<img name="<{$fr}>" border="0" width="36" height="36" alt="<{$chess_pieces[$piece].alt}>" src="assets/images/wcg/<{$chess_pieces[$piece].name}>.gif">
 
 					<{if $can_move}>
 						<script type="text/javascript">
@@ -160,7 +160,7 @@ which indicates that template variable xoops_module_header is missing from the t
 
 			<{/foreach}>
 
-		<td><img width="4" src="images/spacer.gif" alt="spacer"></td>
+		<td><img width="4" src="assets/images/spacer.gif" alt="spacer"></td>
 		</tr>
 
 		<{counter name=rank_counter assign=rank_count}> <{* increment or decrement *}>
@@ -172,7 +172,7 @@ which indicates that template variable xoops_module_header is missing from the t
 		<td>&nbsp;</td>
 
 		<{foreach from=$chess_file_labels item=file_label}>
-			<td style="text-align:center"><img height="4" src="images/spacer.gif" alt="spacer"><br><div class="chessLabel"><{$file_label}></div></td>
+			<td style="text-align:center"><img height="4" src="assets/images/spacer.gif" alt="spacer"><br><div class="chessLabel"><{$file_label}></div></td>
 		<{/foreach}>
 
 	</tr>

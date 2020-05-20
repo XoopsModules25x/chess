@@ -65,7 +65,7 @@ Adding a new rating system
 The following steps use an example in which the internal name is "fbar" and the display name is "Foobar System".
 The internal name is translated to all-uppercase "FBAR" when used in names of constants.
 
-2) Create a new file include/ratings_fbar.inc.php, with functions chess_ratings_adj_fbar and chess_ratings_num_provisional_games_fbar. The function chess_ratings_adj_fbar updates the players' ratings for a specified game ID, and the function chess_ratings_num_provisional_games_fbar returns the number of provisional games for the rating system.  Use the existing file include/ratings_cxr.inc.php or include/ratings_linear.inc.php as an example.
+2) Create a new file include/ratings_fbar.inc.php, with functions chess_ratings_adj_fbar and chess_ratings_num_provisional_games_fbar. The function chess_ratings_adj_fbar updates the players' ratings for a specified game ID, and the function chess_ratings_num_provisional_games_fbar returns the number of provisional games for the rating system.  Use the existing file include/ratings_cxr.php or include/ratings_linear.php as an example.
 
 3) Add a language constant in language/-/modinfo.php: define('_MI_CHESS_RATING_SYSTEM_FBAR', 'Foobar System');
 

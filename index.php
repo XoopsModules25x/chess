@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 // $Id$
 //  ------------------------------------------------------------------------ //
@@ -41,7 +41,7 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
 #var_dump($_REQUEST);#*#DEBUG#
 

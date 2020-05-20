@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /*
  * Smarty plugin #*#UNCACHE_DATES#

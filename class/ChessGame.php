@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess;
 
@@ -175,7 +175,6 @@ class ChessGame
      * If $param is a non-empty string, a new game is created using $param as a FEN setup position.
      * Otherwise, a new game is created using the standard starting position.
      */
-
     public function __construct($param = null)
     {
         // for now
@@ -203,7 +202,6 @@ class ChessGame
      *  - $move_performed: true if the move was performed and the game state has been updated, false otherwise
      *  - $move_result_text: text message
      */
-
     public function move($move)
     {
         empty($this->error) or \trigger_error(_MD_CHESS_ERROR, \E_USER_ERROR);
@@ -216,7 +214,6 @@ class ChessGame
      *
      * @return array
      */
-
     public function gamestate()
     {
         empty($this->error) or \trigger_error(_MD_CHESS_ERROR, \E_USER_ERROR);
@@ -241,7 +238,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function init_gamestate($fen = null)
     {
         $this->gamestate = [];
@@ -262,7 +258,7 @@ class ChessGame
 
         $fen_data = \explode(' ', $fen);
 
-        if (6 != count($fen_data)) {
+        if (6 != \count($fen_data)) {
             return _MD_CHESS_FENBAD_FIELD_COUNT; // wrong number of fields
         }
 
@@ -343,7 +339,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function pathIsNotBlocked($start, $end, $change)
     {
         for ($pos = $start; $pos != $end; $pos += $change) {
@@ -370,7 +365,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function getPath($start, $end, $change)
     {
         $path = [];
@@ -399,7 +393,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function getPathChange($fig, $fig_pos, $dest_pos)
     {
         $change = 0;
@@ -458,7 +451,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function tileIsReachable($fig, $fig_pos, $dest_pos)
     {
         if ($fig_pos == $dest_pos) {
@@ -480,10 +472,10 @@ class ChessGame
         switch ($fig) {
             /* knight */
             case 'N':
-                if (1 == abs($fx - $dx) && 2 == abs($fy - $dy)) {
+                if (1 == \abs($fx - $dx) && 2 == \abs($fy - $dy)) {
                     $result = 1;
                 }
-                if (1 == abs($fy - $dy) && 2 == abs($fx - $dx)) {
+                if (1 == \abs($fy - $dy) && 2 == \abs($fx - $dx)) {
                     $result = 1;
                 }
                 break;
@@ -595,7 +587,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function checkPawnAttack($fig_pos, $dest_pos)
     {
         if ('w' == $this->board[$fig_pos][0]) {
@@ -633,7 +624,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function checkPawnMove($fig_pos, $dest_pos)
     {
         $first_move = 0;
@@ -680,7 +670,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function tileIsUnderAttack($opp, $dest_pos)
     {
         #var_dump('tileIsUnderAttack, opp', $opp, 'dest_pos', $dest_pos, 'board', $board);#*#DEBUG#
@@ -710,7 +699,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function kingIsUnderAttack($player, $opp)
     {
         #var_dump('kingIsUnderAttack, player', $player, 'opp', $opp, 'board', $board);#*#DEBUG#
@@ -737,7 +725,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function isCheckMate($player, $opp)
     {
         for ($i = 0; $i < 64; $i++) {
@@ -909,7 +896,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function isStaleMate($player, $opp)
     {
         for ($i = 0; $i < 64; $i++) {
@@ -1040,7 +1026,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function move_msg($text)
     {
         $param = \func_get_args();
@@ -1069,7 +1054,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function completeMove($player, $move)
     {
         /*
@@ -1089,7 +1073,7 @@ class ChessGame
             /* full move: a pawn requires a ? in the end
              * to automatically choose a queen on last line */
 
-            if ('P' == $move[0]) {
+            if (strpos($move, 'P') === 0) {
                 if ($move[\mb_strlen($move) - 1] < 'A' || $move[\mb_strlen($move) - 1] > 'Z') {
                     $this->ac_move = "$move?";
                 }
@@ -1407,7 +1391,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function convertFullToChessNotation($player, $move)
     {
         $new_move = $move;
@@ -1417,7 +1400,7 @@ class ChessGame
 
         /* valid pawn moves are always non-ambigious */
 
-        if ('P' == $move[0]) {
+        if (strpos($move, 'P') === 0) {
             /* skip P anycase. for attacks skip source digit
                and for moves skip source pos and - */
 
@@ -1474,7 +1457,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function handleMove($move)
     {
         /* DEBUG: echo "HANDLE: $move, $comment<BR>"; */
@@ -1915,7 +1897,7 @@ class ChessGame
 
             // if a pawn moved two tiles, this will allow 'en passant' on next move
 
-            if ('P' == $fig_type && 16 == abs($fig_pos - $dest_pos)) {
+            if ('P' == $fig_type && 16 == \abs($fig_pos - $dest_pos)) {
                 $file_chars = 'abcdefgh';
 
                 $this->gamestate['fen_en_passant_target_square'] = $file_chars[$fig_pos % 8] . ('w' == $cur_player ? '3' : '6');
@@ -2040,7 +2022,7 @@ class ChessGame
 
             // If pawn advance or capturing move, reset the halfmove clock. Otherwise increment it.
 
-            if ('O-O' != $move && 'O-O-O' != $move && ('P' == $move[0] || 'x' == $move[3])) {
+            if ('O-O' != $move && 'O-O-O' != $move && (strpos($move, 'P') === 0 || 'x' == $move[3])) {
                 $this->gamestate['fen_halfmove_clock'] = 0;
             } else {
                 ++$this->gamestate['fen_halfmove_clock'];
@@ -2062,7 +2044,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function is_empty_tile($position)
     {
         return '00' == $this->board[$position];
@@ -2075,7 +2056,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function clear_tile($position)
     {
         $this->board[$position] = '00';
@@ -2090,7 +2070,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function fen_piece_placement_to_board()
     {
         if (empty($this->gamestate['fen_piece_placement']) || \mb_strlen($this->gamestate['fen_piece_placement']) > 71) {
@@ -2132,7 +2111,7 @@ class ChessGame
             }
         }
 
-        if (64 != count($this->board)) {
+        if (64 != \count($this->board)) {
             #trigger_error('count(board)=' . count($this->board), E_USER_WARNING); #*#DEBUG#
             return false; // piece_placement has incorrect number of tiles
         }
@@ -2163,7 +2142,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function board_to_fen_piece_placement()
     {
         $rows = [];
@@ -2202,22 +2180,21 @@ class ChessGame
      *
      * @access private
      */
-
     public function insufficient_mating_material()
     {
         $pieces = \mb_strtoupper($this->gamestate['fen_piece_placement']);
 
         $counts = \count_chars($pieces, 1);
 
-        $num_queens = (int)@$counts[ord('Q')];
+        $num_queens = (int)@$counts[\ord('Q')];
 
-        $num_rooks = (int)@$counts[ord('R')];
+        $num_rooks = (int)@$counts[\ord('R')];
 
-        $num_bishops = (int)@$counts[ord('B')];
+        $num_bishops = (int)@$counts[\ord('B')];
 
-        $num_knights = (int)@$counts[ord('N')];
+        $num_knights = (int)@$counts[\ord('N')];
 
-        $num_pawns = (int)@$counts[ord('P')];
+        $num_pawns = (int)@$counts[\ord('P')];
 
         return 0 == $num_queens && 0 == $num_rooks && ($num_bishops + $num_knights) <= 1 && 0 == $num_pawns;
     }
@@ -2240,7 +2217,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function boardCoordToIndex($coord)
     {
         //echo $coord," --> ";
@@ -2264,7 +2240,6 @@ class ChessGame
         } /* erronous coord */
 
         return $y * 8 + $x;
-
         //echo "$index | ";
     }
 
@@ -2276,7 +2251,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function boardIndexToCoord($index)
     {
         //echo $index," --> ";
@@ -2300,7 +2274,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function getFullFigureName($short)
     {
         static $names = [
@@ -2323,7 +2296,6 @@ class ChessGame
      *
      * @access private
      */
-
     public function getAdjTiles($fig_pos)
     {
         $adj_tiles = [];

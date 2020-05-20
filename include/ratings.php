@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
@@ -30,7 +30,7 @@
 
 /**#@+
  */
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 /**#@-*/
 
 /**
@@ -254,7 +254,7 @@ function chess_ratings_num_provisional_games()
 
     // determine function for getting number of provisional games using configured rating system
 
-    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.inc.php";
+    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.php";
 
     file_exists($file) or trigger_error("missing file '$file' for rating system '$rating_system'", E_USER_ERROR);
 
@@ -275,7 +275,7 @@ function chess_ratings_num_provisional_games()
  */
 function chess_ratings_get_func_adj($rating_system)
 {
-    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.inc.php";
+    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.php";
 
     file_exists($file) or trigger_error("missing file '$file' for rating system '$rating_system'", E_USER_ERROR);
 

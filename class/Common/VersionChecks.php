@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace XoopsModules\Chess\Common;
 
@@ -26,7 +26,6 @@ trait VersionChecks
      * @param null|string       $requiredVer
      * @return bool true if meets requirements, false if not
      */
-
     public static function checkVerXoops(?\XoopsModule $module = null, $requiredVer = null)
     {
         $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
@@ -64,7 +63,6 @@ trait VersionChecks
      *
      * @return bool true if meets requirements, false if not
      */
-
     public static function checkVerPhp(?\XoopsModule $module = null)
     {
         $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
@@ -107,7 +105,6 @@ trait VersionChecks
      *
      * @return string|array info about the latest module version, if newer
      */
-
     public static function checkVerModule($helper, $source = 'github', $default = 'master')
     {
         $moduleDirName = \basename(\dirname(\dirname(__DIR__)));
