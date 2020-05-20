@@ -391,7 +391,7 @@ function chess_show_accept_form($challenge_id)
 
 	$form->addElement(new XoopsFormHidden('challenge_id',   $challenge_id));
 
-	$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], "m")));
+	$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], 'm')));
 
 	$member_handler = xoops_getHandler('member');
 
@@ -501,7 +501,7 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
 		$form->addElement(new XoopsFormLabel(_MD_CHESS_ERROR . ': ', '<div class="errorMsg">' . $error_msg . '</div>'));
 	}
 
-	$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], "m")));
+	$form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], 'm')));
 
 	$member_handler = xoops_getHandler('member');
 

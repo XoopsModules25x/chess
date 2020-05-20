@@ -244,7 +244,7 @@ function chess_game()
 				if ($user_is_player and ($selfplay or chess_can_delete())) {
 
 					$delete_game = true; // must defer actual deletion until after notifications are sent
-					$notify      = eval('return "' ._MD_CHESS_DELETED_GAME. '";'); // eval references $username
+					$notify      = eval('return \'' . _MD_CHESS_DELETED_GAME . '\';'); // eval references $username
 				}
 				break;
 
@@ -287,7 +287,7 @@ function chess_game()
 				if ($gamedata['suspended'] and $gamedata['pgn_result'] == '*') {
 					$gamedata['suspended'] = '';
 					$gamedata_updated      = true;
-					$notify                = eval('return "' ._MD_CHESS_RESUMED_PLAY. '";'); // eval references $username
+					$notify                = eval('return \'' . _MD_CHESS_RESUMED_PLAY . '\';'); // eval references $username
 				}
 				break;
 
@@ -301,14 +301,14 @@ function chess_game()
 					$gamedata['pgn_movetext'] = str_replace('*', "{$gamedata['pgn_result']} $comment" , $gamedata['pgn_movetext']);
 					$gamedata['suspended']    = '';
 					$gamedata_updated         = true;
-					$notify                   = eval('return "' ._MD_CHESS_DECLARED_DRAW. '";'); // eval references $username
+					$notify                   = eval('return \'' . _MD_CHESS_DECLARED_DRAW . '\';'); // eval references $username
 				}
 				break;
 
 			case _CHESS_ARBITER_DELETE:
 				if ($gamedata['suspended']) {
 					$delete_game = true; // must defer actual deletion until after notifications are sent
-					$notify      = eval('return "' ._MD_CHESS_DELETED_GAME. '";'); // eval references $username
+					$notify      = eval('return \'' . _MD_CHESS_DELETED_GAME . '\';'); // eval references $username
 				}
 				break;
 
@@ -321,7 +321,7 @@ function chess_game()
 
 					$gamedata['suspended'] = implode('|', [date('Y-m-d H:i:s'), $uid, _CHESS_MOVETYPE_ARBITER_SUSPEND, $arbiter_explain]);
 					$gamedata_updated      = true;
-					$notify                = eval('return "' ._MD_CHESS_SUSPENDED_PLAY. '";'); // eval references $username
+					$notify                = eval('return \'' . _MD_CHESS_SUSPENDED_PLAY . '\';'); // eval references $username
 				}
 				break;
 

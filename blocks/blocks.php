@@ -186,13 +186,13 @@ function b_chess_games_edit($options)
 	$show_concluded = $options[1] == 2 ? "checked='checked'" : '';
 	$show_both      = $options[1] == 3 ? "checked='checked'" : '';
 
-	$form = "
-		"._MB_CHESS_NUM_GAMES.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
+	$form = '
+		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
 		<br />
-		<input type='radio' name='options[1]' value='1' $show_inplay    /> "._MB_CHESS_SHOW_GAMES_INPLAY."
-		<input type='radio' name='options[1]' value='2' $show_concluded /> "._MB_CHESS_SHOW_GAMES_CONCLUDED."
-		<input type='radio' name='options[1]' value='3' $show_both      /> "._MB_CHESS_SHOW_GAMES_BOTH."
-	";
+		<input type='radio' name='options[1]' value='1' $show_inplay    /> " . _MB_CHESS_SHOW_GAMES_INPLAY . "
+		<input type='radio' name='options[1]' value='2' $show_concluded /> " . _MB_CHESS_SHOW_GAMES_CONCLUDED . "
+		<input type='radio' name='options[1]' value='3' $show_both      /> " . _MB_CHESS_SHOW_GAMES_BOTH . '
+	';
 
 	return $form;
 }
@@ -208,13 +208,13 @@ function b_chess_challenges_edit($options)
 	$show_user = $options[1] == 2 ? "checked='checked'" : '';
 	$show_both = $options[1] == 3 ? "checked='checked'" : '';
 
-	$form = "
-		"._MB_CHESS_NUM_CHALLENGES.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
+	$form = '
+		' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
 		<br />
-		<input type='radio' name='options[1]' value='1' $show_open /> "._MB_CHESS_SHOW_CHALLENGES_OPEN."
-		<input type='radio' name='options[1]' value='2' $show_user /> "._MB_CHESS_SHOW_CHALLENGES_USER."
-		<input type='radio' name='options[1]' value='3' $show_both /> "._MB_CHESS_SHOW_CHALLENGES_BOTH."
-	";
+		<input type='radio' name='options[1]' value='1' $show_open /> " . _MB_CHESS_SHOW_CHALLENGES_OPEN . "
+		<input type='radio' name='options[1]' value='2' $show_user /> " . _MB_CHESS_SHOW_CHALLENGES_USER . "
+		<input type='radio' name='options[1]' value='3' $show_both /> " . _MB_CHESS_SHOW_CHALLENGES_BOTH . '
+	';
 
 	return $form;
 }
