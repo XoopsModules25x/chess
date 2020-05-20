@@ -34,10 +34,17 @@ use XoopsModules\Chess\Helper;
  */
 class SysUtility
 {
-    use VersionChecks; //checkVerXoops, checkVerPhp Traits
-    use ServerStats; // getServerStats Trait
-    use FilesManagement; // Files Management Trait
+    use VersionChecks;
 
+    //checkVerXoops, checkVerPhp Traits
+
+    use ServerStats;
+
+    // getServerStats Trait
+
+    use FilesManagement;
+
+    // Files Management Trait
 
     /**
      * Access the only instance of this class
@@ -67,7 +74,7 @@ class SysUtility
         $new_id = false;
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
-        $sql = "SELECT * FROM $table WHERE $id_field='$id' ";
+        $sql       = "SELECT * FROM $table WHERE $id_field='$id' ";
         $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), MYSQLI_ASSOC);
         if (!$tempTable) {
             exit($GLOBALS['xoopsDB']->error());
@@ -85,7 +92,6 @@ class SysUtility
 
         return $new_id;
     }
-
 
     /**
      * @param $content
@@ -138,7 +144,7 @@ class SysUtility
         }
 
         $row      = $GLOBALS['xoopsDB']->fetchBoth($result);
-        $enumList = explode(',', str_replace("'", '', substr($row['COLUMN_TYPE'], 5, - 6)));
+        $enumList = explode(',', str_replace("'", '', substr($row['COLUMN_TYPE'], 5, -6)));
         return $enumList;
     }
 
@@ -291,7 +297,7 @@ class SysUtility
      *
      * @return bool
      */
-    function fieldExists($fieldname, $table)
+    public function fieldExists($fieldname, $table)
     {
         global $xoopsDB;
         $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
