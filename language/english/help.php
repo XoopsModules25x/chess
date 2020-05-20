@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Language strings for help page (en)
+ *
+ * @package chess
+ * @subpackage language
+ */
+
+/**#@+
+ * @ignore
+ */
+
 // Note that quotes within the strings need to be escaped.
 
 // --------------------
@@ -44,12 +55,28 @@ or you may choose a specific color.
 ');
 
 define('_HE_CHESS_CREATE_050', '
+	You may specify whether the game will be rated.
+');
+
+define('_HE_CHESS_CREATE_060', '
 A challenge game will be created as soon as another user accepts the challenge.
 A self-play game will be created immediately.
 ');
 
-define('_HE_CHESS_CREATE_060', '
+define('_HE_CHESS_CREATE_070', '
 A challenger may delete his challenge at any time prior to its acceptance.
+');
+
+// --------------------
+
+define('_HE_CHESS_RATINGS_TITLE', 'Player rating system');
+
+define('_HE_CHESS_RATINGS_CXR',  '
+	CXR - An adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
+');
+
+define('_HE_CHESS_RATINGS_LINEAR',  '
+	Linear - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
 ');
 
 // --------------------
@@ -345,5 +372,6 @@ An arbiter may subscribe to be notified when a player requests arbitration in a 
 
 // --------------------
 
-?>
+/**#@-*/
 
+?>

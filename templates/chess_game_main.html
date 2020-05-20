@@ -1,11 +1,3 @@
-<{* #*#DEBUG# *}>
-<{***
-<table width="%25">
-<tr><td>Page generated:</td><td><{$smarty.now|date_format:'%Y-%m-%d %H:%M:%S'}></td></tr>
-<tr><td>Current time:</td><td><{insert name="chess_show_date"}></td></tr>
-</table>
-***}>
-
 <script type="text/javascript" language="javascript">
 
 <{if $chess_user_color}>
@@ -113,25 +105,33 @@
 	<td style="text-align:center">
 
 		<table>
-		<tr>
-			<th class="head" style="text-align:center" colspan="2"><b><font size="+1"><{$chess_white_user|replace:' ':'&nbsp;'}></font></b>&nbsp;<{$smarty.const._MD_CHESS_LABEL_VS}>&nbsp;<b><font size="+1"><{$chess_black_user|replace:' ':'&nbsp;'}></font></b></th>
-		</tr>
+
+<{* #*#TBD# - color of player names in th-tag not visible enough in some themes, e.g. default theme, since they're in a-tags. *}>
+		<th style="text-align:center" colspan="2"><a href="<{$smarty.const.XOOPS_URL}>/modules/chess/player_stats.php?player_uid=<{$chess_gamedata.white_uid}>"><font size="+1"><b><{$chess_white_user|replace:' ':'&nbsp;'}></b></font></a>&nbsp;<{$smarty.const._MD_CHESS_LABEL_VS}>&nbsp;<a href="<{$smarty.const.XOOPS_URL}>/modules/chess/player_stats.php?player_uid=<{$chess_gamedata.black_uid}>"><font size="+1"><b><{$chess_black_user|replace:' ':'&nbsp;'}></b></font></a></th>
 
 		<{* Display first and last move dates if defined, otherwise display game creation date. *}>
 		<{assign var=chess_date_format_nbsp value=$chess_date_format|replace:' ':'\&\n\b\s\p\;'}>
 		<{if $chess_start_date and $chess_last_date}>
 			<tr>
 				<td class="odd" style="text-align:left"><{$smarty.const._MD_CHESS_GAME_STARTED|replace:' ':'&nbsp;'}>:</td>
-				<td class="odd" style="text-align:right"><{$chess_start_date|xoops_format_date:$chess_date_format_nbsp}></td>
+				<td class="odd" style="text-align:right"><{$chess_date_format_nbsp|date:$chess_start_date}></td>
 			</tr>
 			<tr>
 				<td class="odd" style="text-align:left"><{$smarty.const._MD_CHESS_LABEL_LAST_MOVE|replace:' ':'&nbsp;'}>:</td>
-				<td class="odd" style="text-align:right"><{$chess_last_date|xoops_format_date:$chess_date_format_nbsp}></td>
+				<td class="odd" style="text-align:right"><{$chess_date_format_nbsp|date:$chess_last_date}></td>
 			</tr>
 		<{else}>
 			<tr>
 				<td class="odd" style="text-align:left"><{$smarty.const._MD_CHESS_GAME_CREATED|replace:' ':'&nbsp;'}>:</td>
-				<td class="odd" style="text-align:right"><{$chess_create_date|xoops_format_date:$chess_date_format_nbsp}></td>
+				<td class="odd" style="text-align:right"><{$chess_date_format_nbsp|date:$chess_create_date}></td>
+			</tr>
+		<{/if}>
+
+		<{* If rating feature enabled, indicate whether this game is rated. *}>
+		<{if $chess_ratings_enabled}>
+			<tr>
+				<td class="odd" style="text-align:left"><{$smarty.const._MD_CHESS_RATED_GAME|replace:' ':'&nbsp;'}>:</td>
+				<td class="odd" style="text-align:right"><{if $chess_gamedata.is_rated}><{$smarty.const._YES}><{else}><{$smarty.const._NO}><{/if}></td>
 			</tr>
 		<{/if}>
 
@@ -240,7 +240,7 @@
 
 				<table>
 				<tr>
-					<td><div class="errorMsg">Javascript not enabled. Moves must be made by text entry.</div></td>
+					<td><div class="errorMsg"><{$smarty.const._MD_CHESS_NO_JAVASCRIPT}></div></td>
 				</tr>
 				</table>
 			</noscript>

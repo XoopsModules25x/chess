@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php,v 1.1 2004/01/29 14:45:49 buennagel Exp $
+// $Id$
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -25,91 +25,263 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+/**
+ * Generates main chess page, which displays lists of games and challenges.
+ *
+ * @package chess
+ * @subpackage index
+ */
+
+/**#@+
+ */
 include '../../mainfile.php';
 $xoopsOption['template_main'] = 'chess_games.html';
 include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
 
 #var_dump($_REQUEST);#*#DEBUG#
+
 chess_get_games();
 
-include_once XOOPS_ROOT_PATH.'/footer.php';
+include_once XOOPS_ROOT_PATH . '/footer.php';
+/**#@-*/
 
-// -----------------------
+/**
+ * Generate lists of games and challenges.
+ */
 function chess_get_games()
 {
 	global $xoopsDB, $xoopsTpl;
 
-	$member_handler =& xoops_gethandler('member');
+// ----------
+// user input
+// ----------
+
+	// offset of first row of challenges table to display (default to 0)
+	$cstart = intval(isset($_POST['cstart']) ? $_POST['cstart'] : @$_GET['cstart']);
+	// offset of first row of games table to display (default to 0)
+	$gstart = intval(isset($_POST['gstart']) ? $_POST['gstart'] : @$_GET['gstart']);
+	// challenges display option
+	$cshow  = intval(isset($_POST['cshow'])  ? $_POST['cshow']  : @$_GET['cshow']);
+	// games display option 1
+	$gshow1 = intval(isset($_POST['gshow1']) ? $_POST['gshow1'] : @$_GET['gshow1']);
+	// games display option 2
+	$gshow2 = intval(isset($_POST['gshow2']) ? $_POST['gshow2'] : @$_GET['gshow2']);
+
+	// set show-options to default if undefined
+	if (!$cshow) {
+		$cshow = _CHESS_SHOW_CHALLENGES_BOTH;
+	}
+	if (!$gshow1) {
+		$gshow1 = _CHESS_SHOW_GAMES_BOTH;
+	}
+	if (!$gshow2) {
+		$gshow2 = _CHESS_SHOW_GAMES_UNRATED;
+	}
+
+	// get maximum number of items to display on a page, and constrain it to a reasonable value
+	$max_items_to_display = chess_moduleConfig('max_items');
+	$max_items_to_display = min(max($max_items_to_display, 1), 1000);
+
+	$xoopsTpl->assign('chess_date_format', _MEDIUMDATESTRING);
+
+	// user IDs that will require mapping to usernames
+	$userids = array();
+
+// -----
+// games
+// -----
+
+	// Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+	// and one with a limit clause to get the data for display on the current page.
+	// SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
 	$games_table = $xoopsDB->prefix('chess_games');
 
+	$where = 'white_uid != black_uid';
+	switch($gshow1) {
+		case 1:
+			$where .= " AND pgn_result = '*'";
+			break;
+		case 2:
+			$where .= " AND pgn_result != '*'";
+			break;
+	}
+	if ($gshow2 == 1) {
+		$where .= " AND is_rated = '1'";
+	}
+
+	$result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE $where");
+	list($num_games) = $xoopsDB->fetchRow($result);
+	$xoopsDB->freeRecordSet($result);
+
 	$result = $xoopsDB->query(trim("
-		SELECT game_id, fen_active_color, white_uid, black_uid, pgn_result, UNIX_TIMESTAMP(create_date) AS create_date,
-			UNIX_TIMESTAMP(start_date) AS start_date, UNIX_TIMESTAMP(last_date) AS last_date
-		FROM $games_table
-		ORDER BY last_date DESC, start_date DESC, create_date DESC
+		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
+			UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
+		FROM     $games_table
+		WHERE    $where
+		ORDER BY last_activity DESC
+		LIMIT    $gstart, $max_items_to_display
 	"));
 
 	$games = array();
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
-		$user_white     =& $member_handler->getUser($row['white_uid']);
-		$username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
-
-		$user_black     =& $member_handler->getUser($row['black_uid']);
-		$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
-
 		$games[] = array(
 			'game_id'          => $row['game_id'],
-			'username_white'   => $username_white,
-			'username_black'   => $username_black,
-			'create_date'      => $row['create_date'],
-			'start_date'       => $row['start_date'],
-			'last_date'        => $row['last_date'],
+			'white_uid'        => $row['white_uid'],
+			'black_uid'        => $row['black_uid'],
+			'last_activity'    => $row['last_activity'],
 			'fen_active_color' => $row['fen_active_color'],
 			'pgn_result'       => $row['pgn_result'],
+			'is_rated'         => $row['is_rated'],
 		);
+
+		// save user IDs that will require mapping to usernames
+		if ($row['white_uid']) {
+			$userids[$row['white_uid']] = 1;
+		}
+		if ($row['black_uid']) {
+			$userids[$row['black_uid']] = 1;
+		}
 	}
 
 	$xoopsDB->freeRecordSet($result);
 
-	$xoopsTpl->assign('chess_games', $games);
+	$games_pagenav = new XoopsPageNav($num_games, $max_items_to_display, $gstart, 'gstart', "cstart=$cstart&amp;cshow=$cshow&amp;gshow1=$gshow1&amp;gshow2=$gshow2");
+	$xoopsTpl->assign('chess_games_pagenav', $games_pagenav->renderNav());
+
+// ----------
+// challenges
+// ----------
+
+	// Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+	// and one with a limit clause to get the data for display on the current page.
+	// SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
 	$challenges_table = $xoopsDB->prefix('chess_challenges');
 
-	 $result = $xoopsDB->query(trim("
-		SELECT challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
-		FROM $challenges_table
+	switch($cshow) {
+		case _CHESS_SHOW_CHALLENGES_OPEN:
+			$where = "game_type = 'open'";
+			break;
+		case _CHESS_SHOW_CHALLENGES_USER:
+			$where = "game_type = 'user'";
+			break;
+		default:
+			$where = 1;
+			break;
+	}
+
+	$result = $xoopsDB->query("SELECT COUNT(*) FROM $challenges_table WHERE $where");
+	list($num_challenges) = $xoopsDB->fetchRow($result);
+	$xoopsDB->freeRecordSet($result);
+
+	$result = $xoopsDB->query(trim("
+		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
+		FROM     $challenges_table
+		WHERE    $where
 		ORDER BY create_date DESC
+		LIMIT    $cstart, $max_items_to_display
 	"));
 
 	$challenges = array();
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
-		$user_player1     =& $member_handler->getUser($row['player1_uid']);
-		$username_player1 =  is_object($user_player1) ? $user_player1->getVar('uname') : '?';
-
-		$user_player2     =& $member_handler->getUser($row['player2_uid']);
-		$username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '?';
-
 		$challenges[] = array(
-			'challenge_id'     => $row['challenge_id'],
-			'game_type'        => $row['game_type'],
-			'color_option'     => $row['color_option'],
-			'username_player1' => $username_player1,
-			'username_player2' => $username_player2,
-			'create_date'      => $row['create_date'],
+			'challenge_id' => $row['challenge_id'],
+			'game_type'    => $row['game_type'],
+			'color_option' => $row['color_option'],
+			'player1_uid'  => $row['player1_uid'],
+			'player2_uid'  => $row['player2_uid'],
+			'create_date'  => $row['create_date'],
+			'is_rated'     => $row['is_rated'],
 		);
+
+		// save user IDs that will require mapping to usernames
+		if ($row['player1_uid']) {
+			$userids[$row['player1_uid']] = 1;
+		}
+		if ($row['player2_uid']) {
+			$userids[$row['player2_uid']] = 1;
+		}
 	}
 
 	$xoopsDB->freeRecordSet($result);
 
+	$challenges_pagenav = new XoopsPageNav($num_challenges, $max_items_to_display, $cstart, 'cstart', "gstart=$gstart&amp;cshow=$cshow&amp;gshow1=$gshow1&amp;gshow2=$gshow2");
+	$xoopsTpl->assign('chess_challenges_pagenav', $challenges_pagenav->renderNav());
+
+// ---------
+// usernames
+// ---------
+
+	// get mapping of user IDs to usernames
+	$member_handler =& xoops_gethandler('member');
+	$criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+	$usernames      =  $member_handler->getUserList($criteria);
+
+	// add usernames to $games
+	foreach ($games as $k => $game) {
+		$games[$k]['username_white'] = isset($usernames[$game['white_uid']]) ? $usernames[$game['white_uid']] : '?';
+		$games[$k]['username_black'] = isset($usernames[$game['black_uid']]) ? $usernames[$game['black_uid']] : '?';
+	}
+
+	// add usernames to $challenges
+	foreach ($challenges as $k => $challenge) {
+		$challenges[$k]['username_player1'] = isset($usernames[$challenge['player1_uid']]) ? $usernames[$challenge['player1_uid']] : '?';
+		$challenges[$k]['username_player2'] = isset($usernames[$challenge['player2_uid']]) ? $usernames[$challenge['player2_uid']] : '?';
+	}
+
+	$xoopsTpl->assign('chess_games',      $games);
 	$xoopsTpl->assign('chess_challenges', $challenges);
 
-	$xoopsTpl->assign('chess_date_format', _MEDIUMDATESTRING);
+	$xoopsTpl->assign('chess_rating_system', chess_moduleConfig('rating_system'));
+
+// -----
+// forms
+// -----
+
+	// security token not needed for this form
+	$form1 = new XoopsThemeForm('', 'form1', 'index.php');
+	$form1->addElement(new XoopsFormButton('', 'submit', _MD_CHESS_SUBMIT_BUTTON, 'submit'));
+	$menu_cshow = new XoopsFormSelect('', 'cshow', $cshow, 1, false);
+	$menu_cshow->addOption(_CHESS_SHOW_CHALLENGES_OPEN, _MD_CHESS_SHOW_CHALLENGES_OPEN);
+	$menu_cshow->addOption(_CHESS_SHOW_CHALLENGES_USER, _MD_CHESS_SHOW_CHALLENGES_USER);
+	$menu_cshow->addOption(_CHESS_SHOW_CHALLENGES_BOTH, _MD_CHESS_SHOW_CHALLENGES_BOTH);
+	$form1->addElement($menu_cshow);
+	$form1->addElement(new XoopsFormHidden('gstart', $gstart));
+	$form1->addElement(new XoopsFormHidden('gshow1', $gshow1));
+	$form1->addElement(new XoopsFormHidden('gshow2', $gshow2));
+	$form1->assign($xoopsTpl);
+
+	// security token not needed for this form
+	$form2 = new XoopsThemeForm('', 'form2', 'index.php');
+	$form2->addElement(new XoopsFormButton('', 'submit', _MD_CHESS_SUBMIT_BUTTON, 'submit'));
+	$menu_gshow1 = new XoopsFormSelect('', 'gshow1', $gshow1, 1, false);
+	$menu_gshow1->addOption(_CHESS_SHOW_GAMES_INPLAY,    _MD_CHESS_SHOW_GAMES_INPLAY);
+	$menu_gshow1->addOption(_CHESS_SHOW_GAMES_CONCLUDED, _MD_CHESS_SHOW_GAMES_CONCLUDED);
+	$menu_gshow1->addOption(_CHESS_SHOW_GAMES_BOTH,      _MD_CHESS_SHOW_GAMES_BOTH);
+	$form2->addElement($menu_gshow1);
+	$menu_gshow2 = new XoopsFormSelect('', 'gshow2', $gshow2, 1, false);
+	$menu_gshow2->addOption(_CHESS_SHOW_GAMES_RATED,   _MD_CHESS_SHOW_GAMES_RATED);
+	$menu_gshow2->addOption(_CHESS_SHOW_GAMES_UNRATED, _MD_CHESS_SHOW_GAMES_UNRATED);
+	$form2->addElement($menu_gshow2);
+	$form2->addElement(new XoopsFormHidden('cstart', $cstart));
+	$form2->addElement(new XoopsFormHidden('cshow',  $cshow));
+	$form2->assign($xoopsTpl);
+
+#*#DEBUG# - trying something unrelated to the chess module
+/***
+	$config_handler =& xoops_gethandler('config');
+	$clist = $config_handler->getConfigList(18);
+	var_dump('clist', $clist);
+***/
 }
 
 ?>

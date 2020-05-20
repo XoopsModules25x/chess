@@ -24,6 +24,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+/**
+ * Admin popup menu
+ *
+ * @package chess
+ * @subpackage admin
+ */
+
 $adminmenu[1]['title'] = _MI_CHESS_ADMENU1;
 $adminmenu[1]['link']  = 'admin/index.php?op=suspended_games';
 

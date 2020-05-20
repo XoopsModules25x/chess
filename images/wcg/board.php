@@ -1,4 +1,12 @@
-<?
+<?php
+
+/**
+ * Credits for images
+ *
+ * @package chess
+ * @subpackage game
+ */
+
 $t_credits = "The chessmen graphics were taken from 
 <A class=\"sublink\" href=\"http://www.tommasovitale.it/my/wcg/\">
 WCG</A> with kind permission of Tommaso Vitale.";

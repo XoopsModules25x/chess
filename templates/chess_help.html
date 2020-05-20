@@ -48,13 +48,33 @@
 <{$smarty.const._HE_CHESS_CREATE_040}>
 </td></tr>
 
-<tr><td class="odd">
-<{$smarty.const._HE_CHESS_CREATE_050}>
-</td></tr>
+<{if $chess_rating_system != 'none' and $chess_allow_unrated_games}>
+	<tr><td class="odd">
+	<{$smarty.const._HE_CHESS_CREATE_050}>
+	</td></tr>
+<{/if}>
 
 <tr><td class="odd">
 <{$smarty.const._HE_CHESS_CREATE_060}>
 </td></tr>
+
+<tr><td class="odd">
+<{$smarty.const._HE_CHESS_CREATE_070}>
+</td></tr>
+
+<{* -------------------- *}>
+
+<{if $chess_rating_system != 'none'}>
+
+	<tr><td class="head">
+	<{$smarty.const._HE_CHESS_RATINGS_TITLE}>
+	</td></tr>
+	
+	<tr><td class="odd">
+	<{$chess_rating_system_des}>
+	</td></tr>
+
+<{/if}>
 
 <{* -------------------- *}>
 

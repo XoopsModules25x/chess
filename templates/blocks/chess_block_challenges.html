@@ -20,7 +20,7 @@
 			<tr class="<{$class}>">
 				<td class="<{$class}>"><a href="<{$smarty.const.XOOPS_URL}>/modules/chess/create.php?challenge_id=<{$challenge.challenge_id}>"><{$gametype}></a></td>
 				<td class="<{$class}>"><{$challenge.username_player1}></td>
-				<td class="<{$class}>"><{$challenge.create_date|xoops_format_date:$block.date_format}></td>
+				<td class="<{$class}>"><{$block.date_format|date:$challenge.create_date}></td>
 			</tr>
 		<{/foreach}>
 

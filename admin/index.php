@@ -24,12 +24,31 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+/**
+ * Admin page
+ *
+ * @package chess
+ * @subpackage admin
+ */
+
+/**#@+
+ */
 require_once 'admin_header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+
+// user input
+$op    = chess_sanitize(@$_GET['op']);
+$start = intval(@$_GET['start']); // offset of first row of table to display (default to 0)
+
+// get maximum number of items to display on a page, and constrain it to a reasonable value
+$max_items_to_display = chess_moduleConfig('max_items');
+$max_items_to_display = min(max($max_items_to_display, 1), 1000);
 
 xoops_cp_header();
 
-switch (@$_GET['op']) {
+switch ($op) {
 	case 'suspended_games':
 		chess_admin_suspended_games();
 		break;
@@ -45,8 +64,11 @@ switch (@$_GET['op']) {
 }
 
 xoops_cp_footer();
+/**#@-*/
 
-// ------------------------
+/**
+ * Admin menu
+ */
 function chess_admin_menu()
 {
 	global $xoopsModule;
@@ -74,20 +96,35 @@ echo "
 ";
 }
 
-// -----------------------------------
+/**
+ * Display suspended games
+ */
 function chess_admin_suspended_games()
 {
-	global $xoopsDB, $xoopsModule;
+	global $start, $max_items_to_display, $op, $xoopsDB, $xoopsModule;
 
 	$member_handler =& xoops_gethandler('member');
 
+	// Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+	// and one with a limit clause to get the data for display on the current page.
+	// SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
+
 	$games_table = $xoopsDB->prefix('chess_games');
 
+	$result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE suspended != ''");
+	list($num_rows) = $xoopsDB->fetchRow($result);
+	$xoopsDB->freeRecordSet($result);
+
+	// Sort by date-suspended in ascending order, so that games that were suspended the earliest will be displayed
+	// at the top, and can more easily be arbitrated on a first-come first-serve basis.
+	// Note that the suspended column begins with the date-suspended in the format 'YYYY-MM-DD HH:MM:SS', so the sorting
+	// will work as desired.
 	$result = $xoopsDB->query(trim("
 		SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, suspended
 		FROM     $games_table
 		WHERE    suspended != ''
 		ORDER BY suspended
+		LIMIT    $start, $max_items_to_display
 	"));
 
 	if ($xoopsDB->getRowsNum($result) > 0) {
@@ -104,17 +141,29 @@ function chess_admin_suspended_games()
 
 			$date = $row['start_date'] ? date('Y.m.d', $row['start_date']) : 'not yet started';
 
-			$title_text = "Game #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white vs. $username_black&nbsp;&nbsp;&nbsp;($date)";
-			$form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/game.php?game_id={$row['game_id']}");
+			$title_text = _AM_CHESS_GAME. " #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white " ._AM_CHESS_VS. " $username_black&nbsp;&nbsp;&nbsp;($date)";
+			$form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/game.php?game_id={$row['game_id']}", 'post', true);
 
 			list($date, $suspender_uid, $type, $explain) = explode('|', $row['suspended']);
 
+			switch ($type) {
+				case 'arbiter_suspend':
+					$type_display = _AM_CHESS_SUSP_TYPE_ARBITER;
+					break;
+				case 'want_arbitration':
+					$type_display = _AM_CHESS_SUSP_TYPE_PLAYER;
+					break;
+				default:
+					$type_display = _AM_CHESS_ERROR;
+					break;
+			}
+
 			$suspender_user     =& $member_handler->getUser($suspender_uid);
-			$suspender_username =  is_object($suspender_user) ? $suspender_user->getVar('uname') : _AM_UNKNOWN_USER;
+			$suspender_username =  is_object($suspender_user) ? $suspender_user->getVar('uname') : _AM_CHESS_UNKNOWN_USER;
 
 			$form->addElement(new XoopsFormLabel(_AM_CHESS_WHEN_SUSPENDED    . ':', formatTimestamp(strtotime($date))));
 			$form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENDED_BY      . ':', $suspender_username));
-			$form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENSION_TYPE   . ':', $type));
+			$form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENSION_TYPE   . ':', $type_display));
 			$form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENSION_REASON . ':', $explain));
 
 			$form->addElement(new XoopsFormButton('', 'submit', _AM_CHESS_ARBITRATE_SUBMIT, 'submit'));
@@ -124,6 +173,9 @@ function chess_admin_suspended_games()
 			$form->display();
 		}
 
+		$pagenav = new XoopsPageNav($num_rows, $max_items_to_display, $start, 'start', "op=$op");
+		echo '<div align="center">' . $pagenav->renderNav() . "&nbsp;</div>\n";
+
 	} else {
 
 		echo '<h3>' ._AM_CHESS_NO_SUSPENDED_GAMES. "</h3>\n";
@@ -132,20 +184,31 @@ function chess_admin_suspended_games()
 	$xoopsDB->freeRecordSet($result);
 }
 
-// --------------------------------
+/**
+ * Display active games
+ */
 function chess_admin_active_games()
 {
-	global $xoopsDB, $xoopsModule;
+	global $start, $max_items_to_display, $op, $xoopsDB, $xoopsModule;
 
 	$member_handler =& xoops_gethandler('member');
 
+	// Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+	// and one with a limit clause to get the data for display on the current page.
+	// SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
+
 	$games_table = $xoopsDB->prefix('chess_games');
 
+	$result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE pgn_result = '*' and suspended = ''");
+	list($num_rows) = $xoopsDB->fetchRow($result);
+	$xoopsDB->freeRecordSet($result);
+
 	$result = $xoopsDB->query(trim("
-		SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
+		SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, GREATEST(create_date,start_date,last_date) AS most_recent_date
 		FROM     $games_table
 		WHERE    pgn_result = '*' and suspended = ''
-		ORDER BY last_date DESC, start_date DESC, create_date DESC
+		ORDER BY most_recent_date DESC
+		LIMIT    $start, $max_items_to_display
 	"));
 
 	if ($xoopsDB->getRowsNum($result) > 0) {
@@ -162,8 +225,8 @@ function chess_admin_active_games()
 
 			$date = $row['start_date'] ? date('Y.m.d', $row['start_date']) : 'not yet started';
 
-			$title_text = "Game #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white vs. $username_black&nbsp;&nbsp;&nbsp;($date)";
-			$form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/game.php?game_id={$row['game_id']}");
+			$title_text = _AM_CHESS_GAME. " #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white " ._AM_CHESS_VS. " $username_black&nbsp;&nbsp;&nbsp;($date)";
+			$form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/game.php?game_id={$row['game_id']}", 'post', true);
 
 			$form->addElement(new XoopsFormButton('', 'submit', _AM_CHESS_ARBITRATE_SUBMIT, 'submit'));
 
@@ -171,6 +234,9 @@ function chess_admin_active_games()
 
 			$form->display();
 		}
+
+		$pagenav = new XoopsPageNav($num_rows, $max_items_to_display, $start, 'start', "op=$op");
+		echo '<div align="center">' . $pagenav->renderNav() . "&nbsp;</div>\n";
 
 	} else {
 
@@ -180,24 +246,35 @@ function chess_admin_active_games()
 	$xoopsDB->freeRecordSet($result);
 }
 
-// --------------------------------
+/**
+ * Display challenges
+ */
 function chess_admin_challenges()
 {
-	global $xoopsDB, $xoopsModule;
+	global $start, $max_items_to_display, $op, $xoopsDB, $xoopsModule;
 
 	$member_handler =& xoops_gethandler('member');
 
-	echo '<h3>' ._AM_CHESS_CHALLENGES. "</h3>\n";
+	// Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+	// and one with a limit clause to get the data for display on the current page.
+	// SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
 	$challenges_table = $xoopsDB->prefix('chess_challenges');
 
+	$result = $xoopsDB->query("SELECT COUNT(*) FROM $challenges_table");
+	list($num_rows) = $xoopsDB->fetchRow($result);
+	$xoopsDB->freeRecordSet($result);
+
 	$result = $xoopsDB->query(trim("
-		SELECT challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
-		FROM $challenges_table
+		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
+		FROM     $challenges_table
 		ORDER BY create_date DESC
+		LIMIT    $start, $max_items_to_display
 	"));
 
 	if ($xoopsDB->getRowsNum($result) > 0) {
+
+		echo '<h3>' ._AM_CHESS_CHALLENGES. "</h3>\n";
 
 	 	while ($row = $xoopsDB->fetchArray($result)) {
 
@@ -209,8 +286,8 @@ function chess_admin_challenges()
 
 			$date = date('Y.m.d', $row['create_date']);
 
-			$title_text = "Challenge #{$row['challenge_id']}&nbsp;&nbsp;&nbsp;$username_player1 challenged: $username_player2&nbsp;&nbsp;&nbsp;(created $date)";
-			$form = new XoopsThemeForm($title_text, "challenge_{$row['challenge_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/create.php?challenge_id={$row['challenge_id']}");
+			$title_text = _AM_CHESS_CHALLENGE. " #{$row['challenge_id']}&nbsp;&nbsp;&nbsp;$username_player1 " ._AM_CHESS_CHALLENGED. ": $username_player2&nbsp;&nbsp;&nbsp;(" ._AM_CHESS_CREATED. " $date)";
+			$form = new XoopsThemeForm($title_text, "challenge_{$row['challenge_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/create.php?challenge_id={$row['challenge_id']}", 'post', true);
 
 			$form->addElement(new XoopsFormButton('', 'submit', _AM_CHESS_ARBITRATE_SUBMIT, 'submit'));
 
@@ -218,6 +295,9 @@ function chess_admin_challenges()
 
 			$form->display();
 		}
+
+		$pagenav = new XoopsPageNav($num_rows, $max_items_to_display, $start, 'start', "op=$op");
+		echo '<div align="center">' . $pagenav->renderNav() . "&nbsp;</div>\n";
 
 	} else {
 
