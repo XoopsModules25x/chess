@@ -51,7 +51,7 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 function chess_game()
 {
 	// user input
-	$game_id           = intval(@$_GET['game_id']);
+	$game_id           = (int)@$_GET['game_id'];
 	$submit_move       = isset($_POST['submit_move']);
 	$submit_refresh    = isset($_POST['submit_refresh']);
 	$move              = chess_sanitize(trim(@$_POST['chessmove']), 'A-Za-z0-9=-');

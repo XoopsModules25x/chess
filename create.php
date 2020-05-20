@@ -56,7 +56,7 @@ $fen               = chess_moduleConfig('allow_setup') ? chess_sanitize(trim(@$_
 $coloroption       = chess_sanitize(@$_POST['coloroption']);
 $notify_accept     = isset($_POST['notify_accept']);
 $notify_move       = isset($_POST['notify_move']);
-$challenge_id      = intval(@$_REQUEST['challenge_id']);
+$challenge_id      = (int)@$_REQUEST['challenge_id'];
 $show_arbiter_ctrl = isset($_POST['show_arbiter_ctrl']);
 $submit_challenge1 = isset($_POST['submit_challenge1']);
 $submit_challenge2 = isset($_POST['submit_challenge2']);
@@ -67,7 +67,7 @@ $cancel_challenge3 = isset($_POST['cancel_challenge3']);
 $submit_accept     = isset($_POST['submit_accept']);
 $cancel_accept     = isset($_POST['cancel_accept']);
 $submit_delete     = isset($_POST['submit_delete']);
-$confirm_delete    = intval(@$_POST['confirm_delete']);
+$confirm_delete    = (int)@$_POST['confirm_delete'];
 
 $uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
 
