@@ -18,3 +18,15 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+// ------------------------------------------------------------------------- //
+// The CXR Rating System algorithm is used by permission of Chess Express    //
+// Ratings, Inc. <http://chess-express.com/>.                                //
+//                                                                           //
+// I, Dave Lerner <dave_l@xoops.org>, requested permission by email on       //
+// on 2004-02-07, and received an email granting permission the following    //
+// day from Russell Mollot <info@chess-express.com>.                         //
+//                                                                           //
+// In my request, I had stated that I would list Chess Express Ratings, Inc. //
+// and their web site address in the module's credits.                       //
+// ------------------------------------------------------------------------- //

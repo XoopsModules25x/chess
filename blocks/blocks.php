@@ -24,121 +24,139 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
-
-// ----------------------------------
 /**
- * @param $options
+ * Chess module blocks
+ *
+ * @package chess
+ * @subpackage blocks
+ *
+ * @see $modversion['blocks'] in xoops_version.php
+ */
+
+/**#@+
+ */
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
+require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
+/**#@-*/
+
+/**
+ * Generate Smarty template variables for Recent Games block.
+ *
+ * @param array $options
  * @return array
  */
 function b_chess_games_show($options)
 {
-	global $xoopsModule, $xoopsDB;
+    global $xoopsModule, $xoopsDB;
 
-	// don't display this block within owning module
-	if (is_object($xoopsModule) and 'chess' == $xoopsModule->getVar('dirname')) {
-		return [];
-	}
+    // don't display this block within owning module
+    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+        return array();
+    }
 
-	$block = [];
+    $table = $xoopsDB->prefix('chess_games');
 
-	$table = $xoopsDB->prefix('chess_games');
+    $limit = intval($options[0]); // sanitize with intval()
 
-	$limit = (int)$options[0]; // sanitize with intval()
+    $where = 'white_uid != black_uid';
+    switch ($options[1]) {
+        case 1:
+            $where .= " AND pgn_result = '*'";
+            break;
+        case 2:
+            $where .= " AND pgn_result != '*'";
+            break;
+    }
+    if ($options[2] == 1) {
+        $where .= " AND is_rated = '1'";
+    }
 
-	switch($options[1]) {
-		case 1:
-			$where = "pgn_result = '*'";
-			break;
-		case 2:
-			$where = "pgn_result != '*'";
-			break;
-		default:
-			$where = 1;
-			break;
-	}
-
-	$result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(trim("
 		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, UNIX_TIMESTAMP(create_date) AS create_date,
-		         UNIX_TIMESTAMP(start_date) AS start_date, UNIX_TIMESTAMP(last_date) AS last_date
+		         UNIX_TIMESTAMP(start_date) AS start_date, UNIX_TIMESTAMP(last_date) AS last_date,
+		         UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS most_recent_date
 		FROM     $table
 		WHERE    $where
-		ORDER BY last_date DESC, start_date DESC, create_date DESC
+		ORDER BY most_recent_date DESC
 		LIMIT    $limit
 	"));
 
-	$block          = [];
-	$block['games'] = [];
+    // user IDs that will require mapping to usernames
+    $userids = array();
 
-	$member_handler = xoops_getHandler('member');
+    $games = array();
 
-	// usort-function for sorting array in descending order of 'date' value
-	$cmp_func = create_function('$a,$b', "return (\$a['date'] == \$b['date'] ? 0 : (\$a['date'] < \$b['date'] ? 1 : -1));"); 
+    while ($row = $xoopsDB->fetchArray($result)) {
+        $games[] = array(
+            'game_id'          => $row['game_id'],
+            'white_uid'        => $row['white_uid'],
+            'black_uid'        => $row['black_uid'],
+            'date'             => $row['most_recent_date'],
+            'fen_active_color' => $row['fen_active_color'],
+            'pgn_result'       => $row['pgn_result'],
+        );
 
- 	while ($row = $xoopsDB->fetchArray($result)) {
+        // save user IDs that will require mapping to usernames
+        if ($row['white_uid']) {
+            $userids[$row['white_uid']] = 1;
+        }
+        if ($row['black_uid']) {
+            $userids[$row['black_uid']] = 1;
+        }
+    }
 
-		$user_white     = $member_handler->getUser($row['white_uid']);
-		$username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
+    $xoopsDB->freeRecordSet($result);
 
-		$user_black     = $member_handler->getUser($row['black_uid']);
-		$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
+    // get mapping of user IDs to usernames
+    $member_handler =& xoops_gethandler('member');
+    $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+    $usernames      =  $member_handler->getUserList($criteria);
 
-		$date = max($row['create_date'], $row['start_date'], $row['last_date']);
+    // add usernames to $games
+    foreach ($games as $k => $game) {
+        $games[$k]['username_white'] = isset($usernames[$game['white_uid']]) ? $usernames[$game['white_uid']] : '?';
+        $games[$k]['username_black'] = isset($usernames[$game['black_uid']]) ? $usernames[$game['black_uid']] : '?';
+    }
 
-		$games[] = [
-			'game_id'          => $row['game_id'],
-			'username_white'   => $username_white,
-			'username_black'   => $username_black,
-			'date'             => $date,
-			'fen_active_color' => $row['fen_active_color'],
-			'pgn_result'       => $row['pgn_result'],
-        ];
+    $block['games'] = $games;
 
-	}
+    $block['date_format'] = _SHORTDATESTRING;
 
-	$xoopsDB->freeRecordSet($result);
-
-	// sorting $games in descending order of 'date' value
-	usort($games, $cmp_func);
-
-	$block['games'] = $games;
-
-	$block['date_format'] = _SHORTDATESTRING;
-
-	return $block;
+    return $block;
 }
 
-// ------------------------------------------
 /**
- * @param $options
+ * Generate Smarty template variables for Recent Challenges block.
+ *
+ * @param array $options
  * @return array
  */
 function b_chess_challenges_show($options)
 {
-	global $xoopsModule, $xoopsDB;
+    global $xoopsModule, $xoopsDB;
 
-	// don't display this block within owning module
-	if (is_object($xoopsModule) and 'chess' == $xoopsModule->getVar('dirname')) {
-		return [];
-	}
+    // don't display this block within owning module
+    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+        return array();
+    }
 
-	$table = $xoopsDB->prefix('chess_challenges');
+    $table = $xoopsDB->prefix('chess_challenges');
 
-	$limit = (int)$options[0]; // sanitize with intval()
+    $limit = intval($options[0]); // sanitize with intval()
 
-	switch($options[1]) {
-		case 1:
-			$where = "game_type = 'open'";
-			break;
-		case 2:
-			$where = "game_type = 'user'";
-			break;
-		default:
-			$where = 1;
-			break;
-	}
+    switch ($options[1]) {
+        case 1:
+            $where = "game_type = 'open'";
+            break;
+        case 2:
+            $where = "game_type = 'user'";
+            break;
+        default:
+            $where = 1;
+            break;
+    }
 
-	$result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(trim("
 		SELECT   challenge_id, game_type, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
 		FROM     $table
 		WHERE    $where
@@ -146,77 +164,210 @@ function b_chess_challenges_show($options)
 		LIMIT    $limit
 	"));
 
-	$block               = [];
-	$block['challenges'] = [];
+    // user IDs that will require mapping to usernames
+    $userids = array();
 
-	$member_handler = xoops_getHandler('member');
+    $challenges = array();
 
- 	while ($row = $xoopsDB->fetchArray($result)) {
+    while ($row = $xoopsDB->fetchArray($result)) {
+        $challenges[] = array(
+            'challenge_id' => $row['challenge_id'],
+            'game_type'    => $row['game_type'],
+            'player1_uid'  => $row['player1_uid'],
+            'player2_uid'  => $row['player2_uid'],
+            'create_date'  => $row['create_date'],
+        );
 
-		$user_player1     = $member_handler->getUser($row['player1_uid']);
-		$username_player1 =  is_object($user_player1) ? $user_player1->getVar('uname') : '?';
+        // save user IDs that will require mapping to usernames
+        if ($row['player1_uid']) {
+            $userids[$row['player1_uid']] = 1;
+        }
+        if ($row['player2_uid']) {
+            $userids[$row['player2_uid']] = 1;
+        }
+    }
 
-		$user_player2     = $member_handler->getUser($row['player2_uid']);
-		$username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '?';
+    $xoopsDB->freeRecordSet($result);
 
-		$block['challenges'][] = [
-			'challenge_id'     => $row['challenge_id'],
-			'game_type'        => $row['game_type'],
-			'username_player1' => $username_player1,
-			'username_player2' => $username_player2,
-			'create_date'      => $row['create_date'],
-        ];
-	}
+    // get mapping of user IDs to usernames
+    $member_handler =& xoops_gethandler('member');
+    $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+    $usernames      =  $member_handler->getUserList($criteria);
 
-	$xoopsDB->freeRecordSet($result);
+    // add usernames to $challenges
+    foreach ($challenges as $k => $challenge) {
+        $challenges[$k]['username_player1'] = isset($usernames[$challenge['player1_uid']]) ? $usernames[$challenge['player1_uid']] : '?';
+        $challenges[$k]['username_player2'] = isset($usernames[$challenge['player2_uid']]) ? $usernames[$challenge['player2_uid']] : '?';
+    }
 
-	$block['date_format'] = _SHORTDATESTRING;
+    $block['challenges'] = $challenges;
 
-	return $block;
+    $block['date_format'] = _SHORTDATESTRING;
+
+    return $block;
 }
 
-// -----------------------------------
 /**
- * @param $options
+ * Generate Smarty template variables for Highest-rated Players block.
+ *
+ * @param array $options
+ * @return array
+ */
+function b_chess_players_show($options)
+{
+    global $xoopsModule, $xoopsDB;
+
+    // don't display this block within owning module
+    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+        return array();
+    }
+
+    require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
+
+    $module_handler =& xoops_gethandler('module');
+    $module         =& $module_handler->getByDirname('chess');
+    $config_handler =& xoops_gethandler('config');
+    $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+    $block['rating_system']     = $moduleConfig['rating_system'];
+    $block['provisional_games'] = chess_ratings_num_provisional_games();
+
+    // if ratings disabled, nothing else to do
+    if ($moduleConfig['rating_system'] == 'none') {
+        return $block;
+    }
+
+    $table = $xoopsDB->prefix('chess_ratings');
+
+    $limit = intval($options[0]); // sanitize with intval()
+
+    switch ($options[1]) {
+        case 1:
+            $block['show_provisional_ratings'] = false;
+            $where = "(games_won+games_lost+games_drawn) >= '{$block['provisional_games']}'";
+            break;
+        case 2:
+        default:
+            $block['show_provisional_ratings'] = true;
+            $where = 1;
+            break;
+    }
+
+    $result = $xoopsDB->query(trim("
+		SELECT   player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
+		FROM     $table
+		WHERE    $where
+		ORDER BY rating DESC, player_uid ASC
+		LIMIT    $limit
+	"));
+
+    // user IDs that will require mapping to usernames
+    $userids = array();
+
+    $players = array();
+
+    while ($row = $xoopsDB->fetchArray($result)) {
+        $players[] = array(
+            'player_uid'   => $row['player_uid'],
+            'rating'       => $row['rating'],
+            'games_played' => $row['games_played'],
+        );
+
+        // save user IDs that will require mapping to usernames
+        if ($row['player_uid']) {
+            $userids[$row['player_uid']] = 1;
+        }
+    }
+
+    $xoopsDB->freeRecordSet($result);
+
+    // get mapping of user IDs to usernames
+    if (!empty($userids)) {
+        $member_handler =& xoops_gethandler('member');
+        $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+        $usernames      =  $member_handler->getUserList($criteria);
+    }
+
+    // add usernames to $players
+    foreach ($players as $k => $player) {
+        $players[$k]['player_uname'] = isset($usernames[$player['player_uid']]) ? $usernames[$player['player_uid']] : '?';
+    }
+
+    $block['players'] = $players;
+
+    return $block;
+}
+
+/**
+ * Generate HTML form fragment for editing settings of Recent Games block.
+ *
+ * @param array $options
  * @return string
  */
 function b_chess_games_edit($options)
 {
-	$show_inplay    = 1 == $options[1] ? "checked='checked'" : '';
-	$show_concluded = 2 == $options[1] ? "checked='checked'" : '';
-	$show_both      = 3 == $options[1] ? "checked='checked'" : '';
+    $show_inplay     = $options[1] == 1 ? "checked='checked'" : '';
+    $show_concluded  = $options[1] == 2 ? "checked='checked'" : '';
+    $show_both       = $options[1] == 3 ? "checked='checked'" : '';
 
-	$form = '
-		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
+    $show_rated_only = $options[2] == 1 ? "checked='checked'" : '';
+    $show_unrated    = $options[2] == 2 ? "checked='checked'" : '';
+
+    $form = "
+		"._MB_CHESS_NUM_GAMES.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
 		<br />
-		<input type='radio' name='options[1]' value='1' $show_inplay    /> " . _MB_CHESS_SHOW_GAMES_INPLAY . "
-		<input type='radio' name='options[1]' value='2' $show_concluded /> " . _MB_CHESS_SHOW_GAMES_CONCLUDED . "
-		<input type='radio' name='options[1]' value='3' $show_both      /> " . _MB_CHESS_SHOW_GAMES_BOTH . '
-	';
+		<br />
+		<input type='radio' name='options[1]' value='1' $show_inplay     /> "._MB_CHESS_SHOW_GAMES_INPLAY."
+		<input type='radio' name='options[1]' value='2' $show_concluded  /> "._MB_CHESS_SHOW_GAMES_CONCLUDED."
+		<input type='radio' name='options[1]' value='3' $show_both       /> "._MB_CHESS_SHOW_GAMES_BOTH."
+		<br />
+		<br />
+		<input type='radio' name='options[2]' value='1' $show_rated_only /> "._MB_CHESS_SHOW_GAMES_RATED."
+		<input type='radio' name='options[2]' value='2' $show_unrated    /> "._MB_CHESS_SHOW_GAMES_UNRATED."
+	";
 
-	return $form;
+    return $form;
 }
 
-// ------------------------------------------
 /**
- * @param $options
+ * Generate HTML form fragment for editing settings of Recent Challenges block.
+ *
+ * @param array $options
  * @return string
  */
 function b_chess_challenges_edit($options)
 {
-	$show_open = 1 == $options[1] ? "checked='checked'" : '';
-	$show_user = 2 == $options[1] ? "checked='checked'" : '';
-	$show_both = 3 == $options[1] ? "checked='checked'" : '';
+    $show_open = $options[1] == 1 ? "checked='checked'" : '';
+    $show_user = $options[1] == 2 ? "checked='checked'" : '';
+    $show_both = $options[1] == 3 ? "checked='checked'" : '';
 
-	$form = '
-		' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
+    $form = "
+		"._MB_CHESS_NUM_CHALLENGES.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
 		<br />
-		<input type='radio' name='options[1]' value='1' $show_open /> " . _MB_CHESS_SHOW_CHALLENGES_OPEN . "
-		<input type='radio' name='options[1]' value='2' $show_user /> " . _MB_CHESS_SHOW_CHALLENGES_USER . "
-		<input type='radio' name='options[1]' value='3' $show_both /> " . _MB_CHESS_SHOW_CHALLENGES_BOTH . '
-	';
+		<input type='radio' name='options[1]' value='1' $show_open /> "._MB_CHESS_SHOW_CHALLENGES_OPEN."
+		<input type='radio' name='options[1]' value='2' $show_user /> "._MB_CHESS_SHOW_CHALLENGES_USER."
+		<input type='radio' name='options[1]' value='3' $show_both /> "._MB_CHESS_SHOW_CHALLENGES_BOTH."
+	";
 
-	return $form;
+    return $form;
 }
 
-?>
+/**
+ * Generate HTML form fragment for editing settings of Highest-rated Players block.
+ *
+ * @param array $options
+ * @return string
+ */
+function b_chess_players_edit($options)
+{
+    $show_nonprovisional = $options[1] == 1 ? "checked='checked'" : '';
+    $show_all            = $options[1] == 2 ? "checked='checked'" : '';
+
+    $form = "
+		"._MB_CHESS_NUM_PLAYERS.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3' />
+		<br />
+		<input type='radio' name='options[1]' value='1' $show_nonprovisional /> "._MB_CHESS_SHOW_NONPROVISIONAL."
+		<input type='radio' name='options[1]' value='2' $show_all            /> "._MB_CHESS_SHOW_ALL_RATINGS."
+	";
+
+    return $form;
+}

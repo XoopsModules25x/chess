@@ -15,15 +15,15 @@
  *       (not provided) - generate Javascript
  *
  * Examples:
- * 
+ *
  *    (These examples assume ldelim is "{" and rdelim is "}".)
- * 
+ *
  *    Formatted date using specified timestamp, with Javascript generated:
  *       {'1076029235'|xoops_format_date:'Y/n/j G:i'}
  *
  *    Formatted date using current time, with Javascript generated:
  *       {$smarty.now|xoops_format_date:'Y/n/j G:i'}
- * 
+ *
  *    Formatted date using specified timestamp, with no Javascript generated:
  *       {'1076029235'|xoops_format_date:'Y/n/j G:i:'nojavascript'}
  *
@@ -39,64 +39,60 @@
  */
 function smarty_modifier_xoops_format_date($timestamp, $format, $nojavascript=null)
 {
-	static $javascript_include_generated = false;
+    static $javascript_include_generated = false;
 
-	if (!isset($timestamp)) {
-		trigger_error("modifier xoops_format_date: missing 'timestamp' operand");
-		return;
-	}
+    if (!isset($timestamp)) {
+        trigger_error("modifier xoops_format_date: missing 'timestamp' operand");
+        return;
+    }
 
-	if (!isset($format)) {
-		trigger_error("modifier xoops_format_date: missing 'format' parameter");
-		return;
-	}
+    if (!isset($format)) {
+        trigger_error("modifier xoops_format_date: missing 'format' parameter");
+        return;
+    }
 
-	$use_javascript = true;
-	if (isset($nojavascript)) {
-		if ('nojavascript' == strtolower($nojavascript)) {
-			$use_javascript = false;
-		} else {
-			trigger_error("modifier xoops_format_date: 'nojavascript' parameter is '$nojavascript', expecting 'nojavascript'");
-			return;
-		}
-	}
+    $use_javascript = true;
+    if (isset($nojavascript)) {
+        if ('nojavascript' == strtolower($nojavascript)) {
+            $use_javascript = false;
+        } else {
+            trigger_error("modifier xoops_format_date: 'nojavascript' parameter is '$nojavascript', expecting 'nojavascript'");
+            return;
+        }
+    }
 
-	// PHP-formatted date
-	#$pdate = 'P' . date($format, $timestamp); #*#DEBUG# - 'P' only for debugging purposes
-	$pdate = date($format, $timestamp);
+    // PHP-formatted date
+    #$pdate = 'P' . date($format, $timestamp); #*#DEBUG# - 'P' only for debugging purposes
+    $pdate = date($format, $timestamp);
 
-	$rtn = '';
+    $rtn = '';
 
-	if ($use_javascript) {
-		if (!$javascript_include_generated) {
-			$file = XOOPS_URL . '/include/phpdate.js';
-			$rtn .= "<script type='text/javascript' src='$file'></script>";
-			$javascript_include_generated = true;
-		}
-	}
+    if ($use_javascript) {
+        if (!$javascript_include_generated) {
+            $file = XOOPS_URL . '/include/phpdate.js';
+            $rtn .= "<script type='text/javascript' src='$file'></script>";
+            $javascript_include_generated = true;
+        }
+    }
 
-	if ($use_javascript) {
+    if ($use_javascript) {
 
-		// backslashes have to be encoded (replaced with ASCII code) for Javascript
-		$format_encoded = str_replace('\\', '\\x' . dechex(ord('\\')), $format);
+        // backslashes have to be encoded (replaced with ASCII code) for Javascript
+        $format_encoded = str_replace('\\', '\\x' . dechex(ord('\\')), $format);
 
-		// ampersands have to be encoded for XHTML compliancy
-		$format_encoded = str_replace('&', '\x' . dechex(ord('&')), $format_encoded);
+        // ampersands have to be encoded for XHTML compliancy
+        $format_encoded = str_replace('&', '\x' . dechex(ord('&')), $format_encoded);
 
-		// Javascript-formatted date
-		#$jdate = "'J' + phpDate('$format_encoded', $timestamp)"; #*#DEBUG# - 'J' only for debugging purposes
-		$jdate = "phpDate('$format_encoded', $timestamp)";
+        // Javascript-formatted date
+        #$jdate = "'J' + phpDate('$format_encoded', $timestamp)"; #*#DEBUG# - 'J' only for debugging purposes
+        $jdate = "phpDate('$format_encoded', $timestamp)";
 
-		$rtn .= "<script type='text/javascript'>document.write($jdate);</script><noscript>$pdate</noscript>";
+        $rtn .= "<script type='text/javascript'>document.write($jdate);</script><noscript>$pdate</noscript>";
+    } else {
+        $rtn .= $pdate;
+    }
 
-	} else {
-
-		$rtn .= $pdate;
-	}
-
-	return $rtn;
+    return $rtn;
 }
 
 /* vim: set expandtab: */
-
-?>

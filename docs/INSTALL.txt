@@ -1,49 +1,83 @@
-Installing this module:
+----------------------
+Installing this module
+----------------------
 
-1) Extract all of the files into the appropriate location within the Xoops directory on your server. None of these files require write permission. Note that there are two files that are located outside of the modules subdirectory: class/smarty/plugins/modifier.xoops_format_date.php and include/phpdate.js. The subdirectory modules/chess/docs is only documentation, and need not be installed on your server.  
+1) BACKUP YOUR DATABASE.
 
-2) Use the Xoops Control Panel >> System Configuration >> Modules Administration page to install the Chess module.
+2) Extract all of the files into the appropriate location within the XOOPS directory on your server. None of these files require write permission. The subdirectory modules/chess/docs is only documentation; it should be retained for reference, but need not be installed on your server.  
 
-3) Use the Xoops Control Panel >> System Configuration >> Groups page to set the desired Module Admin rights, Module Access rights and Block Access Rights for this module.
+3a) Use the XOOPS modules administration page to install the Chess module.
 
-4) Use the Xoops Control Panel >> System Configuration >> Blocks Administration page to configure the blocks for this module.
+3b) If the following warning messages are displayed, they can be ignored:
+  Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
+  Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
 
-5) Use the Xoops Control Panel >> Chess Configuration page to review the settings for this module, and make any desired changes.
+3c) I RECOMMEND THAT YOU SAVE THE COMPLETE PAGE OF OUTPUT TO A TEXT FILE, IN CASE THERE ARE PROBLEMS THAT NEED TO BE DIAGNOSED.
 
-Upgrading from version 1.0.0:
+4) Use the XOOPS groups administration page to set the desired Module Admin rights, Module Access rights and Block Access Rights for this module.
 
-1) Uninstall the chess module, and then remove the directory modules/chess.
+5) Use the XOOPS blocks administration page to configure the blocks for this module.
 
-2) Perform the above instructions for "Installing this module".
+6) Use the XOOPS Chess module preferences page to review the settings for this module, and make any desired changes.
 
-Upgrading from version 1.0.1:
+7) Before any player rating data will be displayed, you will have to use Main Menu >> Chess >> Player Ratings >> Recalculate all player ratings >> Submit.
 
-1) Replace the following files with the ones contained within this distribution:
+----------------------------------
+Upgrading from version 1.0.0-1.0.1
+----------------------------------
 
-modules/chess/docs/INSTALL.txt
-modules/chess/docs/TODO.txt
-modules/chess/templates/chess_game_main.html
-modules/chess/xoops_version.php
+1) BACKUP YOUR DATABASE.
 
-2) Use the Xoops Control Panel >> System Configuration >> Modules Administration page to update the Chess module.
+2) Download version 1.0.5 and follow its instructions for upgrading to that version.
 
-3) Either delete any existing games, or repair them by removing any extraneous text from the beginning of the column chess_games.pgn_movetext.
+3) Proceed to "Upgrading from version 1.0.2-1.0.6" below.
 
-   Examples:
+----------------------------------
+Upgrading from version 1.0.2-1.0.6
+----------------------------------
 
-Incorrect: "* 1. b3 e6 2. Nf3 Nf6 *"
-Correct:   "1. b3 e6 2. Nf3 Nf6 *"
+1) BACKUP YOUR DATABASE.
 
-Incorrect: "1-0 {Black resigned.} 1. e3 c5 2. h4 1-0 {Black resigned.}
-Correct:   "1. e3 c5 2. h4 1-0 {Black resigned.}"
+2) Extract all of the files into the appropriate location within the XOOPS directory on your server. None of these files require write permission. The subdirectory modules/chess/docs is only documentation; it should be retained for reference, but need not be installed on your server.
 
-Upgrading from version 1.0.2 or 1.0.3:
+3a) Use the XOOPS modules administration page to update the Chess module.
 
-1) Replace the following files with the ones contained within this distribution:
+3b) If the following warning messages are displayed, they can be ignored:
+  Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
+  Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
 
-modules/chess/docs/INSTALL.txt
-modules/chess/docs/TODO.txt
-modules/chess/templates/chess_game_main.html
-modules/chess/xoops_version.php
+3c) I RECOMMEND THAT YOU SAVE THE COMPLETE PAGE OF OUTPUT TO A TEXT FILE, IN CASE THERE ARE PROBLEMS THAT NEED TO BE DIAGNOSED.
 
-2) Use the Xoops Control Panel >> System Configuration >> Modules Administration page to update the Chess module.
+4) Use the XOOPS groups administration page to set the desired Module Admin rights, Module Access rights and Block Access Rights for this module.
+
+5) Use the XOOPS blocks administration page to configure the blocks for this module.
+
+6) Use the XOOPS Chess module preferences page to review the settings for this module, and make any desired changes.
+
+7) Before any player rating data will be displayed, you will have to use Main Menu >> Chess >> Player Ratings >> Recalculate all player ratings >> Submit.
+
+--------------------------
+Adding a new rating system
+--------------------------
+
+1) Choose an internal name and a display name for the rating system.  The internal name should contain only lowercase alphanumeric characters and '_'.
+
+The following steps use an example in which the internal name is "fbar" and the display name is "Foobar System".
+The internal name is translated to all-uppercase "FBAR" when used in names of constants.
+
+2) Create a new file include/ratings_fbar.inc.php, with functions chess_ratings_adj_fbar and chess_ratings_num_provisional_games_fbar. The function chess_ratings_adj_fbar updates the players' ratings for a specified game ID, and the function chess_ratings_num_provisional_games_fbar returns the number of provisional games for the rating system.  Use the existing file include/ratings_cxr.inc.php or include/ratings_linear.inc.php as an example.
+
+3) Add a language constant in language/-/modinfo.php: define('_MI_CHESS_RATING_SYSTEM_FBAR', 'Foobar System');
+
+4) Modify the language constant _MI_CHESS_RATING_SYSTEM_DES in language/-/modinfo.php to include a brief description of the rating system.
+
+5) If applicable, modify the language constant _MI_CHESS_INITIAL_RATING_DES in language/*/modinfo.php.
+
+6) Add a language constant _HE_CHESS_RATINGS_FBAR in language/-/help.php that provides a brief description of the rating system.
+
+7) Add an option to $modversion['config'][5]['options'] in xoops_version.php: _MI_CHESS_RATING_SYSTEM_FBAR => 'fbar'
+
+8) Update the chess module from the XOOPS modules administration page.
+
+9) If you want to use the new rating system as the current rating system, use the XOOPS Chess module preferences page to select the new rating system, and use Main Menu >> Chess >> Player Ratings >> Recalculate all player ratings >> Submit to recalulate the existing ratings using the new rating system.
+

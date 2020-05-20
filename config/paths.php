@@ -20,4 +20,3 @@ return (object)[
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
 ];
-

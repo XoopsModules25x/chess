@@ -1,18 +1,72 @@
-********
-* TODO *
-********
+I use this document for keeping track of problems or other issues.
+It's mainly intended for my own use, but I'm including it in the module distribution in case anyone else is interested.
+
+**************
+* TODO - NOW *
+**************
+
+Upgrade Dave-L.com to XOOPS 2.2.3 and chess 1.0.7.
+
+Need French translation.
+ - After new version of module released, ask (someone) to do translation.
+
+Investigate whether additional table indices should be added, e.g. players' user IDs.  Review all existing queries.
+Candidates for new indices:
+ - chess_games (primary key = game_id)
+	suspended (first 19 bytes?) - admin/index.php, list suspended or active games
+	pgn_result - admin/index.php, list active games
+	create_date+start_date+last_date - admin/index.php, list active games
+	white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - blocks/blocks.php, list games
+	is_rated, white_uid, black_uid, pgn_result - include/functions.inc.php, ratings calc
+	white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - index.php, list games
+	white_uid, black_uid, is_rated, create_date+start_date+last_date - player_stats.php, list games
+ - chess_challenges (primary key = challenge_id)
+	create_date - admin/index.php, list challenges
+	game_type, create_date - blocks.php, list challenges
+	game_type, create_date - index.php, list challenges
+	player1_uid, player2_uid, is_rated, create_date - player_stats, list challenges
+ - chess_ratings (primary key = player_id)
+	games_won+games_lost+games_drawn, rating - blocks/blocks.php, list players
+	rating - player_stats.php, display player stats
+
+Investigate possible bug in 1.0.6 french translation: popup window to confirm draw fails to appear.
+ - Reference: <http://dev.xoops.org/modules/xfmod/forum/forum.php?thread_id=1690&forum_id=299>
+
+Check for temporary #*#DEBUG# or #*#TBD# code before releasing.
+
+****************
+* TODO - LATER *
+****************
+
+Feature requests summary
+ - time control
+ - move replay (2)
+ - conditional moves
+ - function to delete completed games <<< NEED THIS
+ - archive completed games
+
+Color of player names in th-tag not visible enough in some themes, e.g. default theme, since they're now in a-tags.
+ - relevant template is modules/chess/templates/chess_game_main.html
+
+Rating system
+ - allow initial rating to be player-specific?
+
+Add a new table chess_players
+ - for player confirm-move preferences, now stored in chess_games table
+
+Consider adding an "opening library" of setup positions. Reference: http://chess.about.com/library/openings/bloc6000.htm
+
+Check for calls to xoops_gethandler() that might be removed by using $xoopsModule or $xoopsModuleConfig, or might be avoided entirely if current module is not 'chess'.
+ - fixed in xoops_version.php, still need to check other files
+
+Add search function?
 
 Add user-friendlier way to specify setup position when creating a new game?
 
 Tournaments?
 
-Add a new table chess_players?
- - would be needed for keeping track of player ratings, if that were implemented.
- - could be used for player confirm-move preferences, now stored in chess_games table.
-
 Index page (lists of challenges and games)
- - need to paginate, to limit number of items listed.
- - need to be able to sort by different columns (Created, Started, Last move, etc.)
+ - be able to sort by different columns? (Created, Started, Last move, etc.)
 
 Rework game page
  - display opponent's last move
@@ -34,18 +88,154 @@ Check for inconsistencies in initial FEN setup:
 
 Do more testing of move-handling, including stalemate.
 
-If a move is made as part of a draw-claim, and the move is valid but the draw-claim isn't valid, the move doesn't get stored in the database.  The functions that check draw-claims need to return the move-result and the draw-claim-result separately.
- - fixed, not fully tested
-
-Message stating that game was drawn due to claim is not displayed, since that message is stored in $move_result, and that string is displayed as part of the move-form, which is not displayed if game is over.
- - fixed, not fully tested
-
-Allow player to delete game, if applicable. (?)
- - implemented, not fully tested
-
 ********
 * DONE *
 ********
+
+Tests for XOOPS 2.0.13.2:
+ 1a) Do fresh install of 2.0.13.2 on localhost.
+	- /tmp/20051119_151511_chess1
+ 1b) Add test users demo1 and demo2.
+   - /tmp/20051119_152952_chess1
+ 1c) Install chess 1.0.6.
+	- /tmp/20051119_154337_chess1
+ 1d) Add some data (import challenges and games tables from Dave-L.com). (chess106db.sql)
+	- /tmp/20051119_155056_chess1
+ 1e) Upgrade chess to 1.0.7.
+	- /tmp/20051119_170228_chess1
+ 1f) Do some testing.
+	- /tmp/20051119_170228_chess1
+ 2a) Do fresh install of 2.0.13.2 on localhost.
+	- /tmp/20051119_151511_chess1
+ 2b) Add test users demo1 and demo2.
+   - /tmp/20051119_152952_chess1
+ 2c) Install chess 1.0.7.
+	- /tmp/20051119_170749_chess1
+
+Repeat tests for XOOPS 2.2.3:
+ 1a) Do fresh install of 2.2.3 (xoops-2.2.3a-Final) on localhost.
+	- /tmp/20051113_203038_chess1
+ 1b) Add test users demo1 and demo2.
+   - /tmp/20051113_204513_chess1
+ 1c) Install chess 1.0.6.
+Notice [Xoops]: modifier xoops_format_date: missing 'timestamp' operand in file class/smarty/plugins/modifier.xoops_format_date.php line 39
+Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
+Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
+	- /tmp/20051113_210012_chess1
+ 1d) Add some data (import challenges and games tables from Dave-L.com).
+	- /tmp/20051113_211532_chess1
+ 1e) Upgrade chess to 1.0.7.
+Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
+Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
+	- /tmp/20051113_220239_chess1
+ 1f) Do some testing.
+	- /tmp/20051113_221225_chess1
+ 2a) Do fresh install of 2.2.3 (xoops-2.2.3a-Final) on localhost.
+	- /tmp/20051113_203038_chess1
+ 2b) Add test users demo1 and demo2.
+   - /tmp/20051113_204513_chess1
+ 2c) Install chess 1.0.7.
+Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
+Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
+	- /tmp/20051113_221909_chess1
+
+Need update script for database changes.
+
+Got rid of class/smarty/plugins/modifier.xoops_format_date.php and include/phpdate.js, at least temporarily.
+Changed files: 
+  templates/chess_player_stats.html
+  templates/chess_games.html
+  templates/chess_game_main.html
+  templates/chess_game_arbitrateform.html
+  templates/blocks/chess_block_games.html
+  templates/blocks/chess_block_challenges.html
+The quick and dirty method was to change:
+ <{TIMESTAMP|xoops_format_date:FORMAT}>
+to:
+<{FORMAT|date:TIMESTAMP}>
+
+Change rating_system value for 'None' (no rating system) from '0' to 'none', to avoid type-ambiguity issues.
+
+Feature requests summary
+ - separate display of completed games from in-progess games
+ - rating system (3)
+ - separate display of "my games" from other games
+
+Incompatibility with PHP5. include/chess.inc.php assigns error string to $this.
+ - Workaround: use "$this->Object =" instead of "$this =".
+ - Alternative solution: add property or method so that caller can check for ctor error.
+ - Fixed by adding property "error".
+
+Allow player to delete game, if applicable.
+ - implemented
+
+If a move is made as part of a draw-claim, and the move is valid but the draw-claim isn't valid, the move doesn't get stored in the database.  The functions that check draw-claims need to return the move-result and the draw-claim-result separately.
+ - fixed
+
+Message stating that game was drawn due to claim is not displayed, since that message is stored in $move_result, and that string is displayed as part of the move-form, which is not displayed if game is over.
+ - fixed
+
+Add tokens to forms.
+ - Use conditonal check that the XOOPS version supports them.
+
+Change inline documentation to comply with standard (phpdoc.org).
+Example 1:
+cd /opt/lampp/htdocs/xoops/modules/chess
+/opt/lampp/bin/phpdoc -d ./ -t /opt/lampp/htdocs/phpdoc/chess
+Example 2:
+cd /opt/lampp/htdocs/xoops/modules/chess
+/opt/lampp/bin/phpdoc -pp on -f game.php,class/chessgame.inc.php -t /opt/lampp/htdocs/phpdoc/chess
+Viewing:
+http://localhost/phpdoc/chess/
+
+Build phpDocumentor manual:
+# phpDocumentor distribution was previously extracted to /opt/lampp/phpdocumentor-1.3.0rc3/
+# /opt/lampp/bin/phpdoc is where I installed phpDocumentor
+# The following builds the manual in /opt/lampp/phpdocumentor-1.3.0rc3/Documentation/new/
+# The current user must have write access to /opt/lampp/phpdocumentor-1.3.0rc3/Documentation/
+# Manual is accessed from /opt/lampp/phpdocumentor-1.3.0rc3/Documentation/new/index.html
+cd /opt/lampp/phpdocumentor-1.3.0rc3
+/opt/lampp/bin/phpdoc -c user/makedocs.ini
+
+On List Games page, add menus for selecting games-in-play-only/concluded-games/both and rated-games-only/rated-and-unrated-games. (same as recent-games block options)
+On List Games page, add menus for selecting open-challenges/individual-challenges/both. (same as recent-challenges block options)
+
+On My Games page, add challenges. Include challenges offered by selected user and individual challenges offered to selected user.
+
+Rating system
+ - modular: ratings will be computed by a separate function that's easily modified.  
+ - ratings will be cached in a new table chess_players (player_id, rating_current, rating_initial)
+ - cached ratings will be recomputed for the two participants in a game when the game concludes, or for all players using a new admin function.
+ - new preference items:
+		rating_system: (select) rating system to use, includes choice "none" to disable ratings
+		provisional_games: (int) number of rated games that must be played before the normal rating system is used
+		initial_rating_default: (int)
+		unrated_game_player_choice: (yes/no) whether a challenger may create an unrated game
+ - when creating a challenge, the challenger may specify whether the game will be rated
+ - add columns chess_challenges.is_rated and chess_games.is_rated - enum('1','0')
+ - add display of all players' ratings (on main chess page and in new block)
+ - add block: Highest rated players
+ - need number of provisional games to be returned by the rating system (If a player has played fewer than this number of rated games, a different algorithm may be used to calculate the rating, and the rating will be indicated as provisional.)
+ - split off chess_ratings_adj_* functions into separate file/class
+ - add rating info to help file
+ - optimize chess_rating_adj so that it can be used for a sequence of games without having to do separate queries for each game; maybe the input could be a condition, such as "game_id='n'", or '1', instead of $gid.
+   - decided it was too complicated to handle both cases within one function, so added another function for calculating all ratings.
+ - rename "chess_players" table back to "chess_ratings"?
+ - on player stats page, add link to player's profile
+
+Change column chess_games.pgn_result from varchar(7) to enum('*','0-1','1-0','1/2-1/2') default '*'.
+
+Rename distribution file using Xoops standard naming convention, e.g.
+XOOPS2_mod_chess_1.0.5_dave_l.zip
+
+Displayed info for suspended games, on admin page and in arbiter controls on game page
+ - map internal suspension type to user-friendly text (using language strings), want_arbitration >> "Arbitration requested", arbiter_suspend >> "Suspended by arbiter"
+ - in arbiter controls, display suspension info in separate labelled fields, like on admin page.
+
+Index page (lists of challenges and games)
+ - need to paginate, to limit number of items listed.
+ - by default, sort by date of last activity
+ - also needed for admin pages that list games and challenges
 
 Possible bug:
 http://localhost/xoops/beta/modules/chess/game.php?game_id=23

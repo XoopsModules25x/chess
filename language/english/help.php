@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * Language strings for help page (en)
+ *
+ * @package chess
+ * @subpackage language
+ */
+
+/**#@+
+ * @ignore
+ */
+
 // Note that quotes within the strings need to be escaped.
 
 // --------------------
@@ -44,12 +55,28 @@ or you may choose a specific color.
 ');
 
 define('_HE_CHESS_CREATE_050', '
+	You may specify whether the game will be rated.
+');
+
+define('_HE_CHESS_CREATE_060', '
 A challenge game will be created as soon as another user accepts the challenge.
 A self-play game will be created immediately.
 ');
 
-define('_HE_CHESS_CREATE_060', '
+define('_HE_CHESS_CREATE_070', '
 A challenger may delete his challenge at any time prior to its acceptance.
+');
+
+// --------------------
+
+define('_HE_CHESS_RATINGS_TITLE', 'Player rating system');
+
+define('_HE_CHESS_RATINGS_CXR', '
+	CXR - An adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
+');
+
+define('_HE_CHESS_RATINGS_LINEAR', '
+	Linear - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
 ');
 
 // --------------------
@@ -221,22 +248,22 @@ As an alternative to using the mouse, you may enter moves by typing the notation
 define('_HE_CHESS_NOTATION_020', '
 The notation for a move is composed of four parts (and an optional fifth part for pawn promotion):
 ');
-define('_HE_CHESS_NOTATION_020_1',   'Piece');
-define('_HE_CHESS_NOTATION_020_1_A',   'K (King)');
-define('_HE_CHESS_NOTATION_020_1_B',   'Q (Queen)');
-define('_HE_CHESS_NOTATION_020_1_C',   'R (Rook)');
-define('_HE_CHESS_NOTATION_020_1_D',   'B (Bishop)');
-define('_HE_CHESS_NOTATION_020_1_E',   'N (Knight)');
-define('_HE_CHESS_NOTATION_020_1_F',   'P (Pawn)');
-define('_HE_CHESS_NOTATION_020_2',   'Initial tile');
-define('_HE_CHESS_NOTATION_020_2_A',   'Examples: e4, f2, h8');
-define('_HE_CHESS_NOTATION_020_3',   'Action');
-define('_HE_CHESS_NOTATION_020_3_A',   '- (move)');
-define('_HE_CHESS_NOTATION_020_3_B',   'x (capture)');
-define('_HE_CHESS_NOTATION_020_4',   'Destination tile');
-define('_HE_CHESS_NOTATION_020_4_A',   'Examples: a8, c6, g5');
-define('_HE_CHESS_NOTATION_020_5',   'Pawn promotion (when applicable)');
-define('_HE_CHESS_NOTATION_020_5_A',   'Possible values: =Q, =R, =B, =N');
+define('_HE_CHESS_NOTATION_020_1', 'Piece');
+define('_HE_CHESS_NOTATION_020_1_A', 'K (King)');
+define('_HE_CHESS_NOTATION_020_1_B', 'Q (Queen)');
+define('_HE_CHESS_NOTATION_020_1_C', 'R (Rook)');
+define('_HE_CHESS_NOTATION_020_1_D', 'B (Bishop)');
+define('_HE_CHESS_NOTATION_020_1_E', 'N (Knight)');
+define('_HE_CHESS_NOTATION_020_1_F', 'P (Pawn)');
+define('_HE_CHESS_NOTATION_020_2', 'Initial tile');
+define('_HE_CHESS_NOTATION_020_2_A', 'Examples: e4, f2, h8');
+define('_HE_CHESS_NOTATION_020_3', 'Action');
+define('_HE_CHESS_NOTATION_020_3_A', '- (move)');
+define('_HE_CHESS_NOTATION_020_3_B', 'x (capture)');
+define('_HE_CHESS_NOTATION_020_4', 'Destination tile');
+define('_HE_CHESS_NOTATION_020_4_A', 'Examples: a8, c6, g5');
+define('_HE_CHESS_NOTATION_020_5', 'Pawn promotion (when applicable)');
+define('_HE_CHESS_NOTATION_020_5_A', 'Possible values: =Q, =R, =B, =N');
 
 define('_HE_CHESS_NOTATION_030', '
 Examples of complete moves:
@@ -345,5 +372,4 @@ An arbiter may subscribe to be notified when a player requests arbitration in a 
 
 // --------------------
 
-?>
-
+/**#@-*/

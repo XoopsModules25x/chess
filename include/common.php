@@ -17,6 +17,7 @@
  * @author     XOOPS Development Team
  */
 use XoopsModules\Chess;
+
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));

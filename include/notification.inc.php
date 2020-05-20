@@ -1,5 +1,5 @@
 <?php
-// $Id: notification.inc.php,v 1.1 2004/01/29 15:28:30 buennagel Exp $
+// $Id$
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -26,56 +26,71 @@
 //  ------------------------------------------------------------------------ //
 
 /**
- * @param $category
- * @param $item_id
- * @return mixed
+ * Required file for supporting notification feature
+ *
+ * @package chess
+ * @subpackage notification
+ */
+
+/**#@+
+ */
+// Needed since module language constants are used here.
+// The language file gets automatically included within this module,
+// but not when viewing the notifications page via notifications.php.
+global $xoopsConfig;
+if (file_exists(XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php")) {
+    include_once XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php";
+} else {
+    include_once XOOPS_ROOT_PATH . '/modules/chess/language/english/main.php';
+}
+/**#@-*/
+
+/**
+ * Get name and URL of notification item.
+ *
+ * @param string $category  Notification category
+ * @param int    $item_id   ID of item for which notification is being made
+ * @return array  Array containing two elements:
+ *  - Name of item
+ *  - URL of item
  */
 function chess_notify_item_info($category, $item_id)
 {
-	$module_handler = xoops_getHandler('module');
-	$module         = $module_handler->getByDirname('chess');
+    if ($category == 'global') {
+        $item['name'] = 'Chess';
+        $item['url']  = XOOPS_URL . '/modules/chess/';
+        return $item;
+    } elseif ($category == 'game') {
+        global $xoopsDB;
 
-	if ('global' == $category) {
-		$item['name'] = 'Chess';
-		$item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/';
-		return $item;
-
-	} elseif ('game' == $category) {
-
-		global $xoopsDB;
-
-		$table    = $xoopsDB->prefix('chess_games');
-		$result = $xoopsDB->query(trim("
+        $table  = $xoopsDB->prefix('chess_games');
+        $result = $xoopsDB->query(trim("
 			SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
 			FROM   $table
 			WHERE  game_id = '$item_id'
 		"));
-		$gamedata = $xoopsDB->fetchArray($result);
-		$xoopsDB->freeRecordSet($result);
+        $gamedata = $xoopsDB->fetchArray($result);
+        $xoopsDB->freeRecordSet($result);
 
-	 	if (FALSE !== $gamedata) {
+        if ($gamedata !== false) {
 
-			$member_handler = xoops_getHandler('member');
+            // get mapping of user IDs to usernames
+            $criteria       =  new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
+            $member_handler =& xoops_gethandler('member');
+            $usernames      =  $member_handler->getUserList($criteria);
 
-			$user_white     = $member_handler->getUser($gamedata['white_uid']);
-			$username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
+            $username_white =  isset($usernames[$gamedata['white_uid']]) ? $usernames[$gamedata['white_uid']] : _MD_CHESS_NA;
+            $username_black =  isset($usernames[$gamedata['black_uid']]) ? $usernames[$gamedata['black_uid']] : _MD_CHESS_NA;
 
-			$user_black     = $member_handler->getUser($gamedata['black_uid']);
-			$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
+            $date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : _MD_CHESS_NA;
+        } else {
+            $username_white = _MD_CHESS_NA;
+            $username_black = _MD_CHESS_NA;
+            $date           = _MD_CHESS_NA;
+        }
 
-			$date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : 'not yet started';
-
-		} else {
-
-			$username_white = '(open)';
-			$username_black = '(open)';
-			$date           = 'not yet started';
-		}
-
-		$item['name'] = "$username_white vs. $username_black ($date)";
-		$item['url']  = XOOPS_URL . '/modules/' . $module->getVar('dirname') . '/game.php?game_id=' . $item_id;
-		return $item;
-	}
+        $item['name'] = "$username_white " ._MD_CHESS_LABEL_VS. " $username_black ($date)";
+        $item['url']  = XOOPS_URL . '/modules/chess/game.php?game_id=' . $item_id;
+        return $item;
+    }
 }
-
-?>

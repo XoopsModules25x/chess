@@ -48,4 +48,3 @@ $modversion['config'][] = [
     'valuetype'   => 'text',
     'default'     => 'uploads/' . $modversion['dirname'] . '/images',
 ];
-

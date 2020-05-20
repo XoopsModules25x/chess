@@ -1,5 +1,5 @@
 <?php
-// $Id: comment_new.php,v 1.1 2004/01/29 14:45:49 buennagel Exp $
+// $Id$
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
@@ -24,6 +24,16 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+
+/**
+ * Required file for supporting comments feature
+ *
+ * @package chess
+ * @subpackage comments
+ */
+
+/**#@+
+ */
 include '../../mainfile.php';
 include XOOPS_ROOT_PATH.'/include/comment_new.php';
-?>
+/**#@-*/

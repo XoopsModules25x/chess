@@ -31,5 +31,4 @@ use XoopsModules\Chess\Constants;
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
 }

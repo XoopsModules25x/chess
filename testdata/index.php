@@ -103,7 +103,7 @@ function saveSampleData()
 
     $languageFolder = __DIR__ . '/' . $language;
     if (!file_exists($languageFolder . '/')) {
-       Utility::createFolder($languageFolder . '/');
+        Utility::createFolder($languageFolder . '/');
     }
     $exportFolder = $languageFolder . '/Exports-' . date('Y-m-d-H-i-s') . '/';
     Utility::createFolder($exportFolder);
@@ -126,9 +126,7 @@ function exportSchema()
         //        $migrate->saveCurrentSchema();
         //
         //        redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS'));
-    }
-    catch (\Exception $e) {
+    } catch (\Exception $e) {
         exit(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR'));
     }
-
 }
