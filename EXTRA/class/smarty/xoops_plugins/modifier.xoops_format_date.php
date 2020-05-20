@@ -31,6 +31,12 @@
  * -------------------------------------------------------------
  */
 
+/**
+ * @param      $timestamp
+ * @param      $format
+ * @param null $nojavascript
+ * @return string|void
+ */
 function smarty_modifier_xoops_format_date($timestamp, $format, $nojavascript=null)
 {
 	static $javascript_include_generated = false;
