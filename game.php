@@ -520,7 +520,7 @@ function chess_is_draw_50_move_rule($gamedata)
 //   $draw_claim_valid - true if draw-claim is correct, otherwise false
 //   $draw_claim_text  - string describing draw-claim result
 
-function chess_is_draw_threefold_repetition(&$gamedata)
+function chess_is_draw_threefold_repetition($gamedata)
 {
 	#var_dump('gamedata', $gamedata);#*#DEBUG#
 
