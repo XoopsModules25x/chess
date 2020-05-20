@@ -172,10 +172,10 @@ class ChessGame
         // for now
         $this->browsing_mode  = 0;
 
-        if (is_array($param)) {
+        if (\is_array($param)) {
             $this->gamestate = $param;
             $this->error     = '';
-        } elseif (is_string($param) && !empty($param)) {
+        } elseif (\is_string($param) && !empty($param)) {
             $this->error = $this->init_gamestate($param);
         } else {
             $this->init_gamestate();
@@ -193,7 +193,7 @@ class ChessGame
      */
     public function move($move)
     {
-        empty($this->error) or trigger_error(_MD_CHESS_ERROR, E_USER_ERROR);
+        empty($this->error) or \trigger_error(_MD_CHESS_ERROR, \E_USER_ERROR);
         return $this->handleMove($move);
     }
 
@@ -204,7 +204,7 @@ class ChessGame
      */
     public function gamestate()
     {
-        empty($this->error) or trigger_error(_MD_CHESS_ERROR, E_USER_ERROR);
+        empty($this->error) or \trigger_error(_MD_CHESS_ERROR, \E_USER_ERROR);
         return $this->gamestate;
     }
 
@@ -235,11 +235,11 @@ class ChessGame
         }
 
         // check that data is not unreasonably short or long
-        if (strlen($fen) < 23 || strlen($fen) > 100) {
+        if (\strlen($fen) < 23 || \strlen($fen) > 100) {
             return _MD_CHESS_FENBAD_LENGTH; // invalid length
         }
 
-        $fen_data = explode(' ', $fen);
+        $fen_data = \explode(' ', $fen);
 
         if (6 != count($fen_data)) {
             return _MD_CHESS_FENBAD_FIELD_COUNT; // wrong number of fields
@@ -261,23 +261,23 @@ class ChessGame
             return _MD_CHESS_FENBAD_AC_INVALID; // active_color invalid
         }
         // Since fen_piece_placement_to_board() checked $fen for the correct number of fields above, $castling_availability is non-empty.
-        elseif ('-' != $this->gamestate['fen_castling_availability'] && !preg_match('/^K?Q?k?q?$/', $this->gamestate['fen_castling_availability'])) {
+        elseif ('-' != $this->gamestate['fen_castling_availability'] && !\preg_match('/^K?Q?k?q?$/', $this->gamestate['fen_castling_availability'])) {
             return _MD_CHESS_FENBAD_CA_INVALID; // castling_availability invalid
-        } elseif ('-' != $this->gamestate['fen_en_passant_target_square'] && !preg_match('/^[a-h][36]$/', $this->gamestate['fen_en_passant_target_square'])) {
+        } elseif ('-' != $this->gamestate['fen_en_passant_target_square'] && !\preg_match('/^[a-h][36]$/', $this->gamestate['fen_en_passant_target_square'])) {
             return _MD_CHESS_FENBAD_EP_INVALID; // en_passant_target_square invalid
-        } elseif (!preg_match('/^\d{0,4}$/', $this->gamestate['fen_halfmove_clock'])) {
+        } elseif (!\preg_match('/^\d{0,4}$/', $this->gamestate['fen_halfmove_clock'])) {
             return _MD_CHESS_FENBAD_HC_INVALID; // halfmove_clock invalid
-        } elseif (!preg_match('/^\d{0,4}$/', $this->gamestate['fen_fullmove_number']) || $this->gamestate['fen_fullmove_number'] < 1) {
+        } elseif (!\preg_match('/^\d{0,4}$/', $this->gamestate['fen_fullmove_number']) || $this->gamestate['fen_fullmove_number'] < 1) {
             return _MD_CHESS_FENBAD_FN_INVALID; // fullmove_number invalid
         } elseif ($this->insufficient_mating_material()) {
             return _MD_CHESS_FENBAD_MATERIAL; // insufficient mating material
         } elseif (('w' == $this->gamestate['fen_active_color'] && $this->kingIsUnderAttack('b', 'w'))
                 ||   ('b' == $this->gamestate['fen_active_color'] && $this->kingIsUnderAttack('w', 'b'))) {
             return _MD_CHESS_FENBAD_IN_CHECK; // player to move cannot have opponent in check
-        } elseif ((strstr($this->gamestate['fen_castling_availability'], 'K') && ('wK' != $this->board[4] || 'wR' != $this->board[7]))
-                ||   (strstr($this->gamestate['fen_castling_availability'], 'Q') && ('wK' != $this->board[4] || 'wR' != $this->board[0]))
-                ||   (strstr($this->gamestate['fen_castling_availability'], 'k') && ('bK' != $this->board[60] || 'bR' != $this->board[63]))
-                ||   (strstr($this->gamestate['fen_castling_availability'], 'q') && ('bK' != $this->board[60] || 'bR' != $this->board[56]))) {
+        } elseif ((\strstr($this->gamestate['fen_castling_availability'], 'K') && ('wK' != $this->board[4] || 'wR' != $this->board[7]))
+                ||   (\strstr($this->gamestate['fen_castling_availability'], 'Q') && ('wK' != $this->board[4] || 'wR' != $this->board[0]))
+                ||   (\strstr($this->gamestate['fen_castling_availability'], 'k') && ('bK' != $this->board[60] || 'bR' != $this->board[63]))
+                ||   (\strstr($this->gamestate['fen_castling_availability'], 'q') && ('bK' != $this->board[60] || 'bR' != $this->board[56]))) {
             return _MD_CHESS_FENBAD_CA_INCONSISTENT; // castling availability inconsistent with piece placement
         } elseif (('-' != $this->gamestate['fen_en_passant_target_square'] && 3 == $this->gamestate['fen_en_passant_target_square']{1} && 'b' != $this->gamestate['fen_active_color'])
                 ||   ('-' != $this->gamestate['fen_en_passant_target_square'] && 6 == $this->gamestate['fen_en_passant_target_square']{1} && 'w' != $this->gamestate['fen_active_color'])) {
@@ -369,10 +369,10 @@ class ChessGame
     {
         $change = 0;
 
-        $fy = floor($fig_pos / 8);
+        $fy = \floor($fig_pos / 8);
         $fx = $fig_pos % 8;
         $dx = $dest_pos % 8;
-        $dy = floor($dest_pos / 8);
+        $dy = \floor($dest_pos / 8);
 
         switch ($fig) {
 
@@ -393,7 +393,7 @@ class ChessGame
 
             /* queen */
             case 'Q':
-                if (abs($fx - $dx) == abs($fy - $dy)) {
+                if (\abs($fx - $dx) == \abs($fy - $dy)) {
                     $change =  ($dy < $fy) ? -8 : 8;
                     $change += ($dx < $fx) ? -1 : 1;
                 } elseif ($fx == $dx) {
@@ -428,9 +428,9 @@ class ChessGame
             return;
         }
         $result = 0;
-        $fy = floor($fig_pos/8);
+        $fy = \floor($fig_pos / 8);
         $fx = $fig_pos%8;
-        $dy = floor($dest_pos/8);
+        $dy = \floor($dest_pos / 8);
         $dx = $dest_pos%8;
         /* DEBUG:  echo "$fx,$fy --> $dx,$dy: "; */
         switch ($fig) {
@@ -445,7 +445,7 @@ class ChessGame
                 break;
             /* bishop */
             case 'B':
-                if (abs($fx-$dx) != abs($fy-$dy)) {
+                if (\abs($fx - $dx) != \abs($fy - $dy)) {
                     break;
                 }
                 if ($dy < $fy) {
@@ -486,10 +486,10 @@ class ChessGame
                 break;
             /* queen */
             case 'Q':
-                if (abs($fx-$dx) != abs($fy-$dy) && $fx!=$dx && $fy!=$dy) {
+                if (\abs($fx - $dx) != \abs($fy - $dy) && $fx != $dx && $fy != $dy) {
                     break;
                 }
-                if (abs($fx-$dx) == abs($fy-$dy)) {
+                if (\abs($fx - $dx) == \abs($fy - $dy)) {
                     if ($dy < $fy) {
                         $change = -8;
                     } else {
@@ -519,7 +519,7 @@ class ChessGame
                 break;
             /* king */
             case 'K':
-                if (abs($fx-$dx) > 1 || abs($fy-$dy) > 1) {
+                if (\abs($fx - $dx) > 1 || \abs($fy - $dy) > 1) {
                     break;
                 }
                 $kings = 0;
@@ -680,7 +680,7 @@ class ChessGame
             if ($this->board[$i]{0} == $player && 'K' == $this->board[$i]{1}) {
                 $king_pos = $i;
                 $king_x = $i % 8;
-                $king_y = floor($i/8);
+                $king_y = \floor($i / 8);
                 break;
             }
         }
@@ -768,8 +768,8 @@ class ChessGame
         /* if enemy is adjacent to king there is no
          * way either */
         $dest_x = $dest_pos % 8;
-        $dest_y = floor($dest_pos/8);
-        if (abs($dest_x-$king_x)<=1 && abs($dest_y-$king_y)<=1) {
+        $dest_y = \floor($dest_pos / 8);
+        if (\abs($dest_x - $king_x) <= 1 && \abs($dest_y - $king_y) <= 1) {
             return 1;
         }
 
@@ -932,7 +932,7 @@ class ChessGame
      */
     public function move_msg($text)
     {
-        $param = func_get_args();
+        $param = \func_get_args();
         #var_dump('move_msg, text', $text, 'param', $param);#*#DEBUG#
         return eval("return \"$text\";");
     }
@@ -970,11 +970,11 @@ class ChessGame
 
         $this->ac_move = $move;
 
-        if (strlen($move)>=6) {
+        if (\strlen($move) >= 6) {
             /* full move: a pawn requires a ? in the end
              * to automatically choose a queen on last line */
             if ('P' == $move[0]) {
-                if ($move[strlen($move)-1]<'A' || $move[strlen($move)-1]>'Z') {
+                if ($move[\strlen($move) - 1] < 'A' || $move[\strlen($move) - 1] > 'Z') {
                     $this->ac_move = "$move?";
                 }
             }
@@ -986,13 +986,13 @@ class ChessGame
          * when entering the last file. we split this character
          * to keep the autocompletion process the same. */
         $pawn_upg = '?';
-        if ($move[strlen($move)-1]>='A' && $move[strlen($move)-1]<='Z') {
-            $pawn_upg = $move[strlen($move)-1];
-            $move = substr($move, 0, strlen($move)-1);
+        if ($move[\strlen($move) - 1] >= 'A' && $move[\strlen($move) - 1] <= 'Z') {
+            $pawn_upg = $move[\strlen($move) - 1];
+            $move = \substr($move, 0, \strlen($move) - 1);
         }
         // remove trailing '=', if present
         if ('=' == $move{strlen($move) - 1}) {
-            $move = substr($move, 0, strlen($move)-1);
+            $move = \substr($move, 0, \strlen($move) - 1);
         }
         if ('P' == $pawn_upg || 'K' == $pawn_upg) {
             return _MD_CHESS_MOVE_PAWN_MAY_BECOME;
@@ -1013,7 +1013,7 @@ class ChessGame
                 } else {
                     $src_y  = $dest_y+1;
                 }
-                $this->ac_move = sprintf(
+                $this->ac_move = \sprintf(
                     'P%s%dx%s%d%s',
                     $src_x,
                     $src_y,
@@ -1023,7 +1023,7 @@ class ChessGame
                 );
                 return '';
             } elseif (2 == strlen($move)) {
-                $fig = sprintf('%sP', $player);
+                $fig = \sprintf('%sP', $player);
                 if ($move[1] >= '1' && $move[1] <= '8') {
                     /* pawn move */
                     $pos = $this->boardCoordToIndex($move);
@@ -1049,7 +1049,7 @@ class ChessGame
                     if ((isset($not_found) && $not_found) || '' == $pos) {
                         return $this->move_msg(_MD_CHESS_MOVE_CANNOT_FIND_PAWN, $player, $move[0]); // "cannot find $player pawn in column $move[0]"
                     } else {
-                        $this->ac_move = sprintf('P%s-%s%s', $pos, $move, $pawn_upg);
+                        $this->ac_move = \sprintf('P%s-%s%s', $pos, $move, $pawn_upg);
                         return '';
                     }
                 } else {
@@ -1060,7 +1060,7 @@ class ChessGame
                     } // "please use denotation [a-h]x[a-h][1-8] for pawn attacks (see help for more information)"
                     /* pawn attack must be only one pawn in column! */
                     $pawns = 0;
-                    $start = $this->boardCoordToIndex(sprintf('%s1', $move[0]));
+                    $start = $this->boardCoordToIndex(\sprintf('%s1', $move[0]));
                     if (64 == $start) {
                         return $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $move[0]);
                     } // "coordinate $move[0] is invalid"
@@ -1082,7 +1082,7 @@ class ChessGame
                         } else {
                             $dest_line = $pawn_line-1;
                         }
-                        $this->ac_move = sprintf(
+                        $this->ac_move = \sprintf(
                             'P%s%dx%s%d',
                             $move[0],
                             $pawn_line,
@@ -1095,8 +1095,8 @@ class ChessGame
             }
         } else {
             /* figure move */
-            $dest_coord = substr($move, strlen($move)-2, 2);
-            $action = $move[strlen($move)-3];
+            $dest_coord = \substr($move, \strlen($move) - 2, 2);
+            $action = $move[\strlen($move) - 3];
             if ('x' != $action) {
                 $action = '-';
             }
@@ -1110,9 +1110,9 @@ class ChessGame
                 if ($figure[0] == $move[0]) {
                     $fig_count++;
                     if (1 == $fig_count) {
-                        $pos1 = substr($figure, 1, 2);
+                        $pos1 = \substr($figure, 1, 2);
                     } else {
-                        $pos2 = substr($figure, 1, 2);
+                        $pos2 = \substr($figure, 1, 2);
                     }
                 }
             }
@@ -1120,7 +1120,7 @@ class ChessGame
                 return $this->move_msg(_MD_CHESS_MOVE_NO_FIGURE, $move[0], $this->getFullFigureName($move[0]));
             } // sprintf("there is no figure %s = %s", $move[0], $this->getFullFigureName($move[0]))
             elseif (1 == $fig_count) {
-                $this->ac_move = sprintf(
+                $this->ac_move = \sprintf(
                     '%s%s%s%s',
                     $move[0],
                     $pos1,
@@ -1178,7 +1178,7 @@ class ChessGame
                             return _MD_CHESS_MOVE_AMBIGUOUS;
                         } // "ambiguity is not properly resolved"
                         if ($move_fig1) {
-                            $this->ac_move = sprintf(
+                            $this->ac_move = \sprintf(
                                 '%s%s%s%s',
                                 $move[0],
                                 $pos1,
@@ -1186,7 +1186,7 @@ class ChessGame
                                 $dest_coord
                             );
                         } else {
-                            $this->ac_move = sprintf(
+                            $this->ac_move = \sprintf(
                                 '%s%s%s%s',
                                 $move[0],
                                 $pos2,
@@ -1198,7 +1198,7 @@ class ChessGame
                     }
                 } else {
                     if ($fig1_can_reach) {
-                        $this->ac_move = sprintf(
+                        $this->ac_move = \sprintf(
                             '%s%s%s%s',
                             $move[0],
                             $pos1,
@@ -1206,7 +1206,7 @@ class ChessGame
                             $dest_coord
                         );
                     } else {
-                        $this->ac_move = sprintf(
+                        $this->ac_move = \sprintf(
                             '%s%s%s%s',
                             $move[0],
                             $pos2,
@@ -1245,26 +1245,26 @@ class ChessGame
             /* skip P anycase. for attacks skip source digit
                and for moves skip source pos and - */
             if ('-' == $move[3]) {
-                $new_move = substr($move, 4);
+                $new_move = \substr($move, 4);
             } elseif ('x' == $move[3]) {
-                $new_move = sprintf('%s%s', $move[1], substr($move, 3));
+                $new_move = \sprintf('%s%s', $move[1], \substr($move, 3));
             }
         } else {
             /* try to remove the source position and check whether it
              * is a non-ambigious move. if it is add one of the components
              * and check again */
             if ('-' == $move[3]) {
-                $dest = substr($move, 4);
+                $dest = \substr($move, 4);
             } elseif ('x' == $move[3]) {
-                $dest = substr($move, 3);
+                $dest = \substr($move, 3);
             }
-            $new_move = sprintf('%s%s', $move[0], $dest);
+            $new_move = \sprintf('%s%s', $move[0], $dest);
             if ('' != $this->completeMove($player, $new_move)) {
                 /* add a component */
-                $new_move = sprintf('%s%s%s', $move[0], $move[1], $dest);
+                $new_move = \sprintf('%s%s%s', $move[0], $move[1], $dest);
                 if ('' != $this->completeMove($player, $new_move)) {
                     /* add other component */
-                    $new_move = sprintf('%s%s%s', $move[0], $move[2], $dest);
+                    $new_move = \sprintf('%s%s%s', $move[0], $move[2], $dest);
                     if ('' != $this->completeMove($player, $new_move)) {
                         $new_move = $move;
                     } /* give up */
@@ -1297,7 +1297,7 @@ class ChessGame
         $move_handled = 0;
 
         // Use $this->gamestate['fen_piece_placement'] to initialize $this->board, $this->w_figures and $this->b_figures.
-        $this->fen_piece_placement_to_board() || trigger_error('handleMove, piece_placement invalid', E_USER_ERROR);
+        $this->fen_piece_placement_to_board() || \trigger_error('handleMove, piece_placement invalid', \E_USER_ERROR);
 
         // get color of current player
         $cur_player = $this->gamestate['fen_active_color']; /* b or w */
@@ -1313,10 +1313,10 @@ class ChessGame
         }
 
         // get castling availability flags
-        $white_may_castle_short = strstr($this->gamestate['fen_castling_availability'], 'K') ? true : false;
-        $white_may_castle_long  = strstr($this->gamestate['fen_castling_availability'], 'Q') ? true : false;
-        $black_may_castle_short = strstr($this->gamestate['fen_castling_availability'], 'k') ? true : false;
-        $black_may_castle_long  = strstr($this->gamestate['fen_castling_availability'], 'q') ? true : false;
+        $white_may_castle_short = \strstr($this->gamestate['fen_castling_availability'], 'K') ? true : false;
+        $white_may_castle_long  = \strstr($this->gamestate['fen_castling_availability'], 'Q') ? true : false;
+        $black_may_castle_short = \strstr($this->gamestate['fen_castling_availability'], 'k') ? true : false;
+        $black_may_castle_long  = \strstr($this->gamestate['fen_castling_availability'], 'q') ? true : false;
 
         // Castling is supposed to use ohs, not zeros.  Allow zeros on input anyway.
         if ('0-0' == $move) {
@@ -1448,18 +1448,18 @@ class ChessGame
 
             /* allow short move description by autocompleting to
              * full description */
-            $ac_error = $this->completeMove($cur_player, trim($move));
+            $ac_error = $this->completeMove($cur_player, \trim($move));
             if ('' != $ac_error) {
                 return([false, $ac_error]);
             } // "ERROR: autocomplete: $ac_error"
             else {
                 $move = $this->ac_move;
             }
-            $this->last_move = str_replace('?', '', $move);
+            $this->last_move = \str_replace('?', '', $move);
 
             /* a final captial letter may only be N,B,R,Q for the
              * appropiate chessman */
-            $c = $move[strlen($move)-1];
+            $c = $move[\strlen($move) - 1];
             if ($c >= 'A' && $c <= 'Z') {
                 if ('N' != $c && 'B' != $c && 'R' != $c && 'Q' != $c) {
                     return([false, _MD_CHESS_MOVE_INVALID_PIECE]);
@@ -1467,7 +1467,7 @@ class ChessGame
             } // "ERROR: only N (knight), B (bishop), R (rook) and Q (queen) are valid chessman identifiers"
 
             /* if it is a full move, try to shorten the history move */
-            if (strlen($history_move) >= 6) {
+            if (\strlen($history_move) >= 6) {
                 $history_move =
                     $this->convertFullToChessNotation($cur_player, $history_move);
             }
@@ -1479,7 +1479,7 @@ class ChessGame
             if ('empty' == $fig_name) {
                 return([false, $this->move_msg(_MD_CHESS_MOVE_UNKNOWN_FIGURE, $fig_type)]);
             } // "ERROR: Figure $fig_type is unknown!"
-            $fig_coord = substr($move, 1, 2);
+            $fig_coord = \substr($move, 1, 2);
             $fig_pos = $this->boardCoordToIndex($fig_coord);
             if (64 == $fig_pos) {
                 return([false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $fig_coord)]);
@@ -1496,7 +1496,7 @@ class ChessGame
             } // "ERROR: Figure does not exist!"
 
             /* get target index */
-            $dest_coord = substr($move, 4, 2);
+            $dest_coord = \substr($move, 4, 2);
             $dest_pos = $this->boardCoordToIndex($dest_coord);
             if (64 == $dest_pos) {
                 return([false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $dest_coord)]);
@@ -1568,17 +1568,17 @@ class ChessGame
             /* perform move */
             $this->clear_tile($fig_pos);
             if (!$this->is_empty_tile($dest_pos)) {
-                $this->piece_captured = sprintf('%s%s', $this->board[$dest_pos], $dest_pos);
+                $this->piece_captured = \sprintf('%s%s', $this->board[$dest_pos], $dest_pos);
             }
             $this->board[$dest_pos] = "$cur_player$fig_type";
             if ($en_passant_capture_performed) {
                 /* kill pawn */
                 if ('w' == $cur_player) {
                     $this->clear_tile($dest_pos - 8);
-                    $this->piece_captured = sprintf('bP%s', $dest_pos - 8);
+                    $this->piece_captured = \sprintf('bP%s', $dest_pos - 8);
                 } else {
                     $this->clear_tile($dest_pos + 8);
-                    $this->piece_captured = sprintf('wP%s', $dest_pos + 8);
+                    $this->piece_captured = \sprintf('wP%s', $dest_pos + 8);
                 }
             }
 
@@ -1643,10 +1643,10 @@ class ChessGame
             if ('P' == $fig_type) {
                 if (('w' == $cur_player && $dest_pos >= 56) ||
                     ('b' == $cur_player && $dest_pos <= 7)) {
-                    $pawn_upg = $move[strlen($move)-1];
+                    $pawn_upg = $move[\strlen($move) - 1];
                     if ('?' == $pawn_upg) {
                         $pawn_upg = 'Q';
-                        $history_move = sprintf('%sQ', $history_move);
+                        $history_move = \sprintf('%sQ', $history_move);
                     }
                     $this->board[$dest_pos] = "$cur_player$pawn_upg";
                     $result .= ' ... ' . $this->move_msg(_MD_CHESS_MOVE_PROMOTED, $this->getFullFigureName($pawn_upg));
@@ -1695,7 +1695,7 @@ class ChessGame
             // strip old result-string from end of movetext
             // It's assumed that the movetext for a game in play is terminated by a '*', possibly preceded by whitespace.
             // (The whitespace will be present unless there are no moves in the game yet.)
-            $this->gamestate['pgn_movetext'] = preg_replace('/\s*\*$/', '', $this->gamestate['pgn_movetext']);
+            $this->gamestate['pgn_movetext'] = \preg_replace('/\s*\*$/', '', $this->gamestate['pgn_movetext']);
 
             // if white move, output move-number
             if ('w' == $this->gamestate['fen_active_color']) {
@@ -1771,7 +1771,7 @@ class ChessGame
      */
     public function fen_piece_placement_to_board()
     {
-        if (empty($this->gamestate['fen_piece_placement']) || strlen($this->gamestate['fen_piece_placement']) > 71) {
+        if (empty($this->gamestate['fen_piece_placement']) || \strlen($this->gamestate['fen_piece_placement']) > 71) {
             #trigger_error('piece placement empty or length invalid', E_USER_WARNING); #*#DEBUG#
             return false; // invalid length
         }
@@ -1781,12 +1781,12 @@ class ChessGame
             'K' => 'wK', 'Q' => 'wQ', 'R' => 'wR', 'B' => 'wB', 'N' => 'wN', 'P' => 'wP',
             'k' => 'bK', 'q' => 'bQ', 'r' => 'bR', 'b' => 'bB', 'n' => 'bN', 'p' => 'bP',
         ];
-        $tiles = implode('', array_reverse(explode('/', $this->gamestate['fen_piece_placement'])));
+        $tiles = \implode('', \array_reverse(\explode('/', $this->gamestate['fen_piece_placement'])));
         for ($i = 0, $iMax = strlen($tiles); $i < $iMax; ++$i) {
             $tile = $tiles{$i};
             if (isset($piece_map[$tile])) {
                 $this->board[] = $piece_map[$tile];
-            } elseif (is_numeric($tile) && $tile >= 1 && $tile <= 8) {
+            } elseif (\is_numeric($tile) && $tile >= 1 && $tile <= 8) {
                 for ($j = 0; $j < $tile; ++$j) {
                     $this->board[] = '00';
                 }
@@ -1831,7 +1831,7 @@ class ChessGame
                 $index = 8 * $rank + $file;
                 if (!$this->is_empty_tile($index)) {
                     $tile = $this->board[$index];
-                    $piece = ('w' == $tile[0]) ? $tile[1] : strtolower($tile[1]); // 'K','Q','R','B','N' or 'P' (uppercase for white, lowercase for black)
+                    $piece = ('w' == $tile[0]) ? $tile[1] : \strtolower($tile[1]); // 'K','Q','R','B','N' or 'P' (uppercase for white, lowercase for black)
                 } else {
                     $piece = 'x'; // temporarily mark each empty tile with 'x'
                 }
@@ -1841,7 +1841,7 @@ class ChessGame
         }
         // Concatenate the eight row-strings with the separator '/'.
         // Then replace each string of x's with the string length.
-        $this->gamestate['fen_piece_placement'] = preg_replace_callback('/(x+)/', create_function('$matches', 'return strlen($matches[1]);'), implode('/', $rows));
+        $this->gamestate['fen_piece_placement'] = \preg_replace_callback('/(x+)/', \create_function('$matches', 'return strlen($matches[1]);'), \implode('/', $rows));
     }
 
     /**
@@ -1853,8 +1853,8 @@ class ChessGame
      */
     public function insufficient_mating_material()
     {
-        $pieces      = strtoupper($this->gamestate['fen_piece_placement']);
-        $counts      = count_chars($pieces, 1);
+        $pieces      = \strtoupper($this->gamestate['fen_piece_placement']);
+        $counts      = \count_chars($pieces, 1);
         $num_queens  = (int)@$counts[ord('Q')];
         $num_rooks   = (int)@$counts[ord('R')];
         $num_bishops = (int)@$counts[ord('B')];
@@ -1914,8 +1914,8 @@ class ChessGame
         if ($index < 0 || $index > 63) {
             return '';
         }
-        $y = floor($index/8)+1;
-        $x = chr(($index%8)+97);
+        $y = \floor($index / 8) + 1;
+        $x = \chr(($index % 8) + 97);
         $coord = "$x$y";
         //echo "$coord | ";
         return $coord;
@@ -1956,7 +1956,7 @@ class ChessGame
         $i = 0;
 
         $x = $fig_pos % 8;
-        $y = floor($fig_pos / 8);
+        $y = \floor($fig_pos / 8);
 
         if ($x > 0 && $y > 0) {
             $adj_tiles[$i++] = $fig_pos-9;
