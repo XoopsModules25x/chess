@@ -51,7 +51,7 @@ function chess_get_games()
 		ORDER BY last_date DESC, start_date DESC, create_date DESC
 	"));
 
-	$games = array();
+	$games = [];
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
@@ -61,7 +61,7 @@ function chess_get_games()
 		$user_black     = $member_handler->getUser($row['black_uid']);
 		$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
-		$games[] = array(
+		$games[] = [
 			'game_id'          => $row['game_id'],
 			'username_white'   => $username_white,
 			'username_black'   => $username_black,
@@ -70,7 +70,7 @@ function chess_get_games()
 			'last_date'        => $row['last_date'],
 			'fen_active_color' => $row['fen_active_color'],
 			'pgn_result'       => $row['pgn_result'],
-		);
+        ];
 	}
 
 	$xoopsDB->freeRecordSet($result);
@@ -85,7 +85,7 @@ function chess_get_games()
 		ORDER BY create_date DESC
 	"));
 
-	$challenges = array();
+	$challenges = [];
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
@@ -95,14 +95,14 @@ function chess_get_games()
 		$user_player2     = $member_handler->getUser($row['player2_uid']);
 		$username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '?';
 
-		$challenges[] = array(
+		$challenges[] = [
 			'challenge_id'     => $row['challenge_id'],
 			'game_type'        => $row['game_type'],
 			'color_option'     => $row['color_option'],
 			'username_player1' => $username_player1,
 			'username_player2' => $username_player2,
 			'create_date'      => $row['create_date'],
-		);
+        ];
 	}
 
 	$xoopsDB->freeRecordSet($result);

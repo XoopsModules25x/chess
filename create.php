@@ -627,8 +627,8 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 	// Notify player 1 that his challenge has been accepted (if he has subscribed to the notification).
 	$player2_username     = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
 	$notification_handler = xoops_getHandler('notification');
-	$extra_tags           = array('CHESS_PLAYER' => $player2_username, 'CHESS_GAME_ID' => $game_id);
-	$notification_handler->triggerEvent('global', 0, 'notify_accept_challenge', $extra_tags, array($row['player1_uid']));
+	$extra_tags           = ['CHESS_PLAYER' => $player2_username, 'CHESS_GAME_ID' => $game_id];
+	$notification_handler->triggerEvent('global', 0, 'notify_accept_challenge', $extra_tags, [$row['player1_uid']]);
 
 	redirect_header(XOOPS_URL . "/modules/chess/game.php?game_id=$game_id", _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
 }
@@ -702,11 +702,11 @@ function chess_create_challenge($gametype, $fen, $coloroption, $notify_accept, $
 
 	// Notify any subscribers that a challenge has been offered.
 	$player1_username = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
-	$extra_tags = array('CHESS_CHALLENGER' => $player1_username, 'CHESS_CHALLENGE_ID' => $challenge_id);
+	$extra_tags = ['CHESS_CHALLENGER' => $player1_username, 'CHESS_CHALLENGE_ID' => $challenge_id];
 	if ($gametype == _CHESS_GAMETYPE_OPEN) {
 		$notification_handler->triggerEvent('global', 0, 'notify_challenge_open', $extra_tags);
 	} elseif ($gametype == _CHESS_GAMETYPE_USER) {
-		$notification_handler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, array($opponent_uid));
+		$notification_handler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, [$opponent_uid]);
 	}
 }
 

@@ -49,7 +49,7 @@ $modversion['adminmenu']  = 'admin/menu.php';
 
 // Config
 
-$grouparray     = array();
+$grouparray     = [];
 $member_handler = xoops_getHandler('member');
 $groups         = $member_handler->getGroups();
 foreach ($groups as $group) {
@@ -63,7 +63,7 @@ $modversion['config'][1]['title']       = '_MI_CHESS_GROUPS_PLAY';
 $modversion['config'][1]['description'] = '_MI_CHESS_GROUPS_PLAY_DES';
 $modversion['config'][1]['formtype']    = 'select_multi';
 $modversion['config'][1]['valuetype']   = 'array';
-$modversion['config'][1]['default']     = array(XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS);
+$modversion['config'][1]['default']     = [XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS];
 $modversion['config'][1]['options']     = $grouparray;
 
 $modversion['config'][2]['name']        = 'groups_delete';
@@ -71,7 +71,7 @@ $modversion['config'][2]['title']       = '_MI_CHESS_GROUPS_DELETE';
 $modversion['config'][2]['description'] = '_MI_CHESS_GROUPS_DELETE_DES';
 $modversion['config'][2]['formtype']    = 'select_multi';
 $modversion['config'][2]['valuetype']   = 'array';
-$modversion['config'][2]['default']     = array();
+$modversion['config'][2]['default']     = [];
 $modversion['config'][2]['options']     = $grouparray;
 
 $modversion['config'][3]['name']        = 'allow_setup';
@@ -176,7 +176,7 @@ $modversion['notification']['category'][1]['allow_bookmark'] = 1;
 $modversion['notification']['category'][2]['name']           = 'global';
 $modversion['notification']['category'][2]['title']          = _MI_CHESS_NCAT_GLOBAL;
 $modversion['notification']['category'][2]['description']    = _MI_CHESS_NCAT_GLOBAL_DES;
-$modversion['notification']['category'][2]['subscribe_from'] = array('index.php', 'game.php');
+$modversion['notification']['category'][2]['subscribe_from'] = ['index.php', 'game.php'];
 
 $modversion['notification']['event'][1]['name']          = 'notify_game_move';
 $modversion['notification']['event'][1]['category']      = 'game';

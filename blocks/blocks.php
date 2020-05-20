@@ -33,10 +33,10 @@ function b_chess_games_show($options)
 
 	// don't display this block within owning module
 	if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
-		return array();
+		return [];
 	}
 
-	$block = array();
+	$block = [];
 
 	$table = $xoopsDB->prefix('chess_games');
 
@@ -63,8 +63,8 @@ function b_chess_games_show($options)
 		LIMIT    $limit
 	"));
 
-	$block          = array();
-	$block['games'] = array();
+	$block          = [];
+	$block['games'] = [];
 
 	$member_handler = xoops_getHandler('member');
 
@@ -81,14 +81,14 @@ function b_chess_games_show($options)
 
 		$date = max($row['create_date'], $row['start_date'], $row['last_date']);
 
-		$games[] = array(
+		$games[] = [
 			'game_id'          => $row['game_id'],
 			'username_white'   => $username_white,
 			'username_black'   => $username_black,
 			'date'             => $date,
 			'fen_active_color' => $row['fen_active_color'],
 			'pgn_result'       => $row['pgn_result'],
-		);
+        ];
 
 	}
 
@@ -111,7 +111,7 @@ function b_chess_challenges_show($options)
 
 	// don't display this block within owning module
 	if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
-		return array();
+		return [];
 	}
 
 	$table = $xoopsDB->prefix('chess_challenges');
@@ -138,8 +138,8 @@ function b_chess_challenges_show($options)
 		LIMIT    $limit
 	"));
 
-	$block               = array();
-	$block['challenges'] = array();
+	$block               = [];
+	$block['challenges'] = [];
 
 	$member_handler = xoops_getHandler('member');
 
@@ -151,13 +151,13 @@ function b_chess_challenges_show($options)
 		$user_player2     = $member_handler->getUser($row['player2_uid']);
 		$username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '?';
 
-		$block['challenges'][] = array(
+		$block['challenges'][] = [
 			'challenge_id'     => $row['challenge_id'],
 			'game_type'        => $row['game_type'],
 			'username_player1' => $username_player1,
 			'username_player2' => $username_player2,
 			'create_date'      => $row['create_date'],
-		);
+        ];
 	}
 
 	$xoopsDB->freeRecordSet($result);
