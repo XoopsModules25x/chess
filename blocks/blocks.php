@@ -56,7 +56,7 @@ function b_chess_games_show($options)
 
     $table = $xoopsDB->prefix('chess_games');
 
-    $limit = intval($options[0]); // sanitize with intval()
+    $limit = (int)$options[0]; // sanitize with intval()
 
     $where = 'white_uid != black_uid';
     switch ($options[1]) {
@@ -142,7 +142,7 @@ function b_chess_challenges_show($options)
 
     $table = $xoopsDB->prefix('chess_challenges');
 
-    $limit = intval($options[0]); // sanitize with intval()
+    $limit = (int)$options[0]; // sanitize with intval()
 
     switch ($options[1]) {
         case 1:
@@ -238,7 +238,7 @@ function b_chess_players_show($options)
 
     $table = $xoopsDB->prefix('chess_ratings');
 
-    $limit = intval($options[0]); // sanitize with intval()
+    $limit = (int)$options[0]; // sanitize with intval()
 
     switch ($options[1]) {
         case 1:

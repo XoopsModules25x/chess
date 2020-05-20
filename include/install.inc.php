@@ -57,7 +57,7 @@ function xoops_module_pre_update_chess($module, $oldversion)
     if ($oldversion < 102) { // old version < 1.02: direct update not supported.
 
         $docfile = XOOPS_ROOT_PATH . '/modules/chess/docs/INSTALL.TXT';
-        chess_set_message($module, sprintf(_MI_CHESS_OLD_VERSION, strval($oldversion), $docfile), true);
+        chess_set_message($module, sprintf(_MI_CHESS_OLD_VERSION, (string)$oldversion, $docfile), true);
         return false;
     } elseif ($oldversion >= 107) { // old version >= 1.07:  no action needed.
 
@@ -76,7 +76,7 @@ function xoops_module_pre_update_chess($module, $oldversion)
     if (!$result) {
         $mysql_errno = $xoopsDB->errno();
         $mysql_error = $xoopsDB->error();
-        chess_set_message($module, sprintf(_MI_CHESS_RATINGS_TABLE_2, $ratings_table, strval($mysql_errno), $mysql_error), true);
+        chess_set_message($module, sprintf(_MI_CHESS_RATINGS_TABLE_2, $ratings_table, (string)$mysql_errno, $mysql_error), true);
         return false;
     }
     if ($xoopsDB->getRowsNum($result) > 0) {
@@ -104,7 +104,7 @@ function xoops_module_pre_update_chess($module, $oldversion)
     if (!$result) {
         $mysql_errno = $xoopsDB->errno();
         $mysql_error = $xoopsDB->error();
-        chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_2, $games_table, strval($mysql_errno), $mysql_error), true);
+        chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_2, $games_table, (string)$mysql_errno, $mysql_error), true);
         return false;
     }
     [$count] = $xoopsDB->fetchRow($result);

@@ -52,8 +52,8 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
 $submit_recalc_ratings  = isset($_POST['submit_recalc_ratings']);
-$confirm_recalc_ratings = intval(@$_POST['confirm_recalc_ratings']);
-$start                  = intval(@$_GET['start']); // for page nav: offset of first row of results to display (default to 0)
+$confirm_recalc_ratings = (int)@$_POST['confirm_recalc_ratings'];
+$start                  = (int)@$_GET['start']; // for page nav: offset of first row of results to display (default to 0)
 
 #var_dump($_REQUEST);#*#DEBUG#
 

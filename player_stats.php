@@ -46,11 +46,11 @@ $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable cachin
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
-$player_uid   = intval($_POST['player_uid'] ?? @$_GET['player_uid']);
+$player_uid   = (int)(isset($_POST['player_uid']) ? $_POST['player_uid'] : @$_GET['player_uid']);
 $player_uname = trim(@$_POST['player_uname']); // unsanitized
-$cstart       = intval(@$_GET['cstart']); // for page nav: offset of first row of results (challenges) to display (default to 0)
-$gstart       = intval(@$_GET['gstart']); // for page nav: offset of first row of results (games) to display (default to 0)
-$show_option  = intval($_POST['show_option'] ?? @$_GET['show_option']);
+$cstart       = (int)@$_GET['cstart']; // for page nav: offset of first row of results (challenges) to display (default to 0)
+$gstart       = (int)@$_GET['gstart']; // for page nav: offset of first row of results (games) to display (default to 0)
+$show_option  = (int)(isset($_POST['show_option']) ? $_POST['show_option'] : @$_GET['show_option']);
 
 #var_dump($_REQUEST);#*#DEBUG#
 

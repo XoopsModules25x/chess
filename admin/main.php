@@ -40,7 +40,7 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
 
 // user input
 $op    = chess_sanitize(@$_GET['op']);
-$start = intval(@$_GET['start']); // offset of first row of table to display (default to 0)
+$start = (int)@$_GET['start']; // offset of first row of table to display (default to 0)
 
 // get maximum number of items to display on a page, and constrain it to a reasonable value
 $max_items_to_display = chess_moduleConfig('max_items');

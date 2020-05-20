@@ -1855,11 +1855,11 @@ class ChessGame
     {
         $pieces      = strtoupper($this->gamestate['fen_piece_placement']);
         $counts      = count_chars($pieces, 1);
-        $num_queens  = intval(@$counts[ord('Q')]);
-        $num_rooks   = intval(@$counts[ord('R')]);
-        $num_bishops = intval(@$counts[ord('B')]);
-        $num_knights = intval(@$counts[ord('N')]);
-        $num_pawns   = intval(@$counts[ord('P')]);
+        $num_queens  = (int)@$counts[ord('Q')];
+        $num_rooks   = (int)@$counts[ord('R')];
+        $num_bishops = (int)@$counts[ord('B')];
+        $num_knights = (int)@$counts[ord('N')];
+        $num_pawns   = (int)@$counts[ord('P')];
         return (0 == $num_queens && 0 == $num_rooks && ($num_bishops + $num_knights) <= 1 && 0 == $num_pawns);
     }
 
