@@ -24,13 +24,58 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-$adminmenu[1]['title'] = _MI_CHESS_ADMENU1;
-$adminmenu[1]['link']  = 'admin/index.php?op=suspended_games';
+include dirname(__DIR__) . '/preloads/autoloader.php';
 
-$adminmenu[2]['title'] = _MI_CHESS_ADMENU2;
-$adminmenu[2]['link']  = 'admin/index.php?op=active_games';
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+/** @var \XoopsModules\Chess\Helper $helper */
+$helper = \XoopsModules\Chess\Helper::getInstance();
+$helper->loadLanguage('common');
 
-$adminmenu[3]['title'] = _MI_CHESS_ADMENU3;
-$adminmenu[3]['link']  = 'admin/index.php?op=challenges';
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+if (is_object($helper->getModule())) {
+    //    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
+}
 
-?>
+$adminmenu[] = [
+    'title' => _MI_CHESS_MENU_HOME,
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_CHESS_ADMENU1,
+    'link'  => 'admin/main.php?op=suspended_games',
+    'icon'  => $pathIcon32 . '/alert.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_CHESS_ADMENU2,
+    'link'  => 'admin/main.php?op=active_games',
+    'icon'  => $pathIcon32 . '/button_ok.png',
+];
+
+$adminmenu[] = [
+    'title' => _MI_CHESS_ADMENU3,
+    'link'  => 'admin/main.php?op=challenges',
+    'icon'  => $pathIcon32 . '/cash_stack.png',
+];
+
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link'  => 'admin/migrate.php',
+        'icon'  => $pathIcon32 . '/database_go.png',
+    ];
+}
+
+$adminmenu[] = [
+    'title' => _MI_CHESS_MENU_ABOUT,
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png',
+];
+
+
+
+

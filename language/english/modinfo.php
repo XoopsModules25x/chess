@@ -24,6 +24,9 @@ define('_MI_CHESS_HELP',          'Chess help');
 define('_MI_CHESS_SMNAME1', 'Help');
 define('_MI_CHESS_SMNAME2', 'List games');
 define('_MI_CHESS_SMNAME3', 'Create new game');
+define('_MI_CHESS_MENU_HOME', 'Home');
+define('_MI_CHESS_MENU_01', 'Admin');
+define('_MI_CHESS_MENU_ABOUT', 'About');
 
 // Config
 define('_MI_CHESS_GROUPS_PLAY',       'Play-chess right');
