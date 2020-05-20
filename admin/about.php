@@ -1,5 +1,4 @@
 <?php
-
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -17,22 +16,11 @@
  * @since
  * @author     XOOPS Development Team
  */
+require __DIR__ . '/admin_header.php';
+xoops_cp_header();
 
-include dirname(__DIR__) . '/preloads/autoloader.php';
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject::setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
 
-require  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-//require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
-require  dirname(__DIR__) . '/include/common.php';
-
-$moduleDirName = basename(dirname(__DIR__));
-
-/** @var \XoopsModules\Chess\Helper $helper */
-$helper = \XoopsModules\Chess\Helper::getInstance();
-
-/** @var \Xmf\Module\Admin $adminObject */
-$adminObject = \Xmf\Module\Admin::getInstance();
-
-// Load language files
-$helper->loadLanguage('admin');
-$helper->loadLanguage('modinfo');
-$helper->loadLanguage('common');
+require __DIR__ . '/admin_footer.php';

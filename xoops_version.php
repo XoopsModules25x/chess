@@ -43,14 +43,15 @@ $modversion['tables'][1]        = 'chess_challenges';
 
 // Admin
 $modversion['hasAdmin']   = 1;
+$modversion['system_menu']   = 1;
 $modversion['adminindex'] = 'admin/index.php';
 $modversion['adminmenu']  = 'admin/menu.php';
 
 // Config
 
-$grouparray = array();
-$member_handler =& xoops_gethandler('member');
-$groups =& $member_handler->getGroups();
+$grouparray     = array();
+$member_handler = xoops_getHandler('member');
+$groups         = $member_handler->getGroups();
 foreach ($groups as $group) {
 	if ($group->getVar('groupid') != XOOPS_GROUP_ANONYMOUS) {
 		$grouparray[$group->getVar('name')] = $group->getVar('groupid');
@@ -90,12 +91,12 @@ $modversion['sub'][2]['name'] = _MI_CHESS_SMNAME2;
 $modversion['sub'][2]['url']  = 'index.php';
 
 global $xoopsUser;
-$can_play = false;
-$module_handler =& xoops_gethandler('module');
-$module =& $module_handler->getByDirname('chess');
+$can_play       = false;
+$module_handler = xoops_getHandler('module');
+$module         = $module_handler->getByDirname('chess');
 if (is_object($module)) {
-	$config_handler =& xoops_gethandler('config');
-	$moduleConfig =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+	$config_handler = xoops_getHandler('config');
+	$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 #var_dump('moduleConfig', $moduleConfig);echo "<br />\n";#*#DEBUG#
 	if (isset($moduleConfig['groups_play'])) {
 		if (in_array(XOOPS_GROUP_ANONYMOUS, $moduleConfig['groups_play'])) {

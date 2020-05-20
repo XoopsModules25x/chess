@@ -27,8 +27,8 @@
 
 function chess_notify_item_info($category, $item_id)
 {
-	$module_handler =& xoops_gethandler('module');
-	$module         =& $module_handler->getByDirname('chess');
+	$module_handler = xoops_getHandler('module');
+	$module         = $module_handler->getByDirname('chess');
 
 	if ($category == 'global') {
 		$item['name'] = 'Chess';
@@ -50,12 +50,12 @@ function chess_notify_item_info($category, $item_id)
 
 	 	if ($gamedata !== FALSE) {
 
-			$member_handler =& xoops_gethandler('member');
+			$member_handler = xoops_getHandler('member');
 
-			$user_white     =& $member_handler->getUser($gamedata['white_uid']);
+			$user_white     = $member_handler->getUser($gamedata['white_uid']);
 			$username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
 
-			$user_black     =& $member_handler->getUser($gamedata['black_uid']);
+			$user_black     = $member_handler->getUser($gamedata['black_uid']);
 			$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
 			$date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : 'not yet started';

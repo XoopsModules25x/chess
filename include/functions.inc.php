@@ -37,10 +37,10 @@ function chess_sanitize($text, $allowed_characters = 'A-Za-z0-9') {
 
 function chess_moduleConfig($option)
 {
-	$module_handler =& xoops_gethandler('module');
-	$module =& $module_handler->getByDirname('chess');
-	$config_handler =& xoops_gethandler('config');
-	$moduleConfig =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+	$module_handler = xoops_getHandler('module');
+	$module         = $module_handler->getByDirname('chess');
+	$config_handler = xoops_getHandler('config');
+	$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 	return $moduleConfig[$option];
 }
 
@@ -54,8 +54,8 @@ function chess_can_play($uid = null)
 	global $xoopsUser;
 
 	if (isset($uid)) {
-		$member_handler =& xoops_gethandler('member');
-		$user =& $member_handler->getUser($uid);
+		$member_handler = xoops_getHandler('member');
+		$user           = $member_handler->getUser($uid);
 	} elseif (is_object($xoopsUser)) {
 		$user =& $xoopsUser;
 	} else {
@@ -91,8 +91,8 @@ function chess_can_delete($uid = null)
 	global $xoopsUser;
 
 	if (isset($uid)) {
-		$member_handler =& xoops_gethandler('member');
-		$user =& $member_handler->getUser($uid);
+		$member_handler = xoops_getHandler('member');
+		$user           = $member_handler->getUser($uid);
 	} elseif (is_object($xoopsUser)) {
 		$user =& $xoopsUser;
 	} else {
@@ -135,7 +135,7 @@ function chess_to_pgn_string($data)
 	} else {
 		$datetime = str_replace('-', '.', $data['datetime']);
 	}
-	list($date, $time) = explode(' ', $datetime);
+	[$date, $time] = explode(' ', $datetime);
 
 	$movetext = wordwrap($data['movetext'], 75);
 

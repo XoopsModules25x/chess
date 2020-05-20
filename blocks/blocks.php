@@ -66,17 +66,17 @@ function b_chess_games_show($options)
 	$block          = array();
 	$block['games'] = array();
 
-	$member_handler =& xoops_gethandler('member');
+	$member_handler = xoops_getHandler('member');
 
 	// usort-function for sorting array in descending order of 'date' value
 	$cmp_func = create_function('$a,$b', "return (\$a['date'] == \$b['date'] ? 0 : (\$a['date'] < \$b['date'] ? 1 : -1));"); 
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
-		$user_white     =& $member_handler->getUser($row['white_uid']);
+		$user_white     = $member_handler->getUser($row['white_uid']);
 		$username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
 
-		$user_black     =& $member_handler->getUser($row['black_uid']);
+		$user_black     = $member_handler->getUser($row['black_uid']);
 		$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
 		$date = max($row['create_date'], $row['start_date'], $row['last_date']);
@@ -141,14 +141,14 @@ function b_chess_challenges_show($options)
 	$block               = array();
 	$block['challenges'] = array();
 
-	$member_handler =& xoops_gethandler('member');
+	$member_handler = xoops_getHandler('member');
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
-		$user_player1     =& $member_handler->getUser($row['player1_uid']);
+		$user_player1     = $member_handler->getUser($row['player1_uid']);
 		$username_player1 =  is_object($user_player1) ? $user_player1->getVar('uname') : '?';
 
-		$user_player2     =& $member_handler->getUser($row['player2_uid']);
+		$user_player2     = $member_handler->getUser($row['player2_uid']);
 		$username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '?';
 
 		$block['challenges'][] = array(

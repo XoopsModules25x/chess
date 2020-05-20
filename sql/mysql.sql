@@ -17,27 +17,28 @@
 #
 
 CREATE TABLE chess_games (
-  game_id int(10) unsigned NOT NULL auto_increment,
-  white_uid mediumint(8) unsigned NOT NULL default '0',
-  black_uid mediumint(8) unsigned NOT NULL default '0',
-  create_date datetime NOT NULL default '0000-00-00 00:00:00',
-  start_date datetime NOT NULL default '0000-00-00 00:00:00',
-  last_date datetime NOT NULL default '0000-00-00 00:00:00',
-  fen_piece_placement varchar(71) NOT NULL default 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
-  fen_active_color enum('w','b') NOT NULL default 'w',
-  fen_castling_availability varchar(4) NOT NULL default 'KQkq',
-  fen_en_passant_target_square char(2) NOT NULL default '-',
-  fen_halfmove_clock smallint(5) unsigned NOT NULL default '0',
-  fen_fullmove_number smallint(5) unsigned NOT NULL default '1',
-  pgn_fen varchar(100) NOT NULL default '',
-  pgn_result varchar(7) NOT NULL default '*',
-  pgn_movetext text NOT NULL,
-  offer_draw enum('','w','b') NOT NULL default '',
-  suspended text NOT NULL,
-  white_confirm enum('0','1') NOT NULL default '1',
-  black_confirm enum('0','1') NOT NULL default '1',
-  PRIMARY KEY  (game_id)
-) ENGINE=MyISAM;
+    game_id                      INT(10) UNSIGNED      NOT NULL AUTO_INCREMENT,
+    white_uid                    MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0',
+    black_uid                    MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0',
+    create_date                  DATETIME              NOT NULL,
+    start_date                   DATETIME              NOT NULL,
+    last_date                    DATETIME              NOT NULL,
+    fen_piece_placement          VARCHAR(71)           NOT NULL DEFAULT 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
+    fen_active_color             ENUM ('w','b')        NOT NULL DEFAULT 'w',
+    fen_castling_availability    VARCHAR(4)            NOT NULL DEFAULT 'KQkq',
+    fen_en_passant_target_square CHAR(2)               NOT NULL DEFAULT '-',
+    fen_halfmove_clock           SMALLINT(5) UNSIGNED  NOT NULL DEFAULT '0',
+    fen_fullmove_number          SMALLINT(5) UNSIGNED  NOT NULL DEFAULT '1',
+    pgn_fen                      VARCHAR(100)          NOT NULL DEFAULT '',
+    pgn_result                   VARCHAR(7)            NOT NULL DEFAULT '*',
+    pgn_movetext                 TEXT                  NOT NULL,
+    offer_draw                   ENUM ('','w','b')     NOT NULL DEFAULT '',
+    suspended                    TEXT                  NOT NULL,
+    white_confirm                ENUM ('0','1')        NOT NULL DEFAULT '1',
+    black_confirm                ENUM ('0','1')        NOT NULL DEFAULT '1',
+    PRIMARY KEY (game_id)
+)
+    ENGINE = MyISAM;
 
 # --------------------------------------------------------
 
@@ -46,13 +47,14 @@ CREATE TABLE chess_games (
 #
 
 CREATE TABLE chess_challenges (
-  challenge_id int(10) unsigned NOT NULL auto_increment,
-  game_type enum('open','user') NOT NULL default 'open',
-  fen varchar(100) NOT NULL default '',
-  color_option enum('player2','random','white','black') NOT NULL default 'player2',
-  notify_move_player1 enum('0','1') NOT NULL default '0',
-  player1_uid mediumint(8) unsigned NOT NULL default '0',
-  player2_uid mediumint(8) unsigned NOT NULL default '0',
-  create_date datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (challenge_id)
-) ENGINE=MyISAM;
+    challenge_id        INT(10) UNSIGNED                          NOT NULL AUTO_INCREMENT,
+    game_type           ENUM ('open','user')                      NOT NULL DEFAULT 'open',
+    fen                 VARCHAR(100)                              NOT NULL DEFAULT '',
+    color_option        ENUM ('player2','random','white','black') NOT NULL DEFAULT 'player2',
+    notify_move_player1 ENUM ('0','1')                            NOT NULL DEFAULT '0',
+    player1_uid         MEDIUMINT(8) UNSIGNED                     NOT NULL DEFAULT '0',
+    player2_uid         MEDIUMINT(8) UNSIGNED                     NOT NULL DEFAULT '0',
+    create_date         DATETIME                                  NOT NULL ,
+    PRIMARY KEY (challenge_id)
+)
+    ENGINE = MyISAM;

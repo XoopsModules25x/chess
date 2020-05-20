@@ -40,7 +40,7 @@ function chess_get_games()
 {
 	global $xoopsDB, $xoopsTpl;
 
-	$member_handler =& xoops_gethandler('member');
+	$member_handler = xoops_getHandler('member');
 
 	$games_table = $xoopsDB->prefix('chess_games');
 
@@ -55,10 +55,10 @@ function chess_get_games()
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
-		$user_white     =& $member_handler->getUser($row['white_uid']);
+		$user_white     = $member_handler->getUser($row['white_uid']);
 		$username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
 
-		$user_black     =& $member_handler->getUser($row['black_uid']);
+		$user_black     = $member_handler->getUser($row['black_uid']);
 		$username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
 		$games[] = array(
@@ -89,10 +89,10 @@ function chess_get_games()
 
  	while ($row = $xoopsDB->fetchArray($result)) {
 
-		$user_player1     =& $member_handler->getUser($row['player1_uid']);
+		$user_player1     = $member_handler->getUser($row['player1_uid']);
 		$username_player1 =  is_object($user_player1) ? $user_player1->getVar('uname') : '?';
 
-		$user_player2     =& $member_handler->getUser($row['player2_uid']);
+		$user_player2     = $member_handler->getUser($row['player2_uid']);
 		$username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '?';
 
 		$challenges[] = array(

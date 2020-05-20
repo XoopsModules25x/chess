@@ -20,7 +20,6 @@ Upgrading from version 1.0.1:
 
 1) Replace the following files with the ones contained within this distribution:
 
-modules/chess/class/chessgame.inc.php 
 modules/chess/docs/INSTALL.txt
 modules/chess/docs/TODO.txt
 modules/chess/templates/chess_game_main.html

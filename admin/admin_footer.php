@@ -1,5 +1,4 @@
 <?php
-
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -17,22 +16,13 @@
  * @since
  * @author     XOOPS Development Team
  */
+$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
 
-include dirname(__DIR__) . '/preloads/autoloader.php';
+echo "<div class='adminfooter'>\n"
+     . "  <div style='text-align: center;'>\n"
+     . "    <a href='https://xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n"
+     . "  </div>\n"
+     . '  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n"
+     . '</div>';
 
-require  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-//require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
-require  dirname(__DIR__) . '/include/common.php';
-
-$moduleDirName = basename(dirname(__DIR__));
-
-/** @var \XoopsModules\Chess\Helper $helper */
-$helper = \XoopsModules\Chess\Helper::getInstance();
-
-/** @var \Xmf\Module\Admin $adminObject */
-$adminObject = \Xmf\Module\Admin::getInstance();
-
-// Load language files
-$helper->loadLanguage('admin');
-$helper->loadLanguage('modinfo');
-$helper->loadLanguage('common');
+xoops_cp_footer();
