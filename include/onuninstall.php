@@ -43,7 +43,6 @@ function xoops_module_uninstall_xxxx(\XoopsModule $module)
     $moduleDirName = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var Chess\Helper $helper */
     $helper = Chess\Helper::getInstance();
     $utility = new Chess\Utility();
 //    $configurator = new Chess\Common\Configurator();

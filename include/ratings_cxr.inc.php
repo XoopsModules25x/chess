@@ -96,14 +96,14 @@ function chess_ratings_adj_cxr($white_rating, $white_games, $black_rating, $blac
         $b_new = $S * -41;
     }
   
-    if ($S == 1) {
+    if (1 == $S) {
         if ($white_games < 5 && $w_new < 0) {
             $w_new = 2;
         }
         if ($black_games < 5 && $b_new > 0) {
             $b_new = -2;
         }
-    } elseif ($S == -1) {
+    } elseif (-1 == $S) {
         if ($white_games < 5 && $w_new > 0) {
             $w_new = -2;
         }
@@ -112,7 +112,7 @@ function chess_ratings_adj_cxr($white_rating, $white_games, $black_rating, $blac
         }
     }
 
-    return array($white_rating + $w_new, $black_rating + $b_new);
+    return [$white_rating + $w_new, $black_rating + $b_new];
 }
 
 /**

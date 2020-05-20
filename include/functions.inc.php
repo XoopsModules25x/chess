@@ -53,7 +53,7 @@ function chess_moduleConfig($option)
 
     $value = null;
 
-    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess' && isset($xoopsModuleConfig[$option])) {
+    if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname') && isset($xoopsModuleConfig[$option])) {
         $value = $xoopsModuleConfig[$option];
     } else { // for use within a block
     
@@ -149,7 +149,7 @@ function chess_can_delete($uid = null)
 function chess_to_pgn_string($data)
 {
     #var_dump('chess_to_pgn_string, data=', $data);#*#DEBUG#
-    if ($data['datetime'] == '0000-00-00 00:00:00') {
+    if ('0000-00-00 00:00:00' == $data['datetime']) {
         $datetime = '????.??.?? ??:??:??';
     } else {
         $datetime = str_replace('-', '.', $data['datetime']);

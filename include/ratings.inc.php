@@ -45,7 +45,7 @@ function chess_ratings_adj($gid)
     $rating_system = chess_moduleConfig('rating_system');
     $init_rating   = chess_moduleConfig('initial_rating');
 
-    if ($rating_system == 'none') {
+    if ('none' == $rating_system) {
         return false;
     }
 
@@ -68,7 +68,7 @@ function chess_ratings_adj($gid)
 	");
 
     // check that game exists and is rated
-    if ($xoopsDB->getRowsNum($result) != 1) {
+    if (1 != $xoopsDB->getRowsNum($result)) {
         return false;
     }
 
@@ -77,7 +77,7 @@ function chess_ratings_adj($gid)
 
     #var_dump($row);#*#DEBUG#
     // make sure the users are in the players' table
-    $value_list = array();
+    $value_list = [];
     if (!isset($row['white_rating'])) {
         $row['white_rating'] = $init_rating;
         $row['white_games']  = 0;
@@ -95,11 +95,11 @@ function chess_ratings_adj($gid)
     }
 
     // calculate new ratings using configured rating system
-    list($white_rating_new, $black_rating_new) =
+    [$white_rating_new, $black_rating_new] =
         $func($row['white_rating'], $row['white_games'], $row['black_rating'], $row['black_games'], $row['pgn_result']);
 
     // determine game-count columns to increment
-    list($white_col, $black_col) = chess_ratings_get_columns($row['pgn_result']);
+    [$white_col, $black_col] = chess_ratings_get_columns($row['pgn_result']);
 
     $xoopsDB->query("
 		UPDATE $ratings_table
@@ -130,7 +130,7 @@ function chess_recalc_ratings()
     $rating_system = chess_moduleConfig('rating_system');
     $init_rating   = chess_moduleConfig('initial_rating');
 
-    if ($rating_system == 'none') {
+    if ('none' == $rating_system) {
         return false;
     }
 
@@ -151,24 +151,24 @@ function chess_recalc_ratings()
 		ORDER BY  last_date ASC
 	");
 
-    $players = array();
+    $players = [];
 
     // process the games
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
 
 #var_dump($row);#*#DEBUG#
         if (!isset($players[$row['white_uid']])) {
-            $players[$row['white_uid']] = array('rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0);
+            $players[$row['white_uid']] = ['rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0];
         }
         if (!isset($players[$row['black_uid']])) {
-            $players[$row['black_uid']] = array('rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0);
+            $players[$row['black_uid']] = ['rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0];
         }
 
         $player_white = &$players[$row['white_uid']];
         $player_black = &$players[$row['black_uid']];
     
         // calculate new ratings using configured rating system
-        list($white_rating_new, $black_rating_new) = $func(
+        [$white_rating_new, $black_rating_new] = $func(
             $player_white['rating'],
             $player_white['games_won'] + $player_white['games_lost'] + $player_white['games_drawn'],
             $player_black['rating'],
@@ -177,7 +177,7 @@ function chess_recalc_ratings()
         );
     
         // determine game-count columns to increment
-        list($white_col, $black_col) = chess_ratings_get_columns($row['pgn_result']);
+        [$white_col, $black_col] = chess_ratings_get_columns($row['pgn_result']);
     
         $player_white['rating'] = $white_rating_new;
         ++$player_white[$white_col];
@@ -189,7 +189,7 @@ function chess_recalc_ratings()
     $xoopsDB->freeRecordSet($result);
 
     if (!empty($players)) {
-        $value_list = array();
+        $value_list = [];
         foreach ($players as $player_uid => $player) {
             $value_list[] = "('$player_uid', '{$player['rating']}', '{$player['games_won']}', '{$player['games_lost']}', '{$player['games_drawn']}')";
         }
@@ -211,7 +211,7 @@ function chess_ratings_num_provisional_games()
 {
     $rating_system = chess_moduleConfig('rating_system');
 
-    if ($rating_system == 'none') {
+    if ('none' == $rating_system) {
         return 0;
     }
 
@@ -269,5 +269,5 @@ function chess_ratings_get_columns($pgn_result)
             break;
     }
 
-    return array($white_col, $black_col);
+    return [$white_col, $black_col];
 }

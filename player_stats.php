@@ -59,14 +59,14 @@ if (!empty($player_uname)) {
     $player_uid = chess_uname_to_uid($player_uname);
 
 // Otherwise, if player user ID provided, map it to a username.
-} elseif ($player_uid != 0) {
+} elseif (0 != $player_uid) {
     $memberHandler = xoops_getHandler('member');
     $player_user    = $memberHandler->getUser($player_uid);
     $player_uname   =  is_object($player_user) ? $player_user->getVar('uname') : '';
 }
 
 // Check that both user ID and username are now defined.
-if ($player_uid == 0 || empty($player_uname)) {
+if (0 == $player_uid || empty($player_uname)) {
     redirect_header(XOOPS_URL . '/modules/chess/index.php', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_PLAYER_NOT_FOUND);
 }
 
@@ -93,7 +93,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     $num_provisional_games = chess_ratings_num_provisional_games();
 
     // set show_option to default if appropriate
-    if (!$show_option || ($rating_system == 'none' && $show_option == _CHESS_SHOW_RATED_ONLY)) {
+    if (!$show_option || ('none' == $rating_system && _CHESS_SHOW_RATED_ONLY == $show_option)) {
         $show_option = _CHESS_SHOW_EXCEPT_SELFPLAY;
     }
 
@@ -105,7 +105,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     $games_table      = $xoopsDB->prefix('chess_games');
     $ratings_table    = $xoopsDB->prefix('chess_ratings');
 
-    $player = array();
+    $player = [];
     $player['uid']   = $player_uid;
     $player['uname'] = $player_uname;
 
@@ -122,7 +122,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     $menu_show_option = new XoopsFormSelect('', 'show_option', $show_option, 1, false);
     $menu_show_option->addOption(_CHESS_SHOW_ALL_GAMES, _MD_CHESS_SHOW_ALL_GAMES);
     $menu_show_option->addOption(_CHESS_SHOW_EXCEPT_SELFPLAY, _MD_CHESS_SHOW_EXCEPT_SELFPLAY); // default
-    if ($rating_system != 'none') {
+    if ('none' != $rating_system) {
         $menu_show_option->addOption(_CHESS_SHOW_RATED_ONLY, _MD_CHESS_SHOW_RATED_ONLY);
     }
     $form->addElement($menu_show_option);
@@ -130,7 +130,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     $form->assign($xoopsTpl);
 
     // user IDs that will require mapping to usernames
-    $userids = array();
+    $userids = [];
 
     // --------------
     // player's games
@@ -141,9 +141,9 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
     $where = "'$player_uid' IN (white_uid, black_uid)";
-    if ($show_option == _CHESS_SHOW_EXCEPT_SELFPLAY) {
+    if (_CHESS_SHOW_EXCEPT_SELFPLAY == $show_option) {
         $where .= ' AND white_uid != black_uid';
-    } elseif ($show_option == _CHESS_SHOW_RATED_ONLY) {
+    } elseif (_CHESS_SHOW_RATED_ONLY == $show_option) {
         $where .= ' AND is_rated = "1" AND white_uid != black_uid';
     }
 
@@ -160,10 +160,10 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 		LIMIT     $gstart, $max_items_to_display
 	");
     
-    $games = array();
+    $games = [];
     
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $games[] = array(
+        $games[] = [
             'game_id'          => $row['game_id'],
             'white_uid'        => $row['white_uid'],
             'black_uid'        => $row['black_uid'],
@@ -171,7 +171,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
             'pgn_result'       => $row['pgn_result'],
             'last_activity'    => $row['last_activity'],
             'is_rated'         => $row['is_rated'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['white_uid']) {
@@ -196,7 +196,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
     $where = "'$player_uid' IN (player1_uid, player2_uid)";
-    if ($show_option == _CHESS_SHOW_RATED_ONLY) {
+    if (_CHESS_SHOW_RATED_ONLY == $show_option) {
         $where .= ' AND is_rated = "1"';
     }
 
@@ -212,10 +212,10 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 		LIMIT    $cstart, $max_items_to_display
 	");
     
-    $challenges = array();
+    $challenges = [];
     
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $challenges[] = array(
+        $challenges[] = [
             'challenge_id' => $row['challenge_id'],
             'game_type'    => $row['game_type'],
             'color_option' => $row['color_option'],
@@ -223,7 +223,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
             'player2_uid'  => $row['player2_uid'],
             'create_date'  => $row['create_date'],
             'is_rated'     => $row['is_rated'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['player1_uid']) {
@@ -264,7 +264,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     // player's rating info (if rating feature is enabled)
     // ---------------------------------------------------
 
-    if ($rating_system != 'none') {
+    if ('none' != $rating_system) {
         $result = $xoopsDB->query("
 			SELECT   player_uid, rating, games_won, games_lost, games_drawn, (games_won+games_lost+games_drawn) AS games_played
 			FROM     $ratings_table

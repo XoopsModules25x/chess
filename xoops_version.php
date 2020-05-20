@@ -181,11 +181,11 @@ $modversion['config'][5]['title']       = '_MI_CHESS_RATING_SYSTEM';
 $modversion['config'][5]['description'] = '_MI_CHESS_RATING_SYSTEM_DES';
 $modversion['config'][5]['formtype']    = 'select';
 $modversion['config'][5]['valuetype']   = 'text';
-$modversion['config'][5]['options']     = array(
+$modversion['config'][5]['options']     = [
     _MI_CHESS_RATING_SYSTEM_NONE   => 'none',
     _MI_CHESS_RATING_SYSTEM_CXR    => 'cxr',
     _MI_CHESS_RATING_SYSTEM_LINEAR => 'linear',
-);
+];
 $modversion['config'][5]['default']     = 'cxr';
 
 $modversion['config'][6]['name']        = 'initial_rating';
@@ -214,7 +214,7 @@ $modversion['sub'][2]['url']  = 'index.php';
 
 // Conditional menu items
 global $xoopsModule, $xoopsModuleConfig, $xoopsUser;
-if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
+if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
 
 // Display create-game menu item if current user has the play-chess right.
     if (!empty($xoopsModuleConfig['groups_play']) && is_array($xoopsModuleConfig['groups_play'])
@@ -230,7 +230,7 @@ if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
     }
 
     // Display ratings menu item if ratings system is enabled.
-    if ($xoopsModuleConfig['rating_system'] != 'none') {
+    if ('none' != $xoopsModuleConfig['rating_system']) {
         $modversion['sub'][4]['name'] = _MI_CHESS_SMNAME4;
         $modversion['sub'][4]['url']  = 'ratings.php';
     }
@@ -244,15 +244,15 @@ if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
 
 // Page Awareness
 $modversion['pages'][1]['name'] = _MI_CHESS_SMNAME1;
-$modversion['pages'][1]['url'] = "help.php";
+$modversion['pages'][1]['url'] = 'help.php';
 $modversion['pages'][2]['name'] = _MI_CHESS_SMNAME2;
-$modversion['pages'][2]['url'] = "index.php";
+$modversion['pages'][2]['url'] = 'index.php';
 $modversion['pages'][3]['name'] = _MI_CHESS_SMNAME3;
-$modversion['pages'][3]['url'] = "create.php";
+$modversion['pages'][3]['url'] = 'create.php';
 $modversion['pages'][4]['name'] = _MI_CHESS_SMNAME4;
-$modversion['pages'][4]['url'] = "ratings.php";
+$modversion['pages'][4]['url'] = 'ratings.php';
 $modversion['pages'][5]['name'] = _MI_CHESS_SMNAME5;
-$modversion['pages'][5]['url'] = "player_stats.php";
+$modversion['pages'][5]['url'] = 'player_stats.php';
 
 // Templates
 $modversion['templates'] = [

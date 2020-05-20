@@ -87,7 +87,7 @@ if (($submit_challenge1 || $submit_challenge2 || $submit_challenge3 || $submit_a
 }
 
 // If rating feature disabled, force ratings to off.
-if (chess_moduleConfig('rating_system') == 'none') {
+if ('none' == chess_moduleConfig('rating_system')) {
     $rated = 0;
 }
 
@@ -101,7 +101,7 @@ if ($cancel_challenge1) {
 } elseif ($cancel_challenge2) {
     chess_show_create_form1($gametype);
 } elseif ($cancel_challenge3) {
-    if ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
+    if (_CHESS_GAMETYPE_OPEN == $gametype || _CHESS_GAMETYPE_USER == $gametype) {
         chess_show_create_form2($gametype, $fen);
     } else {
         chess_show_create_form1($gametype, $fen);
@@ -112,13 +112,13 @@ if ($cancel_challenge1) {
     $fen_error = chess_fen_error($fen);
     if (!empty($fen_error)) {
         chess_show_create_form1($gametype, $fen, _MD_CHESS_FEN_INVALID . ': ' . $fen_error);
-    } elseif ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
+    } elseif (_CHESS_GAMETYPE_OPEN == $gametype || _CHESS_GAMETYPE_USER == $gametype) {
         chess_show_create_form2($gametype, $fen);
     } else {
         chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $rated);
     }
 } elseif ($submit_challenge2) {
-    if ($gametype == _CHESS_GAMETYPE_USER) {
+    if (_CHESS_GAMETYPE_USER == $gametype) {
         if (empty($opponent)) {
             chess_show_create_form2($gametype, $fen, $coloroption, $opponent_uid, $rated, _MD_CHESS_OPPONENT_MISSING);
         } elseif (!$opponent_uid) {
@@ -132,10 +132,10 @@ if ($cancel_challenge1) {
         chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $rated);
     }
 } elseif ($submit_challenge3) {
-    if ($gametype == _CHESS_GAMETYPE_OPEN) {
+    if (_CHESS_GAMETYPE_OPEN == $gametype) {
         chess_create_challenge($gametype, $fen, $coloroption, $rated, $notify_accept, $notify_move);
         redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
-    } elseif ($gametype == _CHESS_GAMETYPE_USER) {
+    } elseif (_CHESS_GAMETYPE_USER == $gametype) {
         if (empty($opponent)) {
             chess_show_create_form2($gametype, $fen, $coloroption, $opponent_uid, $rated, _MD_CHESS_OPPONENT_MISSING);
         } elseif (!$opponent_uid) {
@@ -146,7 +146,7 @@ if ($cancel_challenge1) {
             chess_create_challenge($gametype, $fen, $coloroption, $rated, $notify_accept, $notify_move, $opponent_uid);
             redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
         }
-    } elseif ($gametype == _CHESS_GAMETYPE_SELF) {
+    } elseif (_CHESS_GAMETYPE_SELF == $gametype) {
         $game_id = chess_create_game($uid, $uid, $fen, $rated);
         redirect_header(XOOPS_URL . "/modules/chess/game.php?game_id=$game_id", _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
     } else {
@@ -240,7 +240,7 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
     $opponent_user     = $memberHandler->getUser($opponent_uid);
     $opponent_username =  is_object($opponent_user) ? $opponent_user->getVar('uname') : '';
 
-    if ($gametype == _CHESS_GAMETYPE_USER) {
+    if (_CHESS_GAMETYPE_USER == $gametype) {
         $form->addElement(new XoopsFormText(
             _MD_CHESS_LABEL_OPPONENT . ':',
             'opponent',
@@ -257,8 +257,8 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
     $radio_color->addOption(_CHESS_COLOROPTION_BLACK, _MD_CHESS_RADIO_COLOR_BLACK);
     $form->addElement($radio_color);
 
-    if (chess_moduleConfig('rating_system') !== 'none') {
-        if ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
+    if ('none' !== chess_moduleConfig('rating_system')) {
+        if (_CHESS_GAMETYPE_OPEN == $gametype || _CHESS_GAMETYPE_USER == $gametype) {
             if (chess_moduleConfig('allow_unrated_games')) {
                 $radio_rated = new XoopsFormRadio(_MD_CHESS_RATED_GAME . ':', 'rated', $rated);
                 $radio_rated->addOption(1, _YES);
@@ -325,7 +325,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_FEN_SETUP . ':', $fen));
     }
 
-    if ($gametype == _CHESS_GAMETYPE_USER) {
+    if (_CHESS_GAMETYPE_USER == $gametype) {
         $memberHandler    = xoops_getHandler('member');
         $opponent_user     = $memberHandler->getUser($opponent_uid);
         $opponent_username =  is_object($opponent_user) ? $opponent_user->getVar('uname') : '';
@@ -333,7 +333,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_OPPONENT . ':', $opponent_username));
     }
 
-    if ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
+    if (_CHESS_GAMETYPE_OPEN == $gametype || _CHESS_GAMETYPE_USER == $gametype) {
         switch ($coloroption) {
             case _CHESS_COLOROPTION_OPPONENT:
                 $label_coloroption = _MD_CHESS_RADIO_COLOR_OPPONENT;
@@ -353,7 +353,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
         }
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_COLOR . ':', $label_coloroption));
 
-        if (chess_moduleConfig('rating_system') != 'none') {
+        if ('none' != chess_moduleConfig('rating_system')) {
             $form->addElement(new XoopsFormLabel(_MD_CHESS_RATED_GAME . ':', $rated ? _YES : _NO));
         }
 
@@ -362,7 +362,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
         $uid = $xoopsUser->getVar('uid');
         $mid                  = $xoopsModule->getVar('mid');
         $notificationHandler = xoops_getHandler('notification');
-        $is_subscribed        = $notificationHandler->isSubscribed('global', 0, 'notify_accept_challenge', $mid, $uid) != 0;
+        $is_subscribed        = 0 != $notificationHandler->isSubscribed('global', 0, 'notify_accept_challenge', $mid, $uid);
 
         // Display checkbox with checked-state reflecting subscription status.
         $checked_value = 1;
@@ -414,7 +414,7 @@ function chess_show_accept_form($challenge_id)
 
     $form->addElement(new XoopsFormHidden('challenge_id', $challenge_id));
 
-    $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], "m")));
+    $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], 'm')));
 
     $memberHandler = xoops_getHandler('member');
 
@@ -450,7 +450,7 @@ function chess_show_accept_form($challenge_id)
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_FEN_SETUP . ':', $row['fen']));
     }
 
-    if ($row['color_option'] == _CHESS_COLOROPTION_OPPONENT) {
+    if (_CHESS_COLOROPTION_OPPONENT == $row['color_option']) {
         $radio_color = new XoopsFormRadio(_MD_CHESS_LABEL_COLOR . ':', 'coloroption', _CHESS_COLOROPTION_RANDOM);
         $radio_color->addOption(_CHESS_COLOROPTION_RANDOM, _MD_CHESS_RADIO_COLOR_RANDOM);
         $radio_color->addOption(_CHESS_COLOROPTION_WHITE, _MD_CHESS_RADIO_COLOR_WHITE);
@@ -474,7 +474,7 @@ function chess_show_accept_form($challenge_id)
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_COLOR . ':', $label_coloroption));
     }
 
-    if (chess_moduleConfig('rating_system') != 'none') {
+    if ('none' != chess_moduleConfig('rating_system')) {
         $form->addElement(new XoopsFormLabel(_MD_CHESS_RATED_GAME . ':', $row['is_rated'] ? _YES : _NO));
     }
 
@@ -531,7 +531,7 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
         $form->addElement(new XoopsFormLabel(_MD_CHESS_ERROR . ': ', '<div class="errorMsg">' . $error_msg . '</div>'));
     }
 
-    $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], "m")));
+    $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_DATE_CREATED . ':', formatTimestamp($row['create_date'], 'm')));
 
     $memberHandler = xoops_getHandler('member');
 
@@ -580,7 +580,7 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
     }
     $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_COLOR . ':', $label_coloroption));
 
-    if (chess_moduleConfig('rating_system') != 'none') {
+    if ('none' != chess_moduleConfig('rating_system')) {
         $form->addElement(new XoopsFormLabel(_MD_CHESS_RATED_GAME . ':', $row['is_rated'] ? _YES : _NO));
     }
 
@@ -626,7 +626,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
     $uid = $xoopsUser ? $xoopsUser->getVar('uid') : 0;
 
-    if ($row['game_type'] == _CHESS_GAMETYPE_USER && $uid != $row['player2_uid']) {
+    if (_CHESS_GAMETYPE_USER == $row['game_type'] && $uid != $row['player2_uid']) {
         redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_WRONG_PLAYER2);
     } elseif ($uid == $row['player1_uid']) {
         redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_SAME_PLAYER2);
@@ -640,7 +640,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
                 default:
                 case _CHESS_COLOROPTION_RANDOM:
-                    if (mt_rand(1, 2) == 1) {
+                    if (1 == mt_rand(1, 2)) {
                         $white_uid = $row['player1_uid'];
                         $black_uid = $uid;
                     } else {
@@ -663,7 +663,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
         default:
         case _CHESS_COLOROPTION_RANDOM:
-            if (mt_rand(1, 2) == 1) {
+            if (1 == mt_rand(1, 2)) {
                 $white_uid = $row['player1_uid'];
                 $black_uid = $uid;
             } else {
@@ -693,8 +693,8 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
     // Notify player 1 that his challenge has been accepted (if he has subscribed to the notification).
     $player2_username     = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
     $notificationHandler = xoops_getHandler('notification');
-    $extra_tags           = array('CHESS_PLAYER' => $player2_username, 'CHESS_GAME_ID' => $game_id);
-    $notificationHandler->triggerEvent('global', 0, 'notify_accept_challenge', $extra_tags, array($row['player1_uid']));
+    $extra_tags           = ['CHESS_PLAYER' => $player2_username, 'CHESS_GAME_ID' => $game_id];
+    $notificationHandler->triggerEvent('global', 0, 'notify_accept_challenge', $extra_tags, [$row['player1_uid']]);
 
     redirect_header(XOOPS_URL . "/modules/chess/game.php?game_id=$game_id", _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_CREATED);
 }
@@ -745,8 +745,8 @@ function chess_create_challenge($gametype, $fen, $coloroption, $rated, $notify_a
     global $xoopsUser;
     $uid = is_object($xoopsUser) ? $xoopsUser->getVar('uid') : 0;
 
-    $myts = myTextSanitizer::getInstance();
-    $fen_q = $myts->addslashes($fen);
+    $myts = MyTextSanitizer::getInstance();
+    $fen_q = $myts->addSlashes($fen);
 
     #trigger_error("inserting new game'", E_USER_NOTICE);#*#DEBUG#
 
@@ -783,11 +783,11 @@ function chess_create_challenge($gametype, $fen, $coloroption, $rated, $notify_a
 
     // Notify any subscribers that a challenge has been offered.
     $player1_username = $xoopsUser ? $xoopsUser->getVar('uname') : '*unknown*';
-    $extra_tags = array('CHESS_CHALLENGER' => $player1_username, 'CHESS_CHALLENGE_ID' => $challenge_id);
-    if ($gametype == _CHESS_GAMETYPE_OPEN) {
+    $extra_tags = ['CHESS_CHALLENGER' => $player1_username, 'CHESS_CHALLENGE_ID' => $challenge_id];
+    if (_CHESS_GAMETYPE_OPEN == $gametype) {
         $notificationHandler->triggerEvent('global', 0, 'notify_challenge_open', $extra_tags);
-    } elseif ($gametype == _CHESS_GAMETYPE_USER) {
-        $notificationHandler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, array($opponent_uid));
+    } elseif (_CHESS_GAMETYPE_USER == $gametype) {
+        $notificationHandler->triggerEvent('global', 0, 'notify_challenge_user', $extra_tags, [$opponent_uid]);
     }
 }
 
@@ -811,12 +811,14 @@ function chess_delete_challenge($challenge_id)
 /**
  * Create a new game in the database.
  *
- * @param int    $white_uid                White's user ID
- * @param int    $black_uid                Black's user ID
- * @param string $fen                      FEN setup
- * @param int    $rated                    '1' if rated, '0' if not rated
- * @param int    $notify_move_player1_uid  If nonzero, subscribe the challenger to receive a notification when a new move is made.
- * @param bool   $notify_move_player2      If true, subscribe the accepter to receive a notification when a new move is made.
+ * @param int    $white_uid               White's user ID
+ * @param int    $black_uid               Black's user ID
+ * @param string $fen                     FEN setup
+ * @param int    $rated                   '1' if rated, '0' if not rated
+ * @param int    $notify_move_player1_uid If nonzero, subscribe the challenger to receive a notification when a new move is made.
+ * @param bool   $notify_move_player2     If true, subscribe the accepter to receive a notification when a new move is made.
+ * @return int
+ * @return int
  */
 function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_player1_uid = 0, $notify_move_player2 = false)
 {
@@ -833,8 +835,8 @@ function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_pl
 
     #trigger_error("inserting new game'", E_USER_NOTICE);#*#DEBUG#
 
-    $myts = myTextSanitizer::getInstance();
-    $fen_q = $myts->addslashes($fen);
+    $myts = MyTextSanitizer::getInstance();
+    $fen_q = $myts->addSlashes($fen);
 
     global $xoopsDB;
 

@@ -50,8 +50,8 @@ function b_chess_games_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
-    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
-        return array();
+    if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
+        return [];
     }
 
     $table = $xoopsDB->prefix('chess_games');
@@ -67,7 +67,7 @@ function b_chess_games_show($options)
             $where .= " AND pgn_result != '*'";
             break;
     }
-    if ($options[2] == 1) {
+    if (1 == $options[2]) {
         $where .= " AND is_rated = '1'";
     }
 
@@ -82,19 +82,19 @@ function b_chess_games_show($options)
 	"));
 
     // user IDs that will require mapping to usernames
-    $userids = array();
+    $userids = [];
 
-    $games = array();
+    $games = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $games[] = array(
+        $games[] = [
             'game_id'          => $row['game_id'],
             'white_uid'        => $row['white_uid'],
             'black_uid'        => $row['black_uid'],
             'date'             => $row['most_recent_date'],
             'fen_active_color' => $row['fen_active_color'],
             'pgn_result'       => $row['pgn_result'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['white_uid']) {
@@ -136,8 +136,8 @@ function b_chess_challenges_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
-    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
-        return array();
+    if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
+        return [];
     }
 
     $table = $xoopsDB->prefix('chess_challenges');
@@ -165,18 +165,18 @@ function b_chess_challenges_show($options)
 	"));
 
     // user IDs that will require mapping to usernames
-    $userids = array();
+    $userids = [];
 
-    $challenges = array();
+    $challenges = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $challenges[] = array(
+        $challenges[] = [
             'challenge_id' => $row['challenge_id'],
             'game_type'    => $row['game_type'],
             'player1_uid'  => $row['player1_uid'],
             'player2_uid'  => $row['player2_uid'],
             'create_date'  => $row['create_date'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['player1_uid']) {
@@ -218,8 +218,8 @@ function b_chess_players_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
-    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
-        return array();
+    if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
+        return [];
     }
 
     require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
@@ -232,7 +232,7 @@ function b_chess_players_show($options)
     $block['provisional_games'] = chess_ratings_num_provisional_games();
 
     // if ratings disabled, nothing else to do
-    if ($moduleConfig['rating_system'] == 'none') {
+    if ('none' == $moduleConfig['rating_system']) {
         return $block;
     }
 
@@ -261,16 +261,16 @@ function b_chess_players_show($options)
 	"));
 
     // user IDs that will require mapping to usernames
-    $userids = array();
+    $userids = [];
 
-    $players = array();
+    $players = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $players[] = array(
+        $players[] = [
             'player_uid'   => $row['player_uid'],
             'rating'       => $row['rating'],
             'games_played' => $row['games_played'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['player_uid']) {
@@ -305,25 +305,25 @@ function b_chess_players_show($options)
  */
 function b_chess_games_edit($options)
 {
-    $show_inplay     = $options[1] == 1 ? "checked" : '';
-    $show_concluded  = $options[1] == 2 ? "checked" : '';
-    $show_both       = $options[1] == 3 ? "checked" : '';
+    $show_inplay     = 1 == $options[1] ? 'checked' : '';
+    $show_concluded  = 2 == $options[1] ? 'checked' : '';
+    $show_both       = 3 == $options[1] ? 'checked' : '';
 
-    $show_rated_only = $options[2] == 1 ? "checked" : '';
-    $show_unrated    = $options[2] == 2 ? "checked" : '';
+    $show_rated_only = 1 == $options[2] ? 'checked' : '';
+    $show_unrated    = 2 == $options[2] ? 'checked' : '';
 
-    $form = "
-		"._MB_CHESS_NUM_GAMES.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
+    $form = '
+		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
 		<br>
 		<br>
-		<input type='radio' name='options[1]' value='1' $show_inplay    > "._MB_CHESS_SHOW_GAMES_INPLAY."
-		<input type='radio' name='options[1]' value='2' $show_concluded > "._MB_CHESS_SHOW_GAMES_CONCLUDED."
-		<input type='radio' name='options[1]' value='3' $show_both      > "._MB_CHESS_SHOW_GAMES_BOTH."
+		<input type='radio' name='options[1]' value='1' $show_inplay    > " . _MB_CHESS_SHOW_GAMES_INPLAY . "
+		<input type='radio' name='options[1]' value='2' $show_concluded > " . _MB_CHESS_SHOW_GAMES_CONCLUDED . "
+		<input type='radio' name='options[1]' value='3' $show_both      > " . _MB_CHESS_SHOW_GAMES_BOTH . "
 		<br>
 		<br>
-		<input type='radio' name='options[2]' value='1' $show_rated_only> "._MB_CHESS_SHOW_GAMES_RATED."
-		<input type='radio' name='options[2]' value='2' $show_unrated   > "._MB_CHESS_SHOW_GAMES_UNRATED."
-	";
+		<input type='radio' name='options[2]' value='1' $show_rated_only> " . _MB_CHESS_SHOW_GAMES_RATED . "
+		<input type='radio' name='options[2]' value='2' $show_unrated   > " . _MB_CHESS_SHOW_GAMES_UNRATED . '
+	';
 
     return $form;
 }
@@ -336,17 +336,17 @@ function b_chess_games_edit($options)
  */
 function b_chess_challenges_edit($options)
 {
-    $show_open = $options[1] == 1 ? "checked" : '';
-    $show_user = $options[1] == 2 ? "checked" : '';
-    $show_both = $options[1] == 3 ? "checked" : '';
+    $show_open = 1 == $options[1] ? 'checked' : '';
+    $show_user = 2 == $options[1] ? 'checked' : '';
+    $show_both = 3 == $options[1] ? 'checked' : '';
 
-    $form = "
-		"._MB_CHESS_NUM_CHALLENGES.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
+    $form = '
+		' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
 		<br>
-		<input type='radio' name='options[1]' value='1' $show_open> "._MB_CHESS_SHOW_CHALLENGES_OPEN."
-		<input type='radio' name='options[1]' value='2' $show_user> "._MB_CHESS_SHOW_CHALLENGES_USER."
-		<input type='radio' name='options[1]' value='3' $show_both> "._MB_CHESS_SHOW_CHALLENGES_BOTH."
-	";
+		<input type='radio' name='options[1]' value='1' $show_open> " . _MB_CHESS_SHOW_CHALLENGES_OPEN . "
+		<input type='radio' name='options[1]' value='2' $show_user> " . _MB_CHESS_SHOW_CHALLENGES_USER . "
+		<input type='radio' name='options[1]' value='3' $show_both> " . _MB_CHESS_SHOW_CHALLENGES_BOTH . '
+	';
 
     return $form;
 }
@@ -359,15 +359,15 @@ function b_chess_challenges_edit($options)
  */
 function b_chess_players_edit($options)
 {
-    $show_nonprovisional = $options[1] == 1 ? "checked" : '';
-    $show_all            = $options[1] == 2 ? "checked" : '';
+    $show_nonprovisional = 1 == $options[1] ? 'checked' : '';
+    $show_all            = 2 == $options[1] ? 'checked' : '';
 
-    $form = "
-		"._MB_CHESS_NUM_PLAYERS.": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
+    $form = '
+		' . _MB_CHESS_NUM_PLAYERS . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
 		<br>
-		<input type='radio' name='options[1]' value='1' $show_nonprovisional> "._MB_CHESS_SHOW_NONPROVISIONAL."
-		<input type='radio' name='options[1]' value='2' $show_all           > "._MB_CHESS_SHOW_ALL_RATINGS."
-	";
+		<input type='radio' name='options[1]' value='1' $show_nonprovisional> " . _MB_CHESS_SHOW_NONPROVISIONAL . "
+		<input type='radio' name='options[1]' value='2' $show_all           > " . _MB_CHESS_SHOW_ALL_RATINGS . '
+	';
 
     return $form;
 }

@@ -89,7 +89,7 @@ function chess_get_games()
     $xoopsTpl->assign('chess_date_format', _MEDIUMDATESTRING);
 
     // user IDs that will require mapping to usernames
-    $userids = array();
+    $userids = [];
 
     // -----
     // games
@@ -110,12 +110,12 @@ function chess_get_games()
             $where .= " AND pgn_result != '*'";
             break;
     }
-    if ($gshow2 == 1) {
+    if (1 == $gshow2) {
         $where .= " AND is_rated = '1'";
     }
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE $where");
-    list($num_games) = $xoopsDB->fetchRow($result);
+    [$num_games] = $xoopsDB->fetchRow($result);
     $xoopsDB->freeRecordSet($result);
 
     $result = $xoopsDB->query(trim("
@@ -127,10 +127,10 @@ function chess_get_games()
 		LIMIT    $gstart, $max_items_to_display
 	"));
 
-    $games = array();
+    $games = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $games[] = array(
+        $games[] = [
             'game_id'          => $row['game_id'],
             'white_uid'        => $row['white_uid'],
             'black_uid'        => $row['black_uid'],
@@ -138,7 +138,7 @@ function chess_get_games()
             'fen_active_color' => $row['fen_active_color'],
             'pgn_result'       => $row['pgn_result'],
             'is_rated'         => $row['is_rated'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['white_uid']) {
@@ -177,7 +177,7 @@ function chess_get_games()
     }
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $challenges_table WHERE $where");
-    list($num_challenges) = $xoopsDB->fetchRow($result);
+    [$num_challenges] = $xoopsDB->fetchRow($result);
     $xoopsDB->freeRecordSet($result);
 
     $result = $xoopsDB->query(trim("
@@ -188,10 +188,10 @@ function chess_get_games()
 		LIMIT    $cstart, $max_items_to_display
 	"));
 
-    $challenges = array();
+    $challenges = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-        $challenges[] = array(
+        $challenges[] = [
             'challenge_id' => $row['challenge_id'],
             'game_type'    => $row['game_type'],
             'color_option' => $row['color_option'],
@@ -199,7 +199,7 @@ function chess_get_games()
             'player2_uid'  => $row['player2_uid'],
             'create_date'  => $row['create_date'],
             'is_rated'     => $row['is_rated'],
-        );
+        ];
 
         // save user IDs that will require mapping to usernames
         if ($row['player1_uid']) {

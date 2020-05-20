@@ -88,7 +88,7 @@ function xoops_module_pre_update_chess($module, $oldversion)
 
     // Check database tables.
     chess_set_message($module, _MI_CHESS_CHK_DB_TABLES);
-    $table_check_messages = chess_check_tables(array($challenges_table, $games_table));
+    $table_check_messages = chess_check_tables([$challenges_table, $games_table]);
     if (!empty($table_check_messages)) {
         foreach ($table_check_messages as $message) {
             chess_set_message($module, $message, true);
@@ -107,7 +107,7 @@ function xoops_module_pre_update_chess($module, $oldversion)
         chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_2, $games_table, strval($mysql_errno), $mysql_error), true);
         return false;
     }
-    list($count) = $xoopsDB->fetchRow($result);
+    [$count] = $xoopsDB->fetchRow($result);
     if ($count > 0) {
         chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_3, 'pgn_result', $games_table, $pgn_result_values), true);
         chess_set_message($module, _MI_CHESS_GAMES_TABLE_4, true);
@@ -144,7 +144,7 @@ function xoops_module_update_chess($module, $oldversion)
     $challenges_table = $xoopsDB->prefix('chess_challenges');
     $games_table      = $xoopsDB->prefix('chess_games');
 
-    $queries = array(
+    $queries = [
 
         "CREATE TABLE `$ratings_table` (
 			`player_uid` mediumint(8) unsigned NOT NULL default '0',
@@ -174,7 +174,7 @@ function xoops_module_update_chess($module, $oldversion)
         "ALTER TABLE `$games_table` ADD INDEX `is_rated` (`is_rated`)",
 
         "UPDATE `$games_table` SET `is_rated` = '0' WHERE `white_uid` = `black_uid`",
-    );
+    ];
 
     // Update database tables.
     chess_set_message($module, _MI_CHESS_UPDATING_DATABASE);
@@ -216,7 +216,7 @@ function chess_check_tables($table_names)
 {
     global $xoopsDB;
 
-    $messages = array();
+    $messages = [];
 
     foreach ($table_names as $table_name) {
         $query = "CHECK TABLE `$table_name`";
@@ -239,7 +239,7 @@ function chess_check_tables($table_names)
 
         $xoopsDB->freeRecordSet($result);
 
-        if ($table_status != 'OK') {
+        if ('OK' != $table_status) {
             $messages[] = " ... $table_name: $table_status";
         }
     }

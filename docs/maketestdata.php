@@ -47,21 +47,21 @@ function perform()
 
     // Generate the challenges table
 
-    $game_types    = array('open', 'user');
-    $color_options = array('player2', 'random', 'white', 'black');
+    $game_types    = ['open', 'user'];
+    $color_options = ['player2', 'random', 'white', 'black'];
 
     for ($i = 0; $i < NUM_CHALLENGES; ++$i) {
         $game_type = rand_array_value($game_types);
 
         $fen_index = rand(1, 10);
-        $fen = ($fen_index == 10) ? 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' : '';
+        $fen = (10 == $fen_index) ? 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1' : '';
 
         $color_option = rand_array_value($color_options);
 
         $notify_move_player1 = rand(0, 1);
 
         $player1_uid = rand(1, NUM_USERS);
-        if ($game_type == 'open') {
+        if ('open' == $game_type) {
             $player2_uid = 0;
         } else {
             // select $player2_uid != $player1_uid
@@ -92,14 +92,14 @@ function perform()
 
     // Generate the games table
 
-    $pgn_results        = array('*', '0-1', '1-0', '1/2-1/2');
-    $suspended_explains = array('foo', 'bar', 'baz', 'quux');
+    $pgn_results        = ['*', '0-1', '1-0', '1/2-1/2'];
+    $suspended_explains = ['foo', 'bar', 'baz', 'quux'];
 
     for ($i = 0; $i < NUM_GAMES; ++$i) {
         $white_uid = rand(1, NUM_USERS);
         $black_uid = rand(1, NUM_USERS);
         // Force some games to be self-play.
-        if (rand(1, 10) == 10) {
+        if (10 == rand(1, 10)) {
             $black_uid = $white_uid;
         }
 
@@ -118,11 +118,11 @@ function perform()
 
         $pgn_result = $multiple_moves ? rand_array_value($pgn_results) : '*';
 
-        if ($multiple_moves && $pgn_result == '*' && rand(1, 5) == 5) {
+        if ($multiple_moves && '*' == $pgn_result && 5 == rand(1, 5)) {
             $suspended_date    = date('Y-m-d H:i:s', $last_date_sec + rand(60, 72 * 3600));
-            $suspended_uids    = array(1, $white_uid, $black_uid);
+            $suspended_uids    = [1, $white_uid, $black_uid];
             $suspended_uid     = rand_array_value($suspended_uids);
-            $suspended_type    = $suspended_uid == 1 ? 'arbiter_suspend' : 'want_arbitration';
+            $suspended_type    = 1 == $suspended_uid ? 'arbiter_suspend' : 'want_arbitration';
             $suspended_explain = rand_array_value($suspended_explains);
             $suspended         = "$suspended_date|$suspended_uid|$suspended_type|$suspended_explain";
         } else {
@@ -157,23 +157,23 @@ function perform()
 function table_empty($table)
 {
     $result = do_query("SELECT COUNT(*) FROM $table");
-    list($num_rows) = $GLOBALS['xoopsDB']->fetchRow($result);
+    [$num_rows] = $GLOBALS['xoopsDB']->fetchRow($result);
     $GLOBALS['xoopsDB']->freeRecordSet($result);
-    return $num_rows == 0;
+    return 0 == $num_rows;
 }
 
-/**
- * Perform MySQL query.
- *
- * If the result from $GLOBALS['xoopsDB']->queryF() is false, trigger_error() is called to display the error.
- *
- * @param string $query The query to perform
- * @return resource Return from $GLOBALS['xoopsDB']->queryF()
- */
+ /**
+  * Perform MySQL query.
+  *
+  * If the result from $GLOBALS['xoopsDB']->queryF() is false, trigger_error() is called to display the error.
+  *
+  * @param string $query The query to perform
+  * @return bool Return from $GLOBALS['xoopsDB']->queryF()
+  */
 function do_query($query)
 {
     $result = $GLOBALS['xoopsDB']->queryF($query);
-    if ($result === false) {
+    if (false === $result) {
         $errno = $GLOBALS['xoopsDB']->errno();
         $error = $GLOBALS['xoopsDB']->error();
         trigger_error("[$errno] $error\n$query", E_USER_ERROR);
@@ -181,7 +181,11 @@ function do_query($query)
     return $result;
 }
 
-function rand_array_value($array)
+ /**
+  * @param $array
+  * @return mixed
+  */
+ function rand_array_value($array)
 {
     return $array[array_rand($array)];
 }

@@ -42,7 +42,7 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
 
 // check whether the rating feature is enabled
-if (chess_moduleConfig('rating_system') == 'none') {
+if ('none' == chess_moduleConfig('rating_system')) {
     redirect_header(XOOPS_URL . '/modules/chess/index.php', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_RATINGS_OFF);
 }
 
@@ -115,7 +115,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 		SELECT    COUNT(*)
 		FROM      $ratings_table AS p
 	");
-    list($num_items) = $xoopsDB->fetchRow($result);
+    [$num_items] = $xoopsDB->fetchRow($result);
     $xoopsDB->freeRecordSet($result);
 
     $pagenav = new XoopsPageNav($num_items, $max_items_to_display, $start, 'start');
@@ -128,20 +128,20 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 	");
 
     // user IDs that will require mapping to usernames
-    $userids = array();
+    $userids = [];
 
-    $players = array();
-    
+    $players = [];
+
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
 
         // save user IDs that will require mapping to usernames
         $userids[] = $row['player_uid'];
 
-        $players[] = array(
+        $players[] = [
             'player_uid'   => $row['player_uid'],
             'rating'       => $row['rating'],
             'games_played' => $row['games_played'],
-        );
+        ];
     }
     $xoopsDB->freeRecordSet($result);
 

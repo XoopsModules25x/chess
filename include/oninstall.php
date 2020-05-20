@@ -29,7 +29,6 @@ function xoops_module_pre_install_xxxx(\XoopsModule $module)
 {
 //    require  dirname(__DIR__) . '/preloads/autoloader.php';
     require __DIR__ . '/common.php';
-    /** @var \XoopsModules\Chess\Utility $utility */
     $utility = new \XoopsModules\Chess\Utility();
     //check for minimum XOOPS version
     $xoopsSuccess = $utility::checkVerXoops($module);

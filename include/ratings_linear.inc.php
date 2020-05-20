@@ -55,7 +55,7 @@ function chess_ratings_adj_linear($white_rating, $white_games, $black_rating, $b
             break;
     }
 
-    return array($white_rating + $S * 10, $black_rating - $S * 10);
+    return [$white_rating + $S * 10, $black_rating - $S * 10];
 }
 
 /**

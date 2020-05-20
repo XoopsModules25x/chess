@@ -56,11 +56,11 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['langua
  */
 function chess_notify_item_info($category, $item_id)
 {
-    if ($category == 'global') {
+    if ('global' == $category) {
         $item['name'] = 'Chess';
         $item['url']  = XOOPS_URL . '/modules/chess/';
         return $item;
-    } elseif ($category == 'game') {
+    } elseif ('game' == $category) {
         global $xoopsDB;
 
         $table  = $xoopsDB->prefix('chess_games');
@@ -72,7 +72,7 @@ function chess_notify_item_info($category, $item_id)
         $gamedata = $xoopsDB->fetchArray($result);
         $xoopsDB->freeRecordSet($result);
 
-        if ($gamedata !== false) {
+        if (false !== $gamedata) {
 
             // get mapping of user IDs to usernames
             $criteria       =  new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');

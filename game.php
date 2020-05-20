@@ -90,7 +90,7 @@ function chess_game()
 
     // Fetch the game data from the database.
     $gamedata = chess_get_game($game_id);
-    if ($gamedata === false) {
+    if (false === $gamedata) {
         redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_GAME_NOT_FOUND);
     }
 
@@ -125,23 +125,23 @@ function chess_game()
     }
 
     // Determine whether current user is a player in the current game, and whether it's his move.
-    $user_is_player         = $user_color == 'w' || $user_color == 'b';
+    $user_is_player         = 'w' == $user_color || 'b' == $user_color;
     $user_is_player_to_move = $user_color == $gamedata['fen_active_color'];
 
-    $user_color_name = $user_color == 'w' ? _MD_CHESS_WHITE : _MD_CHESS_BLACK;
+    $user_color_name = 'w' == $user_color ? _MD_CHESS_WHITE : _MD_CHESS_BLACK;
 
     if ($submit_move && !$gamedata['suspended']) {
 
         // If the player has changed his confirm-move preference, it needs to be updated in the database.
         // For a self-play game, the white and black confirm-move preferences are kept the same, to avoid confusion.
         if ($user_is_player) {
-            if ($user_color == 'w' && $gamedata['white_confirm'] != $confirm) {
+            if ('w' == $user_color && $gamedata['white_confirm'] != $confirm) {
                 $gamedata['white_confirm'] = $confirm;
                 if ($selfplay) {
                     $gamedata['black_confirm'] = $confirm;
                 }
                 $gamedata_updated = true;
-            } elseif ($user_color == 'b' && $gamedata['black_confirm'] != $confirm) {
+            } elseif ('b' == $user_color && $gamedata['black_confirm'] != $confirm) {
                 $gamedata['black_confirm'] = $confirm;
                 if ($selfplay) {
                     $gamedata['white_confirm'] = $confirm;
@@ -184,7 +184,7 @@ function chess_game()
                             break; // move invalid, so don't bother checking draw-claim
                         }
                     }
-                    [$draw_claim_valid, $draw_claim_text] = $movetype == _CHESS_MOVETYPE_CLAIM_DRAW_3
+                    [$draw_claim_valid, $draw_claim_text] = _CHESS_MOVETYPE_CLAIM_DRAW_3 == $movetype
                         ? chess_is_draw_threefold_repetition($gamedata) : chess_is_draw_50_move_rule($gamedata);
                     #var_dump('chess_game', $draw_claim_valid, $draw_claim_text);#*#DEBUG#
                     if ($draw_claim_valid) {
@@ -203,7 +203,7 @@ function chess_game()
             case _CHESS_MOVETYPE_RESIGN:
                 if ($user_is_player) {
                     $gamedata['offer_draw']   = '';
-                    $gamedata['pgn_result']   = $user_color == 'w' ? '0-1' : '1-0';
+                    $gamedata['pgn_result']   = 'w' == $user_color ? '0-1' : '1-0';
                     $comment                  = '{' . $user_color_name . ' ' . _MD_CHESS_RESIGNED . '}';
                     $gamedata['pgn_movetext'] = str_replace('*', "{$gamedata['pgn_result']} $comment", $gamedata['pgn_movetext']);
                     $gamedata_updated         = true;
@@ -266,7 +266,7 @@ function chess_game()
             case _CHESS_MOVETYPE_DELETE:
                 if ($user_is_player && ($selfplay || chess_can_delete())) {
                     $delete_game = true; // must defer actual deletion until after notifications are sent
-                    $notify      = eval('return "' ._MD_CHESS_DELETED_GAME. '";'); // eval references $username
+                    $notify      = eval('return \'' . _MD_CHESS_DELETED_GAME . '\';'); // eval references $username
                 }
                 break;
 
@@ -277,7 +277,7 @@ function chess_game()
                     $sep = '|';
                     $move_explain = str_replace($sep, '_', $move_explain);
 
-                    $gamedata['suspended'] = implode($sep, array(date('Y-m-d H:i:s'), $uid, _CHESS_MOVETYPE_WANT_ARBITRATION, $move_explain));
+                    $gamedata['suspended'] = implode($sep, [date('Y-m-d H:i:s'), $uid, _CHESS_MOVETYPE_WANT_ARBITRATION, $move_explain]);
                     $gamedata_updated      = true;
                     $notify = "$user_color_name " . _MD_CHESS_RQSTED_ARBT . ' ' . _MD_CHESS_BEEN_SUSPENDED;
                 }
@@ -286,8 +286,8 @@ function chess_game()
     }
 
     // If board orientation setting uninitialized or invalid, set it to the appropriate default.
-    if (!in_array($orientation, array(_CHESS_ORIENTATION_ACTIVE, _CHESS_ORIENTATION_WHITE, _CHESS_ORIENTATION_BLACK))) {
-        if ($user_is_player && $user_color == 'b') {
+    if (!in_array($orientation, [_CHESS_ORIENTATION_ACTIVE, _CHESS_ORIENTATION_WHITE, _CHESS_ORIENTATION_BLACK])) {
+        if ($user_is_player && 'b' == $user_color) {
             $orientation = _CHESS_ORIENTATION_BLACK;
         } else {
             $orientation = _CHESS_ORIENTATION_WHITE;
@@ -305,15 +305,15 @@ function chess_game()
         switch ($arbiter_action) {
 
             case _CHESS_ARBITER_RESUME:
-                if ($gamedata['suspended'] && $gamedata['pgn_result'] == '*') {
+                if ($gamedata['suspended'] && '*' == $gamedata['pgn_result']) {
                     $gamedata['suspended'] = '';
                     $gamedata_updated      = true;
-                    $notify                = eval('return "' ._MD_CHESS_RESUMED_PLAY. '";'); // eval references $username
+                    $notify                = eval('return \'' . _MD_CHESS_RESUMED_PLAY . '\';'); // eval references $username
                 }
                 break;
 
             case _CHESS_ARBITER_DRAW:
-                if ($gamedata['suspended'] && $gamedata['pgn_result'] == '*') {
+                if ($gamedata['suspended'] && '*' == $gamedata['pgn_result']) {
                     $gamedata['offer_draw']   = '';
                     $gamedata['pgn_result']   = '1/2-1/2';
                     $arbiter_explain          = str_replace('{', '(', $arbiter_explain);
@@ -322,27 +322,27 @@ function chess_game()
                     $gamedata['pgn_movetext'] = str_replace('*', "{$gamedata['pgn_result']} $comment", $gamedata['pgn_movetext']);
                     $gamedata['suspended']    = '';
                     $gamedata_updated         = true;
-                    $notify                   = eval('return "' ._MD_CHESS_DECLARED_DRAW. '";'); // eval references $username
+                    $notify                   = eval('return \'' . _MD_CHESS_DECLARED_DRAW . '\';'); // eval references $username
                 }
                 break;
 
             case _CHESS_ARBITER_DELETE:
                 if ($gamedata['suspended']) {
                     $delete_game = true; // must defer actual deletion until after notifications are sent
-                    $notify      = eval('return "' ._MD_CHESS_DELETED_GAME. '";'); // eval references $username
+                    $notify      = eval('return \'' . _MD_CHESS_DELETED_GAME . '\';'); // eval references $username
                 }
                 break;
 
             case _CHESS_ARBITER_SUSPEND:
-                if (!$gamedata['suspended'] && $gamedata['pgn_result'] == '*') {
+                if (!$gamedata['suspended'] && '*' == $gamedata['pgn_result']) {
 
                     // Ensure that $arbiter_explain does not contain separator $sep.
                     $sep = '|';
                     $arbiter_explain = str_replace($sep, '_', $arbiter_explain);
 
-                    $gamedata['suspended'] = implode('|', array(date('Y-m-d H:i:s'), $uid, _CHESS_MOVETYPE_ARBITER_SUSPEND, $arbiter_explain));
+                    $gamedata['suspended'] = implode('|', [date('Y-m-d H:i:s'), $uid, _CHESS_MOVETYPE_ARBITER_SUSPEND, $arbiter_explain]);
                     $gamedata_updated      = true;
-                    $notify                = eval('return "' ._MD_CHESS_SUSPENDED_PLAY. '";'); // eval references $username
+                    $notify                = eval('return \'' . _MD_CHESS_SUSPENDED_PLAY . '\';'); // eval references $username
                 }
                 break;
 
@@ -365,13 +365,13 @@ function chess_game()
     if (!empty($notify)) {
         $notificationHandler = xoops_getHandler('notification');
 
-        $notificationHandler->triggerEvent('game', $game_id, 'notify_game_move', array('CHESS_ACTION' => $notify));
+        $notificationHandler->triggerEvent('game', $game_id, 'notify_game_move', ['CHESS_ACTION' => $notify]);
 
         // admin notifications
-        if ($movetype == _CHESS_MOVETYPE_WANT_ARBITRATION) {
+        if (_CHESS_MOVETYPE_WANT_ARBITRATION == $movetype) {
             $event      = 'notify_request_arbitration';
             $username   =  $xoopsUser ? $xoopsUser->getVar('uname') : '(' ._MD_CHESS_UNKNOWN. ')';
-            $extra_tags = array('CHESS_REQUESTOR' => $username, 'CHESS_GAME_ID' => $game_id, 'CHESS_EXPLAIN' => $move_explain);
+            $extra_tags = ['CHESS_REQUESTOR' => $username, 'CHESS_GAME_ID' => $game_id, 'CHESS_EXPLAIN' => $move_explain];
             $notificationHandler->triggerEvent('global', 0, $event, $extra_tags);
         }
     }
@@ -412,9 +412,9 @@ function chess_put_game($game_id, $gamedata)
 {
     global $xoopsDB;
 
-    $myts = myTextSanitizer::getInstance();
-    $suspended_q = $myts->addslashes($gamedata['suspended']);
-    $movetext_q  = $myts->addslashes($gamedata['pgn_movetext']);
+    $myts = MyTextSanitizer::getInstance();
+    $suspended_q = $myts->addSlashes($gamedata['suspended']);
+    $movetext_q  = $myts->addSlashes($gamedata['pgn_movetext']);
 
     $table  = $xoopsDB->prefix('chess_games');
     #echo "updating database table $table<br>\n";#*#DEBUG#
@@ -441,7 +441,7 @@ function chess_put_game($game_id, $gamedata)
         trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
     }
 
-    if ($gamedata['pgn_result'] != '*' && $gamedata['is_rated'] == '1') {
+    if ('*' != $gamedata['pgn_result'] && '1' == $gamedata['is_rated']) {
         require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
         chess_ratings_adj($game_id);
     }
@@ -477,7 +477,7 @@ function chess_delete_game($game_id)
  */
 function chess_move(&$gamedata, $move)
 {
-    $gamestate = array(
+    $gamestate = [
         'fen_piece_placement'          => $gamedata['fen_piece_placement'],
         'fen_active_color'             => $gamedata['fen_active_color'],
         'fen_castling_availability'    => $gamedata['fen_castling_availability'],
@@ -487,7 +487,7 @@ function chess_move(&$gamedata, $move)
         'pgn_fen'                      => $gamedata['pgn_fen'],
         'pgn_result'                   => $gamedata['pgn_result'],
         'pgn_movetext'                 => $gamedata['pgn_movetext'],
-    );
+    ];
 
     $chessgame = new ChessGame($gamestate);
 
@@ -521,12 +521,12 @@ function chess_move(&$gamedata, $move)
         $gamedata['last_date'] = date('Y-m-d H:i:s');
 
         // if start_date undefined (first move), initialize it
-        if ($gamedata['start_date'] == '0000-00-00 00:00:00') {
+        if ('0000-00-00 00:00:00' == $gamedata['start_date']) {
             $gamedata['start_date'] = $gamedata['last_date'];
         }
     }
 
-    return array($move_performed, $move_result_text);
+    return [$move_performed, $move_result_text];
 }
 
 /**
@@ -549,7 +549,7 @@ function chess_is_draw_50_move_rule($gamedata)
         $draw_claim_text  = _MD_CHESS_NO_DRAW_50;
     }
 
-    return array($draw_claim_valid, $draw_claim_text);
+    return [$draw_claim_valid, $draw_claim_text];
 }
 
 /**
@@ -570,7 +570,7 @@ function chess_is_draw_threefold_repetition($gamedata)
     // Define this constant as true to output a log file containing a move analysis.
     define('CHESS_LOG_3FOLD', false);
     if (CHESS_LOG_3FOLD) {
-        $log = array();
+        $log = [];
     }
 
     $chessgame = new ChessGame($gamedata);
@@ -580,7 +580,7 @@ function chess_is_draw_threefold_repetition($gamedata)
     $last_move_number = $gamedata['fen_fullmove_number'];
     #echo "last_board_state='$last_board_state'<br>\n";#*#DEBUG#
     if (CHESS_LOG_3FOLD) {
-        $log[] = sprintf("%08x %03d%1s %s", crc32($last_board_state), $gamedata['fen_fullmove_number'], $gamedata['fen_active_color'], $last_board_state);
+        $log[] = sprintf('%08x %03d%1s %s', crc32($last_board_state), $gamedata['fen_fullmove_number'], $gamedata['fen_active_color'], $last_board_state);
     }
 
     $chessgame = new ChessGame($gamedata['pgn_fen']);
@@ -613,7 +613,7 @@ function chess_is_draw_threefold_repetition($gamedata)
     if ($tmp_gamedata['fen_fullmove_number'] != $last_move_number && $board_state == $last_board_state) {
         $repeats[] = $tmp_gamedata['fen_fullmove_number'] . $tmp_gamedata['fen_active_color'];
         if (CHESS_LOG_3FOLD) {
-            $log[] = sprintf("%08x %03d%1s %s", crc32($board_state), $tmp_gamedata['fen_fullmove_number'], $tmp_gamedata['fen_active_color'], $board_state);
+            $log[] = sprintf('%08x %03d%1s %s', crc32($board_state), $tmp_gamedata['fen_fullmove_number'], $tmp_gamedata['fen_active_color'], $board_state);
         }
         #*#DEBUG# - start
 /***
@@ -657,7 +657,7 @@ function chess_is_draw_threefold_repetition($gamedata)
             #echo "FEN: '{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']} {$tmp_gamedata['fen_halfmove_clock']} {$tmp_gamedata['fen_fullmove_number']}'<br>\n";#*#DEBUG#
             $board_state = "{$tmp_gamedata['fen_piece_placement']} {$tmp_gamedata['fen_active_color']} {$tmp_gamedata['fen_castling_availability']} {$tmp_gamedata['fen_en_passant_target_square']}";
             if (CHESS_LOG_3FOLD) {
-                $log[] = sprintf("%08x %03d%1s %s", crc32($board_state), $tmp_gamedata['fen_fullmove_number'], $tmp_gamedata['fen_active_color'], $board_state);
+                $log[] = sprintf('%08x %03d%1s %s', crc32($board_state), $tmp_gamedata['fen_fullmove_number'], $tmp_gamedata['fen_active_color'], $board_state);
             }
             if ($tmp_gamedata['fen_fullmove_number'] != $last_move_number && $board_state == $last_board_state) {
                 $repeats[] = $tmp_gamedata['fen_fullmove_number'] . $tmp_gamedata['fen_active_color'];
@@ -704,7 +704,7 @@ function chess_is_draw_threefold_repetition($gamedata)
         error_log(implode("\n", $log), 3, $logfile);
     }
 
-    return array($draw_claim_valid, $draw_claim_text);
+    return [$draw_claim_valid, $draw_claim_text];
 }
 
 /**
@@ -715,17 +715,17 @@ function chess_is_draw_threefold_repetition($gamedata)
  */
 function chess_make_movelist($movetext)
 {
-    $movelist    = array();
+    $movelist    = [];
     $move_tokens = explode(' ', preg_replace('/\{.*\}/', '', $movetext));
     $index       = -1;
     while ($move_tokens) {
         $move_token = array_shift($move_tokens);
-        if (in_array($move_token, array('1-0', '0-1', '1/2-1/2', '*'))) {
+        if (in_array($move_token, ['1-0', '0-1', '1/2-1/2', '*'])) {
             break;
         } elseif (preg_match('/^\d+(\.|\.\.\.)$/', $move_token, $matches)) {
             ++$index;
             $movelist[$index][] = $move_token;
-            if ($matches[1] == '...') { // setup-game with initial black move - add padding for white's move
+            if ('...' == $matches[1]) { // setup-game with initial black move - add padding for white's move
                 $movelist[$index][] = '';
             }
         } else {
@@ -765,7 +765,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     switch ($orientation) {
         default:
         case _CHESS_ORIENTATION_ACTIVE:
-            $flip = $gamedata['fen_active_color'] == 'b';
+            $flip = 'b' == $gamedata['fen_active_color'];
             break;
         case _CHESS_ORIENTATION_WHITE:
             $flip = false;
@@ -776,7 +776,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     }
 
     // Convert fen_piece_placement string into 8x8-array $tiles.
-    $tiles = array();
+    $tiles = [];
     $ranks = explode('/', $gamedata['fen_piece_placement']);
     if ($flip) {
         $ranks = array_reverse($ranks);
@@ -799,7 +799,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     // Convert pgn_movetext into Nx3 array $movelist.
     $movelist = chess_make_movelist($gamedata['pgn_movetext']);
 
-    static $file_labels = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+    static $file_labels = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     if ($flip) {
         $file_labels = array_reverse($file_labels);
     }
@@ -813,9 +813,9 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
         $xoopsTpl->assign('chess_result_comment', '');
     }
 
-    $xoopsTpl->assign('chess_create_date', $gamedata['create_date'] != '0000-00-00 00:00:00' ? strtotime($gamedata['create_date']) : 0);
-    $xoopsTpl->assign('chess_start_date', $gamedata['start_date']  != '0000-00-00 00:00:00' ? strtotime($gamedata['start_date'])  : 0);
-    $xoopsTpl->assign('chess_last_date', $gamedata['last_date']   != '0000-00-00 00:00:00' ? strtotime($gamedata['last_date'])   : 0);
+    $xoopsTpl->assign('chess_create_date', '0000-00-00 00:00:00' != $gamedata['create_date'] ? strtotime($gamedata['create_date']) : 0);
+    $xoopsTpl->assign('chess_start_date', '0000-00-00 00:00:00' != $gamedata['start_date'] ? strtotime($gamedata['start_date'])  : 0);
+    $xoopsTpl->assign('chess_last_date', '0000-00-00 00:00:00' != $gamedata['last_date'] ? strtotime($gamedata['last_date'])   : 0);
     $xoopsTpl->assign('chess_white_user', $white_username);
     $xoopsTpl->assign('chess_black_user', $black_username);
     $xoopsTpl->assign('chess_tiles', $tiles);
@@ -824,7 +824,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     $xoopsTpl->assign(
         'chess_pgn_string',
         chess_to_pgn_string(
-            array(
+            [
                 'event'    => '?',
                 'site'     => $_SERVER['SERVER_NAME'],
                 'datetime' => $gamedata['start_date'],
@@ -835,7 +835,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
                 'setup'    => !empty($gamedata['pgn_fen']) ? 1 : 0,
                 'fen'      => $gamedata['pgn_fen'],
                 'movetext' => $gamedata['pgn_movetext'],
-            )
+            ]
         )
     );
 
@@ -850,7 +850,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 
     $xoopsTpl->assign('chess_user_color', $user_color);
 
-    $xoopsTpl->assign('chess_confirm', $gamedata[$user_color == 'w' ? 'white_confirm' : 'black_confirm']);
+    $xoopsTpl->assign('chess_confirm', $gamedata['w' == $user_color ? 'white_confirm' : 'black_confirm']);
     $xoopsTpl->assign('chess_orientation', $orientation);
 
     $xoopsTpl->assign('chess_rank_start', $flip ? 1      : 8);
@@ -859,21 +859,21 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     $xoopsTpl->assign('chess_file_start', $flip ? 8      : 1);
     $xoopsTpl->assign('chess_file_direction', $flip ? 'down' : 'up');
 
-    static $pieces = array(
-        'K' => array('color' => 'w', 'name' => 'wking',   'alt' => _MD_CHESS_ALT_WKING),
-        'Q' => array('color' => 'w', 'name' => 'wqueen',  'alt' => _MD_CHESS_ALT_WQUEEN),
-        'R' => array('color' => 'w', 'name' => 'wrook',   'alt' => _MD_CHESS_ALT_WROOK),
-        'B' => array('color' => 'w', 'name' => 'wbishop', 'alt' => _MD_CHESS_ALT_WBISHOP),
-        'N' => array('color' => 'w', 'name' => 'wknight', 'alt' => _MD_CHESS_ALT_WKNIGHT),
-        'P' => array('color' => 'w', 'name' => 'wpawn',   'alt' => _MD_CHESS_ALT_WPAWN),
-        'k' => array('color' => 'b', 'name' => 'bking',   'alt' => _MD_CHESS_ALT_BKING),
-        'q' => array('color' => 'b', 'name' => 'bqueen',  'alt' => _MD_CHESS_ALT_BQUEEN),
-        'r' => array('color' => 'b', 'name' => 'brook',   'alt' => _MD_CHESS_ALT_BROOK),
-        'b' => array('color' => 'b', 'name' => 'bbishop', 'alt' => _MD_CHESS_ALT_BBISHOP),
-        'n' => array('color' => 'b', 'name' => 'bknight', 'alt' => _MD_CHESS_ALT_BKNIGHT),
-        'p' => array('color' => 'b', 'name' => 'bpawn',   'alt' => _MD_CHESS_ALT_BPAWN),
-        'x' => array('color' => 'x', 'name' => 'empty',   'alt' => _MD_CHESS_ALT_EMPTY),
-    );
+    static $pieces = [
+        'K' => ['color' => 'w', 'name' => 'wking', 'alt' => _MD_CHESS_ALT_WKING],
+        'Q' => ['color' => 'w', 'name' => 'wqueen', 'alt' => _MD_CHESS_ALT_WQUEEN],
+        'R' => ['color' => 'w', 'name' => 'wrook', 'alt' => _MD_CHESS_ALT_WROOK],
+        'B' => ['color' => 'w', 'name' => 'wbishop', 'alt' => _MD_CHESS_ALT_WBISHOP],
+        'N' => ['color' => 'w', 'name' => 'wknight', 'alt' => _MD_CHESS_ALT_WKNIGHT],
+        'P' => ['color' => 'w', 'name' => 'wpawn', 'alt' => _MD_CHESS_ALT_WPAWN],
+        'k' => ['color' => 'b', 'name' => 'bking', 'alt' => _MD_CHESS_ALT_BKING],
+        'q' => ['color' => 'b', 'name' => 'bqueen', 'alt' => _MD_CHESS_ALT_BQUEEN],
+        'r' => ['color' => 'b', 'name' => 'brook', 'alt' => _MD_CHESS_ALT_BROOK],
+        'b' => ['color' => 'b', 'name' => 'bbishop', 'alt' => _MD_CHESS_ALT_BBISHOP],
+        'n' => ['color' => 'b', 'name' => 'bknight', 'alt' => _MD_CHESS_ALT_BKNIGHT],
+        'p' => ['color' => 'b', 'name' => 'bpawn', 'alt' => _MD_CHESS_ALT_BPAWN],
+        'x' => ['color' => 'x', 'name' => 'empty', 'alt' => _MD_CHESS_ALT_EMPTY],
+    ];
     $xoopsTpl->assign('chess_pieces', $pieces);
 
     $xoopsTpl->assign('chess_show_arbitration_controls', $show_arbiter_ctrl);
@@ -893,20 +893,20 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
         }
         $susp_user     = $memberHandler->getUser($susp_uid);
         $susp_username =  is_object($susp_user) ? $susp_user->getVar('uname') : _MD_CHESS_UNKNOWN;
-        $suspend_info = array(
+        $suspend_info = [
             'date'   => strtotime($susp_date),
             'user'   => $susp_username,
             'type'   => $susp_type_display,
             'reason' => $susp_explain,
-        );
+        ];
         $xoopsTpl->assign('chess_suspend_info', $suspend_info);
     }
 
     // Initialize $captured_pieces_all to indicate all pieces captured, then subtract off the pieces remaining on the board.
-    $captured_pieces_all = array(
+    $captured_pieces_all = [
         'Q' => 1, 'R' => 2, 'B' => 2, 'N' => 2, 'P' => 8,
         'q' => 1, 'r' => 2, 'b' => 2, 'n' => 2, 'p' => 8,
-    );
+    ];
     for ($i = 0; $i < strlen($gamedata['fen_piece_placement']); ++$i) {
         $piece = $gamedata['fen_piece_placement']{$i};
         if (!empty($captured_pieces_all[$piece])) {
@@ -915,13 +915,13 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     }
 
     // Construct lists of white's and black's captured pieces.
-    $captured_pieces = array('white' => array(), 'black' => array());
+    $captured_pieces = ['white' => [], 'black' => []];
     foreach ($captured_pieces_all as $piece => $count) {
         if ($count > 0) {
             if (ctype_upper($piece)) {
-                $captured_pieces['white'] = array_merge($captured_pieces['white'], array_pad(array(), $count, $piece));
+                $captured_pieces['white'] = array_merge($captured_pieces['white'], array_pad([], $count, $piece));
             } elseif (ctype_lower($piece)) {
-                $captured_pieces['black'] = array_merge($captured_pieces['black'], array_pad(array(), $count, $piece));
+                $captured_pieces['black'] = array_merge($captured_pieces['black'], array_pad([], $count, $piece));
             }
         }
     }
@@ -929,7 +929,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     #var_dump('captured_pieces', $captured_pieces);#*#DEBUG#
     $xoopsTpl->assign('chess_captured_pieces', $captured_pieces);
 
-    $xoopsTpl->assign('chess_pawn_promote_choices', $gamedata['fen_active_color'] == 'w' ? array('Q','R','B','N') : array('q','r','b','n'));
+    $xoopsTpl->assign('chess_pawn_promote_choices', 'w' == $gamedata['fen_active_color'] ? ['Q', 'R', 'B', 'N'] : ['q', 'r', 'b', 'n']);
 
     $xoopsTpl->assign('chess_allow_delete', chess_can_delete());
 
@@ -937,7 +937,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     // (Note that template is compiled here by fetch(), so any template variables it uses must already be defined.)
     $xoopsTpl->assign('chess_pawn_promote_popup', $user_color ? $xoopsTpl->fetch('db:chess_game_promote_popup.tpl') : '');
 
-    $xoopsTpl->assign('chess_ratings_enabled', chess_moduleConfig('rating_system') != 'none');
+    $xoopsTpl->assign('chess_ratings_enabled', 'none' != chess_moduleConfig('rating_system'));
 
     // security token
     $xoopsTpl->assign('chess_xoops_request_token', is_object($GLOBALS['xoopsSecurity']) ? $GLOBALS['xoopsSecurity']->getTokenHTML() : '');
