@@ -25,6 +25,8 @@
  *
  * @package chess
  * @subpackage functions
+ * @param mixed $text
+ * @param mixed $allowed_characters
  */
 
 /**
@@ -38,6 +40,7 @@
 function chess_sanitize($text, $allowed_characters = 'A-Za-z0-9')
 {
     $char_class = preg_quote($allowed_characters, '/');
+
     return preg_replace("/[^$char_class]/", '_', $text);
 }
 
@@ -56,11 +59,13 @@ function chess_moduleConfig($option)
     if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname') && isset($xoopsModuleConfig[$option])) {
         $value = $xoopsModuleConfig[$option];
     } else { // for use within a block
-    
         $moduleHandler = xoops_getHandler('module');
-        $module         = $moduleHandler->getByDirname('chess');
+
+        $module = $moduleHandler->getByDirname('chess');
+
         $configHandler = xoops_getHandler('config');
-        $moduleConfig   = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+
+        $moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 
         if (isset($moduleConfig[$option])) {
             $value = $moduleConfig[$option];
@@ -84,13 +89,14 @@ function chess_can_play($uid = null)
 
     if (isset($uid)) {
         $memberHandler = xoops_getHandler('member');
-        $user           = $memberHandler->getUser($uid);
+
+        $user = $memberHandler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
-        $user =& $xoopsUser;
+        $user = &$xoopsUser;
     } else {
         $user = null;
     }
-        
+
     $groups_play = chess_moduleConfig('groups_play');
 
     $can_play = false;
@@ -116,13 +122,14 @@ function chess_can_delete($uid = null)
 
     if (isset($uid)) {
         $memberHandler = xoops_getHandler('member');
-        $user           = $memberHandler->getUser($uid);
+
+        $user = $memberHandler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
-        $user =& $xoopsUser;
+        $user = &$xoopsUser;
     } else {
         $user = null;
     }
-        
+
     $groups_delete = chess_moduleConfig('groups_delete');
 
     $can_delete = false;
@@ -149,11 +156,13 @@ function chess_can_delete($uid = null)
 function chess_to_pgn_string($data)
 {
     #var_dump('chess_to_pgn_string, data=', $data);#*#DEBUG#
+
     if ('0000-00-00 00:00:00' == $data['datetime']) {
         $datetime = '????.??.?? ??:??:??';
     } else {
         $datetime = str_replace('-', '.', $data['datetime']);
     }
+
     [$date, $time] = explode(' ', $datetime);
 
     $movetext = wordwrap($data['movetext'], 75);
@@ -188,10 +197,13 @@ END;
 function chess_uname_to_uid($uname)
 {
     $criteria = new CriteriaCompo();
+
     $criteria->add(new Criteria('uname', MyTextSanitizer::addSlashes($uname)));
+
     $criteria->setLimit(1);
 
     $memberHandler = xoops_getHandler('member');
+
     $users = $memberHandler->getUserList($criteria);
 
     $uids = array_keys($users);

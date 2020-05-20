@@ -15,15 +15,12 @@ namespace XoopsModules\Chess;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *
  * @license      https://www.fsf.org/copyleft/gpl.html GNU public license
  * @copyright    https://xoops.org 2000-2020 &copy; XOOPS Project
  * @author       Mamba <mambax7@gmail.com>
  */
 
-use XoopsModules\Chess;
-use XoopsModules\Chess\Common;
-use XoopsModules\Chess\Constants;
+//use XoopsModules\Chess\Constants;
 
 /**
  * Class Utility

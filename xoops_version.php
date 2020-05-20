@@ -24,105 +24,104 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-$moduleDirName      = basename(__DIR__);
+$moduleDirName = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 // ------------------- Informations ------------------- //
 $modversion = [
-    'version'             => 2.01,
-    'module_status'       => 'Alpha 1',
-    'release_date'        => '2020/05/19',
-    'name'                => _MI_CHESS,
-    'description'         => _MI_CHESS_DES,
-    'official'            => 0,
+    'version' => 2.01,
+    'module_status' => 'Alpha 1',
+    'release_date' => '2020/05/19',
+    'name' => _MI_CHESS,
+    'description' => _MI_CHESS_DES,
+    'official' => 0,
     //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
-    'author'              => '<a target="_blank" href="http://Dave-L.com/">Dave Lerner</a>, Mamba',
+    'author' => '<a target="_blank" href="http://Dave-L.com/">Dave Lerner</a>, Mamba',
 
-    'credits'             => 'XOOPS Development Team',
-    'author_mail'         => 'author-email',
-    'author_website_url'  => 'https://xoops.org',
+    'credits' => 'XOOPS Development Team',
+    'author_mail' => 'author-email',
+    'author_website_url' => 'https://xoops.org',
     'author_website_name' => 'XOOPS',
-    'license'             => 'GPL 2.0 or later',
-    'license_url'         => 'www.gnu.org/licenses/gpl-2.0.html/',
+    'license' => 'GPL 2.0 or later',
+    'license_url' => 'www.gnu.org/licenses/gpl-2.0.html/',
     // ------------------- Folders & Files -------------------
-    'release_info'        => 'Changelog',
-    'release_file'        => XOOPS_URL . "/modules/$moduleDirName/docs/changelog.txt",
+    'release_info' => 'Changelog',
+    'release_file' => XOOPS_URL . "/modules/$moduleDirName/docs/changelog.txt",
 
-    'manual'              => 'link to manual file',
-    'manual_file'         => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
+    'manual' => 'link to manual file',
+    'manual_file' => XOOPS_URL . "/modules/$moduleDirName/docs/install.txt",
     // images
-    'image'               => 'assets/images/logoModule.png',
-    'iconsmall'           => 'assets/images/iconsmall.png',
-    'iconbig'             => 'assets/images/iconbig.png',
-    'dirname'             => $moduleDirName,
+    'image' => 'assets/images/logoModule.png',
+    'iconsmall' => 'assets/images/iconsmall.png',
+    'iconbig' => 'assets/images/iconbig.png',
+    'dirname' => $moduleDirName,
     //Frameworks
     //    'dirmoduleadmin'      => 'Frameworks/moduleclasses/moduleadmin',
     //    'sysicons16'          => 'Frameworks/moduleclasses/icons/16',
     //    'sysicons32'          => 'Frameworks/moduleclasses/icons/32',
     // Local path icons
-    'modicons16'          => 'assets/images/icons/16',
-    'modicons32'          => 'assets/images/icons/32',
+    'modicons16' => 'assets/images/icons/16',
+    'modicons32' => 'assets/images/icons/32',
     //About
-    'demo_site_url'       => 'https://xoops.org',
-    'demo_site_name'      => 'XOOPS Demo Site',
-    'support_url'         => 'https://xoops.org/modules/newbb/viewforum.php?forum=28/',
-    'support_name'        => 'Support Forum',
-    'submit_bug'          => 'https://github.com/XoopsModules25x/' . $moduleDirName . '/issues',
-    'module_website_url'  => 'www.xoops.org',
+    'demo_site_url' => 'https://xoops.org',
+    'demo_site_name' => 'XOOPS Demo Site',
+    'support_url' => 'https://xoops.org/modules/newbb/viewforum.php?forum=28/',
+    'support_name' => 'Support Forum',
+    'submit_bug' => 'https://github.com/XoopsModules25x/' . $moduleDirName . '/issues',
+    'module_website_url' => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '7.1',
-    'min_xoops'           => '2.5.10',
-    'min_admin'           => '1.2',
-    'min_db'              => ['mysql' => '5.5'],
+    'min_php' => '7.1',
+    'min_xoops' => '2.5.10',
+    'min_admin' => '1.2',
+    'min_db' => ['mysql' => '5.5'],
     // ------------------- Admin Menu -------------------
-    'system_menu'         => 1,
-    'hasAdmin'            => 1,
-    'adminindex'          => 'admin/index.php',
-    'adminmenu'           => 'admin/menu.php',
+    'system_menu' => 1,
+    'hasAdmin' => 1,
+    'adminindex' => 'admin/index.php',
+    'adminmenu' => 'admin/menu.php',
     // ------------------- Main Menu -------------------
     'hasMain' => 1,
-    'sub'     => [
-        ['name' => _MI_CHESS_SMNAME1, 'url' => 'help.php',],
-        ['name' => _MI_CHESS_SMNAME2, 'url' => 'index.php',],
+    'sub' => [
+        ['name' => _MI_CHESS_SMNAME1, 'url' => 'help.php'],
+        ['name' => _MI_CHESS_SMNAME2, 'url' => 'index.php'],
     ],
 
     // ------------------- Install/Update -------------------
-    'onInstall'           => 'include/oninstall.php',
-    'onUpdate'            => 'include/onupdate.php',
+    'onInstall' => 'include/oninstall.php',
+    'onUpdate' => 'include/onupdate.php',
     //  'onUninstall'         => 'include/onuninstall.php',
     // -------------------  PayPal ---------------------------
-    'paypal'              => [
-        'business'      => 'xoopsfoundation@gmail.com',
-        'item_name'     => 'Donation : ' . _MI_CHESS_NAME,
-        'amount'        => 0,
+    'paypal' => [
+        'business' => 'xoopsfoundation@gmail.com',
+        'item_name' => 'Donation : ' . _MI_CHESS_NAME,
+        'amount' => 0,
         'currency_code' => 'USD',
     ],
     // ------------------- Search ---------------------------
-    'hasSearch'           => 0,
+    'hasSearch' => 0,
     //    'search'              => [
     //        'file' => 'include/search.inc.php',
     //        'func' => 'pedigree_search',
     //    ],
     // ------------------- Comments -------------------------
-    'hasComments'         => 1,
-    'comments'            => [
+    'hasComments' => 1,
+    'comments' => [
         'itemName' => 'game_id',
         'pageName' => 'game.php',
     ],
     // ------------------- Mysql -----------------------------
-    'sqlfile'             => ['mysql' => 'sql/mysql.sql'],
+    'sqlfile' => ['mysql' => 'sql/mysql.sql'],
     // ------------------- Tables ----------------------------
-    'tables'              => [
+    'tables' => [
         $moduleDirName . '_' . 'games',
         $moduleDirName . '_' . 'challenges',
         $moduleDirName . '_' . 'ratings',
     ],
 ];
 
-
 // ------------------- Help files ------------------- //
-$modversion['help']        = 'page=help';
+$modversion['help'] = 'page=help';
 $modversion['helpsection'] = [
     ['name' => _MI_CHESS_OVERVIEW, 'link' => 'page=help'],
     ['name' => _MI_CHESS_DISCLAIMER, 'link' => 'page=disclaimer'],
@@ -130,11 +129,10 @@ $modversion['helpsection'] = [
     ['name' => _MI_CHESS_SUPPORT, 'link' => 'page=support'],
 ];
 
-
 // Config
-$grouparray     = [];
+$grouparray = [];
 $memberHandler = xoops_getHandler('member');
-$groups         = $memberHandler->getGroups();
+$groups = $memberHandler->getGroups();
 foreach ($groups as $group) {
     if (XOOPS_GROUP_ANONYMOUS != $group->getVar('groupid')) {
         $grouparray[$group->getVar('name')] = $group->getVar('groupid');
@@ -142,81 +140,79 @@ foreach ($groups as $group) {
 }
 
 $modversion['config'][] = [
-    'name'        => 'groups_play',
-    'title'       => '_MI_CHESS_GROUPS_PLAY',
+    'name' => 'groups_play',
+    'title' => '_MI_CHESS_GROUPS_PLAY',
     'description' => '_MI_CHESS_GROUPS_PLAY_DES',
-    'formtype'    => 'group_multi',
-    'valuetype'   => 'array',
-    'default'     => [XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS],
+    'formtype' => 'group_multi',
+    'valuetype' => 'array',
+    'default' => [XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS],
 ];
 
 $modversion['config'][] = [
-    'name'        => 'groups_delete',
-    'title'       => '_MI_CHESS_GROUPS_DELETE',
+    'name' => 'groups_delete',
+    'title' => '_MI_CHESS_GROUPS_DELETE',
     'description' => '_MI_CHESS_GROUPS_DELETE_DES',
-    'formtype'    => 'group_multi',
-    'valuetype'   => 'array',
-    'default'     => [],
+    'formtype' => 'group_multi',
+    'valuetype' => 'array',
+    'default' => [],
 ];
 
 $modversion['config'][] = [
-    'name'        => 'allow_setup',
-    'title'       => '_MI_CHESS_ALLOW_SETUP',
+    'name' => 'allow_setup',
+    'title' => '_MI_CHESS_ALLOW_SETUP',
     'description' => '_MI_CHESS_ALLOW_SETUP_DES',
-    'formtype'    => 'yesno',
-    'valuetype'   => 'int',
-    'default'     => 0,
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
+    'default' => 0,
 ];
 
-
-$modversion['config'][4]['name']        = 'max_items';
-$modversion['config'][4]['title']       = '_MI_CHESS_MAX_ITEMS';
+$modversion['config'][4]['name'] = 'max_items';
+$modversion['config'][4]['title'] = '_MI_CHESS_MAX_ITEMS';
 $modversion['config'][4]['description'] = '_MI_CHESS_MAX_ITEMS_DES';
-$modversion['config'][4]['formtype']    = 'textbox';
-$modversion['config'][4]['valuetype']   = 'int';
-$modversion['config'][4]['default']     = 10;
+$modversion['config'][4]['formtype'] = 'textbox';
+$modversion['config'][4]['valuetype'] = 'int';
+$modversion['config'][4]['default'] = 10;
 
-$modversion['config'][5]['name']        = 'rating_system';
-$modversion['config'][5]['title']       = '_MI_CHESS_RATING_SYSTEM';
+$modversion['config'][5]['name'] = 'rating_system';
+$modversion['config'][5]['title'] = '_MI_CHESS_RATING_SYSTEM';
 $modversion['config'][5]['description'] = '_MI_CHESS_RATING_SYSTEM_DES';
-$modversion['config'][5]['formtype']    = 'select';
-$modversion['config'][5]['valuetype']   = 'text';
-$modversion['config'][5]['options']     = [
-    _MI_CHESS_RATING_SYSTEM_NONE   => 'none',
-    _MI_CHESS_RATING_SYSTEM_CXR    => 'cxr',
+$modversion['config'][5]['formtype'] = 'select';
+$modversion['config'][5]['valuetype'] = 'text';
+$modversion['config'][5]['options'] = [
+    _MI_CHESS_RATING_SYSTEM_NONE => 'none',
+    _MI_CHESS_RATING_SYSTEM_CXR => 'cxr',
     _MI_CHESS_RATING_SYSTEM_LINEAR => 'linear',
 ];
-$modversion['config'][5]['default']     = 'cxr';
+$modversion['config'][5]['default'] = 'cxr';
 
-$modversion['config'][6]['name']        = 'initial_rating';
-$modversion['config'][6]['title']       = '_MI_CHESS_INITIAL_RATING';
+$modversion['config'][6]['name'] = 'initial_rating';
+$modversion['config'][6]['title'] = '_MI_CHESS_INITIAL_RATING';
 $modversion['config'][6]['description'] = '_MI_CHESS_INITIAL_RATING_DES';
-$modversion['config'][6]['formtype']    = 'textbox';
-$modversion['config'][6]['valuetype']   = 'int';
-$modversion['config'][6]['default']     = 1200;
+$modversion['config'][6]['formtype'] = 'textbox';
+$modversion['config'][6]['valuetype'] = 'int';
+$modversion['config'][6]['default'] = 1200;
 
-$modversion['config'][7]['name']        = 'allow_unrated_games';
-$modversion['config'][7]['title']       = '_MI_CHESS_ALLOW_UNRATED';
+$modversion['config'][7]['name'] = 'allow_unrated_games';
+$modversion['config'][7]['title'] = '_MI_CHESS_ALLOW_UNRATED';
 $modversion['config'][7]['description'] = '_MI_CHESS_ALLOW_UNRATED_DES';
-$modversion['config'][7]['formtype']    = 'yesno';
-$modversion['config'][7]['valuetype']   = 'int';
-$modversion['config'][7]['default']     = 1;
-
+$modversion['config'][7]['formtype'] = 'yesno';
+$modversion['config'][7]['valuetype'] = 'int';
+$modversion['config'][7]['default'] = 1;
 
 // Menu
 $modversion['hasMain'] = 1;
 
 $modversion['sub'][1]['name'] = _MI_CHESS_SMNAME1;
-$modversion['sub'][1]['url']  = 'help.php';
+$modversion['sub'][1]['url'] = 'help.php';
 
 $modversion['sub'][2]['name'] = _MI_CHESS_SMNAME2;
-$modversion['sub'][2]['url']  = 'index.php';
+$modversion['sub'][2]['url'] = 'index.php';
 
 // Conditional menu items
 global $xoopsModule, $xoopsModuleConfig, $xoopsUser;
 if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
+    // Display create-game menu item if current user has the play-chess right.
 
-// Display create-game menu item if current user has the play-chess right.
     if (!empty($xoopsModuleConfig['groups_play']) && is_array($xoopsModuleConfig['groups_play'])
         && (
             in_array(XOOPS_GROUP_ANONYMOUS, $xoopsModuleConfig['groups_play'])
@@ -226,19 +222,24 @@ if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
         )
     ) {
         $modversion['sub'][3]['name'] = _MI_CHESS_SMNAME3;
-        $modversion['sub'][3]['url']  = 'create.php';
+
+        $modversion['sub'][3]['url'] = 'create.php';
     }
 
     // Display ratings menu item if ratings system is enabled.
+
     if ('none' != $xoopsModuleConfig['rating_system']) {
         $modversion['sub'][4]['name'] = _MI_CHESS_SMNAME4;
-        $modversion['sub'][4]['url']  = 'ratings.php';
+
+        $modversion['sub'][4]['url'] = 'ratings.php';
     }
 
     // Display my-games menu item if current user is logged in.
+
     if (is_object($xoopsUser)) {
         $modversion['sub'][5]['name'] = _MI_CHESS_SMNAME5;
-        $modversion['sub'][5]['url']  = 'player_stats.php?player_uid=' . $xoopsUser->getVar('uid');
+
+        $modversion['sub'][5]['url'] = 'player_stats.php?player_uid=' . $xoopsUser->getVar('uid');
     }
 }
 
@@ -265,112 +266,111 @@ $modversion['templates'] = [
     ['file' => 'chess_game_arbitrateform.tpl', 'description' => _MI_CHESS_ARBITER_FORM],
     ['file' => 'chess_help.tpl', 'description' => _MI_CHESS_HELP],
 ];
-$modversion['templates'][ 9]['file']        = 'chess_ratings.tpl';
-$modversion['templates'][ 9]['description'] = _MI_CHESS_RATINGS;
-$modversion['templates'][10]['file']        = 'chess_player_stats.tpl';
+$modversion['templates'][9]['file'] = 'chess_ratings.tpl';
+$modversion['templates'][9]['description'] = _MI_CHESS_RATINGS;
+$modversion['templates'][10]['file'] = 'chess_player_stats.tpl';
 $modversion['templates'][10]['description'] = _MI_CHESS_PLAYER_STATS;
 
 // Blocks
 $modversion['blocks'][] = [
-    'file'        => 'blocks.php',
-    'name'        => _MI_CHESS_GAMES,
+    'file' => 'blocks.php',
+    'name' => _MI_CHESS_GAMES,
     'description' => _MI_CHESS_GAMES_DES,
-    'show_func'   => 'b_chess_games_show',
+    'show_func' => 'b_chess_games_show',
     // options: maximum number of games to display | 1=show games in play only/2=show concluded games only/3=show both | 1=show rated games only/2=show rated and unrated games
-    'options'     => '4|3',
-    'edit_func'   => 'b_chess_games_edit',
-    'template'    => 'chess_block_games.tpl',
+    'options' => '4|3',
+    'edit_func' => 'b_chess_games_edit',
+    'template' => 'chess_block_games.tpl',
 ];
 
 $modversion['blocks'][] = [
-    'file'        => 'blocks.php',
-    'name'        => _MI_CHESS_CHALLENGES,
+    'file' => 'blocks.php',
+    'name' => _MI_CHESS_CHALLENGES,
     'description' => _MI_CHESS_CHALLENGES_DES,
-    'show_func'   => 'b_chess_challenges_show',
+    'show_func' => 'b_chess_challenges_show',
     // options: maximum number of challenges to display | 1=show open challenges only/2=show individual challenges only/3=show both
-    'options'     => '4|3',
-    'edit_func'   => 'b_chess_challenges_edit',
-    'template'    => 'chess_block_challenges.tpl',
+    'options' => '4|3',
+    'edit_func' => 'b_chess_challenges_edit',
+    'template' => 'chess_block_challenges.tpl',
 ];
 
-
-$modversion['blocks'][3]['file']        = 'blocks.php';
-$modversion['blocks'][3]['name']        = _MI_CHESS_PLAYERS;
+$modversion['blocks'][3]['file'] = 'blocks.php';
+$modversion['blocks'][3]['name'] = _MI_CHESS_PLAYERS;
 $modversion['blocks'][3]['description'] = _MI_CHESS_PLAYERS_DES;
-$modversion['blocks'][3]['show_func']   = 'b_chess_players_show';
+$modversion['blocks'][3]['show_func'] = 'b_chess_players_show';
 // options: maximum number of players to display | 1=show non-provisional ratings only/2=show all ratings
-$modversion['blocks'][3]['options']     = '4|1';
-$modversion['blocks'][3]['edit_func']   = 'b_chess_players_edit';
-$modversion['blocks'][3]['template']    = 'chess_block_players.tpl';
+$modversion['blocks'][3]['options'] = '4|1';
+$modversion['blocks'][3]['edit_func'] = 'b_chess_players_edit';
+$modversion['blocks'][3]['template'] = 'chess_block_players.tpl';
 
 // Notification
-$modversion['hasNotification']             = 1;
+$modversion['hasNotification'] = 1;
 $modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 $modversion['notification']['lookup_func'] = 'chess_notify_item_info';
 
 $modversion['notification']['category'][] = [
-    'name'           => 'game',
-    'title'          => _MI_CHESS_NCAT_GAME,
-    'description'    => _MI_CHESS_NCAT_GAME_DES,
+    'name' => 'game',
+    'title' => _MI_CHESS_NCAT_GAME,
+    'description' => _MI_CHESS_NCAT_GAME_DES,
     'subscribe_from' => 'game.php',
-    'item_name'      => 'game_id',
+    'item_name' => 'game_id',
     'allow_bookmark' => 1,
 ];
 
 $modversion['notification']['category'][] = [
-    'name'           => 'global',
-    'title'          => _MI_CHESS_NCAT_GLOBAL,
-    'description'    => _MI_CHESS_NCAT_GLOBAL_DES,
+    'name' => 'global',
+    'title' => _MI_CHESS_NCAT_GLOBAL,
+    'description' => _MI_CHESS_NCAT_GLOBAL_DES,
     'subscribe_from' => ['index.php', 'game.php'],
 ];
 
 $modversion['notification']['event'][] = [
-    'name'          => 'notify_game_move',
-    'category'      => 'game',
-    'title'         => _MI_CHESS_NEVT_MOVE,
-    'caption'       => _MI_CHESS_NEVT_MOVE_CAP,
-    'description'   => _MI_CHESS_NEVT_MOVE_DES,
+    'name' => 'notify_game_move',
+    'category' => 'game',
+    'title' => _MI_CHESS_NEVT_MOVE,
+    'caption' => _MI_CHESS_NEVT_MOVE_CAP,
+    'description' => _MI_CHESS_NEVT_MOVE_DES,
     'mail_template' => 'notify_game_move',
-    'mail_subject'  => _MI_CHESS_NEVT_MOVE_SUB,
+    'mail_subject' => _MI_CHESS_NEVT_MOVE_SUB,
 ];
 
 $modversion['notification']['event'][] = [
-    'name'          => 'notify_challenge_user',
-    'category'      => 'global',
-    'title'         => _MI_CHESS_NEVT_CHAL_USER,
-    'caption'       => _MI_CHESS_NEVT_CHAL_USER_CAP,
-    'description'   => _MI_CHESS_NEVT_CHAL_USER_DES,
+    'name' => 'notify_challenge_user',
+    'category' => 'global',
+    'title' => _MI_CHESS_NEVT_CHAL_USER,
+    'caption' => _MI_CHESS_NEVT_CHAL_USER_CAP,
+    'description' => _MI_CHESS_NEVT_CHAL_USER_DES,
     'mail_template' => 'notify_challenge_user',
-    'mail_subject'  => _MI_CHESS_NEVT_CHAL_USER_SUB,
+    'mail_subject' => _MI_CHESS_NEVT_CHAL_USER_SUB,
 ];
 
 $modversion['notification']['event'][] = [
-    'name'          => 'notify_challenge_open',
-    'category'      => 'global',
-    'title'         => _MI_CHESS_NEVT_CHAL_OPEN,
-    'caption'       => _MI_CHESS_NEVT_CHAL_OPEN_CAP,
-    'description'   => _MI_CHESS_NEVT_CHAL_OPEN_DES,
+    'name' => 'notify_challenge_open',
+    'category' => 'global',
+    'title' => _MI_CHESS_NEVT_CHAL_OPEN,
+    'caption' => _MI_CHESS_NEVT_CHAL_OPEN_CAP,
+    'description' => _MI_CHESS_NEVT_CHAL_OPEN_DES,
     'mail_template' => 'notify_challenge_open',
-    'mail_subject'  => _MI_CHESS_NEVT_CHAL_OPEN_SUB,
+    'mail_subject' => _MI_CHESS_NEVT_CHAL_OPEN_SUB,
 ];
 
 $modversion['notification']['event'][] = [
-    'name'          => 'notify_accept_challenge',
-    'category'      => 'global',
-    'title'         => _MI_CHESS_NEVT_ACPT_CHAL,
-    'caption'       => _MI_CHESS_NEVT_ACPT_CHAL_CAP,
-    'description'   => _MI_CHESS_NEVT_ACPT_CHAL_DES,
+    'name' => 'notify_accept_challenge',
+    'category' => 'global',
+    'title' => _MI_CHESS_NEVT_ACPT_CHAL,
+    'caption' => _MI_CHESS_NEVT_ACPT_CHAL_CAP,
+    'description' => _MI_CHESS_NEVT_ACPT_CHAL_DES,
     'mail_template' => 'notify_accept_challenge',
-    'mail_subject'  => _MI_CHESS_NEVT_ACPT_CHAL_SUB,
+    'mail_subject' => _MI_CHESS_NEVT_ACPT_CHAL_SUB,
 ];
 
 $modversion['notification']['event'][] = [
-    'name'          => 'notify_request_arbitration',
-    'category'      => 'global',
-    'title'         => _MI_CHESS_NEVT_RQST_ARBT,
-    'caption'       => _MI_CHESS_NEVT_RQST_ARBT_CAP,
-    'description'   => _MI_CHESS_NEVT_RQST_ARBT_DES,
+    'name' => 'notify_request_arbitration',
+    'category' => 'global',
+    'title' => _MI_CHESS_NEVT_RQST_ARBT,
+    'caption' => _MI_CHESS_NEVT_RQST_ARBT_CAP,
+    'description' => _MI_CHESS_NEVT_RQST_ARBT_DES,
     'mail_template' => 'notify_request_arbitration',
-    'mail_subject'  => _MI_CHESS_NEVT_RQST_ARBT_SUB,
-    'admin_only'    => 1,
+    'mail_subject' => _MI_CHESS_NEVT_RQST_ARBT_SUB,
+    'admin_only' => 1,
 ];

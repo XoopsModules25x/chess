@@ -25,6 +25,7 @@ class ChessCorePreload extends XoopsPreloadItem
     /**
      * @param $args
      */
+
     public static function eventCoreIncludeCommonEnd($args)
     {
         require __DIR__ . '/autoloader.php';

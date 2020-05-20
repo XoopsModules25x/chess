@@ -67,22 +67,22 @@ define('_MI_CHESS_RATING_SYSTEM', 'Spielerbewertungssystem');
 define('_MI_CHESS_RATING_SYSTEM_DES', '
 	Verfügbare Bewertungssysteme:
 	<BR><BR>
-	&nbsp;&nbsp;' ._MI_CHESS_RATING_SYSTEM_CXR. '    - Adaptation des ELO Bewertungssystem, Verwendung erlaubt durch <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
+	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_CXR . '    - Adaptation des ELO Bewertungssystem, Verwendung erlaubt durch <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
 	<BR><BR>
-	&nbsp;&nbsp;' ._MI_CHESS_RATING_SYSTEM_LINEAR. ' - Ein sehr einfaches System, das für jeden Sieg (Niederlage) eine feste Anzahl an Punkten addiert (abzieht).
+	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_LINEAR . ' - Ein sehr einfaches System, das für jeden Sieg (Niederlage) eine feste Anzahl an Punkten addiert (abzieht).
 	<BR><BR>
-	Die Auswahl "' ._MI_CHESS_RATING_SYSTEM_NONE. '" schaltet das Bewertungssystem ab.
+	Die Auswahl "' . _MI_CHESS_RATING_SYSTEM_NONE . '" schaltet das Bewertungssystem ab.
 	<BR><BR>
 	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >>
-	' ._MI_CHESS_SMNAME4. ').
+	' . _MI_CHESS_SMNAME4 . ').
 ');
 define('_MI_CHESS_INITIAL_RATING', 'Anfängliche Spielerbewertung');
 define('_MI_CHESS_INITIAL_RATING_DES', '
-	Falls das "' ._MI_CHESS_RATING_SYSTEM_CXR. '" Bewertungssystem gewählt wird, sollte dieser Wert zwischen 800 und 2000 liegen.
+	Falls das "' . _MI_CHESS_RATING_SYSTEM_CXR . '" Bewertungssystem gewählt wird, sollte dieser Wert zwischen 800 und 2000 liegen.
 	<BR><BR>
 	Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
 	<BR><BR>
-	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >> ' ._MI_CHESS_SMNAME4. ').
+	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >> ' . _MI_CHESS_SMNAME4 . ').
 ');
 define('_MI_CHESS_ALLOW_UNRATED', 'Unbewertete Partien erlauben?');
 define('_MI_CHESS_ALLOW_UNRATED_DES', '

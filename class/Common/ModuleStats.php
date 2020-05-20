@@ -19,7 +19,6 @@ namespace XoopsModules\Chess\Common;
  * @license        GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @author         Michael Beck <mambax7@gmailc.com>
  */
-
 trait ModuleStats
 {
     /**
@@ -27,6 +26,7 @@ trait ModuleStats
      * @param array $moduleStats
      * @return array
      */
+
     public static function getModuleStats($configurator, $moduleStats)
     {
         if (\count($configurator->moduleStats) > 0) {

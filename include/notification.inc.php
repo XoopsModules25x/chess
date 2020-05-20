@@ -58,39 +58,51 @@ function chess_notify_item_info($category, $item_id)
 {
     if ('global' == $category) {
         $item['name'] = 'Chess';
-        $item['url']  = XOOPS_URL . '/modules/chess/';
+
+        $item['url'] = XOOPS_URL . '/modules/chess/';
+
         return $item;
     } elseif ('game' == $category) {
         global $xoopsDB;
 
-        $table  = $xoopsDB->prefix('chess_games');
+        $table = $xoopsDB->prefix('chess_games');
+
         $result = $xoopsDB->query(trim("
 			SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
 			FROM   $table
 			WHERE  game_id = '$item_id'
 		"));
+
         $gamedata = $xoopsDB->fetchArray($result);
+
         $xoopsDB->freeRecordSet($result);
 
         if (false !== $gamedata) {
-
             // get mapping of user IDs to usernames
-            $criteria       =  new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
+
+            $criteria = new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
+
             $memberHandler = xoops_getHandler('member');
-            $usernames      =  $memberHandler->getUserList($criteria);
+
+            $usernames = $memberHandler->getUserList($criteria);
 
             $username_white = $usernames[$gamedata['white_uid']] ?? _MD_CHESS_NA;
+
             $username_black = $usernames[$gamedata['black_uid']] ?? _MD_CHESS_NA;
 
             $date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : _MD_CHESS_NA;
         } else {
             $username_white = _MD_CHESS_NA;
+
             $username_black = _MD_CHESS_NA;
-            $date           = _MD_CHESS_NA;
+
+            $date = _MD_CHESS_NA;
         }
 
-        $item['name'] = "$username_white " ._MD_CHESS_LABEL_VS. " $username_black ($date)";
-        $item['url']  = XOOPS_URL . '/modules/chess/game.php?game_id=' . $item_id;
+        $item['name'] = "$username_white " . _MD_CHESS_LABEL_VS . " $username_black ($date)";
+
+        $item['url'] = XOOPS_URL . '/modules/chess/game.php?game_id=' . $item_id;
+
         return $item;
     }
 }

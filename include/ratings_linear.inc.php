@@ -25,6 +25,11 @@
  *
  * @package chess
  * @subpackage ratings
+ * @param mixed $white_rating
+ * @param mixed $white_games
+ * @param mixed $black_rating
+ * @param mixed $black_games
+ * @param mixed $pgn_result
  */
 
 /**
@@ -42,6 +47,7 @@
 function chess_ratings_adj_linear($white_rating, $white_games, $black_rating, $black_games, $pgn_result)
 {
     // compute score: +1 for win, 0 for draw, -1 for loss
+
     switch ($pgn_result) {
         case '1-0':
             $S = 1;

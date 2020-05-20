@@ -68,22 +68,22 @@ define('_MI_CHESS_RATING_SYSTEM', 'Player rating system');
 define('_MI_CHESS_RATING_SYSTEM_DES', '
 	Available rating systems:
 	<br><br>
-	&nbsp;&nbsp;' ._MI_CHESS_RATING_SYSTEM_CXR. '    - Adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
+	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_CXR . '    - Adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
 	<br><br>
-	&nbsp;&nbsp;' ._MI_CHESS_RATING_SYSTEM_LINEAR. ' - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
+	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_LINEAR . ' - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
 	<br><br>
-	Select "' ._MI_CHESS_RATING_SYSTEM_NONE. '" to disable the rating feature.
+	Select "' . _MI_CHESS_RATING_SYSTEM_NONE . '" to disable the rating feature.
 	<br><br>
 	After changing this setting, you should rebuild the player ratings data from Main Menu >> Chess >>
-	' ._MI_CHESS_SMNAME4. '.
+	' . _MI_CHESS_SMNAME4 . '.
 ');
 define('_MI_CHESS_INITIAL_RATING', 'Initial player rating');
 define('_MI_CHESS_INITIAL_RATING_DES', '
-	If the "' ._MI_CHESS_RATING_SYSTEM_CXR. '" rating system is selected, this value should be between 800 and 2000.
+	If the "' . _MI_CHESS_RATING_SYSTEM_CXR . '" rating system is selected, this value should be between 800 and 2000.
 	<br><br>
 	Applies only if a player rating system is selected.
 	<br><br>
-	If you change this value, you should rebuild the player ratings data from Main Menu >> Chess >> ' ._MI_CHESS_SMNAME4. '.
+	If you change this value, you should rebuild the player ratings data from Main Menu >> Chess >> ' . _MI_CHESS_SMNAME4 . '.
 ');
 define('_MI_CHESS_ALLOW_UNRATED', 'Allow unrated games?');
 define('_MI_CHESS_ALLOW_UNRATED_DES', '

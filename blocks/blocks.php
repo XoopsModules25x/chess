@@ -50,6 +50,7 @@ function b_chess_games_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
+
     if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
         return [];
     }
@@ -59,6 +60,7 @@ function b_chess_games_show($options)
     $limit = (int)$options[0]; // sanitize with intval()
 
     $where = 'white_uid != black_uid';
+
     switch ($options[1]) {
         case 1:
             $where .= " AND pgn_result = '*'";
@@ -67,6 +69,7 @@ function b_chess_games_show($options)
             $where .= " AND pgn_result != '*'";
             break;
     }
+
     if (1 == $options[2]) {
         $where .= " AND is_rated = '1'";
     }
@@ -82,24 +85,27 @@ function b_chess_games_show($options)
 	"));
 
     // user IDs that will require mapping to usernames
+
     $userids = [];
 
     $games = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $games[] = [
-            'game_id'          => $row['game_id'],
-            'white_uid'        => $row['white_uid'],
-            'black_uid'        => $row['black_uid'],
-            'date'             => $row['most_recent_date'],
+            'game_id' => $row['game_id'],
+            'white_uid' => $row['white_uid'],
+            'black_uid' => $row['black_uid'],
+            'date' => $row['most_recent_date'],
             'fen_active_color' => $row['fen_active_color'],
-            'pgn_result'       => $row['pgn_result'],
+            'pgn_result' => $row['pgn_result'],
         ];
 
         // save user IDs that will require mapping to usernames
+
         if ($row['white_uid']) {
             $userids[$row['white_uid']] = 1;
         }
+
         if ($row['black_uid']) {
             $userids[$row['black_uid']] = 1;
         }
@@ -108,13 +114,18 @@ function b_chess_games_show($options)
     $xoopsDB->freeRecordSet($result);
 
     // get mapping of user IDs to usernames
+
     $memberHandler = xoops_getHandler('member');
-    $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-    $usernames      =  $memberHandler->getUserList($criteria);
+
+    $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+
+    $usernames = $memberHandler->getUserList($criteria);
 
     // add usernames to $games
+
     foreach ($games as $k => $game) {
         $games[$k]['username_white'] = $usernames[$game['white_uid']] ?? '?';
+
         $games[$k]['username_black'] = $usernames[$game['black_uid']] ?? '?';
     }
 
@@ -136,6 +147,7 @@ function b_chess_challenges_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
+
     if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
         return [];
     }
@@ -165,6 +177,7 @@ function b_chess_challenges_show($options)
 	"));
 
     // user IDs that will require mapping to usernames
+
     $userids = [];
 
     $challenges = [];
@@ -172,16 +185,18 @@ function b_chess_challenges_show($options)
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $challenges[] = [
             'challenge_id' => $row['challenge_id'],
-            'game_type'    => $row['game_type'],
-            'player1_uid'  => $row['player1_uid'],
-            'player2_uid'  => $row['player2_uid'],
-            'create_date'  => $row['create_date'],
+            'game_type' => $row['game_type'],
+            'player1_uid' => $row['player1_uid'],
+            'player2_uid' => $row['player2_uid'],
+            'create_date' => $row['create_date'],
         ];
 
         // save user IDs that will require mapping to usernames
+
         if ($row['player1_uid']) {
             $userids[$row['player1_uid']] = 1;
         }
+
         if ($row['player2_uid']) {
             $userids[$row['player2_uid']] = 1;
         }
@@ -190,13 +205,18 @@ function b_chess_challenges_show($options)
     $xoopsDB->freeRecordSet($result);
 
     // get mapping of user IDs to usernames
+
     $memberHandler = xoops_getHandler('member');
-    $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-    $usernames      =  $memberHandler->getUserList($criteria);
+
+    $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+
+    $usernames = $memberHandler->getUserList($criteria);
 
     // add usernames to $challenges
+
     foreach ($challenges as $k => $challenge) {
         $challenges[$k]['username_player1'] = $usernames[$challenge['player1_uid']] ?? '?';
+
         $challenges[$k]['username_player2'] = $usernames[$challenge['player2_uid']] ?? '?';
     }
 
@@ -218,6 +238,7 @@ function b_chess_players_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
+
     if (is_object($xoopsModule) && 'chess' == $xoopsModule->getVar('dirname')) {
         return [];
     }
@@ -225,13 +246,19 @@ function b_chess_players_show($options)
     require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
 
     $moduleHandler = xoops_getHandler('module');
-    $module         = $moduleHandler->getByDirname('chess');
+
+    $module = $moduleHandler->getByDirname('chess');
+
     $configHandler = xoops_getHandler('config');
-    $moduleConfig   = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
-    $block['rating_system']     = $moduleConfig['rating_system'];
+
+    $moduleConfig = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
+
+    $block['rating_system'] = $moduleConfig['rating_system'];
+
     $block['provisional_games'] = chess_ratings_num_provisional_games();
 
     // if ratings disabled, nothing else to do
+
     if ('none' == $moduleConfig['rating_system']) {
         return $block;
     }
@@ -261,18 +288,20 @@ function b_chess_players_show($options)
 	"));
 
     // user IDs that will require mapping to usernames
+
     $userids = [];
 
     $players = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $players[] = [
-            'player_uid'   => $row['player_uid'],
-            'rating'       => $row['rating'],
+            'player_uid' => $row['player_uid'],
+            'rating' => $row['rating'],
             'games_played' => $row['games_played'],
         ];
 
         // save user IDs that will require mapping to usernames
+
         if ($row['player_uid']) {
             $userids[$row['player_uid']] = 1;
         }
@@ -281,13 +310,17 @@ function b_chess_players_show($options)
     $xoopsDB->freeRecordSet($result);
 
     // get mapping of user IDs to usernames
+
     if (!empty($userids)) {
         $memberHandler = xoops_getHandler('member');
-        $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-        $usernames      =  $memberHandler->getUserList($criteria);
+
+        $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+
+        $usernames = $memberHandler->getUserList($criteria);
     }
 
     // add usernames to $players
+
     foreach ($players as $k => $player) {
         $players[$k]['player_uname'] = $usernames[$player['player_uid']] ?? '?';
     }
@@ -305,12 +338,15 @@ function b_chess_players_show($options)
  */
 function b_chess_games_edit($options)
 {
-    $show_inplay     = 1 == $options[1] ? 'checked' : '';
-    $show_concluded  = 2 == $options[1] ? 'checked' : '';
-    $show_both       = 3 == $options[1] ? 'checked' : '';
+    $show_inplay = 1 == $options[1] ? 'checked' : '';
+
+    $show_concluded = 2 == $options[1] ? 'checked' : '';
+
+    $show_both = 3 == $options[1] ? 'checked' : '';
 
     $show_rated_only = 1 == $options[2] ? 'checked' : '';
-    $show_unrated    = 2 == $options[2] ? 'checked' : '';
+
+    $show_unrated = 2 == $options[2] ? 'checked' : '';
 
     $form = '
 		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
@@ -337,7 +373,9 @@ function b_chess_games_edit($options)
 function b_chess_challenges_edit($options)
 {
     $show_open = 1 == $options[1] ? 'checked' : '';
+
     $show_user = 2 == $options[1] ? 'checked' : '';
+
     $show_both = 3 == $options[1] ? 'checked' : '';
 
     $form = '
@@ -360,7 +398,8 @@ function b_chess_challenges_edit($options)
 function b_chess_players_edit($options)
 {
     $show_nonprovisional = 1 == $options[1] ? 'checked' : '';
-    $show_all            = 2 == $options[1] ? 'checked' : '';
+
+    $show_all = 2 == $options[1] ? 'checked' : '';
 
     $form = '
 		' . _MB_CHESS_NUM_PLAYERS . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>

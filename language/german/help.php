@@ -369,7 +369,6 @@ define('_HE_CHESS_ADMIN_050', '
 Ein Schiedsrichter kann einstellen, daß er benachrichtigt wird, falls ein Spieler ein Schiedsurteil für eine Partie anfordert.
 ');
 
-
 // --------------------
 
 /**#@-*/

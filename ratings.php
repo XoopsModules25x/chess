@@ -51,9 +51,9 @@ $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable cachin
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
-$submit_recalc_ratings  = isset($_POST['submit_recalc_ratings']);
+$submit_recalc_ratings = isset($_POST['submit_recalc_ratings']);
 $confirm_recalc_ratings = (int)@$_POST['confirm_recalc_ratings'];
-$start                  = (int)@$_GET['start']; // for page nav: offset of first row of results to display (default to 0)
+$start = (int)@$_GET['start']; // for page nav: offset of first row of results to display (default to 0)
 
 #var_dump($_REQUEST);#*#DEBUG#
 
@@ -66,17 +66,20 @@ if ($submit_recalc_ratings && is_object($GLOBALS['xoopsSecurity']) && !$GLOBALS[
     );
 }
 
-$msg       = '';
+$msg = '';
 $msg_class = '';
 
 // If arbiter requested recalculation of ratings, do it.
 if ($submit_recalc_ratings && is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
     if ($confirm_recalc_ratings) {
         chess_recalc_ratings();
-        $msg       = _MD_CHESS_RECALC_DONE;
+
+        $msg = _MD_CHESS_RECALC_DONE;
+
         $msg_class = 'resultMsg';
     } else {
-        $msg       = _MD_CHESS_RECALC_NOT_DONE;
+        $msg = _MD_CHESS_RECALC_NOT_DONE;
+
         $msg_class = 'errorMsg';
     }
 }
@@ -101,21 +104,28 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
     // Display ratings.
 
     // Get maximum number of items to display on a page, and constrain it to a reasonable value.
+
     $max_items_to_display = chess_moduleConfig('max_items');
+
     $max_items_to_display = min(max($max_items_to_display, 1), 1000);
 
-    $games_table   = $xoopsDB->prefix('chess_games');
+    $games_table = $xoopsDB->prefix('chess_games');
+
     $ratings_table = $xoopsDB->prefix('chess_ratings');
-    
+
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+
     // and one with a limit clause to get the data for display on the current page.
+
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
     $result = $xoopsDB->query("
 		SELECT    COUNT(*)
 		FROM      $ratings_table AS p
 	");
+
     [$num_items] = $xoopsDB->fetchRow($result);
+
     $xoopsDB->freeRecordSet($result);
 
     $pagenav = new XoopsPageNav($num_items, $max_items_to_display, $start, 'start');
@@ -128,29 +138,35 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 	");
 
     // user IDs that will require mapping to usernames
+
     $userids = [];
 
     $players = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
-
         // save user IDs that will require mapping to usernames
+
         $userids[] = $row['player_uid'];
 
         $players[] = [
-            'player_uid'   => $row['player_uid'],
-            'rating'       => $row['rating'],
+            'player_uid' => $row['player_uid'],
+            'rating' => $row['rating'],
             'games_played' => $row['games_played'],
         ];
     }
+
     $xoopsDB->freeRecordSet($result);
 
     // get mapping of user IDs to usernames
+
     $memberHandler = xoops_getHandler('member');
-    $criteria       =  new Criteria('uid', '(' . implode(',', $userids) . ')', 'IN');
-    $usernames      =  $memberHandler->getUserList($criteria);
+
+    $criteria = new Criteria('uid', '(' . implode(',', $userids) . ')', 'IN');
+
+    $usernames = $memberHandler->getUserList($criteria);
 
     // add usernames to $players
+
     foreach ($players as $k => $player) {
         $players[$k]['player_uname'] = $usernames[$player['player_uid']] ?? '?';
     }
@@ -158,14 +174,18 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
     // Display form for arbiter to recalculate ratings.
 
     if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
-
         // security token added below
+
         $form = new XoopsThemeForm(_MD_CHESS_RECALC_RATINGS, 'form1', 'ratings.php');
 
         // checkbox (initially unchecked)
+
         $checked_value = 1;
+
         $checkbox_confirm_recalc_ratings = new XoopsFormCheckBox('', 'confirm_recalc_ratings', !$checked_value);
+
         $checkbox_confirm_recalc_ratings->addOption($checked_value, _MD_CHESS_RECALC_CONFIRM);
+
         $form->addElement($checkbox_confirm_recalc_ratings);
 
         $form->addElement(new XoopsFormButton('', 'submit_recalc_ratings', _MD_CHESS_SUBMIT_BUTTON, 'submit'));
@@ -173,15 +193,21 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
         $form->assign($xoopsTpl);
 
         // security token
+
         // This method is used because form is templated.
+
         $xoopsTpl->assign('chess_xoops_request_token', is_object($GLOBALS['xoopsSecurity']) ? $GLOBALS['xoopsSecurity']->getTokenHTML() : '');
     }
 
     // Template variables
 
     $xoopsTpl->assign('chess_provisional_games', chess_ratings_num_provisional_games());
+
     $xoopsTpl->assign('chess_msg', $msg);
+
     $xoopsTpl->assign('chess_msg_class', $msg_class);
+
     $xoopsTpl->assign('chess_players_pagenav', $pagenav->renderNav());
+
     $xoopsTpl->assign('chess_players', $players);
 }

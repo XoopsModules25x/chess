@@ -72,9 +72,11 @@ switch ($op) {
         $queue = $migrator->getSynchronizeDDL();
         if (!empty($queue)) {
             echo "<pre>\n";
+
             foreach ($queue as $line) {
                 echo $line . ";\n";
             }
+
             echo "</pre>\n";
         }
         break;
@@ -88,6 +90,7 @@ switch ($op) {
     case 'confirmwrite':
         if ($GLOBALS['xoopsSecurity']->check()) {
             $migrator->saveCurrentSchema();
+
             $message = 'Current schema file written';
         }
         break;

@@ -36,10 +36,13 @@ switch ($op) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('../admin/index.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
+
             loadSampleData();
         } else {
             xoops_cp_header();
+
             xoops_confirm(['ok' => 1, 'op' => 'load'], 'index.php', sprintf(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK')), constant('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM'), true);
+
             xoops_cp_footer();
         }
         break;
@@ -55,35 +58,45 @@ function loadSampleData()
     global $xoopsConfig;
 
     $moduleDirName = basename(dirname(__DIR__));
+
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    $utility      = new Chess\Utility();
+    $utility = new Chess\Utility();
+
     $configurator = new Common\Configurator();
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
     $language = 'english/';
+
     if (is_dir(__DIR__ . '/' . $xoopsConfig['language'])) {
         $language = $xoopsConfig['language'] . '/';
     }
 
     foreach ($tables as $table) {
         $tabledata = \Xmf\Yaml::readWrapped($language . $table . '.yml');
+
         if (is_array($tabledata)) {
             \Xmf\Database\TableLoad::truncateTable($table);
+
             \Xmf\Database\TableLoad::loadTableFromArray($table, $tabledata);
         }
     }
 
     //  ---  COPY test folder files ---------------
+
     if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
         //        $file =  dirname(__DIR__) . '/testdata/images/';
+
         foreach (array_keys($configurator->copyTestFolders) as $i) {
-            $src  = $configurator->copyTestFolders[$i][0];
+            $src = $configurator->copyTestFolders[$i][0];
+
             $dest = $configurator->copyTestFolders[$i][1];
+
             $utility::rcopy($src, $dest);
         }
     }
+
     redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
 }
 
@@ -92,20 +105,25 @@ function saveSampleData()
     global $xoopsConfig;
 
     $moduleDirName = basename(dirname(__DIR__));
+
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     $tables = \Xmf\Module\Helper::getHelper($moduleDirName)->getModule()->getInfo('tables');
 
     $language = 'english/';
+
     if (is_dir(__DIR__ . '/' . $xoopsConfig['language'])) {
         $language = $xoopsConfig['language'] . '/';
     }
 
     $languageFolder = __DIR__ . '/' . $language;
+
     if (!file_exists($languageFolder . '/')) {
         Utility::createFolder($languageFolder . '/');
     }
+
     $exportFolder = $languageFolder . '/Exports-' . date('Y-m-d-H-i-s') . '/';
+
     Utility::createFolder($exportFolder);
 
     foreach ($tables as $table) {
@@ -117,7 +135,8 @@ function saveSampleData()
 
 function exportSchema()
 {
-    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirName = basename(dirname(__DIR__));
+
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
     try {

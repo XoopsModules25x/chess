@@ -39,7 +39,7 @@ require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.inc.php';
 
 // user input
-$op    = chess_sanitize(@$_GET['op']);
+$op = chess_sanitize(@$_GET['op']);
 $start = (int)@$_GET['start']; // offset of first row of table to display (default to 0)
 
 // get maximum number of items to display on a page, and constrain it to a reasonable value
@@ -74,26 +74,27 @@ function chess_admin_menu()
     global $xoopsModule;
 
     echo '
-	<h4> ' . _AM_CHESS_CONF . " </h4>
-	<table width='100%' border='0' cellspacing='1' class='outer'>
-	<tr>
-		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=suspended_games'>" . _AM_CHESS_SUSPENDED_GAMES . '</a>
-		<td>' . _AM_CHESS_SUSPENDED_GAMES_DES . "</td>
-	</tr>
-	<tr>
-		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=active_games'>" . _AM_CHESS_ACTIVE_GAMES . '</a>
-		<td>' . _AM_CHESS_ACTIVE_GAMES_DES . "</td>
-	</tr>
-	<tr>
-		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=challenges'>" . _AM_CHESS_CHALLENGES . '</a>
-		<td>' . _AM_CHESS_CHALLENGES_DES . "</td>
-	</tr>
-	<tr>
-		<td><a href='" . XOOPS_URL . '/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid') . "'>" . _AM_CHESS_PREFS . '</a>
-		<td>' . _AM_CHESS_PREFS_DESC . '</td>
-	</tr>
-	</table>
-';
+	<h4> ' . _AM_CHESS_CONF . ' </h4>'
+//	<table width='100%' border='0' cellspacing='1' class='outer'>
+//	<tr>
+//		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=suspended_games'>" . _AM_CHESS_SUSPENDED_GAMES . '</a>
+//		<td>' . _AM_CHESS_SUSPENDED_GAMES_DES . "</td>
+//	</tr>
+//	<tr>
+//		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=active_games'>" . _AM_CHESS_ACTIVE_GAMES . '</a>
+//		<td>' . _AM_CHESS_ACTIVE_GAMES_DES . "</td>
+//	</tr>
+//	<tr>
+//		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=challenges'>" . _AM_CHESS_CHALLENGES . '</a>
+//		<td>' . _AM_CHESS_CHALLENGES_DES . "</td>
+//	</tr>
+//	<tr>
+//		<td><a href='" . XOOPS_URL . '/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid') . "'>" . _AM_CHESS_PREFS . '</a>
+//		<td>' . _AM_CHESS_PREFS_DESC . '</td>
+//	</tr>
+//	</table>
+//'
+    ;
 }
 
 /**
@@ -106,19 +107,27 @@ function chess_admin_suspended_games()
     $memberHandler = xoops_getHandler('member');
 
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+
     // and one with a limit clause to get the data for display on the current page.
+
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
     $games_table = $xoopsDB->prefix('chess_games');
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE suspended != ''");
+
     [$num_rows] = $xoopsDB->fetchRow($result);
+
     $xoopsDB->freeRecordSet($result);
 
     // Sort by date-suspended in ascending order, so that games that were suspended the earliest will be displayed
+
     // at the top, and can more easily be arbitrated on a first-come first-serve basis.
+
     // Note that the suspended column begins with the date-suspended in the format 'YYYY-MM-DD HH:MM:SS', so the sorting
+
     // will work as desired.
+
     $result = $xoopsDB->query(trim("
 		SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, suspended
 		FROM     $games_table
@@ -128,19 +137,22 @@ function chess_admin_suspended_games()
 	"));
 
     if ($xoopsDB->getRowsNum($result) > 0) {
-        echo '<h3>' ._AM_CHESS_SUSPENDED_GAMES. "</h3>\n";
+        echo '<h3>' . _AM_CHESS_SUSPENDED_GAMES . "</h3>\n";
 
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $user_white     = $memberHandler->getUser($row['white_uid']);
-            $username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
+            $user_white = $memberHandler->getUser($row['white_uid']);
 
-            $user_black     = $memberHandler->getUser($row['black_uid']);
-            $username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
+            $username_white = is_object($user_white) ? $user_white->getVar('uname') : '(open)';
+
+            $user_black = $memberHandler->getUser($row['black_uid']);
+
+            $username_black = is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
             $date = $row['start_date'] ? date('Y.m.d', $row['start_date']) : 'not yet started';
 
-            $title_text = _AM_CHESS_GAME. " #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white " ._AM_CHESS_VS. " $username_black&nbsp;&nbsp;&nbsp;($date)";
-            $form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/game.php?game_id={$row['game_id']}", 'post', true);
+            $title_text = _AM_CHESS_GAME . " #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white " . _AM_CHESS_VS . " $username_black&nbsp;&nbsp;&nbsp;($date)";
+
+            $form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/game.php?game_id={$row['game_id']}", 'post', true);
 
             [$date, $suspender_uid, $type, $explain] = explode('|', $row['suspended']);
 
@@ -156,12 +168,16 @@ function chess_admin_suspended_games()
                     break;
             }
 
-            $suspender_user     = $memberHandler->getUser($suspender_uid);
-            $suspender_username =  is_object($suspender_user) ? $suspender_user->getVar('uname') : _AM_CHESS_UNKNOWN_USER;
+            $suspender_user = $memberHandler->getUser($suspender_uid);
 
-            $form->addElement(new XoopsFormLabel(_AM_CHESS_WHEN_SUSPENDED    . ':', formatTimestamp(strtotime($date))));
-            $form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENDED_BY      . ':', $suspender_username));
-            $form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENSION_TYPE   . ':', $type_display));
+            $suspender_username = is_object($suspender_user) ? $suspender_user->getVar('uname') : _AM_CHESS_UNKNOWN_USER;
+
+            $form->addElement(new XoopsFormLabel(_AM_CHESS_WHEN_SUSPENDED . ':', formatTimestamp(strtotime($date))));
+
+            $form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENDED_BY . ':', $suspender_username));
+
+            $form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENSION_TYPE . ':', $type_display));
+
             $form->addElement(new XoopsFormLabel(_AM_CHESS_SUSPENSION_REASON . ':', $explain));
 
             $form->addElement(new XoopsFormButton('', 'submit', _AM_CHESS_ARBITRATE_SUBMIT, 'submit'));
@@ -172,9 +188,10 @@ function chess_admin_suspended_games()
         }
 
         $pagenav = new XoopsPageNav($num_rows, $max_items_to_display, $start, 'start', "op=$op");
+
         echo '<div align="center">' . $pagenav->renderNav() . "&nbsp;</div>\n";
     } else {
-        echo '<h3>' ._AM_CHESS_NO_SUSPENDED_GAMES. "</h3>\n";
+        echo '<h3>' . _AM_CHESS_NO_SUSPENDED_GAMES . "</h3>\n";
     }
 
     $xoopsDB->freeRecordSet($result);
@@ -190,13 +207,17 @@ function chess_admin_active_games()
     $memberHandler = xoops_getHandler('member');
 
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+
     // and one with a limit clause to get the data for display on the current page.
+
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
     $games_table = $xoopsDB->prefix('chess_games');
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE pgn_result = '*' and suspended = ''");
+
     [$num_rows] = $xoopsDB->fetchRow($result);
+
     $xoopsDB->freeRecordSet($result);
 
     $result = $xoopsDB->query(trim("
@@ -208,19 +229,22 @@ function chess_admin_active_games()
 	"));
 
     if ($xoopsDB->getRowsNum($result) > 0) {
-        echo '<h3>' ._AM_CHESS_ACTIVE_GAMES. "</h3>\n";
+        echo '<h3>' . _AM_CHESS_ACTIVE_GAMES . "</h3>\n";
 
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $user_white     = $memberHandler->getUser($row['white_uid']);
-            $username_white =  is_object($user_white) ? $user_white->getVar('uname') : '(open)';
+            $user_white = $memberHandler->getUser($row['white_uid']);
 
-            $user_black     = $memberHandler->getUser($row['black_uid']);
-            $username_black =  is_object($user_black) ? $user_black->getVar('uname') : '(open)';
+            $username_white = is_object($user_white) ? $user_white->getVar('uname') : '(open)';
+
+            $user_black = $memberHandler->getUser($row['black_uid']);
+
+            $username_black = is_object($user_black) ? $user_black->getVar('uname') : '(open)';
 
             $date = $row['start_date'] ? date('Y.m.d', $row['start_date']) : 'not yet started';
 
-            $title_text = _AM_CHESS_GAME. " #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white " ._AM_CHESS_VS. " $username_black&nbsp;&nbsp;&nbsp;($date)";
-            $form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/game.php?game_id={$row['game_id']}", 'post', true);
+            $title_text = _AM_CHESS_GAME . " #{$row['game_id']}&nbsp;&nbsp;&nbsp;$username_white " . _AM_CHESS_VS . " $username_black&nbsp;&nbsp;&nbsp;($date)";
+
+            $form = new XoopsThemeForm($title_text, "game_{$row['game_id']}", XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/game.php?game_id={$row['game_id']}", 'post', true);
 
             $form->addElement(new XoopsFormButton('', 'submit', _AM_CHESS_ARBITRATE_SUBMIT, 'submit'));
 
@@ -230,9 +254,10 @@ function chess_admin_active_games()
         }
 
         $pagenav = new XoopsPageNav($num_rows, $max_items_to_display, $start, 'start', "op=$op");
+
         echo '<div align="center">' . $pagenav->renderNav() . "&nbsp;</div>\n";
     } else {
-        echo '<h3>' ._AM_CHESS_NO_ACTIVE_GAMES. "</h3>\n";
+        echo '<h3>' . _AM_CHESS_NO_ACTIVE_GAMES . "</h3>\n";
     }
 
     $xoopsDB->freeRecordSet($result);
@@ -248,13 +273,17 @@ function chess_admin_challenges()
     $memberHandler = xoops_getHandler('member');
 
     // Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
+
     // and one with a limit clause to get the data for display on the current page.
+
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
     $challenges_table = $xoopsDB->prefix('chess_challenges');
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $challenges_table");
+
     [$num_rows] = $xoopsDB->fetchRow($result);
+
     $xoopsDB->freeRecordSet($result);
 
     $result = $xoopsDB->query(trim("
@@ -265,19 +294,22 @@ function chess_admin_challenges()
 	"));
 
     if ($xoopsDB->getRowsNum($result) > 0) {
-        echo '<h3>' ._AM_CHESS_CHALLENGES. "</h3>\n";
+        echo '<h3>' . _AM_CHESS_CHALLENGES . "</h3>\n";
 
         while (false !== ($row = $xoopsDB->fetchArray($result))) {
-            $user_player1     = $memberHandler->getUser($row['player1_uid']);
-            $username_player1 =  is_object($user_player1) ? $user_player1->getVar('uname') : '?';
+            $user_player1 = $memberHandler->getUser($row['player1_uid']);
 
-            $user_player2     = $memberHandler->getUser($row['player2_uid']);
-            $username_player2 =  is_object($user_player2) ? $user_player2->getVar('uname') : '(open)';
+            $username_player1 = is_object($user_player1) ? $user_player1->getVar('uname') : '?';
+
+            $user_player2 = $memberHandler->getUser($row['player2_uid']);
+
+            $username_player2 = is_object($user_player2) ? $user_player2->getVar('uname') : '(open)';
 
             $date = date('Y.m.d', $row['create_date']);
 
-            $title_text = _AM_CHESS_CHALLENGE. " #{$row['challenge_id']}&nbsp;&nbsp;&nbsp;$username_player1 " ._AM_CHESS_CHALLENGED. ": $username_player2&nbsp;&nbsp;&nbsp;(" ._AM_CHESS_CREATED. " $date)";
-            $form = new XoopsThemeForm($title_text, "challenge_{$row['challenge_id']}", XOOPS_URL. '/modules/' .$xoopsModule->getVar('dirname'). "/create.php?challenge_id={$row['challenge_id']}", 'post', true);
+            $title_text = _AM_CHESS_CHALLENGE . " #{$row['challenge_id']}&nbsp;&nbsp;&nbsp;$username_player1 " . _AM_CHESS_CHALLENGED . ": $username_player2&nbsp;&nbsp;&nbsp;(" . _AM_CHESS_CREATED . " $date)";
+
+            $form = new XoopsThemeForm($title_text, "challenge_{$row['challenge_id']}", XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/create.php?challenge_id={$row['challenge_id']}", 'post', true);
 
             $form->addElement(new XoopsFormButton('', 'submit', _AM_CHESS_ARBITRATE_SUBMIT, 'submit'));
 
@@ -287,9 +319,10 @@ function chess_admin_challenges()
         }
 
         $pagenav = new XoopsPageNav($num_rows, $max_items_to_display, $start, 'start', "op=$op");
+
         echo '<div align="center">' . $pagenav->renderNav() . "&nbsp;</div>\n";
     } else {
-        echo '<h3>' ._AM_CHESS_NO_CHALLENGES. "</h3>\n";
+        echo '<h3>' . _AM_CHESS_NO_CHALLENGES . "</h3>\n";
     }
 
     $xoopsDB->freeRecordSet($result);

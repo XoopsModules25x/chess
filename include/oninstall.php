@@ -16,8 +16,6 @@
  * @since
  * @author       XOOPS Development Team
  */
-use XoopsModules\Chess;
-use XoopsModules\Chess\Common;
 
 /**
  * Prepares system prior to attempting to install module
@@ -28,16 +26,22 @@ use XoopsModules\Chess\Common;
 function xoops_module_pre_install_xxxx(\XoopsModule $module)
 {
 //    require  dirname(__DIR__) . '/preloads/autoloader.php';
+
     require __DIR__ . '/common.php';
+
     $utility = new \XoopsModules\Chess\Utility();
+
     //check for minimum XOOPS version
+
     $xoopsSuccess = $utility::checkVerXoops($module);
 
     // check for minimum PHP version
+
     $phpSuccess = $utility::checkVerPhp($module);
 
     if ($xoopsSuccess && $phpSuccess) {
         $moduleTables = &$module->getInfo('tables');
+
         foreach ($moduleTables as $table) {
             $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
         }
@@ -59,40 +63,61 @@ function xoops_module_install_xxxx(\XoopsModule $module)
     $moduleDirName = basename(dirname(__DIR__));
 
     /** @var \XoopsModules\Chess\Helper $helper */
+
     /** @var \XoopsModules\Chess\Utility $utility */
+
     /** @var \XoopsModules\Chess\Common\Configurator $configurator */
+
     $helper = \XoopsModules\Chess\Helper::getInstance();
+
     $utility = new \XoopsModules\Chess\Utility();
+
     $configurator = new \XoopsModules\Chess\Common\Configurator();
+
     // Load language files
+
     $helper->loadLanguage('admin');
+
     $helper->loadLanguage('modinfo');
 
     // default Permission Settings ----------------------
 
     $moduleId = $module->getVar('mid');
+
     //$moduleName = $module->getVar('name');
+
     $grouppermHandler = xoops_getHandler('groupperm');
+
     // access rights ------------------------------------------
+
     $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
+
     $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
+
     $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
+
     $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
+
     $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
 
     //  ---  CREATE FOLDERS ---------------
+
     if (count($configurator->uploadFolders) > 0) {
         //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+
         foreach (array_keys($configurator->uploadFolders) as $i) {
             $utility::createFolder($configurator->uploadFolders[$i]);
         }
     }
 
     //  ---  COPY blank.png FILES ---------------
+
     if (count($configurator->copyBlankFiles) > 0) {
         $file = dirname(__DIR__) . '/assets/images/blank.png';
+
         foreach (array_keys($configurator->copyBlankFiles) as $i) {
             $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
+
             $utility::copyFile($file, $dest);
         }
     }
@@ -110,7 +135,9 @@ function xoops_module_install_xxxx(\XoopsModule $module)
     */
 
     //delete .html entries from the tpl table
+
     $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+
     $GLOBALS['xoopsDB']->queryF($sql);
 
     return true;
