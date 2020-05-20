@@ -215,19 +215,19 @@ class ChessGame
             return _MD_CHESS_FENBAD_FN_INVALID; // fullmove_number invalid
         } elseif ($this->insufficient_mating_material()) {
             return _MD_CHESS_FENBAD_MATERIAL; // insufficient mating material
-        } elseif (($this->gamestate['fen_active_color'] == 'w' && $this->kingIsUnderAttack('b', 'w')) or ($this->gamestate['fen_active_color'] == 'b' && $this->kingIsUnderAttack('w', 'b'))) {
+        } elseif (($this->gamestate['fen_active_color'] == 'w' && $this->kingIsUnderAttack('b', 'w')) || ($this->gamestate['fen_active_color'] == 'b' && $this->kingIsUnderAttack('w', 'b'))) {
             return _MD_CHESS_FENBAD_IN_CHECK; // player to move cannot have opponent in check
         } elseif ((strstr($this->gamestate['fen_castling_availability'], 'K') && ($this->board[4] != 'wK' || $this->board[7] != 'wR'))
-                  or (strstr($this->gamestate['fen_castling_availability'], 'Q') && ($this->board[4] != 'wK' || $this->board[0] != 'wR'))
-                  or (strstr(
+                  || (strstr($this->gamestate['fen_castling_availability'], 'Q') && ($this->board[4] != 'wK' || $this->board[0] != 'wR'))
+                  || (strstr(
                           $this->gamestate['fen_castling_availability'],
                           'k'
                       )
                       && ($this->board[60] != 'bK'
                           || $this->board[63] != 'bR'))
-                  or (strstr($this->gamestate['fen_castling_availability'], 'q') && ($this->board[60] != 'bK' || $this->board[56] != 'bR'))) {
+                  || (strstr($this->gamestate['fen_castling_availability'], 'q') && ($this->board[60] != 'bK' || $this->board[56] != 'bR'))) {
             return _MD_CHESS_FENBAD_CA_INCONSISTENT; // castling availability inconsistent with piece placement
-        } elseif (($this->gamestate['fen_en_passant_target_square'] != '-' && $this->gamestate['fen_en_passant_target_square']{1} == 3 && $this->gamestate['fen_active_color'] != 'b') or ($this->gamestate['fen_en_passant_target_square'] != '-'
+        } elseif (($this->gamestate['fen_en_passant_target_square'] != '-' && $this->gamestate['fen_en_passant_target_square']{1} == 3 && $this->gamestate['fen_active_color'] != 'b') || ($this->gamestate['fen_en_passant_target_square'] != '-'
                                                                                                                                                                                            && $this->gamestate['fen_en_passant_target_square']{1} == 6
                                                                                                                                                                                            && $this->gamestate['fen_active_color'] != 'w')) {
             return _MD_CHESS_FENBAD_EP_COLOR; // en passant target square wrong color
