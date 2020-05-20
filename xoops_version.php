@@ -24,11 +24,18 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+/**
+ * Module configuration data
+ *
+ * @package chess
+ * @subpackage miscellaneous
+ */
+
 // Main Info
 $modversion['name']        = _MI_CHESS;
-$modversion['version']     = 1.04;
+$modversion['version']     = 1.07;
 $modversion['description'] = _MI_CHESS_DES;
-$modversion['credits']     = '';
+$modversion['credits']     = _MI_CHESS_CREDITS;
 $modversion['author']      = '<a target="_blank" href="http://Dave-L.com/">Dave Lerner</a>';
 $modversion['help']        = 'help.html';
 $modversion['license']     = 'GPL see LICENSE';
@@ -36,10 +43,14 @@ $modversion['official']    = 0;
 $modversion['image']       = 'images/chess_slogo.png';
 $modversion['dirname']     = 'chess';
 
+// Install/upgrade
+$modversion['onUpdate'] = 'include/install.inc.php';
+
 // SQL
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 $modversion['tables'][0]        = 'chess_games';
 $modversion['tables'][1]        = 'chess_challenges';
+$modversion['tables'][2]        = 'chess_ratings';
 
 // Admin
 $modversion['hasAdmin']   = 1;
@@ -48,37 +59,59 @@ $modversion['adminmenu']  = 'admin/menu.php';
 
 // Config
 
-$grouparray = array();
-$member_handler =& xoops_gethandler('member');
-$groups =& $member_handler->getGroups();
-foreach ($groups as $group) {
-	if ($group->getVar('groupid') != XOOPS_GROUP_ANONYMOUS) {
-		$grouparray[$group->getVar('name')] = $group->getVar('groupid');
-	}
-}
-
 $modversion['config'][1]['name']        = 'groups_play';
 $modversion['config'][1]['title']       = '_MI_CHESS_GROUPS_PLAY';
 $modversion['config'][1]['description'] = '_MI_CHESS_GROUPS_PLAY_DES';
-$modversion['config'][1]['formtype']    = 'select_multi';
+$modversion['config'][1]['formtype']    = 'group_multi';
 $modversion['config'][1]['valuetype']   = 'array';
 $modversion['config'][1]['default']     = array(XOOPS_GROUP_ADMIN, XOOPS_GROUP_USERS);
-$modversion['config'][1]['options']     = $grouparray;
 
 $modversion['config'][2]['name']        = 'groups_delete';
 $modversion['config'][2]['title']       = '_MI_CHESS_GROUPS_DELETE';
 $modversion['config'][2]['description'] = '_MI_CHESS_GROUPS_DELETE_DES';
-$modversion['config'][2]['formtype']    = 'select_multi';
+$modversion['config'][2]['formtype']    = 'group_multi';
 $modversion['config'][2]['valuetype']   = 'array';
 $modversion['config'][2]['default']     = array();
-$modversion['config'][2]['options']     = $grouparray;
 
 $modversion['config'][3]['name']        = 'allow_setup';
 $modversion['config'][3]['title']       = '_MI_CHESS_ALLOW_SETUP';
 $modversion['config'][3]['description'] = '_MI_CHESS_ALLOW_SETUP_DES';
 $modversion['config'][3]['formtype']    = 'yesno';
 $modversion['config'][3]['valuetype']   = 'int';
-$modversion['config'][3]['default']     = 1;
+$modversion['config'][3]['default']     = 0;
+
+$modversion['config'][4]['name']        = 'max_items';
+$modversion['config'][4]['title']       = '_MI_CHESS_MAX_ITEMS';
+$modversion['config'][4]['description'] = '_MI_CHESS_MAX_ITEMS_DES';
+$modversion['config'][4]['formtype']    = 'textbox';
+$modversion['config'][4]['valuetype']   = 'int';
+$modversion['config'][4]['default']     = 10;
+
+$modversion['config'][5]['name']        = 'rating_system';
+$modversion['config'][5]['title']       = '_MI_CHESS_RATING_SYSTEM';
+$modversion['config'][5]['description'] = '_MI_CHESS_RATING_SYSTEM_DES';
+$modversion['config'][5]['formtype']    = 'select';
+$modversion['config'][5]['valuetype']   = 'text';
+$modversion['config'][5]['options']     = array(
+	_MI_CHESS_RATING_SYSTEM_NONE   => 'none',
+	_MI_CHESS_RATING_SYSTEM_CXR    => 'cxr',
+	_MI_CHESS_RATING_SYSTEM_LINEAR => 'linear',
+);
+$modversion['config'][5]['default']     = 'cxr';
+
+$modversion['config'][6]['name']        = 'initial_rating';
+$modversion['config'][6]['title']       = '_MI_CHESS_INITIAL_RATING';
+$modversion['config'][6]['description'] = '_MI_CHESS_INITIAL_RATING_DES';
+$modversion['config'][6]['formtype']    = 'textbox';
+$modversion['config'][6]['valuetype']   = 'int';
+$modversion['config'][6]['default']     = 1200;
+
+$modversion['config'][7]['name']        = 'allow_unrated_games';
+$modversion['config'][7]['title']       = '_MI_CHESS_ALLOW_UNRATED';
+$modversion['config'][7]['description'] = '_MI_CHESS_ALLOW_UNRATED_DES';
+$modversion['config'][7]['formtype']    = 'yesno';
+$modversion['config'][7]['valuetype']   = 'int';
+$modversion['config'][7]['default']     = 1;
 
 // Menu
 $modversion['hasMain'] = 1;
@@ -89,59 +122,78 @@ $modversion['sub'][1]['url']  = 'help.php';
 $modversion['sub'][2]['name'] = _MI_CHESS_SMNAME2;
 $modversion['sub'][2]['url']  = 'index.php';
 
-global $xoopsUser;
-$can_play = false;
-$module_handler =& xoops_gethandler('module');
-$module =& $module_handler->getByDirname('chess');
-if (is_object($module)) {
-	$config_handler =& xoops_gethandler('config');
-	$moduleConfig =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
-#var_dump('moduleConfig', $moduleConfig);echo "<br />\n";#*#DEBUG#
-	if (isset($moduleConfig['groups_play'])) {
-		if (in_array(XOOPS_GROUP_ANONYMOUS, $moduleConfig['groups_play'])) {
-			$can_play = true;
-		} elseif (is_object($xoopsUser)) {
-			$groups =& $xoopsUser->getGroups();
-			foreach ($groups as $group) {
-				if (in_array($group['groupid'], $moduleConfig['groups_play'])) {
-					$can_play = true;
-					break;
-				}
-			}
-		}
+// Conditional menu items
+global $xoopsModule, $xoopsModuleConfig, $xoopsUser;
+if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+
+// Display create-game menu item if current user has the play-chess right.
+	if (!empty($xoopsModuleConfig['groups_play']) and is_array($xoopsModuleConfig['groups_play'])
+		and (
+			in_array(XOOPS_GROUP_ANONYMOUS, $xoopsModuleConfig['groups_play'])
+			or (
+				is_object($xoopsUser) and count(array_intersect($xoopsUser->getGroups(), $xoopsModuleConfig['groups_play'])) > 0
+			)
+		)
+	)
+	{
+		$modversion['sub'][3]['name'] = _MI_CHESS_SMNAME3;
+		$modversion['sub'][3]['url']  = 'create.php';
+	}
+
+// Display ratings menu item if ratings system is enabled.
+	if ($xoopsModuleConfig['rating_system'] != 'none') {
+		$modversion['sub'][4]['name'] = _MI_CHESS_SMNAME4;
+		$modversion['sub'][4]['url']  = 'ratings.php';
+	}
+
+// Display my-games menu item if current user is logged in.
+	if (is_object($xoopsUser)) {
+		$modversion['sub'][5]['name'] = _MI_CHESS_SMNAME5;
+		$modversion['sub'][5]['url']  = 'player_stats.php?player_uid=' . $xoopsUser->getVar('uid');
 	}
 }
-if ($can_play) {
-	$modversion['sub'][3]['name'] = _MI_CHESS_SMNAME3;
-	$modversion['sub'][3]['url']  = 'create.php';
-}
-unset($can_play);
+
+// Page Awareness
+$modversion['pages'][1]['name'] = _MI_CHESS_SMNAME1;
+$modversion['pages'][1]['url'] = "help.php";
+$modversion['pages'][2]['name'] = _MI_CHESS_SMNAME2;
+$modversion['pages'][2]['url'] = "index.php";
+$modversion['pages'][3]['name'] = _MI_CHESS_SMNAME3;
+$modversion['pages'][3]['url'] = "create.php";
+$modversion['pages'][4]['name'] = _MI_CHESS_SMNAME4;
+$modversion['pages'][4]['url'] = "ratings.php";
+$modversion['pages'][5]['name'] = _MI_CHESS_SMNAME5;
+$modversion['pages'][5]['url'] = "player_stats.php";
 
 // Templates
-$modversion['templates'][1]['file']        = 'chess_games.html';
-$modversion['templates'][1]['description'] = _MI_CHESS_INDEX;
-$modversion['templates'][2]['file']        = 'chess_game_main.html';
-$modversion['templates'][2]['description'] = _MI_CHESS_GAME;
-$modversion['templates'][3]['file']        = 'chess_game_moveform.html';
-$modversion['templates'][3]['description'] = _MI_CHESS_MOVE_FORM;
-$modversion['templates'][4]['file']        = 'chess_game_promote_popup.html';
-$modversion['templates'][4]['description'] = _MI_CHESS_PROMOTE_POPUP;
-$modversion['templates'][5]['file']        = 'chess_game_board.html';
-$modversion['templates'][5]['description'] = _MI_CHESS_BOARD;
-$modversion['templates'][6]['file']        = 'chess_game_prefsform.html';
-$modversion['templates'][6]['description'] = _MI_CHESS_PREFS_FORM;
-$modversion['templates'][7]['file']        = 'chess_game_arbitrateform.html';
-$modversion['templates'][7]['description'] = _MI_CHESS_ARBITER_FORM;
-$modversion['templates'][8]['file']        = 'chess_help.html';
-$modversion['templates'][8]['description'] = _MI_CHESS_HELP;
+$modversion['templates'][ 1]['file']        = 'chess_games.html';
+$modversion['templates'][ 1]['description'] = _MI_CHESS_INDEX;
+$modversion['templates'][ 2]['file']        = 'chess_game_main.html';
+$modversion['templates'][ 2]['description'] = _MI_CHESS_GAME;
+$modversion['templates'][ 3]['file']        = 'chess_game_moveform.html';
+$modversion['templates'][ 3]['description'] = _MI_CHESS_MOVE_FORM;
+$modversion['templates'][ 4]['file']        = 'chess_game_promote_popup.html';
+$modversion['templates'][ 4]['description'] = _MI_CHESS_PROMOTE_POPUP;
+$modversion['templates'][ 5]['file']        = 'chess_game_board.html';
+$modversion['templates'][ 5]['description'] = _MI_CHESS_BOARD;
+$modversion['templates'][ 6]['file']        = 'chess_game_prefsform.html';
+$modversion['templates'][ 6]['description'] = _MI_CHESS_PREFS_FORM;
+$modversion['templates'][ 7]['file']        = 'chess_game_arbitrateform.html';
+$modversion['templates'][ 7]['description'] = _MI_CHESS_ARBITER_FORM;
+$modversion['templates'][ 8]['file']        = 'chess_help.html';
+$modversion['templates'][ 8]['description'] = _MI_CHESS_HELP;
+$modversion['templates'][ 9]['file']        = 'chess_ratings.html';
+$modversion['templates'][ 9]['description'] = _MI_CHESS_RATINGS;
+$modversion['templates'][10]['file']        = 'chess_player_stats.html';
+$modversion['templates'][10]['description'] = _MI_CHESS_PLAYER_STATS;
 
 // Blocks
 $modversion['blocks'][1]['file']        = 'blocks.php';
 $modversion['blocks'][1]['name']        = _MI_CHESS_GAMES;
 $modversion['blocks'][1]['description'] = _MI_CHESS_GAMES_DES;
 $modversion['blocks'][1]['show_func']   = 'b_chess_games_show';
-// options: maximum number of games to display | 1=show games in play only/2=show concluded games only/3=show both
-$modversion['blocks'][1]['options']     = '4|3';
+// options: maximum number of games to display | 1=show games in play only/2=show concluded games only/3=show both | 1=show rated games only/2=show rated and unrated games
+$modversion['blocks'][1]['options']     = '4|3|2';
 $modversion['blocks'][1]['edit_func']   = 'b_chess_games_edit';
 $modversion['blocks'][1]['template']    = 'chess_block_games.html';
 
@@ -153,6 +205,15 @@ $modversion['blocks'][2]['show_func']   = 'b_chess_challenges_show';
 $modversion['blocks'][2]['options']     = '4|3';
 $modversion['blocks'][2]['edit_func']   = 'b_chess_challenges_edit';
 $modversion['blocks'][2]['template']    = 'chess_block_challenges.html';
+
+$modversion['blocks'][3]['file']        = 'blocks.php';
+$modversion['blocks'][3]['name']        = _MI_CHESS_PLAYERS;
+$modversion['blocks'][3]['description'] = _MI_CHESS_PLAYERS_DES;
+$modversion['blocks'][3]['show_func']   = 'b_chess_players_show';
+// options: maximum number of players to display | 1=show non-provisional ratings only/2=show all ratings
+$modversion['blocks'][3]['options']     = '4|1';
+$modversion['blocks'][3]['edit_func']   = 'b_chess_players_edit';
+$modversion['blocks'][3]['template']    = 'chess_block_players.html';
 
 // Search
 $modversion['hasSearch'] = 0;
@@ -217,16 +278,6 @@ $modversion['notification']['event'][5]['description']   = _MI_CHESS_NEVT_RQST_A
 $modversion['notification']['event'][5]['mail_template'] = 'notify_request_arbitration';
 $modversion['notification']['event'][5]['mail_subject']  = _MI_CHESS_NEVT_RQST_ARBT_SUB;
 $modversion['notification']['event'][5]['admin_only']    = 1;
-
-/*** #*#DEBUG# -testing something
-$modversion['notification']['event'][6]['name']          = 'notify_test1';
-$modversion['notification']['event'][6]['category']      = 'global';
-$modversion['notification']['event'][6]['title']         = 'notify_test1_title';
-$modversion['notification']['event'][6]['caption']       = 'notify_test1_caption';
-$modversion['notification']['event'][6]['description']   = 'notify_test1_description';
-$modversion['notification']['event'][6]['mail_template'] = 'notify_test1_template';
-$modversion['notification']['event'][6]['mail_subject']  = 'notify_test1_mail_subject';
-***/
 
 // Comments
 $modversion['hasComments'] = 1;

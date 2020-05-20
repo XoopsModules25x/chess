@@ -1,5 +1,5 @@
 <?php
-// $Id: index.php,v 1.1 2004/01/29 14:45:49 buennagel Exp $
+// $Id$
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -27,82 +27,143 @@
 //  General Public License.                                                  //
 //  ------------------------------------------------------------------------ //
 
-// The purpose of this class is to handle chess moves.
-//
-// An instantiation of this class comprises the data essential for handling chess
-// moves in a specific game, and provides the requisite methods.
-//
-// Input:      Game state and proposed move.
-// Processing: Check the legality of the move, and update the game state if the move is legal.
-// Output:     Indication of the move's legality, and the (possibly) updated game state.
-//
-// In addition to the above, there are utility methods for converting between Standard Algebraic
-// Notation (SAN) and a notation similar to Long Algebraic Notation.
+/**
+ * class ChessGame
+ *
+ * @package chess
+ * @subpackage game
+*/
 
+/**
+ * The purpose of this class is to handle chess moves.
+ *
+ * An instantiation of this class comprises the data essential for handling chess
+ * moves in a specific game, and provides the requisite methods.
+ *
+ * - Input:      Game state and proposed move.
+ * - Processing: Check the legality of the move, and update the game state if the move is legal.
+ * - Output:     Indication of the move's legality, and the (possibly) updated game state.
+ *
+ * In addition to the above, there are utility methods for converting between Standard Algebraic
+ * Notation (SAN) and a notation similar to Long Algebraic Notation.
+ *
+ * @package chess
+ * @subpackage game
+ */
 class ChessGame {
 
-	// The game state is represented as an array with the following elements:
-	//
-	//    'fen_piece_placement'
-	//    'fen_active_color'
-	//    'fen_castling_availability'
-	//    'fen_en_passant_target_square'
-	//    'fen_halfmove_clock'
-	//    'fen_fullmove_number'
-	//    'pgn_result'
-	//    'pgn_fen'
-	//    'pgn_movetext'
-	//
-	//    The elements prefixed with 'fen_' are standard Forsyth-Edwards Notation (FEN) elements,
-	//    and the elements prefixed with 'pgn_' are standard Portable Game Notation (PGN) elements.
-	//
-	//    Each element is a string.
+	/**
+    * Indicates whether object is valid.
+    *
+    * If empty string (''), indicates this is a valid object; otherwise contains an error message.
+	 * Should be checked after creating an instance of this class.
+    *
+    * @var string $error
+    */
+	var $error;
+
+   /**
+    * gamestate
+    *
+	 * The game state is represented as an array with the following elements:
+	 *
+	 *  - 'fen_piece_placement'
+	 *  - 'fen_active_color'
+	 *  - 'fen_castling_availability'
+	 *  - 'fen_en_passant_target_square'
+	 *  - 'fen_halfmove_clock'
+	 *  - 'fen_fullmove_number'
+	 *  - 'pgn_result'
+	 *  - 'pgn_fen'
+	 *  - 'pgn_movetext'
+	 *
+	 * The elements prefixed with 'fen_' are standard Forsyth-Edwards Notation (FEN) elements,
+	 * and the elements prefixed with 'pgn_' are standard Portable Game Notation (PGN) elements.
+	 *
+	 * Each element is a string.
+    *
+    * @var array $gamestate
+    */
 	var $gamestate;
 
-	// A 64-element array, constructed from fen_piece_placement, is used for handling moves.
-	// Its indices are related to the standard tile coordinates as follows:
-	//
-	//      a  b  c  d  e  f  g  h
-	//     -----------------------
-	// 8 | 56 57 58 59 60 61 62 63
-	// 7 | 48 49 50 51 52 53 54 55
-	// 6 | 40 41 42 43 44 45 46 47
-	// 5 | 32 33 34 35 36 37 38 39
-	// 4 | 24 25 26 27 28 29 30 31
-	// 3 | 16 17 18 19 20 21 22 23
-	// 2 |  8  9 10 11 12 13 14 15
-	// 1 |  0  1  2  3  4  5  6  7
-	//
-	// For example, $board[17] is tile b3 and $board[55] is tile h7.
+   /**
+    * board
+    *
+	 * A 64-element array, constructed from fen_piece_placement, is used for handling moves.
+	 * Its indices are related to the standard tile coordinates as follows:
+	 *
+    * <pre>
+	 * 8 | 56 57 58 59 60 61 62 63
+	 * 7 | 48 49 50 51 52 53 54 55
+	 * 6 | 40 41 42 43 44 45 46 47
+	 * 5 | 32 33 34 35 36 37 38 39
+	 * 4 | 24 25 26 27 28 29 30 31
+	 * 3 | 16 17 18 19 20 21 22 23
+	 * 2 |  8  9 10 11 12 13 14 15
+	 * 1 |  0  1  2  3  4  5  6  7
+	 *    ------------------------
+	 *      a  b  c  d  e  f  g  h
+    * </pre>
+	 *
+	 * For example, $board[17] is tile b3 and $board[55] is tile h7.
+    *
+    * @var array $board
+    */
 	var $board;
 
-	var $ac_move;   // for auto-completion of moves
-	var $w_figures; // array of white's pieces
-	var $b_figures; // array of black's pieces
+   /**
+    * for auto-completion of moves
+    * @var string $ac_move
+    */
+	var $ac_move;
 
-	// updated by handleMove, not used now but might be used in future
+   /**
+    * array of white's pieces
+    * @var array $w_figures
+    */
+	var $w_figures;
+
+   /**
+    * array of black's pieces
+    * @var array $b_figures
+    */
+	var $b_figures;
+
+
+   /**
+	 * updated by handleMove, not used now but might be used in future
+    * @var string $last_move
+    */
 	var $last_move;
+
+   /**
+	 * updated by handleMove, not used now but might be used in future
+    * @var string $captured_piece
+    */
 	var $captured_piece;
 
 // --------------
 // PUBLIC METHODS
 // --------------
 
-// --------------------------------------------------------------------------------------------------------------------
-// constructor
-//
-// If $param is an array, an existing game is loaded using $param as the eight-element gamestate array described above.
-// If $param is a non-empty string, a new game is created using $param as a FEN setup position.
-// Otherwise, a new game is created using the standard starting position..
-//
-// If a failure occurs, $this is set to a string containing an error message.
-//
-// Example:
-//    $chessgame = new ChessGame($fen);
-//    if (!is_object($chessgame)) {
-//      echo "'$fen' invalid: $chessgame\n";
-//    }
-
+/**
+ * constructor
+ *
+ * If a failure occurs, $this->error is set to a string containing an error message;
+ * otherwise $this->error is set to an empty string.
+ *
+ * Example:
+ * <pre>
+ *    $chessgame = new ChessGame($fen);
+ *    if (!empty($chessgame->error)) {
+ *      echo "'$fen' invalid: $chessgame->error\n";
+ *    }
+ * </pre>
+ *
+ * @param mixed $param  If $param is an array, an existing game is loaded using $param as the nine-element gamestate array described above.
+ * If $param is a non-empty string, a new game is created using $param as a FEN setup position.
+ * Otherwise, a new game is created using the standard starting position.
+ */
 function ChessGame($param = null)
 {
 	// for now
@@ -111,35 +172,41 @@ function ChessGame($param = null)
 	if (is_array($param)) {
 
 		$this->gamestate = $param;
+		$this->error     = '';
 
 	} elseif (is_string($param) and !empty($param)) {
 
-		$result = $this->init_gamestate($param);
-		if ($result != '') {
-			$this = $result;
-		}
+		$this->error = $this->init_gamestate($param);
 
 	} else {
 
 		$this->init_gamestate();
+		$this->error = '';
 	}
 }
 
-// ---------------------------------------------------------------------------------------------------------------------
-// The return value is an two-element array.
-// The first element is a boolean - true if the move was performed and the game state has been updated, false otherwise.
-// The second element is a text message.
-
+/**
+ * Handle a move.
+ *
+ * @param string $move
+ * @return array A two-element array:
+ *  - $move_performed: true if the move was performed and the game state has been updated, false otherwise
+ *  - $move_result_text: text message
+ */
 function move($move)
 {
+	empty($this->error) or trigger_error(_MD_CHESS_ERROR, E_USER_ERROR);
 	return $this->handleMove($move);
 }
 
-// -----------------------------------
-// Return array containing game state.
-
+/**
+ * get game state
+ *
+ * @return array
+ */
 function gamestate()
 {
+	empty($this->error) or trigger_error(_MD_CHESS_ERROR, E_USER_ERROR);
 	return $this->gamestate;
 }
 
@@ -147,14 +214,17 @@ function gamestate()
 // PRIVATE METHODS - intended for use only by methods of this class
 // ----------------------------------------------------------------
 
-// ---------------------------------------------------------------------------------------------------
-// Initialize gamestate for a new game.
-//
-// If a non-empty string $fen is provided, the game is initialized using $fen as a FEN setup position.
-// Otherwise the game is initialized using the standard starting position.
-//
-// Returns an empty string on success, and an error message on failure.
-
+/**
+ * Initialize gamestate for a new game.
+ *
+ * If a non-empty string $fen is provided, the game is initialized using $fen as a FEN setup position.
+ * Otherwise the game is initialized using the standard starting position.
+ *
+ * @param  string  $fen
+ * @return string  empty string on success, or error message on failure
+ *
+ * @access private
+ */
 function init_gamestate($fen = null)
 {
 	$this->gamestate = array();
@@ -250,10 +320,20 @@ function init_gamestate($fen = null)
 	return ''; // successful
 }
 
-/* check a series of tiles given a start, an end tile
+/**
+ * Check whether a path is blocked.
+ *
+ * check a series of tiles given a start, an end tile
  * which is not included to the check and a position
  * change for each iteration. return true if not blocked. 
  * all values are given for 1dim board.
+ *
+ * @param int $start
+ * @param int $end
+ * @param int $change
+ * @return bool
+ *
+ * @access private
  */
 function pathIsNotBlocked($start, $end, $change)
 {
@@ -268,8 +348,18 @@ function pathIsNotBlocked($start, $end, $change)
 	return 1;
 }
 
-/* get the empty tiles between start and end as an 1dim array.
+/**
+ * Get path.
+ *
+ * get the empty tiles between start and end as an 1dim array.
  * whether the path is clear is not checked.
+ *
+ * @param int $start
+ * @param int $end
+ * @param int $change
+ * @return array
+ *
+ * @access private
  */
 function getPath($start, $end, $change)
 {
@@ -281,12 +371,22 @@ function getPath($start, $end, $change)
 	return $path;
 }
 
-/* get the change value that must be added to create
+/**
+ * get path change
+ *
+ * get the change value that must be added to create
  * the 1dim path for figure moving from fig_pos to
  * dest_pos. it is assumed that the movement is valid!
  * no additional checks as in tileIsReachable are
  * performed. rook, queen and bishop are the only
  * units that can have empty tiles in between.
+ *
+ * @param string $fig
+ * @param int $fig_pos
+ * @param int $dest_pos
+ * @return int
+ *
+ * @access private
  */
 function getPathChange($fig, $fig_pos, $dest_pos)
 {
@@ -331,10 +431,20 @@ function getPathChange($fig, $fig_pos, $dest_pos)
 	return $change;
 }
 
-/* check whether dest_pos is in reach for unit of fig_type
+/**
+ * Check whether a tile is reachable.
+ *
+ * check whether dest_pos is in reach for unit of fig_type
  * at tile fig_pos. it is not checked whether the tile
  * itself is occupied but only the tiles in between. 
  * this function does not check pawns.
+ *
+ * @param string $fig
+ * @param int $fig_pos
+ * @param int $dest_pos
+ * @return bool
+ *
+ * @access private
  */
 function tileIsReachable($fig, $fig_pos, $dest_pos)
 {
@@ -410,8 +520,14 @@ function tileIsReachable($fig, $fig_pos, $dest_pos)
   return $result;
 }
 
-/* check whether pawn at figpos may attack destpos.
- * by meaning whether it is diagonal.
+/**
+ * Check whether a pawn can attack a tile.
+ *
+ * @param int $fig_pos Position of pawn
+ * @param int $dest_pos Tile to check
+ * @return bool True if pawn can attack
+ *
+ * @access private
  */
 function checkPawnAttack($fig_pos, $dest_pos)
 {
@@ -432,10 +548,19 @@ function checkPawnAttack($fig_pos, $dest_pos)
   return 0;
 }
 
-/* check whether pawn at figpos may move to destpos.
+/**
+ * Check whether a pawn move is legal.
+ *
+ * check whether pawn at figpos may move to destpos.
  * first move may be two tiles instead of just one. 
  * again the last tile is not checked but just the path
  * in between.
+ *
+ * @param int $fig_pos  Position of pawn.
+ * @param int $dest_pos  Destination tile.
+ * @return bool True if move is legal
+ *
+ * @access private
  */
 function checkPawnMove($fig_pos, $dest_pos)
 {
@@ -464,8 +589,14 @@ function checkPawnMove($fig_pos, $dest_pos)
   return 0;
 }
 
-/* check all figures of 'opp' whether they attack
- * the given position
+/**
+ * Check whether a tile is under attack by the specified player.
+ *
+ * @param string $opp  Attacking color ('w' or 'b')
+ * @param int $dest_pos  Tile to check
+ * @return bool
+ *
+ * @access private
  */
 function tileIsUnderAttack($opp, $dest_pos)
 {
@@ -484,8 +615,14 @@ function tileIsUnderAttack($opp, $dest_pos)
   return 0;
 }
 
-/* check all figures of 'opp' whether they attack
- * the king of player
+/**
+ * Check whether a player's king can be attacked by his opponent.
+ *
+ * @param string $player  Player's color ('w' or 'b')
+ * @param string $opp     Opponent's color ('w' or 'b')
+ * @return bool
+ *
+ * @access private
  */
 function kingIsUnderAttack($player, $opp)
 {
@@ -502,7 +639,14 @@ function kingIsUnderAttack($player, $opp)
   return $this->tileIsUnderAttack( $opp, $king_pos );
 }
 
-/* check whether player's king is check mate
+/**
+ * Check whether player's king is checkmated by his opponent.
+ *
+ * @param string $player  Player's color ('w' or 'b')
+ * @param string $opp     Opponent's color ('w' or 'b')
+ * @return bool
+ *
+ * @access private
  */
 function isCheckMate($player, $opp)
 {
@@ -615,9 +759,16 @@ function isCheckMate($player, $opp)
   return 1;
 }
 
-/* check whether there is no further move possible */
-/* TODO: recognize when move is not possible because of
- * check
+/**
+ * Check whether player is stalemated.
+ *
+ * @param string $player  Color of player who has the move ('w' or 'b')
+ * @param string $opp     Opponent's color ('w' or 'b')
+ * @return bool
+ *
+ * @todo recognize when move is not possible because of check
+ *
+ * @access private
  */
 function isStaleMate($player, $opp)
 {
@@ -682,11 +833,21 @@ function isStaleMate($player, $opp)
   return 1;
 }
 
-// ----------------------------------------------------
-// Example:
-//   echo move_msg('cannot find {$param[1]} pawn in column {$param[2]}', 'b', 'e');
-//    - prints: "cannot find b pawn in column e"
-
+/**
+ * Generate informational text message with parameters.
+ *
+ * Example:
+ * <pre>
+ *   echo move_msg('cannot find {$param[1]} pawn in column {$param[2]}', 'b', 'e');
+ *    - prints: "cannot find b pawn in column e"
+ * </pre>
+ *
+ * @param string $text
+ * @param string $param,...  Unlimited number of parameters referenced by $text
+ * @return string
+ *
+ * @access private
+ */
 function move_msg($text)
 {
 	$param = func_get_args();
@@ -694,8 +855,24 @@ function move_msg($text)
 	return eval("return \"$text\";");
 }
 
-/* Translate Standard Algebraic Notation (SAN) into a full move description in $this->ac_move.
- * Return empty string if successful, otherwise return error message.
+/**
+ * Translate Standard Algebraic Notation (SAN) into a full move description.
+ *
+ * The completed move is placed in $this->ac_move.
+ *
+ * @param string $player 'w' or 'b'
+ * @param string $move
+ * <pre>
+ *   [a-h][1-8|a-h][RNBQK]              pawn move/attack
+ *   [PRNBQK][a-h][1-8]                 figure move 
+ *   [PRNBQK][:x][a-h][1-8]             figure attack
+ *   [PRNBQK][1-8|a-h][a-h][1-8]        ambigous figure move
+ *   [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack 
+ *   [PRNBQK][1-8|a-h][:x][a-h][1-8]    ambigous figure attack
+ * </pre>
+ * @return string  Empty string if successful, otherwise error message
+ *
+ * @access private
  */
 function completeMove($player, $move)
 {
@@ -730,6 +907,10 @@ function completeMove($player, $move)
   {
     $pawn_upg = $move[strlen($move)-1];
     $move = substr( $move, 0, strlen($move)-1 );
+  }
+  // remove trailing '=', if present
+  if ($move{strlen($move)-1} == '=') {
+    $move = substr($move, 0, strlen($move)-1);
   }
   if ( $pawn_upg == "P" || $pawn_upg == "K" )
     return _MD_CHESS_MOVE_PAWN_MAY_BECOME; // "A pawn may only become either a knight, a bishop, a rook or a queen!"
@@ -909,9 +1090,16 @@ function completeMove($player, $move)
   return $error;
 }
 
-/* a hacky function that uses autocomplete to short
+/**
+ * A hacky function that uses autocomplete to short
  * a full move. if this fails there is no warning
- * but the move is kept anchanged
+ * but the move is kept unchanged.
+ *
+ * @param string $player  'w' or 'b'
+ * @param string $move
+ * @return string  new move
+ *
+ * @access private
  */
 function convertFullToChessNotation($player, $move)
 {
@@ -960,12 +1148,18 @@ function convertFullToChessNotation($player, $move)
   return $new_move;
 }
 
-/* check whether it is user's turn and the move is valid. 
+/**
+ * Handle a move.
+ *
+ * check whether it is user's turn and the move is valid. 
  * if the move is okay update the game file.
  *
- * The return value is an two-element array.
- * The first element is a boolean - true if the move was performed and the game state has been updated, false otherwise.
- * The second element is a text message.
+ * @param string $move
+ * @return array A two-element array:
+ *  - $move_performed: true if the move was performed and the game state has been updated, false otherwise
+ *  - $move_result_text: text message
+ *
+ * @access private
  */
 function handleMove($move)
 {
@@ -1411,26 +1605,40 @@ function handleMove($move)
 	return array($move_handled, $result);
 }
 
-// ------------------------------
+/**
+ * Check whether a tile is empty.
+ *
+ * @param int $position
+ * @return bool
+ *
+ * @access private
+ */
 function is_empty_tile($position)
 {
 	return $this->board[$position] == '00';
 }
 
-// ---------------------------
+/**
+ * Clear a tile.
+ *
+ * @param int $position  Position of tile
+*
+ * @access private
+ */
 function clear_tile($position)
 {
 	$this->board[$position] = '00';
 }
 
-// --------------------------------------------------------------------------------------------------------------
-// Convert FEN piece placement field to array.
-//
-// Use $this->gamestate['fen_piece_placement'] to initialize $this->board, $this->w_figures and $this->b_figures.
-//
-// If piece placement is valid, return true.
-// Otherwise, return false.
-
+/**
+ * Convert FEN piece placement field to array.
+ *
+ * Use $this->gamestate['fen_piece_placement'] to initialize $this->board, $this->w_figures and $this->b_figures.
+ *
+ * @return bool True if piece placement is valid, otherwise false.
+ *
+ * @access private
+ */
 function fen_piece_placement_to_board()
 {
 	if (empty($this->gamestate['fen_piece_placement']) or strlen($this->gamestate['fen_piece_placement']) > 71) {
@@ -1477,11 +1685,13 @@ function fen_piece_placement_to_board()
 	return true;
 }
 
-// -----------------------------------------------------------------------
-// Convert array to FEN piece placement field.
-//
-// Use $this->board to initialize $this->gamestate['fen_piece_placement'].
-
+/**
+ * Convert array to FEN piece placement field.
+ *
+ * Use $this->board to initialize $this->gamestate['fen_piece_placement'].
+ *
+ * @access private
+ */
 function board_to_fen_piece_placement()
 {
 	$rows = array();
@@ -1504,12 +1714,13 @@ function board_to_fen_piece_placement()
 	$this->gamestate['fen_piece_placement'] = preg_replace_callback('/(x+)/', create_function('$matches','return strlen($matches[1]);'), implode('/', $rows));
 }
 
-// --------------------------------------------------------------------------------
-// Determine whether there is insufficient material to mate.
-//
-// Return true if only the following pieces remain: K vs. K, K vs. K+B or K vs. K+N
-// Otherwise return false.
-
+/**
+ * Determine whether there is insufficient material to mate.
+ *
+ * @return bool  True if only the following pieces remain: K vs. K, K vs. K+B or K vs. K+N; otherwise false.
+ *
+ * @access private
+ */
 function insufficient_mating_material()
 {
 	$pieces      = strtoupper($this->gamestate['fen_piece_placement']);
@@ -1528,7 +1739,14 @@ function insufficient_mating_material()
 // These functions don't really need to be class methods, since they don't access class properties.
 // They're placed within the class only for name-scoping.
 
-/* convert board coords [a-h][1-8] to 1dim index [0..63] */
+/**
+ * Convert board coordinates [a-h][1-8] to board index [0..63]
+ *
+ * @param string $coord  Example: 'b3'
+ * @return int  Example: 17
+ *
+ * @access private
+ */
 function boardCoordToIndex( $coord )
 {
   //echo $coord," --> ";
@@ -1552,7 +1770,14 @@ function boardCoordToIndex( $coord )
   return $index;
 }
 
-/* convert board index [0..63] to coords [a-h][1-8] */
+/**
+ * Convert board index [0..63] to board coordinates [a-h][1-8].
+ *
+ * @param int $index  Example: 17
+ * @return string  Example: 'b3'
+ *
+ * @access private
+ */
 function boardIndexToCoord( $index )
 {
   //echo $index," --> ";
@@ -1565,6 +1790,14 @@ function boardIndexToCoord( $index )
   return $coord;
 }
 
+/**
+ * Get piece name from piece symbol.
+ *
+ * @param string $short  Piece symbol
+ * @return string        Piece name
+ *
+ * @access private
+ */
 function getFullFigureName( $short )
 {
 	static $names = array(
@@ -1578,6 +1811,14 @@ function getFullFigureName( $short )
 	return isset($names[$short]) ? $names[$short] : _MD_CHESS_MOVE_EMPTY;
 }
 
+/**
+ * Get tiles adjacent to specified tile.
+ *
+ * @param int $fig_pos
+ * @return array
+ *
+ * @access private
+ */
 function getAdjTiles( $fig_pos )
 {
   $adj_tiles = array(); $i = 0;

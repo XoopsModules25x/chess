@@ -86,6 +86,10 @@
 and tile coordinates. *}>
 <{counter name=rank_counter assign=rank_count start=$chess_rank_start direction=$chess_rank_direction print=false}>
 
+<{* Display warning message if required CSS class is not defined,
+which indicates that template variable xoops_module_header is missing from the theme. *}>
+<div class="chessHiddenPic"><strong><{$xoops_theme|string_format:$smarty.const._MD_CHESS_MODHEAD_MISSING}></strong></div>
+
 <{* outer table provides background coloring *}>
 <table class="chessBoard" cellpadding="4" cellspacing="0">
 <tr>

@@ -24,5 +24,16 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+/**
+ * Required file
+ *
+ * @package chess
+ * @subpackage miscellaneous
+ */
+
+/**#@+
+ */
 require('../../mainfile.php');
+/**#@-*/
+
 ?>

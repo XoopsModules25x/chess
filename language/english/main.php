@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * Language strings for main part of module (en)
+ *
+ * @package chess
+ * @subpackage language
+ */
+
+/**#@+
+ * @ignore
+ */
+
+// Warning: Some of the these constant values contain the sprintf format code "%s".  That format code must not be removed.
+
 define('_MD_CHESS_CREATE_FORM', 'Create a new game');
 define('_MD_CHESS_ACCEPT_FORM', 'Accept challenge');
 define('_MD_CHESS_DELETE_FORM', 'Delete challenge');
@@ -27,8 +40,9 @@ define('_MD_CHESS_RADIO_COLOR_RANDOM',   'Assigned randomly');
 define('_MD_CHESS_RADIO_COLOR_WHITE',    'White');
 define('_MD_CHESS_RADIO_COLOR_BLACK',    'Black');
 
-define('_MD_CHESS_NEVT_ACPT_CHAL_CAP',   'Notify me when someone accepts my challenge to a game.');
-define('_MD_CHESS_NEVT_MOVE_CAP',        'Notify me when a new move is made in this game.');
+// notifications
+define('_MD_CHESS_NEVT_ACPT_CHAL_CAP', 'Notify me when someone accepts my challenge to a game.');
+define('_MD_CHESS_NEVT_MOVE_CAP',      'Notify me when a new move is made in this game.');
 
 // buttons
 define('_MD_CHESS_CREATE_SUBMIT',  'Submit');
@@ -49,13 +63,15 @@ define('_MD_CHESS_GAME_DELETED',      'Game deleted');
 define('_MD_CHESS_WRONG_PLAYER2',     'You may not accept a challenge offered to another user.');
 define('_MD_CHESS_SAME_PLAYER2',      'You may not accept a challenge from yourself.');
 define('_MD_CHESS_NO_CONFIRM_DELETE', 'You must check the confirmation box');
+define('_MD_CHESS_NO_JAVASCRIPT',     'Javascript not enabled. Moves must be made by text entry.');
+define('_MD_CHESS_MODHEAD_MISSING',   'WARNING: <{$xoops_module_header}> missing from themes/%s/theme.html.');
+define('_MD_CHESS_TOKEN_ERROR',       'Token missing or invalid.');
 
 // templates
 define('_MD_CHESS_LABEL_GAMES',         'Games');
 define('_MD_CHESS_LABEL_NO_GAMES',      'No games');
 define('_MD_CHESS_LABEL_GAME',          'Game');
 define('_MD_CHESS_LABEL_CREATED',       'Created');
-define('_MD_CHESS_LABEL_STARTED',       'Started');
 define('_MD_CHESS_LABEL_LAST_MOVE',     'Last move');
 define('_MD_CHESS_LABEL_STATUS',        'Status');
 define('_MD_CHESS_LABEL_VS',            'vs.');
@@ -78,6 +94,7 @@ define('_MD_CHESS_PGN_ABBREV',          'PGN');
 define('_MD_CHESS_FEN_FULL',            'Forsyth-Edwards Notation');
 define('_MD_CHESS_FEN_ABBREV',          'FEN');
 define('_MD_CHESS_LABEL_ERROR',         '*error*');
+define('_MD_CHESS_PROMOTE_TO',          'Promote pawn to');
 
 define('_MD_CHESS_ALT_EMPTY',   'empty square');
 define('_MD_CHESS_ALT_WKING',   'white king');
@@ -131,11 +148,18 @@ define('_MD_CHESS_ARBITER_DELETE_WARNING', 'This will permanently remove the gam
 
 define('_MD_CHESS_BUTTON_ARBITRATE', 'Submit');
 
+define('_MD_CHESS_WHEN_SUSPENDED',    'When suspended');
+define('_MD_CHESS_SUSPENDED_BY',      'Suspended by');
+define('_MD_CHESS_SUSPENSION_TYPE',   'Suspension type');
+define('_MD_CHESS_SUSPENSION_REASON', 'Suspension reason');
+define('_MD_CHESS_UNKNOWN',           '*unknown*');
+define('_MD_CHESS_SUSP_TYPE_ARBITER', 'Suspended by arbiter');
+define('_MD_CHESS_SUSP_TYPE_PLAYER',  'Arbitration requested');
+
 define('_MD_CHESS_MOVE_ENTRY',      'Move Entry');
 define('_MD_CHESS_MOVE_LIST',       'Move List');
 define('_MD_CHESS_EXPORT_FORMATS',  'Export');
 define('_MD_CHESS_CAPTURED_PIECES', 'Captured Pieces');
-define('_MD_CHESS_BOARD_DISPLAY',   'Board Display');
 
 // Notifications
 define('_MD_CHESS_WHITE',          'White');
@@ -232,4 +256,50 @@ define('_MD_CHESS_DRAW_3',            'Drawn by threefold-repetition rule, based
 
 define('_MD_CHESS_NO_DRAW_50',        'The conditions for claiming a draw under the 50-move rule have not been satisfied.');
 define('_MD_CHESS_NO_DRAW_3',         'The conditions for claiming a draw under the threefold-repetition rule have not been satisfied.');
+
+// menu options
+define('_MD_CHESS_SHOW_GAMES_INPLAY',    'Show games in play only');
+define('_MD_CHESS_SHOW_GAMES_CONCLUDED', 'Show concluded games only');
+define('_MD_CHESS_SHOW_GAMES_BOTH',      'Show all games');
+define('_MD_CHESS_SHOW_GAMES_RATED',     'Show rated games only');
+define('_MD_CHESS_SHOW_GAMES_UNRATED',   'Show rated and unrated games');
+define('_MD_CHESS_SHOW_CHALLENGES_OPEN', 'Show open challenges only');
+define('_MD_CHESS_SHOW_CHALLENGES_USER', 'Show individual challenges only');
+define('_MD_CHESS_SHOW_CHALLENGES_BOTH', 'Show all challenges');
+
+// ratings
+define('_MD_CHESS_RATED_GAME',           'Rated game');
+define('_MD_CHESS_RATINGS_OFF',          'Rating feature not enabled.');
+define('_MD_CHESS_PLAYER_RATINGS',       'Chess Player Ratings');
+define('_MD_CHESS_RATING',               'Rating');
+define('_MD_CHESS_PLAYER',               'Player');
+define('_MD_CHESS_GAMES_PLAYED',         'Rated games played');
+define('_MD_CHESS_PROVISIONAL',          'Provisional rating (less than %s rated games played)');
+define('_MD_CHESS_NA',                   'n/a'); // not applicable or not available
+define('_MD_CHESS_NO_RATING_INFO',       'No rating information found.');
+define('_MD_CHESS_RECALC_RATINGS',       'Recalculate all player ratings (available only to module administrators)');
+define('_MD_CHESS_SUBMIT_BUTTON',        'Submit');
+define('_MD_CHESS_RECALC_CONFIRM',       'Yes, I am sure I want to do this.');
+define('_MD_CHESS_RECALC_DONE',          'Ratings recalculated.');
+define('_MD_CHESS_RECALC_NOT_DONE',      'Ratings not recalculated because confirmation box was not checked.');
+define('_MD_CHESS_LAST_ACTIVITY',        'Last activity');
+define('_MD_CHESS_STATUS',               'Status');
+define('_MD_CHESS_DRAWN',                'drawn');
+define('_MD_CHESS_WON',                  'won');
+define('_MD_CHESS_LOST',                 'lost');
+define('_MD_CHESS_RANKED',               'Ranked');
+define('_MD_CHESS_RATED_GAMES_PLAYED',   'Rated games played');
+define('_MD_CHESS_CHALLENGES_FOR',       'Chess challenges for: %s');
+define('_MD_CHESS_GAMES_FOR',            'Chess games for: %s');
+define('_MD_CHESS_STATS_FOR',            'Chess stats for: %s');
+define('_MD_CHESS_SELECT_PLAYER',        'Select player and display option');
+define('_MD_CHESS_USERNAME',             'Username');
+define('_MD_CHESS_SHOW_ALL_GAMES',       'Show all games');
+define('_MD_CHESS_SHOW_EXCEPT_SELFPLAY', 'Show all games except self-play');
+define('_MD_CHESS_SHOW_RATED_ONLY',      'Show rated games only');
+define('_MD_CHESS_PLAYER_NOT_FOUND',     'No game information found for player.');
+define('_MD_CHESS_VIEW_PROFILE',         'View player\'s profile');
+
+/**#@-*/
+
 ?>

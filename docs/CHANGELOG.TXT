@@ -1,0 +1,76 @@
+1.0.7 (2005-11-19)
+Changed column chess_games.pgn_result from varchar(7) to enum('*','0-1','1-0','1/2-1/2').
+Changed two calls to array_fill with array_pad, to remove dependency on PHP >= 4.2.0.
+Added player rating feature.
+Don't display self-play games on module's main page (index.php) or in recent-games block.
+Added My Games main menu item, which displays a player's games and (if rating feature enabled) stats. (RENAME THIS?)
+Added option to recent-games block to control whether unrated games are shown.
+On main page, added menus for selecting types of challenges (open/individual/all) and games (in-play/concluded/all, rated-only/rated-and-unrated) for display.
+Added warning message to game display if <{$xoops_module_header}> is missing from theme.html.
+Added form security tokens (if the XOOPS version supports them).
+Changed Board Display form on game page to use a menu, instead of radio buttons, so that the form fits on one line.
+Made inline documentation compliant with phpDocumentor.
+Got rid of class/smarty/plugins/modifier.xoops_format_date.php and include/phpdate.js, at least temporarily.
+Added module database update functions in include/install.inc.php.
+Tested for compatibility with XOOPS 2.2.3a and 2.0.13.2.
+Added/changed/removed various language constants.
+
+1.0.6 (2004-12-06)
+Fixed a bug in the submenu-handling code in xoops_version.php, which could cause the "Create new game" submenu to be visible/hidden to the wrong user groups.  The problem would only occur if there are user groups with IDs greater than 9.
+Fixed help.php, which implements the module's Help item in the main menu, so that it will look for the english language file if the one for the default language doesn't exist.
+Fixed incompatibility with PHP5 ("Cannot re-assign $this ...").
+Fixed bug: The pawn promotion symbol '=', if present, was causing move-parse error when checking draw-claim by threefold-repetition.
+Increased efficiency by removing unnecessary calls to object handlers.
+Added conditional code for outputting move-analysis log when checking draw-claim by threefold-repetition.
+
+1.0.5 (2004-07-23)
+Added pagination to pages that list games or challenges.
+Sort list of games by most recent activity (create, start or last move), rather than by last move only.
+Changed displayed info for suspended games to make it more user-friendly.
+Change default value for allow-setup preference to "no", since most people probably won't use that feature, and the feature may be confusing.
+Added language constants:
+  admin.php
+    _AM_CHESS_GAME
+    _AM_CHESS_CHALLENGE
+    _AM_CHESS_VS
+    _AM_CHESS_CHALLENGED
+    _AM_CHESS_CREATED
+
+    _AM_CHESS_SUSP_TYPE_ARBITER
+    _AM_CHESS_SUSP_TYPE_PLAYER
+
+    _AM_CHESS_UNKNOWN_USER (replaces _AM_UNKNOWN_USER)
+    _AM_CHESS_ERROR
+
+  main.php
+    _MD_CHESS_PROMOTE_TO
+
+    _MD_CHESS_WHEN_SUSPENDED
+    _MD_CHESS_SUSPENDED_BY
+    _MD_CHESS_SUSPENSION_TYPE
+    _MD_CHESS_SUSPENSION_REASON
+    _MD_CHESS_UNKNOWN
+    _MD_CHESS_SUSP_TYPE_ARBITER
+    _MD_CHESS_SUSP_TYPE_PLAYER
+
+  modinfo.php
+    _MI_CHESS_MAX_ITEMS
+    _MI_CHESS_MAX_ITEMS_DES
+
+1.0.4 (2004-07-09)
+Fixed typo in template.
+Corrected version number.
+
+1.0.3 (2004-07-05)
+Corrected installation instructions.
+
+1.0.2 (2004-07-05)
+Fixed bug in movelist.
+
+1.0.1 (2004-06-29)
+Added missing custom Smarty plugin and Javascript function.
+Renamed "game" to "challenge" in some places.
+Removed some debug output.
+
+1.0.0 (2004-06-27)
+Original release.

@@ -20,35 +20,66 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-// ----------------------------------------------------------------
-// Remove unsafe characters from text.
-//
-// $allowed_characters must not contain any regex symbols such as \w or \s,
-// since preg_quote() mishandles those.  But \' and \" are ok.
+/**
+ * General functions.
+ *
+ * @package chess
+ * @subpackage functions
+ */
 
+/**
+ * Remove unsafe characters from text.
+ *
+ * @param string $text                Text to be sanitized
+ * @param string $allowed_characters  Characters permitted in text;
+ * must not contain any regex symbols such as \w or \s, since preg_quote() mishandles those.  But \' and \" are ok.
+ * @return string  Sanitized text
+ */
 function chess_sanitize($text, $allowed_characters = 'A-Za-z0-9') {
 
 	$char_class = preg_quote($allowed_characters, '/');
 	return preg_replace("/[^$char_class]/", '_', $text);
 }
 
-// --------------------------------------
-// Get module configuration option value.
-
+/**
+ * Get chess module configuration option value.
+ *
+ * @param string $option  Name of configuration option
+ * @return string  Value of configuration option
+ */
 function chess_moduleConfig($option)
 {
-	$module_handler =& xoops_gethandler('module');
-	$module =& $module_handler->getByDirname('chess');
-	$config_handler =& xoops_gethandler('config');
-	$moduleConfig =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
-	return $moduleConfig[$option];
+	global $xoopsModule, $xoopsModuleConfig;
+
+	$value = null;
+
+	if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess' and isset($xoopsModuleConfig[$option])) {
+
+		$value = $xoopsModuleConfig[$option];
+
+	} else { // for use within a block
+	
+		$module_handler =& xoops_gethandler('module');
+		$module         =& $module_handler->getByDirname('chess');
+		$config_handler =& xoops_gethandler('config');
+		$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+
+		if (isset($moduleConfig[$option])) {
+			$value = $moduleConfig[$option];
+		} else {
+			trigger_error("configuration option '$option' not found", E_USER_ERROR);
+		}
+	}
+
+	return $value;
 }
 
-// -----------------------------------------------------------
-// Return true if user has play-right, otherwise return false.
-//
-// $uid - user number of user to check, defaults to current user
-
+/**
+ * Check whether a user has the play-chess right.
+ *
+ * @param int $uid  User ID to check, defaults to current user
+ * @return bool  True if user has play-chess right, otherwise false
+ */
 function chess_can_play($uid = null)
 {
 	global $xoopsUser;
@@ -69,23 +100,18 @@ function chess_can_play($uid = null)
 	if (in_array(XOOPS_GROUP_ANONYMOUS, $groups_play)) {
 		$can_play = true;
 	} elseif (is_object($user)) {
-		$groups =& $user->getGroups();
-		foreach ($groups as $group) {
-			if (in_array($group['groupid'], $groups_play)) {
-				$can_play = true;
-				break;
-			}
-		}
+		$can_play = count(array_intersect($user->getGroups(), $groups_play)) > 0;
 	}
 
 	return $can_play;
 }
 
-// ---------------------------------------------------------------------
-// Return true if user has delete-right, otherwise return false.
-//
-// $uid - user number of user to check, defaults to current user
-
+/**
+ * Check whether a user has the delete-game right.
+ *
+ * @param int $uid  User ID to check, defaults to current user
+ * @return bool  True if user has delete-game right, otherwise false
+ */
 function chess_can_delete($uid = null)
 {
 	global $xoopsUser;
@@ -106,27 +132,22 @@ function chess_can_delete($uid = null)
 	if (in_array(XOOPS_GROUP_ANONYMOUS, $groups_delete)) {
 		$can_delete = true;
 	} elseif (is_object($user)) {
-		$groups =& $user->getGroups();
-		foreach ($groups as $group) {
-			if (in_array($group['groupid'], $groups_delete)) {
-				$can_delete = true;
-				break;
-			}
-		}
+		$can_delete = count(array_intersect($user->getGroups(), $groups_delete)) > 0;
 	}
 
 	return $can_delete;
 }
 
-// ------------------------------------------------------------------------
-// Return string suitable for output as .pgn (Portable Game Notation) file.
-//
-// data - array with keys:
-//
-//    'datetime' - 'YYYY-MM-DD HH:MM:SS'
-//       Use '?' for each unknown digit.  If the entire datetime is unknown, use either '????-??-?? ??:??:??' or '0000-00-00 00:00:00'.
-//    'event', 'site', 'round', 'white', 'black', 'result', 'setup', 'fen', 'movetext' - strings (use '?' for entire string if value unknown)
-
+/**
+ * Build string suitable for output as .pgn (Portable Game Notation) file.
+ *
+ * @param array $data  Array with keys:
+ *
+ *  - 'datetime' - 'YYYY-MM-DD HH:MM:SS'
+ *       Use '?' for each unknown digit.  If the entire datetime is unknown, use either '????-??-?? ??:??:??' or '0000-00-00 00:00:00'.
+ *  - 'event', 'site', 'round', 'white', 'black', 'result', 'setup', 'fen', 'movetext' - strings (use '?' for entire string if value unknown)
+ * @return string
+ */
 function chess_to_pgn_string($data)
 {
 #var_dump('chess_to_pgn_string, data=', $data);#*#DEBUG#
@@ -159,5 +180,35 @@ END;
 
 	return $rtn;
 }
+
+/**
+ * Get user ID corresponding to the specified username.
+ *
+ * @param string $uname  Username (unsanitized)
+ * @return int  User ID, or '0' if user not found
+ */
+function chess_uname_to_uid($uname)
+{
+	$criteria = new CriteriaCompo();
+	$criteria->add(new Criteria('uname', MyTextSanitizer::addSlashes($uname)));
+	$criteria->setLimit(1);
+
+	$member_handler =& xoops_gethandler('member');
+	$users =& $member_handler->getUserList($criteria);
+
+	$uids = array_keys($users);
+
+	return isset($uids[0]) ? $uids[0] : 0;
+}
+
+/*** #*#DEBUG# testing something
+SELECT
+			g.game_id,g.white_uid AS white_uid, g.black_uid AS black_uid, g.pgn_result AS pgn_result, w.rating AS white_rating, b.rating AS black_rating,
+			(w.games_won+w.games_lost+w.games_drawn) AS white_games, (b.games_won+b.games_lost+b.games_drawn) AS black_games
+		FROM       xoops_chess_games AS g
+		LEFT JOIN xoops_chess_ratings AS w ON w.player_uid = g.white_uid
+		LEFT JOIN xoops_chess_ratings AS b ON b.player_uid = g.black_uid
+		WHERE       g.pgn_result != '*' AND g.is_rated='1' AND (w.player_uid IS NULL OR b.player_uid IS NULL OR w.player_uid != b.player_uid) LIMIT 0, 30
+***/
 
 ?>

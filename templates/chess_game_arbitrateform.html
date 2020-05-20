@@ -53,9 +53,38 @@ function confirmArbiterAction()
 <{if $chess_gamedata.suspended}>
 
 	<tr>
-		<td class="odd" style="text-align:left" colspan="2">
-			Suspension information:
-			<{$chess_gamedata.suspended}> <{* date|player_uid|type|explanation - #*#TBD# - display this more nicely *}>
+		<td class="odd" style="text-align:left">
+			<{$smarty.const._MD_CHESS_WHEN_SUSPENDED}>:
+		</td>
+		<td class="odd" style="text-align:left">
+			<{$smarty.const._DATESTRING|date:$chess_suspend_info.date}>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="odd" style="text-align:left">
+			<{$smarty.const._MD_CHESS_SUSPENDED_BY}>:
+		</td>
+		<td class="odd" style="text-align:left">
+			<{$chess_suspend_info.user}>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="odd" style="text-align:left">
+			<{$smarty.const._MD_CHESS_SUSPENSION_TYPE}>:
+		</td>
+		<td class="odd" style="text-align:left">
+			<{$chess_suspend_info.type}>
+		</td>
+	</tr>
+
+	<tr>
+		<td class="odd" style="text-align:left">
+			<{$smarty.const._MD_CHESS_SUSPENSION_REASON}>:
+		</td>
+		<td class="odd" style="text-align:left">
+			<{$chess_suspend_info.reason}>
 		</td>
 	</tr>
 
@@ -117,4 +146,8 @@ function confirmArbiterAction()
 </tr>
 
 </table>
+
+<{* security token *}>
+<{$chess_xoops_request_token}>
+
 </form>

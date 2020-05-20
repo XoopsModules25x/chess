@@ -12,7 +12,7 @@
 			<{cycle values="odd,even" assign=class}>
 			<tr class="<{$class}>">
 				<td class="<{$class}>"><a href="<{$smarty.const.XOOPS_URL}>/modules/chess/game.php?game_id=<{$game.game_id}>"><{$game.username_white}> <{$smarty.const._MB_CHESS_VS}> <{$game.username_black}></a></td>
-				<td class="<{$class}>"><{$game.date|xoops_format_date:$block.date_format}></td>
+				<td class="<{$class}>"><{$block.date_format|date:$game.date}></td>
 				<td class="<{$class}>">
 					<{if $game.pgn_result eq '1/2-1/2'}>
 						<{$smarty.const._MB_CHESS_DRAW}>
