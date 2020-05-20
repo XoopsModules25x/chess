@@ -66,7 +66,7 @@ if (!empty($player_uname)) {
 }
 
 // Check that both user ID and username are now defined.
-if ($player_uid == 0 or empty($player_uname)) {
+if ($player_uid == 0 || empty($player_uname)) {
     redirect_header(XOOPS_URL . '/modules/chess/index.php', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_PLAYER_NOT_FOUND);
 }
 
@@ -93,7 +93,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     $num_provisional_games = chess_ratings_num_provisional_games();
 
     // set show_option to default if appropriate
-    if (!$show_option or ($rating_system == 'none' and $show_option == _CHESS_SHOW_RATED_ONLY)) {
+    if (!$show_option || ($rating_system == 'none' && $show_option == _CHESS_SHOW_RATED_ONLY)) {
         $show_option = _CHESS_SHOW_EXCEPT_SELFPLAY;
     }
 

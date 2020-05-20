@@ -58,7 +58,7 @@ $start                  = intval(@$_GET['start']); // for page nav: offset of fi
 #var_dump($_REQUEST);#*#DEBUG#
 
 // If form-submit, check security token.
-if ($submit_recalc_ratings and is_object($GLOBALS['xoopsSecurity']) and !$GLOBALS['xoopsSecurity']->check()) {
+if ($submit_recalc_ratings && is_object($GLOBALS['xoopsSecurity']) && !$GLOBALS['xoopsSecurity']->check()) {
     redirect_header(
         XOOPS_URL . '/modules/chess/ratings.php',
         _CHESS_REDIRECT_DELAY_FAILURE,
@@ -70,7 +70,7 @@ $msg       = '';
 $msg_class = '';
 
 // If arbiter requested recalculation of ratings, do it.
-if ($submit_recalc_ratings and is_object($xoopsUser) and $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
+if ($submit_recalc_ratings && is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
     if ($confirm_recalc_ratings) {
         chess_recalc_ratings();
         $msg       = _MD_CHESS_RECALC_DONE;
@@ -157,7 +157,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     // Display form for arbiter to recalculate ratings.
 
-    if (is_object($xoopsUser) and $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
+    if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->getVar('mid'))) {
 
         // security token added below
         $form = new XoopsThemeForm(_MD_CHESS_RECALC_RATINGS, 'form1', 'ratings.php');

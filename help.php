@@ -60,7 +60,7 @@ $xoopsTpl->assign('chess_rating_system', $rating_system);
 $xoopsTpl->assign('chess_rating_system_des', $rating_system_des);
 $xoopsTpl->assign('chess_allow_unrated_games', chess_moduleConfig('allow_unrated_games'));
 $xoopsTpl->assign('chess_allow_delete', chess_can_delete());
-$xoopsTpl->assign('chess_is_admin', is_object($xoopsUser) and $xoopsUser->isAdmin($xoopsModule->getVar('mid')));
+$xoopsTpl->assign('chess_is_admin', is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->getVar('mid')));
 
 include_once XOOPS_ROOT_PATH . '/footer.php';
 

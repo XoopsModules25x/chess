@@ -50,7 +50,7 @@ function b_chess_games_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
-    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
         return array();
     }
 
@@ -136,7 +136,7 @@ function b_chess_challenges_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
-    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
         return array();
     }
 
@@ -218,7 +218,7 @@ function b_chess_players_show($options)
     global $xoopsModule, $xoopsDB;
 
     // don't display this block within owning module
-    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
         return array();
     }
 

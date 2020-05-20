@@ -175,7 +175,7 @@ class ChessGame
         if (is_array($param)) {
             $this->gamestate = $param;
             $this->error     = '';
-        } elseif (is_string($param) and !empty($param)) {
+        } elseif (is_string($param) && !empty($param)) {
             $this->error = $this->init_gamestate($param);
         } else {
             $this->init_gamestate();
@@ -257,13 +257,13 @@ class ChessGame
 
         if (!$this->fen_piece_placement_to_board()) {
             return _MD_CHESS_FENBAD_PP_INVALID; // piece_placement invalid
-        } elseif ($this->gamestate['fen_active_color'] != 'w' and $this->gamestate['fen_active_color'] != 'b') {
+        } elseif ($this->gamestate['fen_active_color'] != 'w' && $this->gamestate['fen_active_color'] != 'b') {
             return _MD_CHESS_FENBAD_AC_INVALID; // active_color invalid
         }
         // Since fen_piece_placement_to_board() checked $fen for the correct number of fields above, $castling_availability is non-empty.
-        elseif ($this->gamestate['fen_castling_availability'] != '-' and !preg_match('/^K?Q?k?q?$/', $this->gamestate['fen_castling_availability'])) {
+        elseif ($this->gamestate['fen_castling_availability'] != '-' && !preg_match('/^K?Q?k?q?$/', $this->gamestate['fen_castling_availability'])) {
             return _MD_CHESS_FENBAD_CA_INVALID; // castling_availability invalid
-        } elseif ($this->gamestate['fen_en_passant_target_square'] != '-' and !preg_match('/^[a-h][36]$/', $this->gamestate['fen_en_passant_target_square'])) {
+        } elseif ($this->gamestate['fen_en_passant_target_square'] != '-' && !preg_match('/^[a-h][36]$/', $this->gamestate['fen_en_passant_target_square'])) {
             return _MD_CHESS_FENBAD_EP_INVALID; // en_passant_target_square invalid
         } elseif (!preg_match('/^\d{0,4}$/', $this->gamestate['fen_halfmove_clock'])) {
             return _MD_CHESS_FENBAD_HC_INVALID; // halfmove_clock invalid
@@ -271,22 +271,22 @@ class ChessGame
             return _MD_CHESS_FENBAD_FN_INVALID; // fullmove_number invalid
         } elseif ($this->insufficient_mating_material()) {
             return _MD_CHESS_FENBAD_MATERIAL; // insufficient mating material
-        } elseif (($this->gamestate['fen_active_color'] == 'w' and $this->kingIsUnderAttack('b', 'w'))
-                ||   ($this->gamestate['fen_active_color'] == 'b' and $this->kingIsUnderAttack('w', 'b'))) {
+        } elseif (($this->gamestate['fen_active_color'] == 'w' && $this->kingIsUnderAttack('b', 'w'))
+                ||   ($this->gamestate['fen_active_color'] == 'b' && $this->kingIsUnderAttack('w', 'b'))) {
             return _MD_CHESS_FENBAD_IN_CHECK; // player to move cannot have opponent in check
-        } elseif ((strstr($this->gamestate['fen_castling_availability'], 'K') and ($this->board[ 4] != 'wK' || $this->board[ 7] != 'wR'))
-                ||   (strstr($this->gamestate['fen_castling_availability'], 'Q') and ($this->board[ 4] != 'wK' || $this->board[ 0] != 'wR'))
-                ||   (strstr($this->gamestate['fen_castling_availability'], 'k') and ($this->board[60] != 'bK' || $this->board[63] != 'bR'))
-                ||   (strstr($this->gamestate['fen_castling_availability'], 'q') and ($this->board[60] != 'bK' || $this->board[56] != 'bR'))) {
+        } elseif ((strstr($this->gamestate['fen_castling_availability'], 'K') && ($this->board[ 4] != 'wK' || $this->board[ 7] != 'wR'))
+                ||   (strstr($this->gamestate['fen_castling_availability'], 'Q') && ($this->board[ 4] != 'wK' || $this->board[ 0] != 'wR'))
+                ||   (strstr($this->gamestate['fen_castling_availability'], 'k') && ($this->board[60] != 'bK' || $this->board[63] != 'bR'))
+                ||   (strstr($this->gamestate['fen_castling_availability'], 'q') && ($this->board[60] != 'bK' || $this->board[56] != 'bR'))) {
             return _MD_CHESS_FENBAD_CA_INCONSISTENT; // castling availability inconsistent with piece placement
-        } elseif (($this->gamestate['fen_en_passant_target_square'] != '-' and $this->gamestate['fen_en_passant_target_square']{1} == 3 and $this->gamestate['fen_active_color'] != 'b')
-                ||   ($this->gamestate['fen_en_passant_target_square'] != '-' and $this->gamestate['fen_en_passant_target_square']{1} == 6 and $this->gamestate['fen_active_color'] != 'w')) {
+        } elseif (($this->gamestate['fen_en_passant_target_square'] != '-' && $this->gamestate['fen_en_passant_target_square']{1} == 3 && $this->gamestate['fen_active_color'] != 'b')
+                ||   ($this->gamestate['fen_en_passant_target_square'] != '-' && $this->gamestate['fen_en_passant_target_square']{1} == 6 && $this->gamestate['fen_active_color'] != 'w')) {
             return _MD_CHESS_FENBAD_EP_COLOR; // en passant target square wrong color
-        } elseif ($this->gamestate['fen_en_passant_target_square'] != '-' and $this->gamestate['fen_en_passant_target_square']{1} == 3
-                                                                            and $this->board[$this->boardCoordToIndex($this->gamestate['fen_en_passant_target_square']{0} . '4')] != 'wP') {
+        } elseif ($this->gamestate['fen_en_passant_target_square'] != '-' && $this->gamestate['fen_en_passant_target_square']{1} == 3
+                                                                            && $this->board[$this->boardCoordToIndex($this->gamestate['fen_en_passant_target_square']{0} . '4')] != 'wP') {
             return _MD_CHESS_FENBAD_EP_NO_PAWN; // en passant target square for nonexistent pawn
-        } elseif ($this->gamestate['fen_en_passant_target_square'] != '-' and $this->gamestate['fen_en_passant_target_square']{1} == 6
-                                                                            and $this->board[$this->boardCoordToIndex($this->gamestate['fen_en_passant_target_square']{0} . '5')] != 'bP') {
+        } elseif ($this->gamestate['fen_en_passant_target_square'] != '-' && $this->gamestate['fen_en_passant_target_square']{1} == 6
+                                                                            && $this->board[$this->boardCoordToIndex($this->gamestate['fen_en_passant_target_square']{0} . '5')] != 'bP') {
             return _MD_CHESS_FENBAD_EP_NO_PAWN; // en passant target square for nonexistent pawn
         }
 
@@ -1298,7 +1298,7 @@ class ChessGame
         // get color of current player
         $cur_player = $this->gamestate['fen_active_color']; /* b or w */
 
-        if ($cur_player != 'w' and $cur_player != 'b') {
+        if ($cur_player != 'w' && $cur_player != 'b') {
             return(array(false, "handleMove, internal error: player='$cur_player'"));
         }
 
@@ -1621,7 +1621,7 @@ class ChessGame
             }
 
             // if a pawn moved two tiles, this will allow 'en passant' on next move
-            if ($fig_type == 'P' and abs($fig_pos - $dest_pos) == 16) {
+            if ($fig_type == 'P' && abs($fig_pos - $dest_pos) == 16) {
                 $file_chars = 'abcdefgh';
                 $this->gamestate['fen_en_passant_target_square'] = $file_chars{$fig_pos % 8} . ($cur_player == 'w' ? '3' : '6');
             } else {
@@ -1701,7 +1701,7 @@ class ChessGame
                 $this->gamestate['pgn_movetext'] .= $this->gamestate['fen_fullmove_number'] . '.';
 
             // if black move, no moves yet, and game is setup, output move number with special '...' terminator
-            } elseif (empty($this->gamestate['pgn_movetext']) and !empty($this->gamestate['pgn_fen'])) {
+            } elseif (empty($this->gamestate['pgn_movetext']) && !empty($this->gamestate['pgn_fen'])) {
                 $this->gamestate['pgn_movetext'] .= $this->gamestate['fen_fullmove_number'] . '...';
             }
 
@@ -1718,7 +1718,7 @@ class ChessGame
             }
 
             // If pawn advance or capturing move, reset the halfmove clock. Otherwise increment it.
-            if ($move != 'O-O' and $move != 'O-O-O' and ($move{0} == 'P' || $move{3} == 'x')) {
+            if ($move != 'O-O' && $move != 'O-O-O' && ($move{0} == 'P' || $move{3} == 'x')) {
                 $this->gamestate['fen_halfmove_clock'] = 0;
             } else {
                 ++$this->gamestate['fen_halfmove_clock'];
@@ -1782,7 +1782,7 @@ class ChessGame
             $tile = $tiles{$i};
             if (isset($piece_map[$tile])) {
                 $this->board[] = $piece_map[$tile];
-            } elseif (is_numeric($tile) and $tile >= 1 and $tile <= 8) {
+            } elseif (is_numeric($tile) && $tile >= 1 && $tile <= 8) {
                 for ($j = 0; $j < $tile; ++$j) {
                     $this->board[] = '00';
                 }
@@ -1856,7 +1856,7 @@ class ChessGame
         $num_bishops = intval(@$counts[ord('B')]);
         $num_knights = intval(@$counts[ord('N')]);
         $num_pawns   = intval(@$counts[ord('P')]);
-        return ($num_queens == 0 and $num_rooks == 0 and ($num_bishops + $num_knights) <= 1 and $num_pawns == 0);
+        return ($num_queens == 0 && $num_rooks == 0 && ($num_bishops + $num_knights) <= 1 && $num_pawns == 0);
     }
 
     // --------------------------

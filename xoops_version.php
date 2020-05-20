@@ -214,14 +214,14 @@ $modversion['sub'][2]['url']  = 'index.php';
 
 // Conditional menu items
 global $xoopsModule, $xoopsModuleConfig, $xoopsUser;
-if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess') {
+if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess') {
 
 // Display create-game menu item if current user has the play-chess right.
-    if (!empty($xoopsModuleConfig['groups_play']) and is_array($xoopsModuleConfig['groups_play'])
-        and (
+    if (!empty($xoopsModuleConfig['groups_play']) && is_array($xoopsModuleConfig['groups_play'])
+        && (
             in_array(XOOPS_GROUP_ANONYMOUS, $xoopsModuleConfig['groups_play'])
-            or (
-                is_object($xoopsUser) and count(array_intersect($xoopsUser->getGroups(), $xoopsModuleConfig['groups_play'])) > 0
+            || (
+                is_object($xoopsUser) && count(array_intersect($xoopsUser->getGroups(), $xoopsModuleConfig['groups_play'])) > 0
             )
         )
     ) {

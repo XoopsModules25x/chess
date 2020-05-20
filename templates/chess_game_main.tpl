@@ -111,7 +111,7 @@
 
 		<{* Display first and last move dates if defined, otherwise display game creation date. *}>
 		<{assign var=chess_date_format_nbsp value=$chess_date_format|replace:' ':'\&\n\b\s\p\;'}>
-		<{if $chess_start_date and $chess_last_date}>
+		<{if $chess_start_date && $chess_last_date}>
 			<tr>
 				<td class="odd" style="text-align:left"><{$smarty.const._MD_CHESS_GAME_STARTED|replace:' ':'&nbsp;'}>:</td>
 				<td class="odd" style="text-align:right"><{$chess_date_format_nbsp|date:$chess_start_date}></td>

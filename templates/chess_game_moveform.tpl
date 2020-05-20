@@ -99,7 +99,7 @@
 	</tr>
 
 	<{* if no draw offer pending, provide offer-draw button *}>
-	<{if not $selfplay and empty($chess_gamedata.offer_draw)}>
+	<{if not $selfplay && empty($chess_gamedata.offer_draw)}>
 
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">
@@ -109,7 +109,7 @@
 		</tr>
 
 	<{* if opponent offered draw, provide accept-draw and reject-draw buttons *}>
-	<{elseif not $selfplay and !empty($chess_gamedata.offer_draw) and $chess_gamedata.offer_draw ne $chess_user_color}>
+	<{elseif not $selfplay && !empty($chess_gamedata.offer_draw) && $chess_gamedata.offer_draw ne $chess_user_color}>
 
 		<tr>
 			<td class="odd" style="text-align:left" colspan="2">

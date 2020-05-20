@@ -53,7 +53,7 @@ function chess_moduleConfig($option)
 
     $value = null;
 
-    if (is_object($xoopsModule) and $xoopsModule->getVar('dirname') == 'chess' and isset($xoopsModuleConfig[$option])) {
+    if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == 'chess' && isset($xoopsModuleConfig[$option])) {
         $value = $xoopsModuleConfig[$option];
     } else { // for use within a block
     
@@ -170,7 +170,7 @@ function chess_to_pgn_string($data)
 
 END;
 
-    if ($data['setup'] and $data['fen']) {
+    if ($data['setup'] && $data['fen']) {
         $rtn .= "[Setup \"1\"]\n[FEN \"{$data['fen']}\"]\n";
     }
 

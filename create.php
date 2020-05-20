@@ -78,7 +78,7 @@ $submit_delete     = isset($_POST['submit_delete']);
 $confirm_delete    = intval(@$_POST['confirm_delete']);
 
 // If form-submit, check security token.
-if (($submit_challenge1 or $submit_challenge2 or $submit_challenge3 or $submit_accept or $submit_delete or $show_arbiter_ctrl) and is_object($GLOBALS['xoopsSecurity']) and !$GLOBALS['xoopsSecurity']->check()) {
+if (($submit_challenge1 || $submit_challenge2 || $submit_challenge3 || $submit_accept || $submit_delete || $show_arbiter_ctrl) && is_object($GLOBALS['xoopsSecurity']) && !$GLOBALS['xoopsSecurity']->check()) {
     redirect_header(
         XOOPS_URL . '/modules/chess/',
         _CHESS_REDIRECT_DELAY_FAILURE,
@@ -101,7 +101,7 @@ if ($cancel_challenge1) {
 } elseif ($cancel_challenge2) {
     chess_show_create_form1($gametype);
 } elseif ($cancel_challenge3) {
-    if ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+    if ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
         chess_show_create_form2($gametype, $fen);
     } else {
         chess_show_create_form1($gametype, $fen);
@@ -112,7 +112,7 @@ if ($cancel_challenge1) {
     $fen_error = chess_fen_error($fen);
     if (!empty($fen_error)) {
         chess_show_create_form1($gametype, $fen, _MD_CHESS_FEN_INVALID . ': ' . $fen_error);
-    } elseif ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+    } elseif ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
         chess_show_create_form2($gametype, $fen);
     } else {
         chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $rated);
@@ -156,18 +156,18 @@ if ($cancel_challenge1) {
     chess_accept_challenge($challenge_id, $coloroption, $notify_move);
 } elseif ($submit_delete) {
     if ($confirm_delete) {
-        if ($is_arbiter or chess_is_challenger($challenge_id)) {
+        if ($is_arbiter || chess_is_challenger($challenge_id)) {
             chess_delete_challenge($challenge_id);
             redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_SUCCESS, _MD_CHESS_GAME_DELETED);
         } else {
             redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _NOPERM);
         }
     } else {
-        chess_show_delete_form($challenge_id, $show_arbiter_ctrl and $is_arbiter, _MD_CHESS_NO_CONFIRM_DELETE);
+        chess_show_delete_form($challenge_id, $show_arbiter_ctrl && $is_arbiter, _MD_CHESS_NO_CONFIRM_DELETE);
     }
 } elseif ($challenge_id) {
-    if (($show_arbiter_ctrl and $is_arbiter) or chess_is_challenger($challenge_id)) {
-        chess_show_delete_form($challenge_id, $show_arbiter_ctrl and $is_arbiter);
+    if (($show_arbiter_ctrl && $is_arbiter) || chess_is_challenger($challenge_id)) {
+        chess_show_delete_form($challenge_id, $show_arbiter_ctrl && $is_arbiter);
     } else {
         chess_show_accept_form($challenge_id);
     }
@@ -258,7 +258,7 @@ function chess_show_create_form2($gametype, $fen, $coloroption = _CHESS_COLOROPT
     $form->addElement($radio_color);
 
     if (chess_moduleConfig('rating_system') !== 'none') {
-        if ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+        if ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
             if (chess_moduleConfig('allow_unrated_games')) {
                 $radio_rated = new XoopsFormRadio(_MD_CHESS_RATED_GAME . ':', 'rated', $rated);
                 $radio_rated->addOption(1, _YES);
@@ -333,7 +333,7 @@ function chess_show_create_form3($gametype, $fen, $coloroption, $opponent_uid, $
         $form->addElement(new XoopsFormLabel(_MD_CHESS_LABEL_OPPONENT . ':', $opponent_username));
     }
 
-    if ($gametype == _CHESS_GAMETYPE_OPEN or $gametype == _CHESS_GAMETYPE_USER) {
+    if ($gametype == _CHESS_GAMETYPE_OPEN || $gametype == _CHESS_GAMETYPE_USER) {
         switch ($coloroption) {
             case _CHESS_COLOROPTION_OPPONENT:
                 $label_coloroption = _MD_CHESS_RADIO_COLOR_OPPONENT;
@@ -626,7 +626,7 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
 
     $uid = $xoopsUser ? $xoopsUser->getVar('uid') : 0;
 
-    if ($row['game_type'] == _CHESS_GAMETYPE_USER and $uid != $row['player2_uid']) {
+    if ($row['game_type'] == _CHESS_GAMETYPE_USER && $uid != $row['player2_uid']) {
         redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_WRONG_PLAYER2);
     } elseif ($uid == $row['player1_uid']) {
         redirect_header(XOOPS_URL.'/modules/chess/', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_SAME_PLAYER2);

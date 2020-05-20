@@ -40,7 +40,7 @@ function perform()
 
     // For safety, don't generate test data unless the tables are empty.
 
-    if (!table_empty($challenges_table) or !table_empty($games_table) or !table_empty($ratings_table)) {
+    if (!table_empty($challenges_table) || !table_empty($games_table) || !table_empty($ratings_table)) {
         echo "Tables already contain data - no action performed.\n";
         exit;
     }
@@ -118,7 +118,7 @@ function perform()
 
         $pgn_result = $multiple_moves ? rand_array_value($pgn_results) : '*';
 
-        if ($multiple_moves and $pgn_result == '*' and rand(1, 5) == 5) {
+        if ($multiple_moves && $pgn_result == '*' && rand(1, 5) == 5) {
             $suspended_date    = date('Y-m-d H:i:s', $last_date_sec + rand(60, 72 * 3600));
             $suspended_uids    = array(1, $white_uid, $black_uid);
             $suspended_uid     = rand_array_value($suspended_uids);

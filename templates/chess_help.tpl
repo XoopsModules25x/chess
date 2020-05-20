@@ -48,7 +48,7 @@
 <{$smarty.const._HE_CHESS_CREATE_040}>
 </td></tr>
 
-<{if $chess_rating_system != 'none' and $chess_allow_unrated_games}>
+<{if $chess_rating_system != 'none' && $chess_allow_unrated_games}>
 	<tr><td class="odd">
 	<{$smarty.const._HE_CHESS_CREATE_050}>
 	</td></tr>
