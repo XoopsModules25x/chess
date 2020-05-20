@@ -1782,7 +1782,7 @@ class ChessGame
             'k' => 'bK', 'q' => 'bQ', 'r' => 'bR', 'b' => 'bB', 'n' => 'bN', 'p' => 'bP',
         ];
         $tiles = implode('', array_reverse(explode('/', $this->gamestate['fen_piece_placement'])));
-        for ($i = 0; $i < strlen($tiles); ++$i) {
+        for ($i = 0, $iMax = strlen($tiles); $i < $iMax; ++$i) {
             $tile = $tiles{$i};
             if (isset($piece_map[$tile])) {
                 $this->board[] = $piece_map[$tile];
