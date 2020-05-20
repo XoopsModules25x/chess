@@ -60,8 +60,8 @@ if (!empty($player_uname)) {
 
 // Otherwise, if player user ID provided, map it to a username.
 } elseif ($player_uid != 0) {
-    $member_handler =& xoops_gethandler('member');
-    $player_user    =& $member_handler->getUser($player_uid);
+    $member_handler = xoops_gethandler('member');
+    $player_user    = $member_handler->getUser($player_uid);
     $player_uname   =  is_object($player_user) ? $player_user->getVar('uname') : '';
 }
 
@@ -148,7 +148,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     }
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $games_table WHERE $where");
-    list($num_items) = $xoopsDB->fetchRow($result);
+    [$num_items] = $xoopsDB->fetchRow($result);
     $xoopsDB->freeRecordSet($result);
 
     $result = $xoopsDB->query("
@@ -201,7 +201,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     }
 
     $result = $xoopsDB->query("SELECT COUNT(*) FROM $challenges_table WHERE $where");
-    list($num_items) = $xoopsDB->fetchRow($result);
+    [$num_items] = $xoopsDB->fetchRow($result);
     $xoopsDB->freeRecordSet($result);
 
     $result = $xoopsDB->query("
@@ -244,7 +244,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     // ---------
 
     // get mapping of user IDs to usernames
-    $member_handler =& xoops_gethandler('member');
+    $member_handler = xoops_gethandler('member');
     $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
     $usernames      =  $member_handler->getUserList($criteria);
 

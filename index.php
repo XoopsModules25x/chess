@@ -220,7 +220,7 @@ function chess_get_games()
     // ---------
 
     // get mapping of user IDs to usernames
-    $member_handler =& xoops_gethandler('member');
+    $member_handler = xoops_gethandler('member');
     $criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
     $usernames      =  $member_handler->getUserList($criteria);
 

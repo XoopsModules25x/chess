@@ -274,7 +274,7 @@ function chess_load_lang_file($filename, $module = '', $default = 'english')
  * @param string $text    Text to display
  * @param bool   $error   True if text is an error message that should be displayed with emphasis, false otherwise.
  */
-function chess_set_message(&$module, $text = '', $error = false)
+function chess_set_message($module, $text = '', $error = false)
 {
     $text = $error ? "<span style='color:#ff0000;background-color:#ffffff;font-weight:bold;'>$text</span>" : $text;
 

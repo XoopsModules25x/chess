@@ -57,10 +57,10 @@ function chess_moduleConfig($option)
         $value = $xoopsModuleConfig[$option];
     } else { // for use within a block
     
-        $module_handler =& xoops_gethandler('module');
-        $module         =& $module_handler->getByDirname('chess');
-        $config_handler =& xoops_gethandler('config');
-        $moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+        $module_handler = xoops_gethandler('module');
+        $module         = $module_handler->getByDirname('chess');
+        $config_handler = xoops_gethandler('config');
+        $moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 
         if (isset($moduleConfig[$option])) {
             $value = $moduleConfig[$option];
@@ -83,8 +83,8 @@ function chess_can_play($uid = null)
     global $xoopsUser;
 
     if (isset($uid)) {
-        $member_handler =& xoops_gethandler('member');
-        $user =& $member_handler->getUser($uid);
+        $member_handler = xoops_gethandler('member');
+        $user           = $member_handler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
         $user =& $xoopsUser;
     } else {
@@ -115,8 +115,8 @@ function chess_can_delete($uid = null)
     global $xoopsUser;
 
     if (isset($uid)) {
-        $member_handler =& xoops_gethandler('member');
-        $user =& $member_handler->getUser($uid);
+        $member_handler = xoops_gethandler('member');
+        $user           = $member_handler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
         $user =& $xoopsUser;
     } else {
@@ -154,7 +154,7 @@ function chess_to_pgn_string($data)
     } else {
         $datetime = str_replace('-', '.', $data['datetime']);
     }
-    list($date, $time) = explode(' ', $datetime);
+    [$date, $time] = explode(' ', $datetime);
 
     $movetext = wordwrap($data['movetext'], 75);
 
@@ -191,8 +191,8 @@ function chess_uname_to_uid($uname)
     $criteria->add(new Criteria('uname', MyTextSanitizer::addSlashes($uname)));
     $criteria->setLimit(1);
 
-    $member_handler =& xoops_gethandler('member');
-    $users =& $member_handler->getUserList($criteria);
+    $member_handler = xoops_gethandler('member');
+    $users = $member_handler->getUserList($criteria);
 
     $uids = array_keys($users);
 

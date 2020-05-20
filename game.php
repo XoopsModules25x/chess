@@ -155,7 +155,7 @@ function chess_game()
             default:
             case _CHESS_MOVETYPE_NORMAL:
                 if ($user_is_player_to_move and $gamedata['offer_draw'] != $user_color) {
-                    list($move_performed, $move_result_text) = chess_move($gamedata, $move);
+                    [$move_performed, $move_result_text] = chess_move($gamedata, $move);
                     if ($move_performed) {
                         if ($selfplay) { // If self-play, the current user's color switches.
                             $user_color = $gamedata['fen_active_color'];
@@ -171,7 +171,7 @@ function chess_game()
             case _CHESS_MOVETYPE_CLAIM_DRAW_50:
                 if ($user_is_player_to_move and $gamedata['offer_draw'] != $user_color) {
                     if (!empty($move)) {
-                        list($move_performed, $move_result_text) = chess_move($gamedata, $move);
+                        [$move_performed, $move_result_text] = chess_move($gamedata, $move);
                         #var_dump('chess_game', $move_performed, $move_result_text);#*#DEBUG#
                         if ($move_performed) {
                             if ($selfplay) { // If self-play, the current user's color switches.
@@ -184,7 +184,7 @@ function chess_game()
                             break; // move invalid, so don't bother checking draw-claim
                         }
                     }
-                    list($draw_claim_valid, $draw_claim_text) = $movetype == _CHESS_MOVETYPE_CLAIM_DRAW_3
+                    [$draw_claim_valid, $draw_claim_text] = $movetype == _CHESS_MOVETYPE_CLAIM_DRAW_3
                         ? chess_is_draw_threefold_repetition($gamedata) : chess_is_draw_50_move_rule($gamedata);
                     #var_dump('chess_game', $draw_claim_valid, $draw_claim_text);#*#DEBUG#
                     if ($draw_claim_valid) {
@@ -363,7 +363,7 @@ function chess_game()
 
     // If a move (or other action) was made, notify any subscribers.
     if (!empty($notify)) {
-        $notification_handler =& xoops_gethandler('notification');
+        $notification_handler = xoops_gethandler('notification');
 
         $notification_handler->triggerEvent('game', $game_id, 'notify_game_move', array('CHESS_ACTION' => $notify));
 
@@ -492,7 +492,7 @@ function chess_move(&$gamedata, $move)
     $chessgame = new ChessGame($gamestate);
 
     #echo "Performing move: '$move'<br />\n";#*#DEBUG#
-    list($move_performed, $move_result_text) = $chessgame->move($move);
+    [$move_performed, $move_result_text] = $chessgame->move($move);
     #echo "Move result: '$move_result_text'<br />\n";#*#DEBUG#
 
     if ($move_performed) {
@@ -537,7 +537,7 @@ function chess_move(&$gamedata, $move)
  *  - $draw_claim_valid: True if draw-claim is valid, otherwise false
  *  - $draw_claim_text: Describes draw-claim result
  */
-function chess_is_draw_50_move_rule(&$gamedata)
+function chess_is_draw_50_move_rule($gamedata)
 {
     #var_dump('gamedata', $gamedata);#*#DEBUG#
 
@@ -650,7 +650,7 @@ function chess_is_draw_threefold_repetition(&$gamedata)
             $move = str_replace('#', '', $move);
 
             #echo "Performing move: '$move'<br />\n";#*#DEBUG#
-            list($tmp_move_performed, $tmp_move_result_text) = $chessgame->move($move);
+            [$tmp_move_performed, $tmp_move_result_text] = $chessgame->move($move);
             #echo "Move result: '$tmp_move_result_text'<br />\n";#*#DEBUG#
             $tmp_move_performed or trigger_error("Failed to perform move $move: $tmp_move_result_text", E_USER_ERROR);
             $tmp_gamedata = $chessgame->gamestate();
@@ -713,11 +713,11 @@ function chess_is_draw_threefold_repetition(&$gamedata)
  * @param array $movetext pgn_movetext
  * @return array Nx3 array
  */
-function chess_make_movelist(&$movetext)
+function chess_make_movelist($movetext)
 {
-    $movelist = array();
+    $movelist    = array();
     $move_tokens = explode(' ', preg_replace('/\{.*\}/', '', $movetext));
-    $index = -1;
+    $index       = -1;
     while ($move_tokens) {
         $move_token = array_shift($move_tokens);
         if (in_array($move_token, array('1-0', '0-1', '1/2-1/2', '*'))) {
@@ -755,10 +755,10 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 		<link rel="stylesheet" type="text/css" media="screen" href="' .XOOPS_URL. '/modules/chess/include/style.css" />
 	');
 
-    $member_handler =& xoops_gethandler('member');
-    $white_user     =& $member_handler->getUser($gamedata['white_uid']);
+    $member_handler = xoops_gethandler('member');
+    $white_user     = $member_handler->getUser($gamedata['white_uid']);
     $white_username =  is_object($white_user) ? $white_user->getVar('uname') : '?';
-    $black_user     =& $member_handler->getUser($gamedata['black_uid']);
+    $black_user     = $member_handler->getUser($gamedata['black_uid']);
     $black_username =  is_object($black_user) ? $black_user->getVar('uname') : '?';
 
     // Determine whether board is flipped (black at bottom) or "normal" (white at bottom).
@@ -879,7 +879,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     $xoopsTpl->assign('chess_show_arbitration_controls', $show_arbiter_ctrl);
 
     if ($show_arbiter_ctrl and $gamedata['suspended']) {
-        list($susp_date, $susp_uid, $susp_type, $susp_explain) = explode('|', $gamedata['suspended']);
+        [$susp_date, $susp_uid, $susp_type, $susp_explain] = explode('|', $gamedata['suspended']);
         switch ($susp_type) {
             case 'arbiter_suspend':
                 $susp_type_display = _MD_CHESS_SUSP_TYPE_ARBITER;
@@ -891,7 +891,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
                 $susp_type_display = _MD_CHESS_LABEL_ERROR;
                 break;
         }
-        $susp_user     =& $member_handler->getUser($susp_uid);
+        $susp_user     = $member_handler->getUser($susp_uid);
         $susp_username =  is_object($susp_user) ? $susp_user->getVar('uname') : _MD_CHESS_UNKNOWN;
         $suspend_info = array(
             'date'   => strtotime($susp_date),

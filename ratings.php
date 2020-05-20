@@ -146,7 +146,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
     $xoopsDB->freeRecordSet($result);
 
     // get mapping of user IDs to usernames
-    $member_handler =& xoops_gethandler('member');
+    $member_handler = xoops_gethandler('member');
     $criteria       =  new Criteria('uid', '(' . implode(',', $userids) . ')', 'IN');
     $usernames      =  $member_handler->getUserList($criteria);
 

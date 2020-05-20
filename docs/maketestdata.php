@@ -181,7 +181,7 @@ function do_query($query)
     return $result;
 }
 
-function rand_array_value(&$array)
+function rand_array_value($array)
 {
     return $array[array_rand($array)];
 }
