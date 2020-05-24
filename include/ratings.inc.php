@@ -164,9 +164,9 @@ function chess_recalc_ratings()
 			$players[$row['black_uid']] = array('rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0);
 		}
 
-		$player_white = &$players[$row['white_uid']];
-		$player_black = &$players[$row['black_uid']];
-	
+		$player_white = $players[$row['white_uid']];
+		$player_black = $players[$row['black_uid']];
+
 		// calculate new ratings using configured rating system
 		list($white_rating_new, $black_rating_new) = $func(
 			$player_white['rating'],
@@ -175,13 +175,13 @@ function chess_recalc_ratings()
 			$player_black['games_won'] + $player_black['games_lost'] + $player_black['games_drawn'],
 			$row['pgn_result']
 		);
-	
+
 		// determine game-count columns to increment
 		list($white_col, $black_col) = chess_ratings_get_columns($row['pgn_result']);
-	
+
 		$player_white['rating'] = $white_rating_new;
 		++$player_white[$white_col];
-	
+
 		$player_black['rating'] = $black_rating_new;
 		++$player_black[$black_col];
 	}
@@ -194,7 +194,7 @@ function chess_recalc_ratings()
 			$value_list[] = "('$player_uid', '{$player['rating']}', '{$player['games_won']}', '{$player['games_lost']}', '{$player['games_drawn']}')";
 		}
 		$values = implode(',', $value_list);
-	
+
 		$xoopsDB->query("INSERT INTO $ratings_table (player_uid, rating, games_won, games_lost, games_drawn) VALUES $values");
 		$xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
 	}

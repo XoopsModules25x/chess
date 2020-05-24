@@ -164,7 +164,7 @@ class ChessGame {
  * If $param is a non-empty string, a new game is created using $param as a FEN setup position.
  * Otherwise, a new game is created using the standard starting position.
  */
-function ChessGame($param = null)
+public function __construct($param = null)
 {
 	// for now
 	$this->browsing_mode  = 0;
@@ -193,7 +193,7 @@ function ChessGame($param = null)
  *  - $move_performed: true if the move was performed and the game state has been updated, false otherwise
  *  - $move_result_text: text message
  */
-function move($move)
+public function move($move)
 {
 	empty($this->error) or trigger_error(_MD_CHESS_ERROR, E_USER_ERROR);
 	return $this->handleMove($move);
@@ -204,7 +204,7 @@ function move($move)
  *
  * @return array
  */
-function gamestate()
+public function gamestate()
 {
 	empty($this->error) or trigger_error(_MD_CHESS_ERROR, E_USER_ERROR);
 	return $this->gamestate;
@@ -225,7 +225,7 @@ function gamestate()
  *
  * @access private
  */
-function init_gamestate($fen = null)
+public function init_gamestate($fen = null)
 {
 	$this->gamestate = array();
 
@@ -325,7 +325,7 @@ function init_gamestate($fen = null)
  *
  * check a series of tiles given a start, an end tile
  * which is not included to the check and a position
- * change for each iteration. return true if not blocked. 
+ * change for each iteration. return true if not blocked.
  * all values are given for 1dim board.
  *
  * @param int $start
@@ -335,7 +335,7 @@ function init_gamestate($fen = null)
  *
  * @access private
  */
-function pathIsNotBlocked($start, $end, $change)
+public function pathIsNotBlocked($start, $end, $change)
 {
 	for ($pos = $start; $pos != $end; $pos += $change) {
 
@@ -361,7 +361,7 @@ function pathIsNotBlocked($start, $end, $change)
  *
  * @access private
  */
-function getPath($start, $end, $change)
+public function getPath($start, $end, $change)
 {
 	$path = array();
 	for ($pos = $start; $pos != $end; $pos += $change) {
@@ -388,7 +388,7 @@ function getPath($start, $end, $change)
  *
  * @access private
  */
-function getPathChange($fig, $fig_pos, $dest_pos)
+public function getPathChange($fig, $fig_pos, $dest_pos)
 {
 	$change = 0;
 
@@ -421,7 +421,7 @@ function getPathChange($fig, $fig_pos, $dest_pos)
 				$change += ($dx < $fx) ? -1 : 1;
 			} elseif ($fx == $dx) {
 				$change = ($dy < $fy) ? -8 : 8;
-			} 
+			}
 			else {
 				$change = ($dx < $fx) ? -1 : 1;
 			}
@@ -436,7 +436,7 @@ function getPathChange($fig, $fig_pos, $dest_pos)
  *
  * check whether dest_pos is in reach for unit of fig_type
  * at tile fig_pos. it is not checked whether the tile
- * itself is occupied but only the tiles in between. 
+ * itself is occupied but only the tiles in between.
  * this function does not check pawns.
  *
  * @param string $fig
@@ -446,7 +446,7 @@ function getPathChange($fig, $fig_pos, $dest_pos)
  *
  * @access private
  */
-function tileIsReachable($fig, $fig_pos, $dest_pos)
+public function tileIsReachable($fig, $fig_pos, $dest_pos)
 {
   if ( $fig_pos==$dest_pos) return;
   $result = 0;
@@ -475,7 +475,7 @@ function tileIsReachable($fig, $fig_pos, $dest_pos)
     case 'R':
       if ( $fx!=$dx && $fy!=$dy )
         break;
-      if ( $fx==$dx ) 
+      if ( $fx==$dx )
       {
         if ( $dy<$fy ) $change = -8; else $change = 8;
       }
@@ -496,7 +496,7 @@ function tileIsReachable($fig, $fig_pos, $dest_pos)
       }
       else if ( $fx==$dx ) {
         if ( $dy<$fy ) $change = -8; else $change = 8;
-      } 
+      }
       else
       {
         if ( $dx<$fx ) $change = -1; else $change = 1;
@@ -529,7 +529,7 @@ function tileIsReachable($fig, $fig_pos, $dest_pos)
  *
  * @access private
  */
-function checkPawnAttack($fig_pos, $dest_pos)
+public function checkPawnAttack($fig_pos, $dest_pos)
 {
   if ( $this->board[$fig_pos]{0} == 'w' )
   {
@@ -552,7 +552,7 @@ function checkPawnAttack($fig_pos, $dest_pos)
  * Check whether a pawn move is legal.
  *
  * check whether pawn at figpos may move to destpos.
- * first move may be two tiles instead of just one. 
+ * first move may be two tiles instead of just one.
  * again the last tile is not checked but just the path
  * in between.
  *
@@ -562,10 +562,10 @@ function checkPawnAttack($fig_pos, $dest_pos)
  *
  * @access private
  */
-function checkPawnMove($fig_pos, $dest_pos)
+public function checkPawnMove($fig_pos, $dest_pos)
 {
   $first_move = 0;
-  
+
   if ( $this->board[$fig_pos]{0} == 'w' )
   {
     if ( $fig_pos >= 8 && $fig_pos <= 15 )
@@ -598,14 +598,14 @@ function checkPawnMove($fig_pos, $dest_pos)
  *
  * @access private
  */
-function tileIsUnderAttack($opp, $dest_pos)
+public function tileIsUnderAttack($opp, $dest_pos)
 {
 #var_dump('tileIsUnderAttack, opp', $opp, 'dest_pos', $dest_pos, 'board', $board);#*#DEBUG#
   for ( $i = 0; $i < 64; $i++ )
     if ($this->board[$i]{0} == $opp )
     {
       if ( ($this->board[$i]{1}=='P' && $this->checkPawnAttack($i,$dest_pos)) ||
-           ($this->board[$i]{1}!='P' && 
+           ($this->board[$i]{1}!='P' &&
                 $this->tileIsReachable($this->board[$i]{1},$i,$dest_pos)) )
       {
         /*DEBUG: echo "attack test: $i: ",$opp,"P<BR>"; */
@@ -624,7 +624,7 @@ function tileIsUnderAttack($opp, $dest_pos)
  *
  * @access private
  */
-function kingIsUnderAttack($player, $opp)
+public function kingIsUnderAttack($player, $opp)
 {
 
 #var_dump('kingIsUnderAttack, player', $player, 'opp', $opp, 'board', $board);#*#DEBUG#
@@ -635,7 +635,7 @@ function kingIsUnderAttack($player, $opp)
       break;
     }
   /*DEBUG: echo "$player king is at $king_pos<BR>"; */
-  
+
   return $this->tileIsUnderAttack( $opp, $king_pos );
 }
 
@@ -648,7 +648,7 @@ function kingIsUnderAttack($player, $opp)
  *
  * @access private
  */
-function isCheckMate($player, $opp)
+public function isCheckMate($player, $opp)
 {
   for ( $i = 0; $i < 64; $i++ )
     if ($this->board[$i]{0} == $player && $this->board[$i]{1} == 'K' )
@@ -662,7 +662,7 @@ function isCheckMate($player, $opp)
   /* test adjacent tiles while king is temporarly removed */
   $adj_tiles = $this->getAdjTiles( $king_pos );
   $contents = $this->board[$king_pos]; $this->clear_tile($king_pos);
-  foreach ( $adj_tiles as $dest_pos ) 
+  foreach ( $adj_tiles as $dest_pos )
   {
     if ($this->board[$dest_pos]{0} == $player ) continue;
     if ( $this->tileIsUnderAttack($opp,$dest_pos) ) continue;
@@ -679,17 +679,17 @@ function isCheckMate($player, $opp)
     if ( $this->board[$i]{0} == $opp )
     {
       if ( ($this->board[$i]{1}=='P' && $this->checkPawnAttack($i,$king_pos)) ||
-           ($this->board[$i]{1}!='P' && 
+           ($this->board[$i]{1}!='P' &&
                 $this->tileIsReachable($this->board[$i]{1},$i,$king_pos)) )
       {
           $attackers[$count++] = $i;
       }
     }
-  /* DEBUG: 
+  /* DEBUG:
   for( $i = 0; $i < $count; $i++ )
     echo "Attacker: $attackers[$i] ";
   echo "Attackercount: ",count($attackers), " "; */
- 
+
   /* if more than one there is no chance to escape */
   if ( $count > 1 ) return 1;
 
@@ -701,7 +701,7 @@ function isCheckMate($player, $opp)
       if ( ($this->board[$i]{1}=='P' && $this->checkPawnAttack($i,$dest_pos)) ||
            ($this->board[$i]{1}!='P' && $this->board[$i]{1}!='K' &&
               $this->tileIsReachable($this->board[$i]{1},$i,$dest_pos)) ||
-           ($this->board[$i]{1}=='K' && 
+           ($this->board[$i]{1}=='K' &&
               $this->tileIsReachable($this->board[$i]{1},$i,$dest_pos) &&
               !$this->tileIsUnderAttack($opp,$dest_pos)) )
       {
@@ -719,12 +719,12 @@ function isCheckMate($player, $opp)
         {
           /* DEBUG: echo "$i can kill attacker"; */
           return 0;
-        }    
+        }
       }
     }
- 
+
   /* check whether own unit can block the way */
-  
+
   /* if attacking unit is a knight there
    * is no way to block the path */
   if ( $this->board[$dest_pos]{1} == 'N' ) return 1;
@@ -770,7 +770,7 @@ function isCheckMate($player, $opp)
  *
  * @access private
  */
-function isStaleMate($player, $opp)
+public function isStaleMate($player, $opp)
 {
   for ( $i = 0; $i < 64; $i++ )
     if ($this->board[$i]{0} == $player )
@@ -778,7 +778,7 @@ function isStaleMate($player, $opp)
       {
         case 'K':
           $adj_tiles = $this->getAdjTiles( $i );
-          foreach ( $adj_tiles as $pos ) 
+          foreach ( $adj_tiles as $pos )
           {
             if ( $this->board[$pos]{0} == $player ) continue;
             if ( $this->tileIsUnderAttack($opp,$pos) ) continue;
@@ -815,11 +815,11 @@ function isStaleMate($player, $opp)
         case 'Q':
           $adj_tiles = $this->getAdjTiles( $i );
           foreach ( $adj_tiles as $pos )
-            if ( $this->board[$pos]{0} != $player ) 
+            if ( $this->board[$pos]{0} != $player )
               return 0;
           break;
         case 'N':
-          if ( $i-17 >= 0  && $this->board[$i-17]{0} != $player ) return 0; 
+          if ( $i-17 >= 0  && $this->board[$i-17]{0} != $player ) return 0;
           if ( $i-15 >= 0  && $this->board[$i-15]{0} != $player ) return 0;
           if ( $i-6  >= 0  && $this->board[$i-6]{0}  != $player ) return 0;
           if ( $i+10 <= 63 && $this->board[$i+10]{0} != $player ) return 0;
@@ -829,7 +829,7 @@ function isStaleMate($player, $opp)
           if ( $i-10 >= 0  && $this->board[$i-10]{0} != $player ) return 0;
           break;
       }
-      
+
   return 1;
 }
 
@@ -848,7 +848,7 @@ function isStaleMate($player, $opp)
  *
  * @access private
  */
-function move_msg($text)
+public function move_msg($text)
 {
 	$param = func_get_args();
 	#var_dump('move_msg, text', $text, 'param', $param);#*#DEBUG#
@@ -864,31 +864,31 @@ function move_msg($text)
  * @param string $move
  * <pre>
  *   [a-h][1-8|a-h][RNBQK]              pawn move/attack
- *   [PRNBQK][a-h][1-8]                 figure move 
+ *   [PRNBQK][a-h][1-8]                 figure move
  *   [PRNBQK][:x][a-h][1-8]             figure attack
  *   [PRNBQK][1-8|a-h][a-h][1-8]        ambigous figure move
- *   [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack 
+ *   [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack
  *   [PRNBQK][1-8|a-h][:x][a-h][1-8]    ambigous figure attack
  * </pre>
  * @return string  Empty string if successful, otherwise error message
  *
  * @access private
  */
-function completeMove($player, $move)
+public function completeMove($player, $move)
 {
   /*
    * [a-h][1-8|a-h][RNBQK]              pawn move/attack
-   * [PRNBQK][a-h][1-8]                 figure move 
+   * [PRNBQK][a-h][1-8]                 figure move
    * [PRNBQK][:x][a-h][1-8]             figure attack
    * [PRNBQK][1-8|a-h][a-h][1-8]        ambigous figure move
-   * [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack 
+   * [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack
    * [PRNBQK][1-8|a-h][:x][a-h][1-8]    ambigous figure attack
    */
   $error = _MD_CHESS_MOVE_UNKNOWN; // "format is totally unknown!"
 
   $this->ac_move = $move;
 
-  if ( strlen($move)>=6 ) 
+  if ( strlen($move)>=6 )
   {
     /* full move: a pawn requires a ? in the end
      * to automatically choose a queen on last line */
@@ -917,7 +917,7 @@ function completeMove($player, $move)
 
   if ( $move[0]>='a' && $move[0]<='h' )
   {
-    /* pawn move. either it's 2 or for characters as 
+    /* pawn move. either it's 2 or for characters as
      * listed above */
     if ( strlen($move) == 4 )
     {
@@ -930,7 +930,7 @@ function completeMove($player, $move)
         $src_y  = $dest_y-1;
       else
         $src_y  = $dest_y+1;
-      $this->ac_move = sprintf( "P%s%dx%s%d%s", 
+      $this->ac_move = sprintf( "P%s%dx%s%d%s",
                           $src_x,$src_y,$dest_x,$dest_y,
                           $pawn_upg );
       return "";
@@ -964,7 +964,7 @@ function completeMove($player, $move)
       }
       else
       {
-        /* notation: [a-h][a-h] for pawn attack no longer allowed 
+        /* notation: [a-h][a-h] for pawn attack no longer allowed
          * except for history browser */
         if ( $this->browsing_mode == 0 )
             return _MD_CHESS_MOVE_USE_NOTATION; // "please use denotation [a-h]x[a-h][1-8] for pawn attacks (see help for more information)"
@@ -973,7 +973,7 @@ function completeMove($player, $move)
         $start = $this->boardCoordToIndex( sprintf( "%s1", $move[0] ) );
         if ( $start == 64 ) return $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $move[0]); // "coordinate $move[0] is invalid"
         for ( $i = 1; $i <= 8; $i++, $start+=8 )
-          if ( $this->board[$start] == $fig ) 
+          if ( $this->board[$start] == $fig )
           {
             $pawns++;
             $pawn_line = $i;
@@ -988,7 +988,7 @@ function completeMove($player, $move)
             $dest_line = $pawn_line+1;
           else
             $dest_line = $pawn_line-1;
-          $this->ac_move = sprintf( "P%s%dx%s%d", 
+          $this->ac_move = sprintf( "P%s%dx%s%d",
                             $move[0],$pawn_line,$move[1],$dest_line );
           return "";
         }
@@ -1001,7 +1001,7 @@ function completeMove($player, $move)
     $dest_coord = substr( $move, strlen($move)-2, 2 );
     $action = $move[strlen($move)-3];
     if ( $action != 'x' ) $action = '-';
-    if ( $player == 'w' ) 
+    if ( $player == 'w' )
       $figures = $this->w_figures;
     else
       $figures = $this->b_figures;
@@ -1021,18 +1021,18 @@ function completeMove($player, $move)
     if ( $fig_count == 1 )
     {
        $this->ac_move = sprintf( "%s%s%s%s",
-                      $move[0], $pos1, $action, $dest_coord ); 
+                      $move[0], $pos1, $action, $dest_coord );
        return "";
     }
     else
     {
       /* two figures which may cause ambiguity */
       $dest_pos = $this->boardCoordToIndex( $dest_coord );
-      if ( $dest_pos == 64 ) 
+      if ( $dest_pos == 64 )
         return $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $dest_coord); // "coordinate $dest_coord is invalid"
-      $fig1_can_reach = $this->tileIsReachable( $move[0], 
+      $fig1_can_reach = $this->tileIsReachable( $move[0],
                             $this->boardCoordToIndex($pos1), $dest_pos );
-      $fig2_can_reach = $this->tileIsReachable( $move[0], 
+      $fig2_can_reach = $this->tileIsReachable( $move[0],
                             $this->boardCoordToIndex($pos2), $dest_pos );
       if ( !$fig1_can_reach && !$fig2_can_reach )
         return $this->move_msg(_MD_CHESS_MOVE_NEITHER_CAN_REACH, $move[0], $this->getFullFigureName($move[0]), $dest_coord); // sprintf("neither of the %s = %s can reach %s", $move[0], $this->getFullFigureName($move[0]), $dest_coord)
@@ -1078,10 +1078,10 @@ function completeMove($player, $move)
       {
         if ( $fig1_can_reach )
           $this->ac_move = sprintf( "%s%s%s%s",
-                        $move[0], $pos1, $action, $dest_coord ); 
+                        $move[0], $pos1, $action, $dest_coord );
         else
           $this->ac_move = sprintf( "%s%s%s%s",
-                        $move[0], $pos2, $action, $dest_coord ); 
+                        $move[0], $pos2, $action, $dest_coord );
         return "";
       }
     }
@@ -1101,13 +1101,13 @@ function completeMove($player, $move)
  *
  * @access private
  */
-function convertFullToChessNotation($player, $move)
+public function convertFullToChessNotation($player, $move)
 {
   $new_move = $move;
 
   $old_ac_move = $this->ac_move; /* backup required as autocomplete
                               will overwrite it */
-                  
+
   /* valid pawn moves are always non-ambigious */
   if ( $move[0] == 'P' )
   {
@@ -1143,7 +1143,7 @@ function convertFullToChessNotation($player, $move)
       }
     }
   }
-  
+
   $this->ac_move = $old_ac_move;
   return $new_move;
 }
@@ -1151,7 +1151,7 @@ function convertFullToChessNotation($player, $move)
 /**
  * Handle a move.
  *
- * check whether it is user's turn and the move is valid. 
+ * check whether it is user's turn and the move is valid.
  * if the move is okay update the game file.
  *
  * @param string $move
@@ -1161,7 +1161,7 @@ function convertFullToChessNotation($player, $move)
  *
  * @access private
  */
-function handleMove($move)
+public function handleMove($move)
 {
   /* DEBUG: echo "HANDLE: $move, $comment<BR>"; */
 
@@ -1181,7 +1181,7 @@ function handleMove($move)
   $cur_opp = ($cur_player == 'w') ? 'b' : 'w';
 
   if ($this->gamestate['pgn_result'] != '*')
-  { 
+  {
     return(array(false, _MD_CHESS_MOVE_GAME_OVER));
   }
 
@@ -1212,14 +1212,14 @@ function handleMove($move)
   /* backup full move input for game history before
    * splitting figure type apart */
   $history_move = $move;
-   
-  /* clear last move - won't be saved yet if anything 
+
+  /* clear last move - won't be saved yet if anything
      goes wrong */
   $this->last_move = "x";
   $this->piece_captured = 'x';
-    
+
   /* HANDLE MOVES:
-   * ---                               surrender 
+   * ---                               surrender
    * O-O                               short castling
    * O-O-O                             long castling
    * [PRNBQK][a-h][1-8][-:x][a-h][1-8] unshortened move
@@ -1273,7 +1273,7 @@ function handleMove($move)
 		$result = _MD_CHESS_MOVE_CASTLED_SHORT;
 		$move_handled = 1;
 		$this->last_move = "O-O";
-  
+
 	} elseif ($move == 'O-O-O') {
 
 		/* long castling */
@@ -1334,23 +1334,23 @@ function handleMove($move)
     $ac_error = $this->completeMove( $cur_player, trim($move) );
     if ( $ac_error != "" )
       return(array(false, $ac_error)); // "ERROR: autocomplete: $ac_error"
-    else 
+    else
       $move = $this->ac_move;
     $this->last_move = str_replace( "?", "", $move );
-    
+
     /* a final captial letter may only be N,B,R,Q for the
      * appropiate chessman */
     $c = $move[strlen($move)-1];
     if ( $c >= 'A' && $c <= 'Z' )
     if ( $c != 'N' && $c != 'B' && $c != 'R' && $c != 'Q' )
       return(array(false, _MD_CHESS_MOVE_INVALID_PIECE)); // "ERROR: only N (knight), B (bishop), R (rook) and Q (queen) are valid chessman identifiers"
-    
+
     /* if it is a full move, try to shorten the history move */
     if ( strlen( $history_move ) >= 6 )
-      $history_move = 
+      $history_move =
           $this->convertFullToChessNotation($cur_player,$history_move);
     /* DEBUG: echo "Move: $move ($history_move)<BR>"; */
-    
+
     /* validate figure and position */
     $fig_type = $move[0];
     $fig_name = $this->getFullFigureName( $fig_type );
@@ -1366,7 +1366,7 @@ function handleMove($move)
       return(array(false, _MD_CHESS_MOVE_NOT_YOUR_PIECE)); // "ERROR: Figure does not belong to you!"
     if ( $this->board[$fig_pos]{1} != $fig_type )
       return(array(false, _MD_CHESS_MOVE_NOEXIST_FIGURE)); // "ERROR: Figure does not exist!"
-    
+
     /* get target index */
     $dest_coord = substr($move,4,2);
     $dest_pos = $this->boardCoordToIndex( $dest_coord );
@@ -1378,7 +1378,7 @@ function handleMove($move)
 
     /* get action */
     $action = $move[3];
-    if ( $move[3] == "-" ) 
+    if ( $move[3] == "-" )
       $action = 'M'; /* move */
     else if ( $move[3] == 'x' )
       $action = 'A'; /* attack */
@@ -1388,10 +1388,10 @@ function handleMove($move)
     /* if attack an enemy unit must be present on tile
      * and if move then tile must be empty. in both cases
      * the king must not be checked after moving. */
-     
+
     /* check whether the move is along a valid path and
      * whether all tiles in between are empty thus the path
-     * is not blocked. the final destination tile is not 
+     * is not blocked. the final destination tile is not
      * checked here. */
     if ( $fig_type != 'P' )
     {
@@ -1404,7 +1404,7 @@ function handleMove($move)
       if ( $action == 'A' && !$this->checkPawnAttack( $fig_pos, $dest_pos ) )
           return(array(false, $this->move_msg(_MD_CHESS_MOVE_OUT_OF_RANGE, $dest_coord, $fig_name, $fig_coord))); // "ERROR: Tile $dest_coord is out of attacking range for $fig_name at $fig_coord!"
     }
-     
+
 	$en_passant_capture_performed = 0; // 1 if en passant captured occurred, else 0
 	/* check action */
 	if ( $action == 'M' && !$this->is_empty_tile($dest_pos)) {
@@ -1438,7 +1438,7 @@ function handleMove($move)
     $this->board[$dest_pos] = "$cur_player$fig_type";
     if ( $en_passant_capture_performed ) {
       /* kill pawn */
-      if ( $cur_player == 'w' ) 
+      if ( $cur_player == 'w' )
       {
         $this->clear_tile($dest_pos - 8);
         $this->piece_captured = sprintf("bP%s",$dest_pos-8);
@@ -1457,7 +1457,7 @@ function handleMove($move)
       $this->board[$dest_pos] = $old_dest_tile;
       if ( $en_passant_capture_performed ) {
        // restore pawn that was captured above, since that move is invalid
-        if ( $cur_player == 'w' ) 
+        if ( $cur_player == 'w' )
           $this->board[$dest_pos-8] = "bP";
         else
           $this->board[$dest_pos+8] = "wP";
@@ -1505,15 +1505,15 @@ function handleMove($move)
       $result = $this->move_msg(_MD_CHESS_MOVE_MOVED, $fig_name, $fig_coord, $dest_coord);
     else
       $result = $this->move_msg(_MD_CHESS_MOVE_CAPTURED, $fig_name, $dest_coord, $fig_coord);
-    
+
     /* if pawn reached last line convert into a queen */
     if ( $fig_type == 'P' )
     {
-      if ( ($cur_player=='w' && $dest_pos>= 56) || 
+      if ( ($cur_player=='w' && $dest_pos>= 56) ||
            ($cur_player=='b' && $dest_pos<= 7 ) )
       {
         $pawn_upg = $move[strlen($move)-1];
-        if ( $pawn_upg == '?' ) 
+        if ( $pawn_upg == '?' )
         {
           $pawn_upg = 'Q';
           $history_move = sprintf( "%sQ", $history_move );
@@ -1522,12 +1522,12 @@ function handleMove($move)
         $result .= ' ... ' . $this->move_msg(_MD_CHESS_MOVE_PROMOTED, $this->getFullFigureName($pawn_upg));
       }
     }
-  
+
     $move_handled = 1;
   }
-  
+
   /* if a legal move was performed test whether you
-   * check the opponent or even check-mate him. then 
+   * check the opponent or even check-mate him. then
    * update castling and en-passant flags, select the
    * next player and add the move to the history. */
 
@@ -1613,7 +1613,7 @@ function handleMove($move)
  *
  * @access private
  */
-function is_empty_tile($position)
+public function is_empty_tile($position)
 {
 	return $this->board[$position] == '00';
 }
@@ -1625,7 +1625,7 @@ function is_empty_tile($position)
 *
  * @access private
  */
-function clear_tile($position)
+public function clear_tile($position)
 {
 	$this->board[$position] = '00';
 }
@@ -1639,7 +1639,7 @@ function clear_tile($position)
  *
  * @access private
  */
-function fen_piece_placement_to_board()
+public function fen_piece_placement_to_board()
 {
 	if (empty($this->gamestate['fen_piece_placement']) or strlen($this->gamestate['fen_piece_placement']) > 71) {
 		#trigger_error('piece placement empty or length invalid', E_USER_WARNING); #*#DEBUG#
@@ -1692,7 +1692,7 @@ function fen_piece_placement_to_board()
  *
  * @access private
  */
-function board_to_fen_piece_placement()
+public function board_to_fen_piece_placement()
 {
 	$rows = array();
 	for ($rank = 7; $rank >= 0; --$rank) {
@@ -1711,7 +1711,7 @@ function board_to_fen_piece_placement()
 	}
 	// Concatenate the eight row-strings with the separator '/'.
 	// Then replace each string of x's with the string length.
-	$this->gamestate['fen_piece_placement'] = preg_replace_callback('/(x+)/', create_function('$matches','return strlen($matches[1]);'), implode('/', $rows));
+	$this->gamestate['fen_piece_placement'] = preg_replace_callback('/(x+)/', function($matches) {return strlen($matches[1]);}, implode('/', $rows));
 }
 
 /**
@@ -1721,7 +1721,7 @@ function board_to_fen_piece_placement()
  *
  * @access private
  */
-function insufficient_mating_material()
+public function insufficient_mating_material()
 {
 	$pieces      = strtoupper($this->gamestate['fen_piece_placement']);
 	$counts      = count_chars($pieces, 1);
@@ -1747,10 +1747,10 @@ function insufficient_mating_material()
  *
  * @access private
  */
-function boardCoordToIndex( $coord )
+public function boardCoordToIndex( $coord )
 {
   //echo $coord," --> ";
-  switch ( $coord[0] ) 
+  switch ( $coord[0] )
   {
     case 'a': $x = 0; break;
     case 'b': $x = 1; break;
@@ -1762,7 +1762,7 @@ function boardCoordToIndex( $coord )
     case 'h': $x = 7; break;
     default: return 64; /* erronous coord */
   }
-  $y = $coord[1]-1; 
+  $y = $coord[1]-1;
   if ( $y < 0 || $y > 7 )
     return 64; /* erronous coord */
   $index = $y * 8 + $x;
@@ -1778,7 +1778,7 @@ function boardCoordToIndex( $coord )
  *
  * @access private
  */
-function boardIndexToCoord( $index )
+public function boardIndexToCoord( $index )
 {
   //echo $index," --> ";
   if ( $index < 0 || $index > 63 )
@@ -1798,7 +1798,7 @@ function boardIndexToCoord( $index )
  *
  * @access private
  */
-function getFullFigureName( $short )
+public function getFullFigureName( $short )
 {
 	static $names = array(
 		'K' => _MD_CHESS_MOVE_KING,
@@ -1819,12 +1819,12 @@ function getFullFigureName( $short )
  *
  * @access private
  */
-function getAdjTiles( $fig_pos )
+public function getAdjTiles( $fig_pos )
 {
   $adj_tiles = array(); $i = 0;
 
   $x = $fig_pos % 8; $y = floor( $fig_pos / 8 );
-  
+
   if ( $x > 0 && $y > 0 ) $adj_tiles[$i++] = $fig_pos-9;
   if (           $y > 0 ) $adj_tiles[$i++] = $fig_pos-8;
   if ( $x < 7 && $y > 0 ) $adj_tiles[$i++] = $fig_pos-7;
@@ -1836,7 +1836,7 @@ function getAdjTiles( $fig_pos )
 
   /* DEBUG:  foreach( $adj_tiles as $tile )
     echo "adj: $tile "; */
- 
+
   return $adj_tiles;
 }
 

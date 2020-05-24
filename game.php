@@ -362,7 +362,7 @@ function chess_game()
 	// If a move (or other action) was made, notify any subscribers.
 	if (!empty($notify)) {
 
-		$notification_handler =& xoops_gethandler('notification');
+		$notification_handler = xoops_gethandler('notification');
 
 		$notification_handler->triggerEvent('game', $game_id, 'notify_game_move', array('CHESS_ACTION' => $notify));
 
@@ -756,11 +756,11 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 		<link rel="stylesheet" type="text/css" media="screen" href="' .XOOPS_URL. '/modules/chess/include/style.css" />
 	');
 
-	$member_handler =& xoops_gethandler('member');
-	$white_user     =& $member_handler->getUser($gamedata['white_uid']);
-	$white_username =  is_object($white_user) ? $white_user->getVar('uname') : '?';
-	$black_user     =& $member_handler->getUser($gamedata['black_uid']);
-	$black_username =  is_object($black_user) ? $black_user->getVar('uname') : '?';
+	$member_handler = xoops_gethandler('member');
+	$white_user     = $member_handler->getUser($gamedata['white_uid']);
+	$white_username = is_object($white_user) ? $white_user->getVar('uname') : '?';
+	$black_user     = $member_handler->getUser($gamedata['black_uid']);
+	$black_username = is_object($black_user) ? $black_user->getVar('uname') : '?';
 
 	// Determine whether board is flipped (black at bottom) or "normal" (white at bottom).
 	switch ($orientation) {
@@ -785,10 +785,9 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 	foreach ($ranks as $rank) {
 		$expanded_row = preg_replace_callback(
 			'/(\d)/',
-			create_function(
-				'$matches',
-				'return str_repeat(\'x\', $matches[1]);'
-			),
+		    function ($matches) {
+				return str_repeat('x', $matches[1]);
+			},
 			$rank
 		);
 		$rank_tiles = preg_split('//', $expanded_row, -1, PREG_SPLIT_NO_EMPTY);
@@ -891,8 +890,8 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
 				$susp_type_display = _MD_CHESS_LABEL_ERROR;
 				break;
 		}
-		$susp_user     =& $member_handler->getUser($susp_uid);
-		$susp_username =  is_object($susp_user) ? $susp_user->getVar('uname') : _MD_CHESS_UNKNOWN;
+		$susp_user     = $member_handler->getUser($susp_uid);
+		$susp_username = is_object($susp_user) ? $susp_user->getVar('uname') : _MD_CHESS_UNKNOWN;
 		$suspend_info = array(
 			'date'   => strtotime($susp_date),
 			'user'   => $susp_username,

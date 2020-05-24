@@ -60,8 +60,8 @@ if (!empty($player_uname)) {
 
 // Otherwise, if player user ID provided, map it to a username.
 } elseif ($player_uid != 0) {
-	$member_handler =& xoops_gethandler('member');
-	$player_user    =& $member_handler->getUser($player_uid);
+	$member_handler = xoops_gethandler('member');
+	$player_user    = $member_handler->getUser($player_uid);
 	$player_uname   =  is_object($player_user) ? $player_user->getVar('uname') : '';
 }
 
@@ -159,9 +159,9 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 		ORDER BY  last_activity DESC
 		LIMIT     $gstart, $max_items_to_display
 	");
-	
+
 	$games = array();
-	
+
 	while ($row = $xoopsDB->fetchArray($result)) {
 
 		$games[] = array(
@@ -182,7 +182,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 			$userids[$row['black_uid']] = 1;
 		}
 	}
-	
+
 	$xoopsDB->freeRecordSet($result);
 
 	$show_option_urlparam = "&amp;show_option=$show_option";
@@ -212,9 +212,9 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 		ORDER BY create_date DESC
 		LIMIT    $cstart, $max_items_to_display
 	");
-	
+
 	$challenges = array();
-	
+
 	while ($row = $xoopsDB->fetchArray($result)) {
 
 		$challenges[] = array(
@@ -235,7 +235,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 			$userids[$row['player2_uid']] = 1;
 		}
 	}
-	
+
 	$xoopsDB->freeRecordSet($result);
 
 	$show_option_urlparam = "&amp;show_option=$show_option";
@@ -246,9 +246,9 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 // ---------
 
 	// get mapping of user IDs to usernames
-	$member_handler =& xoops_gethandler('member');
-	$criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-	$usernames      =  $member_handler->getUserList($criteria);
+	$member_handler = xoops_gethandler('member');
+	$criteria       = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+	$usernames      = $member_handler->getUserList($criteria);
 
 	// add usernames to $games
 	foreach ($games as $k => $game) {

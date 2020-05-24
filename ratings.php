@@ -103,7 +103,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
 	$games_table   = $xoopsDB->prefix('chess_games');
 	$ratings_table = $xoopsDB->prefix('chess_ratings');
-	
+
 	// Two queries are performed, one without a limit clause to count the total number of rows for the page navigator,
 	// and one with a limit clause to get the data for display on the current page.
 	// SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
@@ -128,7 +128,7 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 	$userids = array();
 
 	$players = array();
-	
+
 	while ($row = $xoopsDB->fetchArray($result)) {
 
 		// save user IDs that will require mapping to usernames
@@ -143,9 +143,9 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 	$xoopsDB->freeRecordSet($result);
 
 	// get mapping of user IDs to usernames
-	$member_handler =& xoops_gethandler('member');
-	$criteria       =  new Criteria('uid', '(' . implode(',', $userids) . ')', 'IN');
-	$usernames      =  $member_handler->getUserList($criteria);
+	$member_handler = xoops_gethandler('member');
+	$criteria       = new Criteria('uid', '(' . implode(',', $userids) . ')', 'IN');
+	$usernames      = $member_handler->getUserList($criteria);
 
 	// add usernames to $players
 	foreach ($players as $k => $player) {

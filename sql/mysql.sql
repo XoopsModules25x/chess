@@ -32,7 +32,7 @@ CREATE TABLE `chess_challenges` (
   KEY `player2_uid` (`player2_uid`),
   KEY `create_date` (`create_date`),
   KEY `is_rated` (`is_rated`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 # --------------------------------------------------------
 
@@ -68,7 +68,7 @@ CREATE TABLE `chess_games` (
   KEY `pgn_result` (`pgn_result`),
   KEY `suspended_date` (`suspended`(19)),
   KEY `is_rated` (`is_rated`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;
 
 # ---------------------------------------------------------
 
@@ -85,4 +85,4 @@ CREATE TABLE `chess_ratings` (
   PRIMARY KEY  (`player_uid`),
   KEY `rating` (`rating`),
   KEY `games` (`games_won`,`games_lost`,`games_drawn`)
-) TYPE=MyISAM;
+) ENGINE=MyISAM;

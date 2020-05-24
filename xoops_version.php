@@ -32,16 +32,18 @@
  */
 
 // Main Info
-$modversion['name']        = _MI_CHESS;
-$modversion['version']     = 1.07;
-$modversion['description'] = _MI_CHESS_DES;
-$modversion['credits']     = _MI_CHESS_CREDITS;
-$modversion['author']      = '<a target="_blank" href="http://Dave-L.com/">Dave Lerner</a>';
-$modversion['help']        = 'help.html';
-$modversion['license']     = 'GPL see LICENSE';
-$modversion['official']    = 0;
-$modversion['image']       = 'images/chess_slogo.png';
-$modversion['dirname']     = 'chess';
+$modversion['name']          = _MI_CHESS;
+$modversion['version']       = 1.08;
+$modversion['module_status'] = 'Alpha 1';
+$modversion['release_date']  = '2020/05/24';
+$modversion['description']   = _MI_CHESS_DES;
+$modversion['credits']       = _MI_CHESS_CREDITS;
+$modversion['author']        = '<a target="_blank" href="http://Dave-L.com/">Dave Lerner</a>';
+$modversion['help']          = 'help.html';
+$modversion['license']       = 'GPL see LICENSE';
+$modversion['official']      = 0;
+$modversion['image']         = 'images/chess_slogo.png';
+$modversion['dirname']       = 'chess';
 
 // Install/upgrade
 $modversion['onUpdate'] = 'include/install.inc.php';

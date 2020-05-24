@@ -1,3 +1,10 @@
+1.0.8 ALPHA 1 (2020-05-24) NOT RELEASED
+Updated SQL to use ENGINE=MYISAM instead of TYPE=MYISAM
+Removed pass-by-reference instances - various places
+Change class to use __construct() method for instantiation
+Change chess_sanitize() function. As of PHP 5.3 hyphen (-) is a special char which interferes with sanitizer
+Replace create_function instances as these are no longer valid in PHP 7.2, replaced with function() for preg_replace_callback()
+
 1.0.7 (2005-11-19)
 Changed column chess_games.pgn_result from varchar(7) to enum('*','0-1','1-0','1/2-1/2').
 Changed two calls to array_fill with array_pad, to remove dependency on PHP >= 4.2.0.

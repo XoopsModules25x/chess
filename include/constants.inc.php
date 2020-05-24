@@ -70,7 +70,7 @@ define('_CHESS_ARBITER_NOACTION',  'no_action');
 /**
  * regex character class of characters allowed in usernames
  */
-define('_CHESS_USERNAME_ALLOWED_CHARACTERS', 'A-Za-z0-9 .-');
+define('_CHESS_USERNAME_ALLOWED_CHARACTERS', 'A-Za-z0-9 \.\-');
 
 /**#@+
  * number of seconds to display a form-submit message

@@ -109,9 +109,9 @@ function b_chess_games_show($options)
 	$xoopsDB->freeRecordSet($result);
 
 	// get mapping of user IDs to usernames
-	$member_handler =& xoops_gethandler('member');
-	$criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-	$usernames      =  $member_handler->getUserList($criteria);
+	$member_handler = xoops_gethandler('member');
+	$criteria       = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+	$usernames      = $member_handler->getUserList($criteria);
 
 	// add usernames to $games
 	foreach ($games as $k => $game) {
@@ -192,9 +192,9 @@ function b_chess_challenges_show($options)
 	$xoopsDB->freeRecordSet($result);
 
 	// get mapping of user IDs to usernames
-	$member_handler =& xoops_gethandler('member');
-	$criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
-	$usernames      =  $member_handler->getUserList($criteria);
+	$member_handler = xoops_gethandler('member');
+	$criteria       = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+	$usernames      = $member_handler->getUserList($criteria);
 
 	// add usernames to $challenges
 	foreach ($challenges as $k => $challenge) {
@@ -226,10 +226,10 @@ function b_chess_players_show($options)
 
 	require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
 
-	$module_handler =& xoops_gethandler('module');
-	$module         =& $module_handler->getByDirname('chess');
-	$config_handler =& xoops_gethandler('config');
-	$moduleConfig   =& $config_handler->getConfigsByCat(0, $module->getVar('mid'));
+	$module_handler = xoops_gethandler('module');
+	$module         = $module_handler->getByDirname('chess');
+	$config_handler = xoops_gethandler('config');
+	$moduleConfig   = $config_handler->getConfigsByCat(0, $module->getVar('mid'));
 	$block['rating_system']     = $moduleConfig['rating_system'];
 	$block['provisional_games'] = chess_ratings_num_provisional_games();
 
@@ -285,7 +285,7 @@ function b_chess_players_show($options)
 
 	// get mapping of user IDs to usernames
 	if (!empty($userids)) {
-		$member_handler =& xoops_gethandler('member');
+		$member_handler = xoops_gethandler('member');
 		$criteria       =  new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
 		$usernames      =  $member_handler->getUserList($criteria);
 	}
@@ -374,5 +374,3 @@ function b_chess_players_edit($options)
 
 	return $form;
 }
-
-?>
