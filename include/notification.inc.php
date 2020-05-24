@@ -4,7 +4,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
+//                       <https://xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -29,7 +29,7 @@
 /**
  * Required file for supporting notification feature
  *
- * @package chess
+ * @package    chess
  * @subpackage notification
  */
 
@@ -49,11 +49,11 @@ if (file_exists(XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['langua
 /**
  * Get name and URL of notification item.
  *
- * @param string $category  Notification category
- * @param int    $item_id   ID of item for which notification is being made
+ * @param string $category Notification category
+ * @param int    $item_id  ID of item for which notification is being made
  * @return array  Array containing two elements:
- *  - Name of item
- *  - URL of item
+ *                         - Name of item
+ *                         - URL of item
  */
 function chess_notify_item_info($category, $item_id)
 {
@@ -68,11 +68,15 @@ function chess_notify_item_info($category, $item_id)
 
         $table = $xoopsDB->prefix('chess_games');
 
-        $result = $xoopsDB->query(trim("
+        $result = $xoopsDB->query(
+            trim(
+                "
 			SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
 			FROM   $table
 			WHERE  game_id = '$item_id'
-		"));
+		"
+            )
+        );
 
         $gamedata = $xoopsDB->fetchArray($result);
 

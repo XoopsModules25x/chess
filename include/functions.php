@@ -24,31 +24,31 @@
 /**
  * General functions.
  *
- * @package chess
- * @subpackage functions
  * @param mixed $text
  * @param mixed $allowed_characters
+ * @package    chess
+ * @subpackage functions
  */
 
 /**
  * Remove unsafe characters from text.
  *
- * @param string $text                Text to be sanitized
- * @param string $allowed_characters  Characters permitted in text;
- * must not contain any regex symbols such as \w or \s, since preg_quote() mishandles those.  But \' and \" are ok.
+ * @param string $text               Text to be sanitized
+ * @param string $allowed_characters Characters permitted in text;
+ *                                   must not contain any regex symbols such as \w or \s, since preg_quote() mishandles those.  But \' and \" are ok.
  * @return string  Sanitized text
  */
 function chess_sanitize($text, $allowed_characters = 'A-Za-z0-9')
 {
-    $char_class = preg_quote($allowed_characters, '/');
-
-    return preg_replace("/[^$char_class]/", '_', $text);
+    $char_class = preg_replace('/(\.\\\+\*\?\[\^\]\$\(\)\{\}\=\!\<\>\|\:\#)/', '\\${1}', $allowed_characters);
+    //$char_class = preg_quote($allowed_characters, '/');
+    return preg_replace("/[^$char_class]/i", '_', $text);
 }
 
 /**
  * Get chess module configuration option value.
  *
- * @param string $option  Name of configuration option
+ * @param string $option Name of configuration option
  * @return string  Value of configuration option
  */
 function chess_moduleConfig($option)
@@ -81,7 +81,7 @@ function chess_moduleConfig($option)
 /**
  * Check whether a user has the play-chess right.
  *
- * @param int $uid  User ID to check, defaults to current user
+ * @param int $uid User ID to check, defaults to current user
  * @return bool  True if user has play-chess right, otherwise false
  */
 function chess_can_play($uid = null)
@@ -93,7 +93,7 @@ function chess_can_play($uid = null)
 
         $user = $memberHandler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
-        $user = &$xoopsUser;
+        $user = $xoopsUser;
     } else {
         $user = null;
     }
@@ -114,7 +114,7 @@ function chess_can_play($uid = null)
 /**
  * Check whether a user has the delete-game right.
  *
- * @param int $uid  User ID to check, defaults to current user
+ * @param int $uid User ID to check, defaults to current user
  * @return bool  True if user has delete-game right, otherwise false
  */
 function chess_can_delete($uid = null)
@@ -126,7 +126,7 @@ function chess_can_delete($uid = null)
 
         $user = $memberHandler->getUser($uid);
     } elseif (is_object($xoopsUser)) {
-        $user = &$xoopsUser;
+        $user = $xoopsUser;
     } else {
         $user = null;
     }
@@ -147,7 +147,7 @@ function chess_can_delete($uid = null)
 /**
  * Build string suitable for output as .pgn (Portable Game Notation) file.
  *
- * @param array $data  Array with keys:
+ * @param array $data Array with keys:
  *
  *  - 'datetime' - 'YYYY-MM-DD HH:MM:SS'
  *       Use '?' for each unknown digit.  If the entire datetime is unknown, use either '????-??-?? ??:??:??' or '0000-00-00 00:00:00'.
@@ -192,7 +192,7 @@ END;
 /**
  * Get user ID corresponding to the specified username.
  *
- * @param string $uname  Username (unsanitized)
+ * @param string $uname Username (unsanitized)
  * @return int  User ID, or '0' if user not found
  */
 function chess_uname_to_uid($uname)
@@ -213,11 +213,11 @@ function chess_uname_to_uid($uname)
 }
 
 /*** #*#DEBUG# testing something
-SELECT
-            g.game_id,g.white_uid AS white_uid, g.black_uid AS black_uid, g.pgn_result AS pgn_result, w.rating AS white_rating, b.rating AS black_rating,
-            (w.games_won+w.games_lost+w.games_drawn) AS white_games, (b.games_won+b.games_lost+b.games_drawn) AS black_games
-        FROM       xoops_chess_games AS g
-        LEFT JOIN xoops_chess_ratings AS w ON w.player_uid = g.white_uid
-        LEFT JOIN xoops_chess_ratings AS b ON b.player_uid = g.black_uid
-        WHERE       g.pgn_result != '*' AND g.is_rated='1' AND (w.player_uid IS NULL OR b.player_uid IS NULL OR w.player_uid != b.player_uid) LIMIT 0, 30
-***/
+ * SELECT
+ * g.game_id,g.white_uid AS white_uid, g.black_uid AS black_uid, g.pgn_result AS pgn_result, w.rating AS white_rating, b.rating AS black_rating,
+ * (w.games_won+w.games_lost+w.games_drawn) AS white_games, (b.games_won+b.games_lost+b.games_drawn) AS black_games
+ * FROM       xoops_chess_games AS g
+ * LEFT JOIN xoops_chess_ratings AS w ON w.player_uid = g.white_uid
+ * LEFT JOIN xoops_chess_ratings AS b ON b.player_uid = g.black_uid
+ * WHERE       g.pgn_result != '*' AND g.is_rated='1' AND (w.player_uid IS NULL OR b.player_uid IS NULL OR w.player_uid != b.player_uid) LIMIT 0, 30
+ ***/

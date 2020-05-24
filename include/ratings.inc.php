@@ -1,5 +1,4 @@
 <?php
-
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -44,23 +43,19 @@ function chess_ratings_adj($gid)
     global $xoopsDB;
 
     $rating_system = chess_moduleConfig('rating_system');
-
-    $init_rating = chess_moduleConfig('initial_rating');
+    $init_rating   = chess_moduleConfig('initial_rating');
 
     if ('none' == $rating_system) {
         return false;
     }
 
     // determine function for calculating new ratings using configured rating system
-
     $func = chess_ratings_get_func_adj($rating_system);
 
-    $games_table = $xoopsDB->prefix('chess_games');
-
+    $games_table   = $xoopsDB->prefix('chess_games');
     $ratings_table = $xoopsDB->prefix('chess_ratings');
 
     // get the game info
-
     $result = $xoopsDB->query(
         "
 		SELECT
@@ -75,51 +70,36 @@ function chess_ratings_adj($gid)
     );
 
     // check that game exists and is rated
-
     if (1 != $xoopsDB->getRowsNum($result)) {
         return false;
     }
 
     $row = $xoopsDB->fetchArray($result);
-
     $xoopsDB->freeRecordSet($result);
 
     #var_dump($row);#*#DEBUG#
-
     // make sure the users are in the players' table
-
     $value_list = [];
-
     if (!isset($row['white_rating'])) {
         $row['white_rating'] = $init_rating;
-
-        $row['white_games'] = 0;
-
-        $value_list[] = "('{$row['white_uid']}','{$row['white_rating']}')";
+        $row['white_games']  = 0;
+        $value_list[]        = "('{$row['white_uid']}','{$row['white_rating']}')";
     }
-
     if (!isset($row['black_rating'])) {
         $row['black_rating'] = $init_rating;
-
-        $row['black_games'] = 0;
-
-        $value_list[] = "('{$row['black_uid']}','{$row['black_rating']}')";
+        $row['black_games']  = 0;
+        $value_list[]        = "('{$row['black_uid']}','{$row['black_rating']}')";
     }
-
     if (!empty($value_list)) {
         $values = implode(',', $value_list);
-
         $xoopsDB->query("INSERT INTO $ratings_table (player_uid, rating) VALUES $values");
-
         $xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
     }
 
     // calculate new ratings using configured rating system
-
     [$white_rating_new, $black_rating_new] = $func($row['white_rating'], $row['white_games'], $row['black_rating'], $row['black_games'], $row['pgn_result']);
 
     // determine game-count columns to increment
-
     [$white_col, $black_col] = chess_ratings_get_columns($row['pgn_result']);
 
     $xoopsDB->query(
@@ -129,7 +109,6 @@ function chess_ratings_adj($gid)
 		WHERE  player_uid = '{$row['white_uid']}'
 	"
     );
-
     $xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
 
     $xoopsDB->query(
@@ -139,7 +118,6 @@ function chess_ratings_adj($gid)
 		WHERE  player_uid = '{$row['black_uid']}'
 	"
     );
-
     $xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
 
     return true;
@@ -155,27 +133,22 @@ function chess_recalc_ratings()
     global $xoopsDB;
 
     $rating_system = chess_moduleConfig('rating_system');
-
-    $init_rating = chess_moduleConfig('initial_rating');
+    $init_rating   = chess_moduleConfig('initial_rating');
 
     if ('none' == $rating_system) {
         return false;
     }
 
     // determine function for calculating new ratings using configured rating system
-
     $func = chess_ratings_get_func_adj($rating_system);
 
-    $games_table = $xoopsDB->prefix('chess_games');
-
+    $games_table   = $xoopsDB->prefix('chess_games');
     $ratings_table = $xoopsDB->prefix('chess_ratings');
 
     // Nuke the current ratings.  #*#TBD# - don't want to empty this table, since there will be other info in it besides ratings (?)
-
     $xoopsDB->query("DELETE FROM $ratings_table");
 
     // get all games
-
     $result = $xoopsDB->query(
         "
 		SELECT    white_uid, black_uid, pgn_result
@@ -188,24 +161,19 @@ function chess_recalc_ratings()
     $players = [];
 
     // process the games
-
-    while (false !== ($row = $xoopsDB->fetchArray($result))) {
+    while ($row = $xoopsDB->fetchArray($result)) {
         #var_dump($row);#*#DEBUG#
-
         if (!isset($players[$row['white_uid']])) {
             $players[$row['white_uid']] = ['rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0];
         }
-
         if (!isset($players[$row['black_uid']])) {
             $players[$row['black_uid']] = ['rating' => $init_rating, 'games_won' => 0, 'games_lost' => 0, 'games_drawn' => 0];
         }
 
-        $player_white = &$players[$row['white_uid']];
-
-        $player_black = &$players[$row['black_uid']];
+        $player_white = $players[$row['white_uid']];
+        $player_black = $players[$row['black_uid']];
 
         // calculate new ratings using configured rating system
-
         [$white_rating_new, $black_rating_new] = $func(
             $player_white['rating'],
             $player_white['games_won'] + $player_white['games_lost'] + $player_white['games_drawn'],
@@ -215,15 +183,12 @@ function chess_recalc_ratings()
         );
 
         // determine game-count columns to increment
-
         [$white_col, $black_col] = chess_ratings_get_columns($row['pgn_result']);
 
         $player_white['rating'] = $white_rating_new;
-
         ++$player_white[$white_col];
 
         $player_black['rating'] = $black_rating_new;
-
         ++$player_black[$black_col];
     }
 
@@ -231,15 +196,12 @@ function chess_recalc_ratings()
 
     if (!empty($players)) {
         $value_list = [];
-
         foreach ($players as $player_uid => $player) {
             $value_list[] = "('$player_uid', '{$player['rating']}', '{$player['games_won']}', '{$player['games_lost']}', '{$player['games_drawn']}')";
         }
-
         $values = implode(',', $value_list);
 
         $xoopsDB->query("INSERT INTO $ratings_table (player_uid, rating, games_won, games_lost, games_drawn) VALUES $values");
-
         $xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
     }
 
@@ -260,15 +222,10 @@ function chess_ratings_num_provisional_games()
     }
 
     // determine function for getting number of provisional games using configured rating system
-
-    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.php";
-
+    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.inc.php";
     file_exists($file) or trigger_error("missing file '$file' for rating system '$rating_system'", E_USER_ERROR);
-
     require_once $file;
-
     $func = "chess_ratings_num_provisional_games_{$rating_system}";
-
     function_exists($func) or trigger_error("missing function '$func' for rating system '$rating_system'", E_USER_ERROR);
 
     return $func();
@@ -282,16 +239,11 @@ function chess_ratings_num_provisional_games()
  */
 function chess_ratings_get_func_adj($rating_system)
 {
-    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.php";
-
+    $file = XOOPS_ROOT_PATH . "/modules/chess/include/ratings_{$rating_system}.inc.php";
     file_exists($file) or trigger_error("missing file '$file' for rating system '$rating_system'", E_USER_ERROR);
-
     require_once $file;
-
     $func = "chess_ratings_adj_{$rating_system}";
-
     function_exists($func) or trigger_error("missing function '$func' for rating system '$rating_system'", E_USER_ERROR);
-
     return $func;
 }
 
@@ -325,3 +277,5 @@ function chess_ratings_get_columns($pgn_result)
 
     return [$white_col, $black_col];
 }
+
+?>

@@ -5,7 +5,7 @@
  *
  * This script is designed to be run from the command line, not from a web browser.
  *
- * @package chess
+ * @package    chess
  * @subpackage test
  */
 error_reporting(E_ALL);
@@ -85,7 +85,8 @@ function perform()
 
         $is_rated = random_int(0, 1);
 
-        do_query("
+        do_query(
+            "
 			INSERT INTO $challenges_table
 			SET
 				game_type           = '$game_type',
@@ -96,7 +97,8 @@ function perform()
 				player2_uid         = '$player2_uid',
 				create_date         = '$create_date',
 				is_rated            = '$is_rated'
-		");
+		"
+        );
     }
 
     // Generate the games table
@@ -156,7 +158,8 @@ function perform()
 
         $is_rated = $white_uid != $black_uid ? random_int(0, 1) : 0;
 
-        do_query("
+        do_query(
+            "
 			INSERT INTO $games_table
 			SET
 				white_uid   = '$white_uid',
@@ -167,7 +170,8 @@ function perform()
 				pgn_result  = '$pgn_result',
 				suspended   = '$suspended',
 				is_rated    = '$is_rated'
-		");
+		"
+        );
     }
 
     $GLOBALS['xoopsDB']->close();
@@ -213,11 +217,11 @@ function do_query($query)
     return $result;
 }
 
- /**
-  * @param $array
-  * @return mixed
-  */
- function rand_array_value($array)
- {
-     return $array[array_rand($array)];
- }
+/**
+ * @param $array
+ * @return mixed
+ */
+function rand_array_value($array)
+{
+    return $array[array_rand($array)];
+}

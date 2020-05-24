@@ -32,7 +32,7 @@ namespace XoopsModules\Chess;
 /**
  * class ChessGame
  *
- * @package chess
+ * @package    chess
  * @subpackage game
  */
 
@@ -49,7 +49,7 @@ namespace XoopsModules\Chess;
  * In addition to the above, there are utility methods for converting between Standard Algebraic
  * Notation (SAN) and a notation similar to Long Algebraic Notation.
  *
- * @package chess
+ * @package    chess
  * @subpackage game
  */
 class ChessGame
@@ -60,11 +60,10 @@ class ChessGame
      * If empty string (''), indicates this is a valid object; otherwise contains an error message.
      * Should be checked after creating an instance of this class.
      *
-     * @var string
+     * @var string  $error
      */
 
     public $error;
-
     /**
      * gamestate
      *
@@ -85,11 +84,10 @@ class ChessGame
      *
      * Each element is a string.
      *
-     * @var array
+     * @var array $gamestate
      */
 
     public $gamestate;
-
     /**
      * board
      *
@@ -111,46 +109,40 @@ class ChessGame
      *
      * For example, $board[17] is tile b3 and $board[55] is tile h7.
      *
-     * @var array
+     * @var array $board
      */
 
     public $board;
-
     /**
      * for auto-completion of moves
-     * @var string
+     * @var string $ac_move
      */
 
     public $ac_move;
-
     /**
      * array of white's pieces
-     * @var array
+     * @var array $w_figures
      */
 
     public $w_figures;
-
     /**
      * array of black's pieces
-     * @var array
+     * @var array $b_figures
      */
 
     public $b_figures;
-
     /**
      * updated by handleMove, not used now but might be used in future
-     * @var string
+     * @var string $last_move
      */
 
     public $last_move;
-
     /**
      * updated by handleMove, not used now but might be used in future
-     * @var string
+     * @var string $captured_piece
      */
 
     public $captured_piece;
-
     // --------------
 
     // PUBLIC METHODS
@@ -171,9 +163,9 @@ class ChessGame
      *    }
      * </pre>
      *
-     * @param mixed $param  If $param is an array, an existing game is loaded using $param as the nine-element gamestate array described above.
-     * If $param is a non-empty string, a new game is created using $param as a FEN setup position.
-     * Otherwise, a new game is created using the standard starting position.
+     * @param mixed $param If $param is an array, an existing game is loaded using $param as the nine-element gamestate array described above.
+     *                     If $param is a non-empty string, a new game is created using $param as a FEN setup position.
+     *                     Otherwise, a new game is created using the standard starting position.
      */
     public function __construct($param = null)
     {
@@ -233,7 +225,7 @@ class ChessGame
      * If a non-empty string $fen is provided, the game is initialized using $fen as a FEN setup position.
      * Otherwise the game is initialized using the standard starting position.
      *
-     * @param  string  $fen
+     * @param string $fen
      * @return string  empty string on success, or error message on failure
      *
      * @access private
@@ -284,9 +276,7 @@ class ChessGame
             return _MD_CHESS_FENBAD_PP_INVALID; // piece_placement invalid
         } elseif ('w' != $this->gamestate['fen_active_color'] && 'b' != $this->gamestate['fen_active_color']) {
             return _MD_CHESS_FENBAD_AC_INVALID; // active_color invalid
-        }
-
-        // Since fen_piece_placement_to_board() checked $fen for the correct number of fields above, $castling_availability is non-empty.
+        } // Since fen_piece_placement_to_board() checked $fen for the correct number of fields above, $castling_availability is non-empty.
 
         elseif ('-' != $this->gamestate['fen_castling_availability'] && !\preg_match('/^K?Q?k?q?$/', $this->gamestate['fen_castling_availability'])) {
             return _MD_CHESS_FENBAD_CA_INVALID; // castling_availability invalid
@@ -299,15 +289,15 @@ class ChessGame
         } elseif ($this->insufficient_mating_material()) {
             return _MD_CHESS_FENBAD_MATERIAL; // insufficient mating material
         } elseif (('w' == $this->gamestate['fen_active_color'] && $this->kingIsUnderAttack('b', 'w'))
-                || ('b' == $this->gamestate['fen_active_color'] && $this->kingIsUnderAttack('w', 'b'))) {
+                  || ('b' == $this->gamestate['fen_active_color'] && $this->kingIsUnderAttack('w', 'b'))) {
             return _MD_CHESS_FENBAD_IN_CHECK; // player to move cannot have opponent in check
         } elseif ((\mb_strstr($this->gamestate['fen_castling_availability'], 'K') && ('wK' != $this->board[4] || 'wR' != $this->board[7]))
-                || (\mb_strstr($this->gamestate['fen_castling_availability'], 'Q') && ('wK' != $this->board[4] || 'wR' != $this->board[0]))
-                || (\mb_strstr($this->gamestate['fen_castling_availability'], 'k') && ('bK' != $this->board[60] || 'bR' != $this->board[63]))
-                || (\mb_strstr($this->gamestate['fen_castling_availability'], 'q') && ('bK' != $this->board[60] || 'bR' != $this->board[56]))) {
+                  || (\mb_strstr($this->gamestate['fen_castling_availability'], 'Q') && ('wK' != $this->board[4] || 'wR' != $this->board[0]))
+                  || (\mb_strstr($this->gamestate['fen_castling_availability'], 'k') && ('bK' != $this->board[60] || 'bR' != $this->board[63]))
+                  || (\mb_strstr($this->gamestate['fen_castling_availability'], 'q') && ('bK' != $this->board[60] || 'bR' != $this->board[56]))) {
             return _MD_CHESS_FENBAD_CA_INCONSISTENT; // castling availability inconsistent with piece placement
         } elseif (('-' != $this->gamestate['fen_en_passant_target_square'] && 3 == $this->gamestate['fen_en_passant_target_square'][1] && 'b' != $this->gamestate['fen_active_color'])
-                || ('-' != $this->gamestate['fen_en_passant_target_square'] && 6 == $this->gamestate['fen_en_passant_target_square'][1] && 'w' != $this->gamestate['fen_active_color'])) {
+                  || ('-' != $this->gamestate['fen_en_passant_target_square'] && 6 == $this->gamestate['fen_en_passant_target_square'][1] && 'w' != $this->gamestate['fen_active_color'])) {
             return _MD_CHESS_FENBAD_EP_COLOR; // en passant target square wrong color
         } elseif ('-' != $this->gamestate['fen_en_passant_target_square'] && 3 == $this->gamestate['fen_en_passant_target_square'][1]
                   && 'wP' != $this->board[$this->boardCoordToIndex($this->gamestate['fen_en_passant_target_square'][0] . '4')]) {
@@ -387,8 +377,8 @@ class ChessGame
      * units that can have empty tiles in between.
      *
      * @param string $fig
-     * @param int $fig_pos
-     * @param int $dest_pos
+     * @param int    $fig_pos
+     * @param int    $dest_pos
      * @return int
      *
      * @access private
@@ -406,31 +396,28 @@ class ChessGame
         $dy = \floor($dest_pos / 8);
 
         switch ($fig) {
-            /* bishop */
-            case 'B':
+            /* bishop */ case 'B':
+            $change = $dy < $fy ? -8 : 8;
+            $change += $dx < $fx ? -1 : 1;
+            break;
+            /* rook */ case 'R':
+            if ($fx == $dx) {
                 $change = $dy < $fy ? -8 : 8;
-                $change += $dx < $fx ? -1 : 1;
-                break;
-            /* rook */
-            case 'R':
-                if ($fx == $dx) {
-                    $change = $dy < $fy ? -8 : 8;
-                } else {
-                    $change = $dx < $fx ? -1 : 1;
-                }
-                break;
-            /* queen */
-            case 'Q':
-                if (\abs($fx - $dx) == \abs($fy - $dy)) {
-                    $change = $dy < $fy ? -8 : 8;
+            } else {
+                $change = $dx < $fx ? -1 : 1;
+            }
+            break;
+            /* queen */ case 'Q':
+            if (\abs($fx - $dx) == \abs($fy - $dy)) {
+                $change = $dy < $fy ? -8 : 8;
 
-                    $change += $dx < $fx ? -1 : 1;
-                } elseif ($fx == $dx) {
-                    $change = $dy < $fy ? -8 : 8;
-                } else {
-                    $change = $dx < $fx ? -1 : 1;
-                }
-                break;
+                $change += $dx < $fx ? -1 : 1;
+            } elseif ($fx == $dx) {
+                $change = $dy < $fy ? -8 : 8;
+            } else {
+                $change = $dx < $fx ? -1 : 1;
+            }
+            break;
         }
 
         return $change;
@@ -445,8 +432,8 @@ class ChessGame
      * this function does not check pawns.
      *
      * @param string $fig
-     * @param int $fig_pos
-     * @param int $dest_pos
+     * @param int    $fig_pos
+     * @param int    $dest_pos
      * @return bool
      *
      * @access private
@@ -470,110 +457,105 @@ class ChessGame
         /* DEBUG:  echo "$fx,$fy --> $dx,$dy: "; */
 
         switch ($fig) {
-            /* knight */
-            case 'N':
-                if (1 == \abs($fx - $dx) && 2 == \abs($fy - $dy)) {
-                    $result = 1;
-                }
-                if (1 == \abs($fy - $dy) && 2 == \abs($fx - $dx)) {
-                    $result = 1;
-                }
+            /* knight */ case 'N':
+            if (1 == \abs($fx - $dx) && 2 == \abs($fy - $dy)) {
+                $result = 1;
+            }
+            if (1 == \abs($fy - $dy) && 2 == \abs($fx - $dx)) {
+                $result = 1;
+            }
+            break;
+            /* bishop */ case 'B':
+            if (\abs($fx - $dx) != \abs($fy - $dy)) {
                 break;
-            /* bishop */
-            case 'B':
-                if (\abs($fx - $dx) != \abs($fy - $dy)) {
-                    break;
-                }
+            }
+            if ($dy < $fy) {
+                $change = -8;
+            } else {
+                $change = 8;
+            }
+            if ($dx < $fx) {
+                $change -= 1;
+            } else {
+                $change += 1;
+            }
+            if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
+                $result = 1;
+            }
+            break;
+            /* rook */ case 'R':
+            if ($fx != $dx && $fy != $dy) {
+                break;
+            }
+            if ($fx == $dx) {
                 if ($dy < $fy) {
                     $change = -8;
                 } else {
                     $change = 8;
                 }
+            } else {
+                if ($dx < $fx) {
+                    $change = -1;
+                } else {
+                    $change = 1;
+                }
+            }
+            if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
+                $result = 1;
+            }
+            break;
+            /* queen */ case 'Q':
+            if (\abs($fx - $dx) != \abs($fy - $dy) && $fx != $dx && $fy != $dy) {
+                break;
+            }
+            if (\abs($fx - $dx) == \abs($fy - $dy)) {
+                if ($dy < $fy) {
+                    $change = -8;
+                } else {
+                    $change = 8;
+                }
+
                 if ($dx < $fx) {
                     $change -= 1;
                 } else {
                     $change += 1;
                 }
-                if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
-                    $result = 1;
-                }
-                break;
-            /* rook */
-            case 'R':
-                if ($fx != $dx && $fy != $dy) {
-                    break;
-                }
-                if ($fx == $dx) {
-                    if ($dy < $fy) {
-                        $change = -8;
-                    } else {
-                        $change = 8;
-                    }
+            } elseif ($fx == $dx) {
+                if ($dy < $fy) {
+                    $change = -8;
                 } else {
-                    if ($dx < $fx) {
-                        $change = -1;
-                    } else {
-                        $change = 1;
-                    }
+                    $change = 8;
                 }
-                if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
-                    $result = 1;
-                }
-                break;
-            /* queen */
-            case 'Q':
-                if (\abs($fx - $dx) != \abs($fy - $dy) && $fx != $dx && $fy != $dy) {
-                    break;
-                }
-                if (\abs($fx - $dx) == \abs($fy - $dy)) {
-                    if ($dy < $fy) {
-                        $change = -8;
-                    } else {
-                        $change = 8;
-                    }
-
-                    if ($dx < $fx) {
-                        $change -= 1;
-                    } else {
-                        $change += 1;
-                    }
-                } elseif ($fx == $dx) {
-                    if ($dy < $fy) {
-                        $change = -8;
-                    } else {
-                        $change = 8;
-                    }
+            } else {
+                if ($dx < $fx) {
+                    $change = -1;
                 } else {
-                    if ($dx < $fx) {
-                        $change = -1;
-                    } else {
-                        $change = 1;
-                    }
+                    $change = 1;
                 }
-                if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
-                    $result = 1;
-                }
-                break;
-            /* king */
-            case 'K':
-                if (\abs($fx - $dx) > 1 || \abs($fy - $dy) > 1) {
-                    break;
-                }
-                $kings = 0;
-                $adj_tiles = $this->getAdjTiles($dest_pos);
-                foreach ($adj_tiles as $tile) {
-                    if ('K' == $this->board[$tile][1]) {
-                        $kings++;
-                    }
-                }
-                if (2 == $kings) {
-                    break;
-                }
+            }
+            if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
                 $result = 1;
+            }
+            break;
+            /* king */ case 'K':
+            if (\abs($fx - $dx) > 1 || \abs($fy - $dy) > 1) {
                 break;
+            }
+            $kings     = 0;
+            $adj_tiles = $this->getAdjTiles($dest_pos);
+            foreach ($adj_tiles as $tile) {
+                if ('K' == $this->board[$tile][1]) {
+                    $kings++;
+                }
+            }
+            if (2 == $kings) {
+                break;
+            }
+            $result = 1;
+            break;
         }
 
-        /* DEBUG: echo " $result<BR>"; */
+        /* DEBUG: echo " $result<br>"; */
 
         return $result;
     }
@@ -581,7 +563,7 @@ class ChessGame
     /**
      * Check whether a pawn can attack a tile.
      *
-     * @param int $fig_pos Position of pawn
+     * @param int $fig_pos  Position of pawn
      * @param int $dest_pos Tile to check
      * @return bool True if pawn can attack
      *
@@ -619,7 +601,7 @@ class ChessGame
      * in between.
      *
      * @param int $fig_pos  Position of pawn.
-     * @param int $dest_pos  Destination tile.
+     * @param int $dest_pos Destination tile.
      * @return bool True if move is legal
      *
      * @access private
@@ -664,8 +646,8 @@ class ChessGame
     /**
      * Check whether a tile is under attack by the specified player.
      *
-     * @param string $opp  Attacking color ('w' or 'b')
-     * @param int $dest_pos  Tile to check
+     * @param string $opp      Attacking color ('w' or 'b')
+     * @param int    $dest_pos Tile to check
      * @return bool
      *
      * @access private
@@ -676,11 +658,10 @@ class ChessGame
 
         for ($i = 0; $i < 64; $i++) {
             if ($this->board[$i][0] == $opp) {
-                if (('P' == $this->board[$i][1] && $this->checkPawnAttack($i, $dest_pos)) ||
-                    ('P' != $this->board[$i][1]
-                     &&
-                     $this->tileIsReachable($this->board[$i][1], $i, $dest_pos))) {
-                    /*DEBUG: echo "attack test: $i: ",$opp,"P<BR>"; */
+                if (('P' == $this->board[$i][1] && $this->checkPawnAttack($i, $dest_pos))
+                    || ('P' != $this->board[$i][1]
+                        && $this->tileIsReachable($this->board[$i][1], $i, $dest_pos))) {
+                    /*DEBUG: echo "attack test: $i: ",$opp,"P<br>"; */
 
                     return 1;
                 }
@@ -693,8 +674,8 @@ class ChessGame
     /**
      * Check whether a player's king can be attacked by his opponent.
      *
-     * @param string $player  Player's color ('w' or 'b')
-     * @param string $opp     Opponent's color ('w' or 'b')
+     * @param string $player Player's color ('w' or 'b')
+     * @param string $opp    Opponent's color ('w' or 'b')
      * @return bool
      *
      * @access private
@@ -711,7 +692,7 @@ class ChessGame
             }
         }
 
-        /*DEBUG: echo "$player king is at $king_pos<BR>"; */
+        /*DEBUG: echo "$player king is at $king_pos<br>"; */
 
         return $this->tileIsUnderAttack($opp, $king_pos);
     }
@@ -719,8 +700,8 @@ class ChessGame
     /**
      * Check whether player's king is checkmated by his opponent.
      *
-     * @param string $player  Player's color ('w' or 'b')
-     * @param string $opp     Opponent's color ('w' or 'b')
+     * @param string $player Player's color ('w' or 'b')
+     * @param string $opp    Opponent's color ('w' or 'b')
      * @return bool
      *
      * @access private
@@ -773,10 +754,9 @@ class ChessGame
 
         for ($i = 0; $i < 64; $i++) {
             if ($this->board[$i][0] == $opp) {
-                if (('P' == $this->board[$i][1] && $this->checkPawnAttack($i, $king_pos)) ||
-                    ('P' != $this->board[$i][1]
-                     &&
-                     $this->tileIsReachable($this->board[$i][1], $i, $king_pos))) {
+                if (('P' == $this->board[$i][1] && $this->checkPawnAttack($i, $king_pos))
+                    || ('P' != $this->board[$i][1]
+                        && $this->tileIsReachable($this->board[$i][1], $i, $king_pos))) {
                     $attackers[$count++] = $i;
                 }
             }
@@ -799,14 +779,12 @@ class ChessGame
 
         for ($i = 0; $i < 64; $i++) {
             if ($this->board[$i][0] == $player) {
-                if (('P' == $this->board[$i][1] && $this->checkPawnAttack($i, $dest_pos)) ||
-                    ('P' != $this->board[$i][1] && 'K' != $this->board[$i][1]
-                     &&
-                     $this->tileIsReachable($this->board[$i][1], $i, $dest_pos)) ||
-                     ('K' == $this->board[$i][1]
-                      &&
-                      $this->tileIsReachable($this->board[$i][1], $i, $dest_pos) &&
-                      !$this->tileIsUnderAttack($opp, $dest_pos))) {
+                if (('P' == $this->board[$i][1] && $this->checkPawnAttack($i, $dest_pos))
+                    || ('P' != $this->board[$i][1] && 'K' != $this->board[$i][1]
+                        && $this->tileIsReachable($this->board[$i][1], $i, $dest_pos))
+                    || ('K' == $this->board[$i][1]
+                        && $this->tileIsReachable($this->board[$i][1], $i, $dest_pos)
+                        && !$this->tileIsUnderAttack($opp, $dest_pos))) {
                     /* DEBUG: echo "candidate: $i "; */
 
                     $can_kill_atk = 0;
@@ -870,10 +848,9 @@ class ChessGame
         foreach ($path as $pos) {
             for ($i = 0; $i < 64; $i++) {
                 if ($this->board[$i][0] == $player) {
-                    if (('P' == $this->board[$i][1] && $this->checkPawnMove($i, $pos)) ||
-                        ('P' != $this->board[$i][1] && 'K' != $this->board[$i][1]
-                         &&
-                         $this->tileIsReachable($this->board[$i][1], $i, $pos))) {
+                    if (('P' == $this->board[$i][1] && $this->checkPawnMove($i, $pos))
+                        || ('P' != $this->board[$i][1] && 'K' != $this->board[$i][1]
+                            && $this->tileIsReachable($this->board[$i][1], $i, $pos))) {
                         /* DEBUG: echo "$i can block "; */
 
                         return 0;
@@ -888,11 +865,11 @@ class ChessGame
     /**
      * Check whether player is stalemated.
      *
-     * @param string $player  Color of player who has the move ('w' or 'b')
-     * @param string $opp     Opponent's color ('w' or 'b')
+     * @param string $player Color of player who has the move ('w' or 'b')
+     * @param string $opp    Opponent's color ('w' or 'b')
      * @return bool
      *
-     * @todo recognize when move is not possible because of check
+     * @todo   recognize when move is not possible because of check
      *
      * @access private
      */
@@ -1042,14 +1019,14 @@ class ChessGame
      *
      * @param string $player 'w' or 'b'
      * @param string $move
-     * <pre>
-     *   [a-h][1-8|a-h][RNBQK]              pawn move/attack
-     *   [PRNBQK][a-h][1-8]                 figure move
-     *   [PRNBQK][:x][a-h][1-8]             figure attack
-     *   [PRNBQK][1-8|a-h][a-h][1-8]        ambigous figure move
-     *   [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack
-     *   [PRNBQK][1-8|a-h][:x][a-h][1-8]    ambigous figure attack
-     * </pre>
+     *                       <pre>
+     *                       [a-h][1-8|a-h][RNBQK]              pawn move/attack
+     *                       [PRNBQK][a-h][1-8]                 figure move
+     *                       [PRNBQK][:x][a-h][1-8]             figure attack
+     *                       [PRNBQK][1-8|a-h][a-h][1-8]        ambigous figure move
+     *                       [a-h][:x][a-h][1-8][[RNBQK]        ambigous pawn attack
+     *                       [PRNBQK][1-8|a-h][:x][a-h][1-8]    ambigous figure attack
+     *                       </pre>
      * @return string  Empty string if successful, otherwise error message
      *
      * @access private
@@ -1073,7 +1050,7 @@ class ChessGame
             /* full move: a pawn requires a ? in the end
              * to automatically choose a queen on last line */
 
-            if (strpos($move, 'P') === 0) {
+            if (0 === strpos($move, 'P')) {
                 if ($move[\mb_strlen($move) - 1] < 'A' || $move[\mb_strlen($move) - 1] > 'Z') {
                     $this->ac_move = "$move?";
                 }
@@ -1300,8 +1277,8 @@ class ChessGame
             elseif ($fig1_can_reach && $fig2_can_reach) {
                 /* ambiguity - check whether a hint is given */
 
-                if (('-' == $action && 4 == mb_strlen($move)) ||
-                        ('x' == $action && 5 == mb_strlen($move))) {
+                if (('-' == $action && 4 == mb_strlen($move))
+                    || ('x' == $action && 5 == mb_strlen($move))) {
                     $hint = $move[1];
                 }
 
@@ -1385,7 +1362,7 @@ class ChessGame
      * a full move. if this fails there is no warning
      * but the move is kept unchanged.
      *
-     * @param string $player  'w' or 'b'
+     * @param string $player 'w' or 'b'
      * @param string $move
      * @return string  new move
      *
@@ -1400,7 +1377,7 @@ class ChessGame
 
         /* valid pawn moves are always non-ambigious */
 
-        if (strpos($move, 'P') === 0) {
+        if (0 === strpos($move, 'P')) {
             /* skip P anycase. for attacks skip source digit
                and for moves skip source pos and - */
 
@@ -1459,7 +1436,7 @@ class ChessGame
      */
     public function handleMove($move)
     {
-        /* DEBUG: echo "HANDLE: $move, $comment<BR>"; */
+        /* DEBUG: echo "HANDLE: $move, $comment<br>"; */
 
         $result = _MD_CHESS_MOVE_UNDEFINED;
 
@@ -1694,11 +1671,10 @@ class ChessGame
             /* if it is a full move, try to shorten the history move */
 
             if (\mb_strlen($history_move) >= 6) {
-                $history_move =
-                    $this->convertFullToChessNotation($cur_player, $history_move);
+                $history_move = $this->convertFullToChessNotation($cur_player, $history_move);
             }
 
-            /* DEBUG: echo "Move: $move ($history_move)<BR>"; */
+            /* DEBUG: echo "Move: $move ($history_move)<br>"; */
 
             /* validate figure and position */
 
@@ -1718,7 +1694,7 @@ class ChessGame
                 return [false, $this->move_msg(_MD_CHESS_MOVE_COORD_INVALID, $fig_coord)];
             } // "ERROR: $fig_coord is invalid!"
 
-            /* DEBUG  echo "fig_type: $fig_type, fig_pos: $fig_pos<BR>"; */
+            /* DEBUG  echo "fig_type: $fig_type, fig_pos: $fig_pos<br>"; */
 
             if ($this->is_empty_tile($fig_pos)) {
                 return [false, $this->move_msg(_MD_CHESS_MOVE_TILE_EMPTY, $fig_coord)];
@@ -1746,7 +1722,7 @@ class ChessGame
                 return [false, _MD_CHESS_MOVE_START_END_SAME];
             }
 
-            /* DEBUG  echo "dest_pos: $dest_pos<BR>"; */
+            /* DEBUG  echo "dest_pos: $dest_pos<br>"; */
 
             /* get action */
 
@@ -1916,8 +1892,8 @@ class ChessGame
             /* if pawn reached last line convert into a queen */
 
             if ('P' == $fig_type) {
-                if (('w' == $cur_player && $dest_pos >= 56) ||
-                    ('b' == $cur_player && $dest_pos <= 7)) {
+                if (('w' == $cur_player && $dest_pos >= 56)
+                    || ('b' == $cur_player && $dest_pos <= 7)) {
                     $pawn_upg = $move[\mb_strlen($move) - 1];
 
                     if ('?' == $pawn_upg) {
@@ -1977,8 +1953,7 @@ class ChessGame
 
             // store possible castling-availability modification
 
-            $KQkq = ($white_may_castle_short ? 'K' : '') . ($white_may_castle_long ? 'Q' : '')
-                    . ($black_may_castle_short ? 'k' : '') . ($black_may_castle_long ? 'q' : '');
+            $KQkq = ($white_may_castle_short ? 'K' : '') . ($white_may_castle_long ? 'Q' : '') . ($black_may_castle_short ? 'k' : '') . ($black_may_castle_long ? 'q' : '');
 
             $this->gamestate['fen_castling_availability'] = !empty($KQkq) ? $KQkq : '-';
 
@@ -1998,8 +1973,7 @@ class ChessGame
                 }
 
                 $this->gamestate['pgn_movetext'] .= $this->gamestate['fen_fullmove_number'] . '.';
-
-            // if black move, no moves yet, and game is setup, output move number with special '...' terminator
+                // if black move, no moves yet, and game is setup, output move number with special '...' terminator
             } elseif (empty($this->gamestate['pgn_movetext']) && !empty($this->gamestate['pgn_fen'])) {
                 $this->gamestate['pgn_movetext'] .= $this->gamestate['fen_fullmove_number'] . '...';
             }
@@ -2022,7 +1996,7 @@ class ChessGame
 
             // If pawn advance or capturing move, reset the halfmove clock. Otherwise increment it.
 
-            if ('O-O' != $move && 'O-O-O' != $move && (strpos($move, 'P') === 0 || 'x' == $move[3])) {
+            if ('O-O' != $move && 'O-O-O' != $move && (0 === strpos($move, 'P') || 'x' == $move[3])) {
                 $this->gamestate['fen_halfmove_clock'] = 0;
             } else {
                 ++$this->gamestate['fen_halfmove_clock'];
@@ -2052,7 +2026,7 @@ class ChessGame
     /**
      * Clear a tile.
      *
-     * @param int $position  Position of tile
+     * @param int $position Position of tile
      *
      * @access private
      */
@@ -2081,17 +2055,17 @@ class ChessGame
 
         $piece_map = [
             'K' => 'wK',
-'Q' => 'wQ',
-'R' => 'wR',
-'B' => 'wB',
-'N' => 'wN',
-'P' => 'wP',
+            'Q' => 'wQ',
+            'R' => 'wR',
+            'B' => 'wB',
+            'N' => 'wN',
+            'P' => 'wP',
             'k' => 'bK',
-'q' => 'bQ',
-'r' => 'bR',
-'b' => 'bB',
-'n' => 'bN',
-'p' => 'bP',
+            'q' => 'bQ',
+            'r' => 'bR',
+            'b' => 'bB',
+            'n' => 'bN',
+            'p' => 'bP',
         ];
 
         $tiles = \implode('', \array_reverse(\explode('/', $this->gamestate['fen_piece_placement'])));
@@ -2212,7 +2186,7 @@ class ChessGame
     /**
      * Convert board coordinates [a-h][1-8] to board index [0..63]
      *
-     * @param string $coord  Example: 'b3'
+     * @param string $coord Example: 'b3'
      * @return int  Example: 17
      *
      * @access private
@@ -2222,15 +2196,32 @@ class ChessGame
         //echo $coord," --> ";
 
         switch ($coord[0]) {
-            case 'a': $x = 0; break;
-            case 'b': $x = 1; break;
-            case 'c': $x = 2; break;
-            case 'd': $x = 3; break;
-            case 'e': $x = 4; break;
-            case 'f': $x = 5; break;
-            case 'g': $x = 6; break;
-            case 'h': $x = 7; break;
-            default: return 64; /* erronous coord */
+            case 'a':
+                $x = 0;
+                break;
+            case 'b':
+                $x = 1;
+                break;
+            case 'c':
+                $x = 2;
+                break;
+            case 'd':
+                $x = 3;
+                break;
+            case 'e':
+                $x = 4;
+                break;
+            case 'f':
+                $x = 5;
+                break;
+            case 'g':
+                $x = 6;
+                break;
+            case 'h':
+                $x = 7;
+                break;
+            default:
+                return 64; /* erronous coord */
         }
 
         $y = $coord[1] - 1;
@@ -2246,7 +2237,7 @@ class ChessGame
     /**
      * Convert board index [0..63] to board coordinates [a-h][1-8].
      *
-     * @param int $index  Example: 17
+     * @param int $index Example: 17
      * @return string  Example: 'b3'
      *
      * @access private
@@ -2269,7 +2260,7 @@ class ChessGame
     /**
      * Get piece name from piece symbol.
      *
-     * @param string $short  Piece symbol
+     * @param string $short Piece symbol
      * @return string        Piece name
      *
      * @access private
@@ -2344,3 +2335,5 @@ class ChessGame
         return $adj_tiles;
     }
 } // class ChessGame
+
+?>

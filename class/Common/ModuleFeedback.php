@@ -24,18 +24,14 @@ namespace XoopsModules\Chess\Common;
 \defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class Object ModuleFeedback
+ * Class \XoopsObject ModuleFeedback
  */
 class ModuleFeedback extends \XoopsObject
 {
     public $name = '';
-
     public $email = '';
-
     public $site = '';
-
     public $type = '';
-
     public $content = '';
 
     /**

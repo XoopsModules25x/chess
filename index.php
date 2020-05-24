@@ -4,7 +4,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
+//                       <https://xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -29,9 +29,11 @@
 /**
  * Generates main chess page, which displays lists of games and challenges.
  *
- * @package chess
+ * @package    chess
  * @subpackage index
  */
+
+use Xmf\Request;
 
 /**#@+
  */
@@ -45,16 +47,6 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
 #var_dump($_REQUEST);#*#DEBUG#
 
-chess_get_games();
-
-require_once XOOPS_ROOT_PATH . '/footer.php';
-/**#@-*/
-
-/**
- * Generate lists of games and challenges.
- */
-function chess_get_games()
-{
     global $xoopsDB, $xoopsTpl;
 
     // ----------
@@ -144,26 +136,30 @@ function chess_get_games()
 
     $xoopsDB->freeRecordSet($result);
 
-    $result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(
+        trim(
+            "
 		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
 			UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
 		FROM     $games_table
 		WHERE    $where
 		ORDER BY last_activity DESC
 		LIMIT    $gstart, $max_items_to_display
-	"));
+	"
+        )
+    );
 
     $games = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $games[] = [
-            'game_id' => $row['game_id'],
-            'white_uid' => $row['white_uid'],
-            'black_uid' => $row['black_uid'],
-            'last_activity' => $row['last_activity'],
+            'game_id'          => $row['game_id'],
+            'white_uid'        => $row['white_uid'],
+            'black_uid'        => $row['black_uid'],
+            'last_activity'    => $row['last_activity'],
             'fen_active_color' => $row['fen_active_color'],
-            'pgn_result' => $row['pgn_result'],
-            'is_rated' => $row['is_rated'],
+            'pgn_result'       => $row['pgn_result'],
+            'is_rated'         => $row['is_rated'],
         ];
 
         // save user IDs that will require mapping to usernames
@@ -215,25 +211,29 @@ function chess_get_games()
 
     $xoopsDB->freeRecordSet($result);
 
-    $result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(
+        trim(
+            "
 		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
 		FROM     $challenges_table
 		WHERE    $where
 		ORDER BY create_date DESC
 		LIMIT    $cstart, $max_items_to_display
-	"));
+	"
+        )
+    );
 
     $challenges = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $challenges[] = [
             'challenge_id' => $row['challenge_id'],
-            'game_type' => $row['game_type'],
+            'game_type'    => $row['game_type'],
             'color_option' => $row['color_option'],
-            'player1_uid' => $row['player1_uid'],
-            'player2_uid' => $row['player2_uid'],
-            'create_date' => $row['create_date'],
-            'is_rated' => $row['is_rated'],
+            'player1_uid'  => $row['player1_uid'],
+            'player2_uid'  => $row['player2_uid'],
+            'create_date'  => $row['create_date'],
+            'is_rated'     => $row['is_rated'],
         ];
 
         // save user IDs that will require mapping to usernames
@@ -350,9 +350,9 @@ function chess_get_games()
     $form2->assign($xoopsTpl);
 
     #*#DEBUG# - trying something unrelated to the chess module
-/***
-    $configHandler = xoops_getHandler('config');
-    $clist = $configHandler->getConfigList(18);
-    var_dump('clist', $clist);
-***/
-}
+    /***
+     * $configHandler = xoops_getHandler('config');
+     * $clist = $configHandler->getConfigList(18);
+     * var_dump('clist', $clist);
+     ***/
+include_once XOOPS_ROOT_PATH . '/footer.php';

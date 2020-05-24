@@ -3,7 +3,7 @@
 /**
  * Required file for supporting notification feature
  *
- * @package chess
+ * @package    chess
  * @subpackage notification
  */
 

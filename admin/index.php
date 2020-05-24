@@ -14,8 +14,9 @@
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
+
 use XoopsModules\Chess\Common;
 
 require __DIR__ . '/admin_header.php';

@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * uninstall.php - cleanup on module uninstall
  *
@@ -17,6 +18,7 @@
  * @license         {@link http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @link            https://xoops.org XOOPS
  */
+
 use XoopsModules\Chess;
 
 /**
@@ -49,7 +51,7 @@ function xoops_module_uninstall_xxxx(\XoopsModule $module)
     $helper = Chess\Helper::getInstance();
 
     $utility = new Chess\Utility();
-//    $configurator = new Chess\Common\Configurator();
+    //    $configurator = new Chess\Common\Configurator();
 
     // Load language files
 

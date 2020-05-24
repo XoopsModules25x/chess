@@ -17,6 +17,7 @@
  * @since
  * @author       XOOPS Development Team
  */
+
 use XoopsModules\Chess;
 
 if ((!defined('XOOPS_ROOT_PATH')) || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
@@ -41,7 +42,7 @@ function tableExists($tablename)
  * @param \XoopsModule $module {@link XoopsModule}
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_update_xxxx(\XoopsModule $module)
+function xoops_module_pre_update_chess(\XoopsModule $module)
 {
     $moduleDirName = basename(dirname(__DIR__));
 
@@ -67,11 +68,11 @@ function xoops_module_pre_update_xxxx(\XoopsModule $module)
 /**
  * Performs tasks required during update of the module
  * @param \XoopsModule $module {@link XoopsModule}
- * @param null        $previousVersion
+ * @param null         $previousVersion
  *
  * @return bool true if update successful, false if not
  */
-function xoops_module_update_xxxx(\XoopsModule $module, $previousVersion = null)
+function xoops_module_update_chess(\XoopsModule $module, $previousVersion = null)
 {
     $moduleDirName = basename(dirname(__DIR__));
 
@@ -91,26 +92,7 @@ function xoops_module_update_xxxx(\XoopsModule $module, $previousVersion = null)
 
     $helper->loadLanguage('common');
 
-    if ($previousVersion < 240) {
-        //rename column EXAMPLE
-
-        $tables = new \Tables();
-
-        $table = 'xxxx_categories';
-
-        $column = 'order';
-
-        $newName = 'order';
-
-        $attributes = "INT(5) NOT NULL DEFAULT '0'";
-
-        if ($tables->useTable($table)) {
-            $tables->alterColumn($table, $column, $attributes, $newName);
-
-            if (!$tables->executeQueue()) {
-                echo '<br>' . constant('CO_' . $moduleDirNameUpper . '_UPGRADEFAILED0') . ' ' . $migrate->getLastError();
-            }
-        }
+    if ($previousVersion < 201) {
 
         //delete old HTML templates
 

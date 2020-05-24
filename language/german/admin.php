@@ -3,7 +3,7 @@
 /**
  * Language strings for admin page (de)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 

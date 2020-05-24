@@ -3,7 +3,7 @@
 /**
  * Language strings for module initialization (de)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 
@@ -16,11 +16,14 @@
 // Main
 define('_MI_CHESS', 'Schach');
 define('_MI_CHESS_DES', 'Ermöglicht den Benutzern, gegeneinander Schach zu spielen.');
-define('_MI_CHESS_CREDITS', '
+define(
+    '_MI_CHESS_CREDITS',
+    '
 	Meiko Jensen (german language pack).
-	<BR>
+	<br>
 	CXR Rating System used by permission of <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
-');
+'
+);
 
 // Blocks
 define('_MI_CHESS_GAMES', 'Letzte Schachpartien');
@@ -64,32 +67,41 @@ define('_MI_CHESS_ALLOW_SETUP_DES', 'Darf ein Spieler die anfängliche Stellung 
 define('_MI_CHESS_MAX_ITEMS', 'Maximale Anzahl an Einträgen pro Seite');
 define('_MI_CHESS_MAX_ITEMS_DES', 'Bezogen auf Partien, Herausforderungen und Spieler.');
 define('_MI_CHESS_RATING_SYSTEM', 'Spielerbewertungssystem');
-define('_MI_CHESS_RATING_SYSTEM_DES', '
+define(
+    '_MI_CHESS_RATING_SYSTEM_DES',
+    '
 	Verfügbare Bewertungssysteme:
-	<BR><BR>
+	<br><br>
 	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_CXR . '    - Adaptation des ELO Bewertungssystem, Verwendung erlaubt durch <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
-	<BR><BR>
+	<br><br>
 	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_LINEAR . ' - Ein sehr einfaches System, das für jeden Sieg (Niederlage) eine feste Anzahl an Punkten addiert (abzieht).
-	<BR><BR>
+	<br><br>
 	Die Auswahl "' . _MI_CHESS_RATING_SYSTEM_NONE . '" schaltet das Bewertungssystem ab.
-	<BR><BR>
+	<br><br>
 	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >>
 	' . _MI_CHESS_SMNAME4 . ').
-');
+'
+);
 define('_MI_CHESS_INITIAL_RATING', 'Anfängliche Spielerbewertung');
-define('_MI_CHESS_INITIAL_RATING_DES', '
+define(
+    '_MI_CHESS_INITIAL_RATING_DES',
+    '
 	Falls das "' . _MI_CHESS_RATING_SYSTEM_CXR . '" Bewertungssystem gewählt wird, sollte dieser Wert zwischen 800 und 2000 liegen.
-	<BR><BR>
+	<br><br>
 	Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
-	<BR><BR>
+	<br><br>
 	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >> ' . _MI_CHESS_SMNAME4 . ').
-');
+'
+);
 define('_MI_CHESS_ALLOW_UNRATED', 'Unbewertete Partien erlauben?');
-define('_MI_CHESS_ALLOW_UNRATED_DES', '
+define(
+    '_MI_CHESS_ALLOW_UNRATED_DES',
+    '
 	Darf ein Benutzer bei einer Herausforderung auswählen, daß diese Partie nicht in die Bewertung eingeht?
-	<BR><BR>
+	<br><br>
 	Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
-');
+'
+);
 
 // Notifications
 
@@ -143,5 +155,3 @@ define('_MI_CHESS_GAMES_TABLE_4', ' ... Bitte die Fehler für diese Tabelle korr
 define('_MI_CHESS_UPDATING_DATABASE', 'Aktualisiere Datenbank-Tabellen ...');
 define('_MI_CHESS_INIT_RATINGS_TABLE', 'Initialisiere Bewertungstabellen ...');
 define('_MI_CHESS_UPDATE_SUCCESSFUL', 'Update erfolgreich abgeschlossen.');
-
-/**#@-*/

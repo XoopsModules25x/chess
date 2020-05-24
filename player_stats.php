@@ -4,7 +4,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
+//                       <https://xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -29,7 +29,7 @@
 /**
  * Display an individual chess player's stats.
  *
- * @package chess
+ * @package    chess
  * @subpackage player_stats
  */
 
@@ -42,24 +42,23 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.php';
 
-$GLOBALS['xoopsOption']['template_main'] = 'chess_player_stats.tpl';
+$GLOBALS['xoopsOption']['template_main']                  = 'chess_player_stats.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
-$player_uid = (int)($_POST['player_uid'] ?? @$_GET['player_uid']);
+$player_uid   = (int)($_POST['player_uid'] ?? @$_GET['player_uid']);
 $player_uname = trim(@$_POST['player_uname']); // unsanitized
-$cstart = (int)@$_GET['cstart']; // for page nav: offset of first row of results (challenges) to display (default to 0)
-$gstart = (int)@$_GET['gstart']; // for page nav: offset of first row of results (games) to display (default to 0)
-$show_option = (int)($_POST['show_option'] ?? @$_GET['show_option']);
+$cstart       = (int)@$_GET['cstart']; // for page nav: offset of first row of results (challenges) to display (default to 0)
+$gstart       = (int)@$_GET['gstart']; // for page nav: offset of first row of results (games) to display (default to 0)
+$show_option  = (int)($_POST['show_option'] ?? @$_GET['show_option']);
 
 #var_dump($_REQUEST);#*#DEBUG#
 
 // If player username provided, map it to a user ID, overriding any provided value of player user ID.
 if (!empty($player_uname)) {
     $player_uid = chess_uname_to_uid($player_uname);
-
-// Otherwise, if player user ID provided, map it to a username.
+    // Otherwise, if player user ID provided, map it to a username.
 } elseif (0 != $player_uid) {
     $memberHandler = xoops_getHandler('member');
 
@@ -82,11 +81,11 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 /**
  * Display stats for player.
  *
- * @param int    $player_uid    Player's user ID
- * @param string $player_uname  Player's username
- * @param int    $show_option   _CHESS_SHOW_ALL_GAMES, _CHESS_SHOW_EXCEPT_SELFPLAY or _CHESS_SHOW_RATED_ONLY
- * @param int    $cstart        Starting offset for challenges page navigator
- * @param int    $gstart        Starting offset for games page navigator
+ * @param int    $player_uid   Player's user ID
+ * @param string $player_uname Player's username
+ * @param int    $show_option  _CHESS_SHOW_ALL_GAMES, _CHESS_SHOW_EXCEPT_SELFPLAY or _CHESS_SHOW_RATED_ONLY
+ * @param int    $cstart       Starting offset for challenges page navigator
+ * @param int    $gstart       Starting offset for games page navigator
  */
 function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SHOW_EXCEPT_SELFPLAY, $cstart = 0, $gstart = 0)
 {
@@ -178,26 +177,28 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 
     $xoopsDB->freeRecordSet($result);
 
-    $result = $xoopsDB->query("
+    $result = $xoopsDB->query(
+        "
 		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
 			UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
 		FROM      $games_table
 		WHERE     $where
 		ORDER BY  last_activity DESC
 		LIMIT     $gstart, $max_items_to_display
-	");
+	"
+    );
 
     $games = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $games[] = [
-            'game_id' => $row['game_id'],
-            'white_uid' => $row['white_uid'],
-            'black_uid' => $row['black_uid'],
+            'game_id'          => $row['game_id'],
+            'white_uid'        => $row['white_uid'],
+            'black_uid'        => $row['black_uid'],
             'fen_active_color' => $row['fen_active_color'],
-            'pgn_result' => $row['pgn_result'],
-            'last_activity' => $row['last_activity'],
-            'is_rated' => $row['is_rated'],
+            'pgn_result'       => $row['pgn_result'],
+            'last_activity'    => $row['last_activity'],
+            'is_rated'         => $row['is_rated'],
         ];
 
         // save user IDs that will require mapping to usernames
@@ -241,25 +242,27 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 
     $xoopsDB->freeRecordSet($result);
 
-    $result = $xoopsDB->query("
+    $result = $xoopsDB->query(
+        "
 		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
 		FROM     $challenges_table
 		WHERE    $where
 		ORDER BY create_date DESC
 		LIMIT    $cstart, $max_items_to_display
-	");
+	"
+    );
 
     $challenges = [];
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $challenges[] = [
             'challenge_id' => $row['challenge_id'],
-            'game_type' => $row['game_type'],
+            'game_type'    => $row['game_type'],
             'color_option' => $row['color_option'],
-            'player1_uid' => $row['player1_uid'],
-            'player2_uid' => $row['player2_uid'],
-            'create_date' => $row['create_date'],
-            'is_rated' => $row['is_rated'],
+            'player1_uid'  => $row['player1_uid'],
+            'player2_uid'  => $row['player2_uid'],
+            'create_date'  => $row['create_date'],
+            'is_rated'     => $row['is_rated'],
         ];
 
         // save user IDs that will require mapping to usernames
@@ -316,11 +319,13 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     // ---------------------------------------------------
 
     if ('none' != $rating_system) {
-        $result = $xoopsDB->query("
+        $result = $xoopsDB->query(
+            "
 			SELECT   player_uid, rating, games_won, games_lost, games_drawn, (games_won+games_lost+games_drawn) AS games_played
 			FROM     $ratings_table
 			ORDER BY rating DESC, player_uid ASC
-		");
+		"
+        );
 
         $ranking = 0;
 

@@ -26,7 +26,7 @@ use XoopsModules\Chess;
 //defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 
 require_once \dirname(\dirname(\dirname(\dirname(__DIR__)))) . '/mainfile.php';
-$moduleDirName = \basename(\dirname(\dirname(__DIR__)));
+$moduleDirName      = \basename(\dirname(\dirname(__DIR__)));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 \xoops_loadLanguage('directorychecker', $moduleDirName);
 

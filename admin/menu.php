@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
+//                       <https://xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -27,9 +27,9 @@
 
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-$helper = \XoopsModules\Chess\Helper::getInstance();
+$helper             = \XoopsModules\Chess\Helper::getInstance();
 $helper->loadLanguage('common');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
@@ -41,38 +41,38 @@ if (is_object($helper->getModule())) {
 
 $adminmenu[] = [
     'title' => _MI_CHESS_MENU_HOME,
-    'link' => 'admin/index.php',
-    'icon' => $pathIcon32 . '/home.png',
+    'link'  => 'admin/index.php',
+    'icon'  => $pathIcon32 . '/home.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_CHESS_ADMENU1,
-    'link' => 'admin/main.php?op=suspended_games',
-    'icon' => $pathIcon32 . '/alert.png',
+    'link'  => 'admin/main.php?op=suspended_games',
+    'icon'  => $pathIcon32 . '/alert.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_CHESS_ADMENU2,
-    'link' => 'admin/main.php?op=active_games',
-    'icon' => $pathIcon32 . '/button_ok.png',
+    'link'  => 'admin/main.php?op=active_games',
+    'icon'  => $pathIcon32 . '/button_ok.png',
 ];
 
 $adminmenu[] = [
     'title' => _MI_CHESS_ADMENU3,
-    'link' => 'admin/main.php?op=challenges',
-    'icon' => $pathIcon32 . '/cash_stack.png',
+    'link'  => 'admin/main.php?op=challenges',
+    'icon'  => $pathIcon32 . '/cash_stack.png',
 ];
 
 if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
-        'link' => 'admin/migrate.php',
-        'icon' => $pathIcon32 . '/database_go.png',
+        'link'  => 'admin/migrate.php',
+        'icon'  => $pathIcon32 . '/database_go.png',
     ];
 }
 
 $adminmenu[] = [
     'title' => _MI_CHESS_MENU_ABOUT,
-    'link' => 'admin/about.php',
-    'icon' => $pathIcon32 . '/about.png',
+    'link'  => 'admin/about.php',
+    'icon'  => $pathIcon32 . '/about.png',
 ];

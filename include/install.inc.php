@@ -1,10 +1,9 @@
 <?php
-
 // $Id$
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://xoops.org>                             //
+//                       <https://xoops.org/>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -48,104 +47,73 @@ function_exists('xoops_load_lang_file') ? xoops_load_lang_file('modinfo', 'chess
  * @param int    $oldversion Old version number of module
  * @return bool                True if pre-update succeeded, otherwise false
  */
-function xoops_module_pre_update_chess($module, $oldversion)
+function xoops_module_pre_update_chess(&$module, $oldversion)
 {
     global $xoopsDB;
 
     // For downward-compatiblity, in case this function doesn't get called by the module handler.
-
     $GLOBALS['chess_module_pre_update_called'] = true;
 
     if ($oldversion < 102) { // old version < 1.02: direct update not supported.
+
         $docfile = XOOPS_ROOT_PATH . '/modules/chess/docs/INSTALL.TXT';
-
         chess_set_message($module, sprintf(_MI_CHESS_OLD_VERSION, (string)$oldversion, $docfile), true);
-
         return false;
     } elseif ($oldversion >= 107) { // old version >= 1.07:  no action needed.
+
         return true;
     }
 
     // 1.02 <= old version < 1.07: perform update.
 
-    $ratings_table = $xoopsDB->prefix('chess_ratings');
-
+    $ratings_table    = $xoopsDB->prefix('chess_ratings');
     $challenges_table = $xoopsDB->prefix('chess_challenges');
-
-    $games_table = $xoopsDB->prefix('chess_games');
+    $games_table      = $xoopsDB->prefix('chess_games');
 
     // Check that ratings table does not already exist.
-
     chess_set_message($module, sprintf(_MI_CHESS_RATINGS_TABLE_1, $ratings_table));
-
     $result = $xoopsDB->query("SHOW TABLES LIKE '$ratings_table'");
-
     if (!$result) {
         $mysql_errno = $xoopsDB->errno();
-
         $mysql_error = $xoopsDB->error();
-
         chess_set_message($module, sprintf(_MI_CHESS_RATINGS_TABLE_2, $ratings_table, (string)$mysql_errno, $mysql_error), true);
-
         return false;
     }
-
     if ($xoopsDB->getRowsNum($result) > 0) {
         chess_set_message($module, sprintf(_MI_CHESS_RATINGS_TABLE_3, $ratings_table), true);
-
         return false;
     }
-
     $xoopsDB->freeRecordSet($result);
-
     chess_set_message($module, _MI_CHESS_OK);
 
     // Check database tables.
-
     chess_set_message($module, _MI_CHESS_CHK_DB_TABLES);
-
     $table_check_messages = chess_check_tables([$challenges_table, $games_table]);
-
     if (!empty($table_check_messages)) {
         foreach ($table_check_messages as $message) {
             chess_set_message($module, $message, true);
         }
-
         return false;
     }
-
     chess_set_message($module, _MI_CHESS_OK);
 
     // Check that values in column pgn_result of games table are in range.
-
     $pgn_result_values = "'*','1-0','0-1','1/2-1/2'";
-
     chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_1, $games_table));
-
     $result = $xoopsDB->query("SELECT COUNT(*) FROM `$games_table` WHERE `pgn_result` NOT IN ($pgn_result_values)");
-
     if (!$result) {
         $mysql_errno = $xoopsDB->errno();
-
         $mysql_error = $xoopsDB->error();
-
         chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_2, $games_table, (string)$mysql_errno, $mysql_error), true);
-
         return false;
     }
-
     [$count] = $xoopsDB->fetchRow($result);
-
     if ($count > 0) {
         chess_set_message($module, sprintf(_MI_CHESS_GAMES_TABLE_3, 'pgn_result', $games_table, $pgn_result_values), true);
-
         chess_set_message($module, _MI_CHESS_GAMES_TABLE_4, true);
-
         return false;
     }
-
     $xoopsDB->freeRecordSet($result);
-
     chess_set_message($module, _MI_CHESS_OK);
 
     return true; // successful
@@ -158,15 +126,13 @@ function xoops_module_pre_update_chess($module, $oldversion)
  * @param int    $oldversion Old version number of module
  * @return bool                True if update succeeded, otherwise false
  */
-function xoops_module_update_chess($module, $oldversion)
+function xoops_module_update_chess(&$module, $oldversion)
 {
     global $xoopsDB;
 
     // Before proceeding, ensure that pre-update processing has been done, and that all the checks pass.
-
     // For downward-compatiblity, in case the "pre_update" function doesn't get called by the module handler.
-
-    if (!@$GLOBALS['chess_module_pre_update_called'] && !xoops_module_pre_update_chess($module, $oldversion)) {
+    if (!@$GLOBALS['chess_module_pre_update_called'] and !xoops_module_pre_update_chess($module, $oldversion)) {
         return false;
     }
 
@@ -174,13 +140,12 @@ function xoops_module_update_chess($module, $oldversion)
         return true;
     }
 
-    $ratings_table = $xoopsDB->prefix('chess_ratings');
-
+    $ratings_table    = $xoopsDB->prefix('chess_ratings');
     $challenges_table = $xoopsDB->prefix('chess_challenges');
-
-    $games_table = $xoopsDB->prefix('chess_games');
+    $games_table      = $xoopsDB->prefix('chess_games');
 
     $queries = [
+
         "CREATE TABLE `$ratings_table` (
 			`player_uid` mediumint(8) unsigned NOT NULL default '0',
 			`rating` smallint(6) unsigned NOT NULL default '1200',
@@ -190,7 +155,7 @@ function xoops_module_update_chess($module, $oldversion)
 			PRIMARY KEY (`player_uid`),
 			KEY `rating` (`rating`),
 			KEY `games` (`games_won`,`games_lost`,`games_drawn`)
-			) ENGINE=MyISAM",
+			) TYPE=MyISAM",
 
         "ALTER TABLE `$challenges_table` ADD `is_rated` ENUM('1','0') DEFAULT '1' NOT NULL",
         "ALTER TABLE `$challenges_table` ADD INDEX `game_type` (`game_type`)",
@@ -212,24 +177,16 @@ function xoops_module_update_chess($module, $oldversion)
     ];
 
     // Update database tables.
-
     chess_set_message($module, _MI_CHESS_UPDATING_DATABASE);
-
     foreach ($queries as $query) {
         chess_set_message($module, "> $query");
-
         $result = $xoopsDB->query($query);
-
         if (!$result) {
             $mysql_errno = $xoopsDB->errno();
-
             $mysql_error = $xoopsDB->error();
-
             chess_set_message($module, " ... ($mysql_errno) $mysql_error");
-
             return false;
         }
-
         chess_set_message($module, _MI_CHESS_OK);
     }
 
@@ -240,7 +197,7 @@ function xoops_module_update_chess($module, $oldversion)
      *
      * // Initialize ratings table.
      * chess_set_message($module, _MI_CHESS_INIT_RATINGS_TABLE);
-     * require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.php';
+     * require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.inc.php';
      * chess_recalc_ratings();
      ***/
 
@@ -262,29 +219,21 @@ function chess_check_tables($table_names)
     $messages = [];
 
     foreach ($table_names as $table_name) {
-        $query = "CHECK TABLE `$table_name`";
-
+        $query  = "CHECK TABLE `$table_name`";
         $result = $xoopsDB->query($query);
-
         if (!$result) {
             $mysql_errno = $xoopsDB->errno();
-
             $mysql_error = $xoopsDB->error();
-
-            $messages[] = $query;
-
-            $messages[] = " ... ($mysql_errno) $mysql_error";
-
+            $messages[]  = $query;
+            $messages[]  = " ... ($mysql_errno) $mysql_error";
             continue;
         }
 
         // Initialize, in case the real table status fails to get retrieved.
-
         $table_status = '*** STATUS UNKNOWN ***';
 
         // The query may return multiple rows.  Only the last row is normally of interest, so only that row is saved.
-
-        while (false !== ($row = $xoopsDB->fetchArray($result))) {
+        while ($row = $xoopsDB->fetchArray($result)) {
             $table_status = $row['Msg_text'];
         }
 
@@ -311,13 +260,10 @@ function chess_check_tables($table_names)
 function chess_load_lang_file($filename, $module = '', $default = 'english')
 {
     $lang = $GLOBALS['xoopsConfig']['language'];
-
     $path = XOOPS_ROOT_PATH . (empty($module) ? '/' : "/modules/$module/") . 'language';
-
     if (!($ret = @include_once("$path/$lang/$filename.php"))) {
         $ret = include_once("$path/$default/$filename.php");
     }
-
     return $ret;
 }
 
@@ -333,10 +279,11 @@ function chess_set_message($module, $text = '', $error = false)
     $text = $error ? "<span style='color:#ff0000;background-color:#ffffff;font-weight:bold;'>$text</span>" : $text;
 
     // For downward compatibility with XOOPS versions that don't have the method XoopsModule::setMessage.
-
-    if (is_object($module) && method_exists($module, 'setMessage')) {
+    if (is_object($module) and method_exists($module, 'setMessage')) {
         $module->setMessage($text);
     } else {
-        echo "<code>$text</code><br>\n";
+        echo "<code>$text</code><br />\n";
     }
 }
+
+?>

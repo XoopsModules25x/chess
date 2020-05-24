@@ -3,7 +3,7 @@
 /**
  * Language strings for main part of module (de)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 
@@ -299,5 +299,3 @@ define('_MD_CHESS_SHOW_EXCEPT_SELFPLAY', 'Zeige alle Partien außer denen gegen 
 define('_MD_CHESS_SHOW_RATED_ONLY', 'Zeige nur bewertete Partien');
 define('_MD_CHESS_PLAYER_NOT_FOUND', 'Keine Partie-Informationen für diesen Spieler gefunden.');
 define('_MD_CHESS_VIEW_PROFILE', 'Zeige Profil dieses Spielers');
-
-/**#@-*/

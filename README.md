@@ -10,7 +10,7 @@
 [![Latest Pre-Release](https://img.shields.io/github/tag/XoopsModules25x/chess.svg?style=flat)](https://github.com/XoopsModules25x/chess/tags/)
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/chess.svg?style=flat)](https://github.com/XoopsModules25x/chess/releases/)
 
-**Chess** module for [XOOPS CMS](https://xoops.org) to play Chess
+**Chess** module for [XOOPS CMS](https://xoops.org) is a module to play Chess on your Website.
 
 [![Tutorial Available](https://xoops.org/images/tutorial-available-blue.svg)](https://www.gitbook.com/book/xoops/chess-tutorial/) Tutorial: see [GitBook](https://www.gitbook.com/book/xoops/chess-tutorial/).
 To contribute to the Tutorial, [fork it on GitHub](https://github.com/XoopsDocs/chess-tutorial)

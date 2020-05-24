@@ -3,7 +3,7 @@
 /**
  * Language strings for main part of module (en)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 

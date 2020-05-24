@@ -24,7 +24,7 @@ CREATE TABLE `chess_challenges` (
     `notify_move_player1` ENUM ('0','1')                            NOT NULL DEFAULT '0',
     `player1_uid`         MEDIUMINT(8) UNSIGNED                     NOT NULL DEFAULT '0',
     `player2_uid`         MEDIUMINT(8) UNSIGNED                     NOT NULL DEFAULT '0',
-    `create_date`         DATETIME                                  NOT NULL ,
+    `create_date`         DATETIME                                  NOT NULL,
     `is_rated`            ENUM ('1','0')                            NOT NULL DEFAULT '1',
     PRIMARY KEY (`challenge_id`),
     KEY `game_type` (`game_type`),
@@ -32,7 +32,8 @@ CREATE TABLE `chess_challenges` (
     KEY `player2_uid` (`player2_uid`),
     KEY `create_date` (`create_date`),
     KEY `is_rated` (`is_rated`)
-) ENGINE=MyISAM;
+)
+    ENGINE = MyISAM;
 
 # --------------------------------------------------------
 
@@ -44,9 +45,9 @@ CREATE TABLE `chess_games` (
     `game_id`                      INT(10) UNSIGNED                 NOT NULL AUTO_INCREMENT,
     `white_uid`                    MEDIUMINT(8) UNSIGNED            NOT NULL DEFAULT '0',
     `black_uid`                    MEDIUMINT(8) UNSIGNED            NOT NULL DEFAULT '0',
-    `create_date`                  DATETIME                         NOT NULL ,
-    `start_date`                   DATETIME                         NOT NULL ,
-    `last_date`                    DATETIME                         NOT NULL ,
+    `create_date`                  DATETIME                         NOT NULL,
+    `start_date`                   DATETIME                         NOT NULL,
+    `last_date`                    DATETIME                         NOT NULL,
     `fen_piece_placement`          VARCHAR(71)                      NOT NULL DEFAULT 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR',
     `fen_active_color`             ENUM ('w','b')                   NOT NULL DEFAULT 'w',
     `fen_castling_availability`    VARCHAR(4)                       NOT NULL DEFAULT 'KQkq',
@@ -55,9 +56,9 @@ CREATE TABLE `chess_games` (
     `fen_fullmove_number`          SMALLINT(5) UNSIGNED             NOT NULL DEFAULT '1',
     `pgn_fen`                      VARCHAR(100)                     NOT NULL DEFAULT '',
     `pgn_result`                   ENUM ('*','0-1','1-0','1/2-1/2') NOT NULL DEFAULT '*',
-    `pgn_movetext`                 TEXT                             ,
+    `pgn_movetext`                 TEXT,
     `offer_draw`                   ENUM ('','w','b')                NOT NULL DEFAULT '',
-    `suspended`                    TEXT                             ,
+    `suspended`                    TEXT,
     `white_confirm`                ENUM ('0','1')                   NOT NULL DEFAULT '1',
     `black_confirm`                ENUM ('0','1')                   NOT NULL DEFAULT '1',
     `is_rated`                     ENUM ('1','0')                   NOT NULL DEFAULT '1',
@@ -68,7 +69,8 @@ CREATE TABLE `chess_games` (
     KEY `pgn_result` (`pgn_result`),
     KEY `suspended_date` (`suspended`(19)),
     KEY `is_rated` (`is_rated`)
-) ENGINE=MyISAM;
+)
+    ENGINE = MyISAM;
 
 # ---------------------------------------------------------
 
@@ -85,4 +87,5 @@ CREATE TABLE `chess_ratings` (
     PRIMARY KEY (`player_uid`),
     KEY `rating` (`rating`),
     KEY `games` (`games_won`, `games_lost`, `games_drawn`)
-) ENGINE=MyISAM;
+)
+    ENGINE = MyISAM;

@@ -58,13 +58,13 @@ $configurator = new Chess\Common\Configurator();
 
 $migrator = new \XoopsModules\Chess\Common\Migrate($configurator);
 
-$op = Request::getCmd('op', 'default');
-$opShow = Request::getCmd('show', null, 'POST');
+$op        = Request::getCmd('op', 'default');
+$opShow    = Request::getCmd('show', null, 'POST');
 $opMigrate = Request::getCmd('migrate', null, 'POST');
-$opSchema = Request::getCmd('schema', null, 'POST');
-$op = !empty($opShow) ? 'show' : $op;
-$op = !empty($opMigrate) ? 'migrate' : $op;
-$op = !empty($opSchema) ? 'schema' : $op;
+$opSchema  = Request::getCmd('schema', null, 'POST');
+$op        = !empty($opShow) ? 'show' : $op;
+$op        = !empty($opMigrate) ? 'migrate' : $op;
+$op        = !empty($opSchema) ? 'schema' : $op;
 
 $message = '';
 

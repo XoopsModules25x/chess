@@ -3,7 +3,7 @@
 /**
  * Language strings for blocks (de)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 

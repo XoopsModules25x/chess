@@ -4,7 +4,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
+//                       <https://xoops.org>                             //
 // ------------------------------------------------------------------------- //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -29,7 +29,7 @@
 /**
  * Display player ratings.
  *
- * @package chess
+ * @package    chess
  * @subpackage ratings
  */
 
@@ -47,14 +47,14 @@ if ('none' == chess_moduleConfig('rating_system')) {
     redirect_header(XOOPS_URL . '/modules/chess/index.php', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_RATINGS_OFF);
 }
 
-$GLOBALS['xoopsOption']['template_main'] = 'chess_ratings.tpl';
+$GLOBALS['xoopsOption']['template_main']                  = 'chess_ratings.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
-$submit_recalc_ratings = isset($_POST['submit_recalc_ratings']);
+$submit_recalc_ratings  = isset($_POST['submit_recalc_ratings']);
 $confirm_recalc_ratings = (int)@$_POST['confirm_recalc_ratings'];
-$start = (int)@$_GET['start']; // for page nav: offset of first row of results to display (default to 0)
+$start                  = (int)@$_GET['start']; // for page nav: offset of first row of results to display (default to 0)
 
 #var_dump($_REQUEST);#*#DEBUG#
 
@@ -67,7 +67,7 @@ if ($submit_recalc_ratings && is_object($GLOBALS['xoopsSecurity']) && !$GLOBALS[
     );
 }
 
-$msg = '';
+$msg       = '';
 $msg_class = '';
 
 // If arbiter requested recalculation of ratings, do it.
@@ -94,9 +94,9 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 /**
  * Display all the players' ratings.
  *
- * @param int    $start      Starting offset for page navigator
- * @param string $msg        Message to display (if non-empty string)
- * @param string $msg_class  CSS class for displaying message text
+ * @param int    $start     Starting offset for page navigator
+ * @param string $msg       Message to display (if non-empty string)
+ * @param string $msg_class CSS class for displaying message text
  */
 function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 {
@@ -120,10 +120,12 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     // SQL_CALC_FOUND_ROWS and FOUND_ROWS(), available in MySQL 4.0.0, provide a more efficient way of doing this.
 
-    $result = $xoopsDB->query("
+    $result = $xoopsDB->query(
+        "
 		SELECT    COUNT(*)
 		FROM      $ratings_table AS p
-	");
+	"
+    );
 
     [$num_items] = $xoopsDB->fetchRow($result);
 
@@ -131,12 +133,14 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     $pagenav = new XoopsPageNav($num_items, $max_items_to_display, $start, 'start');
 
-    $result = $xoopsDB->query("
+    $result = $xoopsDB->query(
+        "
 		SELECT    player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
 		FROM      $ratings_table
 		ORDER BY  rating DESC, player_uid ASC
 		LIMIT     $start, $max_items_to_display
-	");
+	"
+    );
 
     // user IDs that will require mapping to usernames
 
@@ -150,8 +154,8 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
         $userids[] = $row['player_uid'];
 
         $players[] = [
-            'player_uid' => $row['player_uid'],
-            'rating' => $row['rating'],
+            'player_uid'   => $row['player_uid'],
+            'rating'       => $row['rating'],
             'games_played' => $row['games_played'],
         ];
     }

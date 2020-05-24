@@ -29,27 +29,16 @@ namespace XoopsModules\Chess\Common;
 class Configurator
 {
     public $name;
-
     public $paths = [];
-
     public $uploadFolders = [];
-
     public $copyBlankFiles = [];
-
     public $copyTestFolders = [];
-
     public $templateFolders = [];
-
     public $oldFiles = [];
-
     public $oldFolders = [];
-
     public $renameTables = [];
-
     public $moduleStats = [];
-
     public $modCopyright;
-
     public $icons;
 
     /**
@@ -57,11 +46,11 @@ class Configurator
      */
     public function __construct()
     {
-//        $moduleDirName      = basename(dirname(dirname(__DIR__)));
-//        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        //        $moduleDirName      = basename(dirname(dirname(__DIR__)));
+        //        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-//        require dirname(dirname(__DIR__)) . '/config/config.php';
-//        $config = getConfig();
+        //        require dirname(dirname(__DIR__)) . '/config/config.php';
+        //        $config = getConfig();
 
         $config = include \dirname(\dirname(__DIR__)) . '/config/config.php';
 

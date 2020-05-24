@@ -3,7 +3,7 @@
 /**
  * Language strings for module initialization (en)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 
@@ -16,11 +16,14 @@
 // Main
 define('_MI_CHESS', 'Chess');
 define('_MI_CHESS_DES', 'Allows users to play chess games against each other.');
-define('_MI_CHESS_CREDITS', '
-	Jacques Masscrier and Pierre Fran篩s Gagnon (french language pack).
+define(
+    '_MI_CHESS_CREDITS',
+    '
+	Jacques Masscrier and PierreFrançois Gagnon (french language pack).
 	<br>
 	CXR Rating System used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
-');
+'
+);
 define('_MI_CHESS_NAME', 'Chess');
 
 // Blocks
@@ -65,7 +68,9 @@ define('_MI_CHESS_ALLOW_SETUP_DES', 'When creating a game, may a user provide an
 define('_MI_CHESS_MAX_ITEMS', 'Maximum number of items to display on a page');
 define('_MI_CHESS_MAX_ITEMS_DES', 'Applies to games, challenges and players.');
 define('_MI_CHESS_RATING_SYSTEM', 'Player rating system');
-define('_MI_CHESS_RATING_SYSTEM_DES', '
+define(
+    '_MI_CHESS_RATING_SYSTEM_DES',
+    '
 	Available rating systems:
 	<br><br>
 	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_CXR . '    - Adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
@@ -76,21 +81,28 @@ define('_MI_CHESS_RATING_SYSTEM_DES', '
 	<br><br>
 	After changing this setting, you should rebuild the player ratings data from Main Menu >> Chess >>
 	' . _MI_CHESS_SMNAME4 . '.
-');
+'
+);
 define('_MI_CHESS_INITIAL_RATING', 'Initial player rating');
-define('_MI_CHESS_INITIAL_RATING_DES', '
+define(
+    '_MI_CHESS_INITIAL_RATING_DES',
+    '
 	If the "' . _MI_CHESS_RATING_SYSTEM_CXR . '" rating system is selected, this value should be between 800 and 2000.
 	<br><br>
 	Applies only if a player rating system is selected.
 	<br><br>
 	If you change this value, you should rebuild the player ratings data from Main Menu >> Chess >> ' . _MI_CHESS_SMNAME4 . '.
-');
+'
+);
 define('_MI_CHESS_ALLOW_UNRATED', 'Allow unrated games?');
-define('_MI_CHESS_ALLOW_UNRATED_DES', '
+define(
+    '_MI_CHESS_ALLOW_UNRATED_DES',
+    '
 	When offering a challenge, may the player exclude the game from use in rating calculations?
 	<br><br>
 	Applies only if a player rating system is selected.
-');
+'
+);
 
 // Notifications
 

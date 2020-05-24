@@ -30,9 +30,11 @@ use XoopsModules\Chess\Helper;
 class SysUtility
 {
     use VersionChecks;
+
     //checkVerXoops, checkVerPhp Traits
 
     use ServerStats;
+
     // getServerStats Trait
 
     use FilesManagement;
@@ -213,7 +215,6 @@ class SysUtility
                         if (false !== $pos) {
                             unset($open_tags[$pos]);
                         }
-
                         // if tag is an opening tag
                     } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
                         // add tag to the beginning of $open_tags list

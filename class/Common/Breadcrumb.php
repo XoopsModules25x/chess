@@ -11,6 +11,7 @@ namespace XoopsModules\Chess\Common;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Breadcrumb Class
  *
@@ -26,6 +27,7 @@ namespace XoopsModules\Chess\Common;
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
+
 use XoopsModules\Chess;
 use XoopsModules\Chess\Common;
 
@@ -37,7 +39,6 @@ use XoopsModules\Chess\Common;
 class Breadcrumb
 {
     public $dirname;
-
     private $bread = [];
 
     public function __construct()
@@ -54,7 +55,7 @@ class Breadcrumb
     public function addLink($title = '', $link = '')
     {
         $this->bread[] = [
-            'link' => $link,
+            'link'  => $link,
             'title' => $title,
         ];
     }

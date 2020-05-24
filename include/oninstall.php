@@ -15,7 +15,7 @@
  * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
  * @package
  * @since
- * @author       XOOPS Development Team
+ * @author        XOOPS Development Team
  */
 
 /**
@@ -26,7 +26,7 @@
  */
 function xoops_module_pre_install_xxxx(\XoopsModule $module)
 {
-//    require  dirname(__DIR__) . '/preloads/autoloader.php';
+    //    require  dirname(__DIR__) . '/preloads/autoloader.php';
 
     require __DIR__ . '/common.php';
 

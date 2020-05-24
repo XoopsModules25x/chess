@@ -3,7 +3,7 @@
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <https://www.xoops.org>                             //
+//                       <https://xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -28,10 +28,10 @@
 /**
  * Chess module blocks
  *
- * @package chess
+ * @package    chess
  * @subpackage blocks
  *
- * @see $modversion['blocks'] in xoops_version.php
+ * @see        $modversion['blocks'] in xoops_version.php
  */
 
 /**#@+
@@ -75,7 +75,9 @@ function b_chess_games_show($options)
         $where .= " AND is_rated = '1'";
     }
 
-    $result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(
+        trim(
+            "
 		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, UNIX_TIMESTAMP(create_date) AS create_date,
 		         UNIX_TIMESTAMP(start_date) AS start_date, UNIX_TIMESTAMP(last_date) AS last_date,
 		         UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS most_recent_date
@@ -83,7 +85,9 @@ function b_chess_games_show($options)
 		WHERE    $where
 		ORDER BY most_recent_date DESC
 		LIMIT    $limit
-	"));
+	"
+        )
+    );
 
     // user IDs that will require mapping to usernames
 
@@ -93,12 +97,12 @@ function b_chess_games_show($options)
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $games[] = [
-            'game_id' => $row['game_id'],
-            'white_uid' => $row['white_uid'],
-            'black_uid' => $row['black_uid'],
-            'date' => $row['most_recent_date'],
+            'game_id'          => $row['game_id'],
+            'white_uid'        => $row['white_uid'],
+            'black_uid'        => $row['black_uid'],
+            'date'             => $row['most_recent_date'],
             'fen_active_color' => $row['fen_active_color'],
-            'pgn_result' => $row['pgn_result'],
+            'pgn_result'       => $row['pgn_result'],
         ];
 
         // save user IDs that will require mapping to usernames
@@ -169,13 +173,17 @@ function b_chess_challenges_show($options)
             break;
     }
 
-    $result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(
+        trim(
+            "
 		SELECT   challenge_id, game_type, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
 		FROM     $table
 		WHERE    $where
 		ORDER BY create_date DESC
 		LIMIT    $limit
-	"));
+	"
+        )
+    );
 
     // user IDs that will require mapping to usernames
 
@@ -186,10 +194,10 @@ function b_chess_challenges_show($options)
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $challenges[] = [
             'challenge_id' => $row['challenge_id'],
-            'game_type' => $row['game_type'],
-            'player1_uid' => $row['player1_uid'],
-            'player2_uid' => $row['player2_uid'],
-            'create_date' => $row['create_date'],
+            'game_type'    => $row['game_type'],
+            'player1_uid'  => $row['player1_uid'],
+            'player2_uid'  => $row['player2_uid'],
+            'create_date'  => $row['create_date'],
         ];
 
         // save user IDs that will require mapping to usernames
@@ -271,22 +279,26 @@ function b_chess_players_show($options)
     switch ($options[1]) {
         case 1:
             $block['show_provisional_ratings'] = false;
-            $where = "(games_won+games_lost+games_drawn) >= '{$block['provisional_games']}'";
+            $where                             = "(games_won+games_lost+games_drawn) >= '{$block['provisional_games']}'";
             break;
         case 2:
         default:
             $block['show_provisional_ratings'] = true;
-            $where = 1;
+            $where                             = 1;
             break;
     }
 
-    $result = $xoopsDB->query(trim("
+    $result = $xoopsDB->query(
+        trim(
+            "
 		SELECT   player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
 		FROM     $table
 		WHERE    $where
 		ORDER BY rating DESC, player_uid ASC
 		LIMIT    $limit
-	"));
+	"
+        )
+    );
 
     // user IDs that will require mapping to usernames
 
@@ -296,8 +308,8 @@ function b_chess_players_show($options)
 
     while (false !== ($row = $xoopsDB->fetchArray($result))) {
         $players[] = [
-            'player_uid' => $row['player_uid'],
-            'rating' => $row['rating'],
+            'player_uid'   => $row['player_uid'],
+            'rating'       => $row['rating'],
             'games_played' => $row['games_played'],
         ];
 

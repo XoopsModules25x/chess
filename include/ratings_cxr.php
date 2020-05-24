@@ -27,26 +27,26 @@
 /**
  * Ratings functions specific to CXR rating system.
  *
- * @package chess
- * @subpackage ratings
  * @param mixed $white_rating
  * @param mixed $white_games
  * @param mixed $black_rating
  * @param mixed $black_games
  * @param mixed $pgn_result
+ * @subpackage ratings
+ * @package    chess
  */
 
 /**
  * Update the players' ratings for an individual game, using the CXR rating system.
  *
- * @param int    $white_rating  White's current rating
- * @param int    $white_games   Number of rated games that white has played
- * @param int    $black_rating  Black's current rating
- * @param int    $black_games   Number of rated games that black has played
- * @param string $pgn_result    Game result: '1-0' (white won), '0-1' (black won) or '1/2-1/2' (draw)
+ * @param int    $white_rating White's current rating
+ * @param int    $white_games  Number of rated games that white has played
+ * @param int    $black_rating Black's current rating
+ * @param int    $black_games  Number of rated games that black has played
+ * @param string $pgn_result   Game result: '1-0' (white won), '0-1' (black won) or '1/2-1/2' (draw)
  * @return array  Array with two elements:
- *  - $white_rating_new - white's new rating
- *  - $black_rating_new - black's new rating
+ *                             - $white_rating_new - white's new rating
+ *                             - $black_rating_new - black's new rating
  */
 function chess_ratings_adj_cxr($white_rating, $white_games, $black_rating, $black_games, $pgn_result)
 {

@@ -3,7 +3,7 @@
 /**
  * Language strings for blocks (en)
  *
- * @package chess
+ * @package    chess
  * @subpackage language
  */
 
@@ -61,6 +61,3 @@ define('_MB_CHESS_NO_NONPROV_GAMES', 'No rated games have been completed (player
 define('_MB_CHESS_ERROR', '*error*');
 define('_MB_CHESS_LABEL_NO_GAMES', 'No Games');
 
-
-
-/**#@-*/
