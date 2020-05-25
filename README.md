@@ -1,12 +1,12 @@
 ![alt XOOPS CMS](https://xoops.org/images/logoXoops4GithubRepository.png)
-## content module for  [XOOPS CMS 2.5.9+](https://xoops.org)
+## Chess module for  [XOOPS CMS 2.5.10+](https://xoops.org)
 [![XOOPS CMS Module](https://img.shields.io/badge/XOOPS%20CMS-Module-blue.svg)](https://xoops.org)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/XoopsModules25x/chess.svg?style=flat)](https://scrutinizer-ci.com/g/XoopsModules25x/chess/?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/95b12220e0ac4056b9af52af708379c9)](https://www.codacy.com/app/XoopsModules25x/chess)
-[![Code Climate](https://img.shields.io/codeclimate/github/XoopsModules25x/chess.svg?style=flat)](https://codeclimate.com/github/XoopsModules25x/chess)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f48090dc-a770-49b6-b895-6db50b08e3c4/mini.png)](https://insight.sensiolabs.com/projects/f48090dc-a770-49b6-b895-6db50b08e3c4)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mambax7/chess/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mambax7/chess/?branch=master)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/e741bfbfda054a728eadae5e2d137641)](https://www.codacy.com/manual/XOOPS/chess?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mambax7/chess&amp;utm_campaign=Badge_Grade)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/2d24dbc92a1ea323f43e/test_coverage)](https://codeclimate.com/github/mambax7/chess/test_coverage)
+[![SymfonyInsight](https://insight.symfony.com/projects/67dff878-c997-4264-a709-7dede15759d6/mini.svg)](https://insight.symfony.com/projects/67dff878-c997-4264-a709-7dede15759d6)
 [![Latest Pre-Release](https://img.shields.io/github/tag/XoopsModules25x/chess.svg?style=flat)](https://github.com/XoopsModules25x/chess/tags/)
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/chess.svg?style=flat)](https://github.com/XoopsModules25x/chess/releases/)
 
