@@ -107,9 +107,9 @@
 
         <{if $game.pgn_result == '1/2-1/2'}>
         <td class="<{$class}>"><b><{$smarty.const._MD_CHESS_DRAWN}></b></td>
-        <{elseif ($game.pgn_result=='1-0' && $game.white_uid==$chess_player.uid) or ($game.pgn_result=='0-1' && $game.black_uid==$chess_player.uid)}>
+        <{elseif ($game.pgn_result=='1-0' && $game.white_uid==$chess_player.uid) || ($game.pgn_result=='0-1' && $game.black_uid==$chess_player.uid)}>
         <td class="<{$class}>"><{$chess_player.uname}> <b><{$smarty.const._MD_CHESS_WON}></b></td>
-        <{elseif ($game.pgn_result=='0-1' && $game.white_uid==$chess_player.uid) or ($game.pgn_result=='1-0' && $game.black_uid==$chess_player.uid)}>
+        <{elseif ($game.pgn_result=='0-1' && $game.white_uid==$chess_player.uid) || ($game.pgn_result=='1-0' && $game.black_uid==$chess_player.uid)}>
         <td class="<{$class}>"><{$chess_player.uname}> <b><{$smarty.const._MD_CHESS_LOST}></b></td>
         <{elseif $game.fen_active_color == 'w'}>
         <td class="<{$class}>"><{$game.white_uname}> <{$smarty.const._MD_CHESS_LABEL_TO_MOVE}></td>

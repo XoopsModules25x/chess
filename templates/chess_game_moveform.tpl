@@ -142,7 +142,7 @@
         <{/if}>
 
         <{* if self-play, or if deletion of games is allowed, provide delete button *}>
-        <{if $selfplay or $chess_allow_delete}>
+        <{if $selfplay || $chess_allow_delete}>
         <tr>
             <td class="odd" style="text-align:left" colspan="2">
                 <input type='radio' name='movetype' value='<{$smarty.const._CHESS_MOVETYPE_DELETE}>'>

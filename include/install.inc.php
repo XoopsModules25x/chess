@@ -132,7 +132,7 @@ function xoops_module_update_chess(&$module, $oldversion)
 
     // Before proceeding, ensure that pre-update processing has been done, and that all the checks pass.
     // For downward-compatiblity, in case the "pre_update" function doesn't get called by the module handler.
-    if (!@$GLOBALS['chess_module_pre_update_called'] and !xoops_module_pre_update_chess($module, $oldversion)) {
+    if (!@$GLOBALS['chess_module_pre_update_called'] && !xoops_module_pre_update_chess($module, $oldversion)) {
         return false;
     }
 
@@ -279,7 +279,7 @@ function chess_set_message($module, $text = '', $error = false)
     $text = $error ? "<span style='color:#ff0000;background-color:#ffffff;font-weight:bold;'>$text</span>" : $text;
 
     // For downward compatibility with XOOPS versions that don't have the method XoopsModule::setMessage.
-    if (is_object($module) and method_exists($module, 'setMessage')) {
+    if (is_object($module) && method_exists($module, 'setMessage')) {
         $module->setMessage($text);
     } else {
         echo "<code>$text</code><br />\n";

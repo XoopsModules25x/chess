@@ -58,11 +58,11 @@ function chess_ratings_adj_cxr($white_rating, $white_games, $black_rating, $blac
             break;
     }
 
-    if (($white_games < 5 and $black_games < 5) or ($white_games > 5 and $black_games > 5)) {
+    if (($white_games < 5 && $black_games < 5) || ($white_games > 5 && $black_games > 5)) {
         // Formula 1: Rnew = Rold + (S x 21) + (Ropponent - Rold) / 25
         $w_new = ($S * 21) + ($black_rating - $white_rating) / 25;
         $b_new = (-$S * 21) + ($white_rating - $black_rating) / 25;
-    } elseif ($white_games > 5 and $black_games < 5) {
+    } elseif ($white_games > 5 && $black_games < 5) {
         // Formula 2: Rnew = Rold + (S x 6) + (Ropponent - Rold) / 100
         $w_new = ($S * 6) + ($black_rating - $white_rating) / 100;
 
@@ -94,17 +94,17 @@ function chess_ratings_adj_cxr($white_rating, $white_games, $black_rating, $blac
     }
 
     if (1 == $S) {
-        if ($white_games < 5 and $w_new < 0) {
+        if ($white_games < 5 && $w_new < 0) {
             $w_new = 2;
         }
-        if ($black_games < 5 and $b_new > 0) {
+        if ($black_games < 5 && $b_new > 0) {
             $b_new = -2;
         }
     } elseif (-1 == $S) {
-        if ($white_games < 5 and $w_new > 0) {
+        if ($white_games < 5 && $w_new > 0) {
             $w_new = -2;
         }
-        if ($black_games < 5 and $b_new < 0) {
+        if ($black_games < 5 && $b_new < 0) {
             $b_new = 2;
         }
     }

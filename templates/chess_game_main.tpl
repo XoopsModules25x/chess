@@ -94,7 +94,7 @@
     <{/if}>
 
 <{* can_move - the game isn't over or suspended, it's the current user's move, and he hasn't offered a draw that has been neither accepted nor rejected *}>
-<{if $chess_gamedata.pgn_result eq '*' and not $chess_gamedata.suspended and $chess_user_color eq $chess_gamedata.fen_active_color and $chess_gamedata.offer_draw ne $chess_user_color}>
+<{if $chess_gamedata.pgn_result eq '*' && not $chess_gamedata.suspended && $chess_user_color eq $chess_gamedata.fen_active_color && $chess_gamedata.offer_draw ne $chess_user_color}>
     <{assign var=can_move value=true}>
     <{else}>
     <{assign var=can_move value=false}>
@@ -255,7 +255,7 @@
             <{/if}>
 
             <{* display captured pieces *}>
-            <{if !empty($chess_captured_pieces.white) or !empty($chess_captured_pieces.black)}>
+            <{if !empty($chess_captured_pieces.white) || !empty($chess_captured_pieces.black)}>
 
         <br>
 
