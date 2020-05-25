@@ -1,4 +1,4 @@
-<form name='prefsform' method='post' action='game.php?game_id=<{$chess_gamedata.game_id}>'>
+<form name='prefsform' method='post' action='game.php?game_id=<{$chess_gamedata.game_id}>'>>
 
     <table class='outer'>
         <tr>
