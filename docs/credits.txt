@@ -3,6 +3,6 @@ CREDITS
 
 Originally created by Dave Lerner (aka dave_l).
 
-Refactored for XOOPS 2.5.10 and PHP 7.4+ by Mamba (https://xoops.org)
+Refactored for XOOPS 2.5.10 and PHP 7.1+ by Mamba and Zyspec (https://xoops.org)
 
 

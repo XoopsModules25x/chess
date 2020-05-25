@@ -32,7 +32,7 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $modversion = [
     'version'       => 2.01,
     'module_status' => 'Alpha 1',
-    'release_date'  => '2020/05/19',
+    'release_date'  => '2020/05/25',
     'name'          => _MI_CHESS,
     'description'   => _MI_CHESS_DES,
     'official'      => 0,
@@ -72,7 +72,7 @@ $modversion = [
     'module_website_url'  => 'www.xoops.org',
     'module_website_name' => 'XOOPS Project',
     // ------------------- Min Requirements -------------------
-    'min_php'             => '7.1',
+    'min_php'             => '7.2',
     'min_xoops'           => '2.5.10',
     'min_admin'           => '1.2',
     'min_db'              => ['mysql' => '5.5'],
