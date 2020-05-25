@@ -1050,7 +1050,7 @@ class ChessGame
             /* full move: a pawn requires a ? in the end
              * to automatically choose a queen on last line */
 
-            if (0 === \\strpos($move, 'P')) {
+            if (0 === \strpos($move, 'P')) {
                 if ($move[\mb_strlen($move) - 1] < 'A' || $move[\mb_strlen($move) - 1] > 'Z') {
                     $this->ac_move = "$move?";
                 }
@@ -1377,7 +1377,7 @@ class ChessGame
 
         /* valid pawn moves are always non-ambigious */
 
-        if (0 === \\strpos($move, 'P')) {
+        if (0 === \strpos($move, 'P')) {
             /* skip P anycase. for attacks skip source digit
                and for moves skip source pos and - */
 
@@ -1996,7 +1996,7 @@ class ChessGame
 
             // If pawn advance or capturing move, reset the halfmove clock. Otherwise increment it.
 
-            if ('O-O' != $move && 'O-O-O' != $move && (0 === \\strpos($move, 'P') || 'x' == $move[3])) {
+            if ('O-O' != $move && 'O-O-O' != $move && (0 === \strpos($move, 'P') || 'x' == $move[3])) {
                 $this->gamestate['fen_halfmove_clock'] = 0;
             } else {
                 ++$this->gamestate['fen_halfmove_clock'];
