@@ -37,9 +37,10 @@ use Xmf\Request;
 
 /**#@+
  */
-require dirname(__DIR__, 2) . '/mainfile.php';
+
 $GLOBALS['xoopsOption']['template_main'] = 'chess_games.tpl';
-require_once XOOPS_ROOT_PATH . '/header.php';
+require __DIR__ . '/header.php';
+
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';

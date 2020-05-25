@@ -35,16 +35,17 @@
 
 /**#@+
  */
-require_once dirname(__DIR__, 2) . '/mainfile.php';
+
+$GLOBALS['xoopsOption']['template_main'] = 'chess_player_stats.tpl';
+require __DIR__ . '/header.php';
+
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/ratings.php';
 
-$GLOBALS['xoopsOption']['template_main']                  = 'chess_player_stats.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
-require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
 $player_uid   = (int)($_POST['player_uid'] ?? @$_GET['player_uid']);

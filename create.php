@@ -46,9 +46,10 @@ use \Xmf\Request;
 
 /**#@+
  */
-require_once dirname(__DIR__, 2) . '/mainfile.php';
+
+require __DIR__ . '/header.php';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
-require_once XOOPS_ROOT_PATH . '/header.php';
+
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';

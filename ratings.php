@@ -35,7 +35,10 @@
 
 /**#@+
  */
-require_once dirname(__DIR__, 2) . '/mainfile.php';
+
+$GLOBALS['xoopsOption']['template_main'] = 'chess_ratings.tpl';
+require __DIR__ . '/header.php';
+
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
@@ -47,9 +50,7 @@ if ('none' == chess_moduleConfig('rating_system')) {
     redirect_header(XOOPS_URL . '/modules/chess/index.php', _CHESS_REDIRECT_DELAY_FAILURE, _MD_CHESS_RATINGS_OFF);
 }
 
-$GLOBALS['xoopsOption']['template_main']                  = 'chess_ratings.tpl';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
-require_once XOOPS_ROOT_PATH . '/header.php';
 
 // user input
 $submit_recalc_ratings  = isset($_POST['submit_recalc_ratings']);

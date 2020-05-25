@@ -40,12 +40,12 @@ use XoopsModules\Chess;
 
 /**#@+
  */
-require_once dirname(__DIR__, 2) . '/mainfile.php';
-require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
-$GLOBALS['xoopsOption']['template_main']                  = 'chess_game_main.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'chess_game_main.tpl';
+require __DIR__ . '/header.php';
+
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
-require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
@@ -756,7 +756,6 @@ function chess_is_draw_threefold_repetition($gamedata)
          * echo "*** Two repetitions!  {$repeats[1]},{$repeats[0]} ***<br>\n";
          * }
          ***/
-
         #*#DEBUG# - end
     }
 

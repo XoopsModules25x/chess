@@ -35,8 +35,10 @@
 
 /**#@+
  */
-require_once XOOPS_ROOT_PATH . '/header.php';
-$GLOBALS['xoopsOption']['template_main']                  = 'chess_help.tpl';
+
+$GLOBALS['xoopsOption']['template_main'] = 'chess_help.tpl';
+require __DIR__ . '/header.php';
+
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/include/functions.php';
 if (file_exists(XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/language/' . $xoopsConfig['language'] . '/help.php')) {
