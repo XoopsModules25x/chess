@@ -29,7 +29,7 @@ trait VersionChecks
      */
     public static function checkVerXoops(?\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName = \basename(dirname(__DIR__, 2));
+        $moduleDirName = \basename(\dirname(__DIR__, 2));
 
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
@@ -67,7 +67,7 @@ trait VersionChecks
      */
     public static function checkVerPhp(?\XoopsModule $module = null)
     {
-        $moduleDirName = \basename(dirname(__DIR__, 2));
+        $moduleDirName = \basename(\dirname(__DIR__, 2));
 
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
@@ -109,7 +109,7 @@ trait VersionChecks
      */
     public static function checkVerModule($helper, $source = 'github', $default = 'master')
     {
-        $moduleDirName = \basename(dirname(__DIR__, 2));
+        $moduleDirName = \basename(\dirname(__DIR__, 2));
 
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
