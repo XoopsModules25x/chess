@@ -13,12 +13,14 @@
 /**
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
+ * @package      Chess
+ * @since        2.01
  * @author       XOOPS Development Team
  */
 $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+//@TODO include deleted/moved files, remove extra content, calculate module stats, etc.
 
 return (object)[
     'name'           => mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
@@ -31,16 +33,8 @@ return (object)[
         'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
     'uploadFolders'  => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
-        //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
-        //XOOPS_UPLOAD_PATH . '/flags'
     ],
 
     'copyTestFolders' => [

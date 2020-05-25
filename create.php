@@ -46,7 +46,7 @@ use \Xmf\Request;
 
 /**#@+
  */
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(__DIR__, 2) . '/mainfile.php';
 $xoopsConfig['module_cache'][$xoopsModule->getVar('mid')] = 0; // disable caching
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -929,7 +929,6 @@ function chess_delete_challenge($challenge_id)
  * @param int    $rated                   '1' if rated, '0' if not rated
  * @param int    $notify_move_player1_uid If nonzero, subscribe the challenger to receive a notification when a new move is made.
  * @param bool   $notify_move_player2     If true, subscribe the accepter to receive a notification when a new move is made.
- * @return int
  * @return int
  */
 function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_player1_uid = 0, $notify_move_player2 = false)

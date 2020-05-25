@@ -510,3 +510,4 @@ Ein Schiedsrichter kann einstellen, daß er benachrichtigt wird, falls ein Spiel
 '
 );
 
+/**#@-*/

@@ -27,7 +27,7 @@ use XoopsModules\Chess;
  *
  * @return bool true if ready to uninstall, false if not
  */
-function xoops_module_pre_uninstall_xxxx(\XoopsModule $module)
+function xoops_module_pre_uninstall_chess(\XoopsModule $module)
 {
     // Do some synchronization if needed
 
@@ -40,7 +40,7 @@ function xoops_module_pre_uninstall_xxxx(\XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_xxxx(\XoopsModule $module)
+function xoops_module_uninstall_chess(\XoopsModule $module)
 {
     require __DIR__ . '/common.php';
 

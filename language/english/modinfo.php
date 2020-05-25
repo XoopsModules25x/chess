@@ -19,7 +19,7 @@ define('_MI_CHESS_DES', 'Allows users to play chess games against each other.');
 define(
     '_MI_CHESS_CREDITS',
     '
-	Jacques Masscrier and PierreFrançois Gagnon (french language pack).
+	Jacques Masscrier and Pierre François Gagnon (french language pack).
 	<br>
 	CXR Rating System used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
 '
@@ -169,7 +169,7 @@ define('MI_CHESS_EDITOR_USER', 'Editor: User');
 define('MI_CHESS_EDITOR_USER_DESC', 'Select the Editor to use by the User');
 
 //Help
-define('_MI_CHESS_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_CHESS_DIRNAME', basename(dirname(__DIR__, 2)));
 define('_MI_CHESS_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_CHESS_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_CHESS_OVERVIEW', 'Overview');
@@ -180,3 +180,5 @@ define('_MI_CHESS_OVERVIEW', 'Overview');
 define('_MI_CHESS_DISCLAIMER', 'Disclaimer');
 define('_MI_CHESS_LICENSE', 'License');
 define('_MI_CHESS_SUPPORT', 'Support');
+
+/**#@-*/

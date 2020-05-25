@@ -10,8 +10,8 @@
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package
- * @since           2.5.9
+ * @package      Chess
+ * @since        2.01
  * @author          Michael Beck (aka Mamba)
  */
 
@@ -19,7 +19,7 @@ use XoopsModules\Chess;
 use XoopsModules\Chess\Common;
 use XoopsModules\Chess\Utility;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $op = \Xmf\Request::getCmd('op', '');

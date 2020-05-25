@@ -37,7 +37,7 @@ use Xmf\Request;
 
 /**#@+
  */
-require dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(__DIR__, 2) . '/mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'chess_games.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
@@ -263,7 +263,7 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
     $memberHandler = xoops_getHandler('member');
 
-    $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+    $criteria = new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
 
     $usernames = $memberHandler->getUserList($criteria);
 

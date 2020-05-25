@@ -512,5 +512,5 @@ An arbiter may subscribe to be notified when a player requests arbitration in a 
 
 // --------------------
 
-?>
+/**#@-*/
 

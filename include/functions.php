@@ -197,9 +197,9 @@ END;
  */
 function chess_uname_to_uid($uname)
 {
-    $criteria = new CriteriaCompo();
+    $criteria = new \CriteriaCompo();
 
-    $criteria->add(new Criteria('uname', MyTextSanitizer::addSlashes($uname)));
+    $criteria->add(new \Criteria('uname', MyTextSanitizer::addSlashes($uname)));
 
     $criteria->setLimit(1);
 

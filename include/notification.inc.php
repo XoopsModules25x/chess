@@ -85,7 +85,7 @@ function chess_notify_item_info($category, $item_id)
         if (false !== $gamedata) {
             // get mapping of user IDs to usernames
 
-            $criteria = new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
+            $criteria = new \Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
 
             $memberHandler = xoops_getHandler('member');
 

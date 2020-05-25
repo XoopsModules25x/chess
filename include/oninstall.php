@@ -13,8 +13,8 @@
 /**
  * @copyright     {@link https://xoops.org/ XOOPS Project}
  * @license       {@link http://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
- * @package
- * @since
+ * @package      Chess
+ * @since        2.01
  * @author        XOOPS Development Team
  */
 
@@ -24,7 +24,7 @@
  *
  * @return bool true if ready to install, false if not
  */
-function xoops_module_pre_install_xxxx(\XoopsModule $module)
+function xoops_module_pre_install_chess(\XoopsModule $module)
 {
     //    require  dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -57,7 +57,7 @@ function xoops_module_pre_install_xxxx(\XoopsModule $module)
  *
  * @return bool true if installation successful, false if not
  */
-function xoops_module_install_xxxx(\XoopsModule $module)
+function xoops_module_install_chess(\XoopsModule $module)
 {
     require_once dirname(__DIR__) . '/preloads/autoloader.php';
 

@@ -155,3 +155,5 @@ define('_MI_CHESS_GAMES_TABLE_4', ' ... Bitte die Fehler für diese Tabelle korr
 define('_MI_CHESS_UPDATING_DATABASE', 'Aktualisiere Datenbank-Tabellen ...');
 define('_MI_CHESS_INIT_RATINGS_TABLE', 'Initialisiere Bewertungstabellen ...');
 define('_MI_CHESS_UPDATE_SUCCESSFUL', 'Update erfolgreich abgeschlossen.');
+
+/**#@-*/

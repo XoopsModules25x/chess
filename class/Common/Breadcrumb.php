@@ -31,7 +31,7 @@ namespace XoopsModules\Chess\Common;
 use XoopsModules\Chess;
 use XoopsModules\Chess\Common;
 
-\defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
+//\defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
 
 /**
  * Class Breadcrumb
@@ -43,7 +43,7 @@ class Breadcrumb
 
     public function __construct()
     {
-        $this->dirname = \basename(\dirname(\dirname(__DIR__)));
+        $this->dirname = \basename(dirname(__DIR__, 2));
     }
 
     /**
@@ -65,6 +65,13 @@ class Breadcrumb
      */
     public function render()
     {
+        /*
+        TODO if you want to use the render code below,
+        1) create ./templates/chess_common_breadcrumb.tpl)
+        2) add declaration to  xoops_version.php
+        */
+
+        /*
         if (!isset($GLOBALS['xoTheme']) || !\is_object($GLOBALS['xoTheme'])) {
             require $GLOBALS['xoops']->path('class/theme.php');
 
@@ -82,5 +89,6 @@ class Breadcrumb
         unset($breadcrumbTpl);
 
         return $html;
+        */
     }
 }

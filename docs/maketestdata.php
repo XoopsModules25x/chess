@@ -36,7 +36,7 @@ function perform()
 
     $ratings_table = 'chess_ratings';
 
-    @mysql_connect(DBHOST, DBUSER, DBPASS) or trigger_error('[' . $GLOBALS['xoopsDB']->errno() . '] ' . $GLOBALS['xoopsDB']->error(), E_USER_ERROR);
+    mysqli_connect(DBHOST, DBUSER, DBPASS) or trigger_error('[' . $GLOBALS['xoopsDB']->errno() . '] ' . $GLOBALS['xoopsDB']->error(), E_USER_ERROR);
 
     mysqli_select_db($GLOBALS['xoopsDB']->conn, DBNAME) or trigger_error('[' . $GLOBALS['xoopsDB']->errno() . '] ' . $GLOBALS['xoopsDB']->error(), E_USER_ERROR);
 

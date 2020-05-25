@@ -46,3 +46,5 @@ define('_AM_CHESS_NO_CHALLENGES', 'No challenges');
 
 define('_AM_CHESS_UNKNOWN_USER', '*unknown*');
 define('_AM_CHESS_ERROR', '*error*');
+
+/**#@-*/

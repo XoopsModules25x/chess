@@ -40,7 +40,7 @@ use XoopsModules\Chess;
 
 /**#@+
  */
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
 $GLOBALS['xoopsOption']['template_main']                  = 'chess_game_main.tpl';
@@ -960,10 +960,9 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
         $expanded_row = preg_replace_callback(
             '/(\d)/',
 
-            create_function(
-                '$matches',
-                'return str_repeat(\'x\', $matches[1]);'
-            ),
+            function ($matches) {
+                return str_repeat('x', $matches[1]);
+            },
             $rank
         );
 

@@ -122,7 +122,7 @@ function b_chess_games_show($options)
 
     $memberHandler = xoops_getHandler('member');
 
-    $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+    $criteria = new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
 
     $usernames = $memberHandler->getUserList($criteria);
 
@@ -217,7 +217,7 @@ function b_chess_challenges_show($options)
 
     $memberHandler = xoops_getHandler('member');
 
-    $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+    $criteria = new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
 
     $usernames = $memberHandler->getUserList($criteria);
 
@@ -327,7 +327,7 @@ function b_chess_players_show($options)
     if (!empty($userids)) {
         $memberHandler = xoops_getHandler('member');
 
-        $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+        $criteria = new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
 
         $usernames = $memberHandler->getUserList($criteria);
     }

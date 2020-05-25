@@ -15,8 +15,8 @@ namespace XoopsModules\Chess;
 /**
  * @copyright    XOOPS Project https://xoops.org/
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
+ * @package      Chess
+ * @since        2.01
  * @author       XOOPS Development Team
  */
 //defined('XOOPS_ROOT_PATH') || die('Restricted access');

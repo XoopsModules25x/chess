@@ -17,9 +17,8 @@ namespace XoopsModules\Chess\Common;
  *
  * @copyright      2000-2020 XOOPS Project (https://xoops.org)
  * @license        GPL 2.0 or later
- * @package        XOOPS common
- * @since          1.0
- * @min_xoops      2.5.9
+ * @package      Chess
+ * @since        2.01
  * @author         Goffy - Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
  */
 class Resizer

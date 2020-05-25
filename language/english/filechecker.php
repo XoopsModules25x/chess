@@ -10,6 +10,10 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+/**#@+
+ * @ignore
+ */
+
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE', "<span style='color: green;'>Available</span>");
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE', "<span style='color: red;'>Not available</span>");
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTWRITABLE', "<span style='color: red;'>Should have permission ( %d ), but it has ( %d )</span>");
@@ -20,3 +24,5 @@ define('CO_' . $moduleDirNameUpper . '_' . 'FC_FILECOPIED', 'The file has been c
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_FILENOTCOPIED', 'The file cannot be copied');
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_PERMSET', 'The permission has been set');
 define('CO_' . $moduleDirNameUpper . '_' . 'FC_PERMNOTSET', 'The permission cannot be set');
+
+/**#@-*/

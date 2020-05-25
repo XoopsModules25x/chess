@@ -35,7 +35,7 @@
 
 /**#@+
  */
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
+require_once dirname(__DIR__, 2) . '/mainfile.php';
 require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once XOOPS_ROOT_PATH . '/modules/chess/include/constants.inc.php';
@@ -292,7 +292,7 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 
     $memberHandler = xoops_getHandler('member');
 
-    $criteria = new Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
+    $criteria = new \Criteria('uid', '(' . implode(',', array_keys($userids)) . ')', 'IN');
 
     $usernames = $memberHandler->getUserList($criteria);
 

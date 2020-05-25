@@ -299,3 +299,5 @@ define('_MD_CHESS_SHOW_EXCEPT_SELFPLAY', 'Show all games except self-play');
 define('_MD_CHESS_SHOW_RATED_ONLY', 'Show rated games only');
 define('_MD_CHESS_PLAYER_NOT_FOUND', 'No game information found for player.');
 define('_MD_CHESS_VIEW_PROFILE', 'View player\'s profile');
+
+/**#@-*/
