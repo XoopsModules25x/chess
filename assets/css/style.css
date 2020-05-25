@@ -11,11 +11,11 @@ td.chessWhitetile {background-image: url(<{$smarty.const.XOOPS_URL}>/modules/che
 td.chessBlacktile {background-image: url(<{$smarty.const.XOOPS_URL}>/modules/chess/assets/images/wcg/b_square.jpg);}
 ***/
 td.chessWhitetile {
-    background-image: url(../assets/images/wcg/w_square.jpg);
+    background-image: url(../images/wcg/w_square.jpg);
 }
 
 td.chessBlacktile {
-    background-image: url(../assets/images/wcg/b_square.jpg);
+    background-image: url(../images/wcg/b_square.jpg);
 }
 
 td.chessLabel {
