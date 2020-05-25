@@ -55,25 +55,21 @@ require_once XOOPS_ROOT_PATH . '/modules/chess/include/functions.php';
 
     // ----------
 
-    // offset of first row of challenges table to display (default to 0)
-
-    $cstart = (int)($_POST['cstart'] ?? @$_GET['cstart']);
-
-    // offset of first row of games table to display (default to 0)
-
-    $gstart = (int)($_POST['gstart'] ?? @$_GET['gstart']);
-
-    // challenges display option
-
-    $cshow = (int)($_POST['cshow'] ?? @$_GET['cshow']);
-
-    // games display option 1
-
-    $gshow1 = (int)($_POST['gshow1'] ?? @$_GET['gshow1']);
-
-    // games display option 2
-
-    $gshow2 = (int)($_POST['gshow2'] ?? @$_GET['gshow2']);
+// offset of first row of challenges table to display (default to 0)
+$cstart = Request::getInt('cstart', 0);
+//$cstart = intval(isset($_POST['cstart']) ? $_POST['cstart'] : @$_GET['cstart']);
+// offset of first row of games table to display (default to 0)
+$gstart = Request::getInt('gstart', 0);
+//$gstart = intval(isset($_POST['gstart']) ? $_POST['gstart'] : @$_GET['gstart']);
+// challenges display option
+$cshow = Request::getInt('cshow', 0);
+//$cshow  = intval(isset($_POST['cshow'])  ? $_POST['cshow']  : @$_GET['cshow']);
+// games display option 1
+$gshow1 = Request::getInt('gshow1', 0);
+//$gshow1 = intval(isset($_POST['gshow1']) ? $_POST['gshow1'] : @$_GET['gshow1']);
+// games display option 2
+$gshow2 = Request::getInt('gshow2', 0);
+//$gshow2 = intval(isset($_POST['gshow2']) ? $_POST['gshow2'] : @$_GET['gshow2']);
 
     // set show-options to default if undefined
 
