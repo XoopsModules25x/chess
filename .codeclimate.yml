@@ -1,0 +1,39 @@
+version: "2"
+plugins:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - javascript
+        - php
+  fixme:
+    enabled: true
+  phpmd:
+    enabled: true
+    config:
+      file_extensions:
+        - php
+        - inc
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php,inc,lib"
+      standard: "PSR1,PSR2, PSR12"
+  sonar-php:
+    enabled: true
+plugins:
+  phan:
+    enabled: true
+    config:
+      file_extensions: "php"
+ratings:
+  paths:
+    - "**.inc"
+    - "**.js"
+    - "**.lib"
+    - "**.php"
+exclude_paths: []

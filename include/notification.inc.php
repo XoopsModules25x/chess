@@ -1,9 +1,10 @@
 <?php
+
 // $Id$
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -28,7 +29,7 @@
 /**
  * Required file for supporting notification feature
  *
- * @package chess
+ * @package    chess
  * @subpackage notification
  */
 
@@ -39,65 +40,74 @@
 // but not when viewing the notifications page via notifications.php.
 global $xoopsConfig;
 if (file_exists(XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php")) {
-	include_once XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php";
+    require_once XOOPS_ROOT_PATH . "/modules/chess/language/{$xoopsConfig['language']}/main.php";
 } else {
-	include_once XOOPS_ROOT_PATH . '/modules/chess/language/english/main.php';
+    require_once XOOPS_ROOT_PATH . '/modules/chess/language/english/main.php';
 }
 /**#@-*/
 
 /**
  * Get name and URL of notification item.
  *
- * @param string $category  Notification category
- * @param int    $item_id   ID of item for which notification is being made
+ * @param string $category Notification category
+ * @param int    $item_id  ID of item for which notification is being made
  * @return array  Array containing two elements:
- *  - Name of item
- *  - URL of item
+ *                         - Name of item
+ *                         - URL of item
  */
 function chess_notify_item_info($category, $item_id)
 {
-	if ($category == 'global') {
+    if ('global' == $category) {
+        $item['name'] = 'Chess';
 
-		$item['name'] = 'Chess';
-		$item['url']  = XOOPS_URL . '/modules/chess/';
-		return $item;
+        $item['url'] = XOOPS_URL . '/modules/chess/';
 
-	} elseif ($category == 'game') {
+        return $item;
+    } elseif ('game' == $category) {
+        global $xoopsDB;
 
-		global $xoopsDB;
+        $table = $xoopsDB->prefix('chess_games');
 
-		$table  = $xoopsDB->prefix('chess_games');
-		$result = $xoopsDB->query(trim("
-			SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
-			FROM   $table
-			WHERE  game_id = '$item_id'
-		"));
-		$gamedata = $xoopsDB->fetchArray($result);
-		$xoopsDB->freeRecordSet($result);
+        $result = $xoopsDB->query(
+            trim(
+                "
+            SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
+            FROM   $table
+            WHERE  game_id = '$item_id'
+        "
+            )
+        );
 
-	 	if ($gamedata !== false) {
+        $gamedata = $xoopsDB->fetchArray($result);
 
-			// get mapping of user IDs to usernames
-			$criteria       =  new Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
-			$member_handler =& xoops_gethandler('member');
-			$usernames      =  $member_handler->getUserList($criteria);
+        $xoopsDB->freeRecordSet($result);
 
-			$username_white =  isset($usernames[$gamedata['white_uid']]) ? $usernames[$gamedata['white_uid']] : _MD_CHESS_NA;
-			$username_black =  isset($usernames[$gamedata['black_uid']]) ? $usernames[$gamedata['black_uid']] : _MD_CHESS_NA;
+        if (false !== $gamedata) {
+            // get mapping of user IDs to usernames
 
-			$date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : _MD_CHESS_NA;
+            $criteria = new \Criteria('uid', "({$gamedata['white_uid']}, {$gamedata['black_uid']})", 'IN');
 
-		} else {
+            $memberHandler = xoops_getHandler('member');
 
-			$username_white = _MD_CHESS_NA;
-			$username_black = _MD_CHESS_NA;
-			$date           = _MD_CHESS_NA;
-		}
+            $usernames = $memberHandler->getUserList($criteria);
 
-		$item['name'] = "$username_white " ._MD_CHESS_LABEL_VS. " $username_black ($date)";
-		$item['url']  = XOOPS_URL . '/modules/chess/game.php?game_id=' . $item_id;
-		return $item;
-	}
+            $username_white = $usernames[$gamedata['white_uid']] ?? _MD_CHESS_NA;
+
+            $username_black = $usernames[$gamedata['black_uid']] ?? _MD_CHESS_NA;
+
+            $date = $gamedata['start_date'] ? date('Y.m.d', $gamedata['start_date']) : _MD_CHESS_NA;
+        } else {
+            $username_white = _MD_CHESS_NA;
+
+            $username_black = _MD_CHESS_NA;
+
+            $date = _MD_CHESS_NA;
+        }
+
+        $item['name'] = "$username_white " . _MD_CHESS_LABEL_VS . " $username_black ($date)";
+
+        $item['url'] = XOOPS_URL . '/modules/chess/game.php?game_id=' . $item_id;
+
+        return $item;
+    }
 }
-
-?>

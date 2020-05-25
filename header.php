@@ -1,8 +1,9 @@
 <?php
+
 //  ------------------------------------------------------------------------ //
 //                XOOPS - PHP Content Management System                      //
 //                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
+//                       <https://xoops.org>                             //
 //  ------------------------------------------------------------------------ //
 //  This program is free software; you can redistribute it and/or modify     //
 //  it under the terms of the GNU General Public License as published by     //
@@ -27,13 +28,14 @@
 /**
  * Required file
  *
- * @package chess
+ * @package    chess
  * @subpackage miscellaneous
  */
 
 /**#@+
  */
-require('../../mainfile.php');
-/**#@-*/
 
-?>
+include __DIR__ . '/preloads/autoloader.php';
+
+require dirname(__DIR__, 2) . '/mainfile.php';
+require XOOPS_ROOT_PATH . '/header.php';

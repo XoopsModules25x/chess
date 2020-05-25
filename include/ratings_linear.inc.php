@@ -23,39 +23,39 @@
 /**
  * Ratings functions specific to Linear rating system.
  *
- * @package chess
+ * @package    chess
  * @subpackage ratings
  */
 
 /**
  * Update the players' ratings for an individual game, using the Linear rating system.
  *
- * @param int    $white_rating  White's current rating
- * @param int    $white_games   Number of rated games that white has played
- * @param int    $black_rating  Black's current rating
- * @param int    $black_games   Number of rated games that black has played
- * @param string $pgn_result    Game result: '1-0' (white won), '0-1' (black won) or '1/2-1/2' (draw)
+ * @param int    $white_rating White's current rating
+ * @param int    $white_games  Number of rated games that white has played
+ * @param int    $black_rating Black's current rating
+ * @param int    $black_games  Number of rated games that black has played
+ * @param string $pgn_result   Game result: '1-0' (white won), '0-1' (black won) or '1/2-1/2' (draw)
  * @return array  Array with two elements:
- *  - $white_rating_new - white's new rating
- *  - $black_rating_new - black's new rating
+ *                             - $white_rating_new - white's new rating
+ *                             - $black_rating_new - black's new rating
  */
 function chess_ratings_adj_linear($white_rating, $white_games, $black_rating, $black_games, $pgn_result)
 {
-	// compute score: +1 for win, 0 for draw, -1 for loss
-	switch($pgn_result) {
-		case '1-0':
-			$S = 1;
-			break;
-		case '1/2-1/2':
-		default: // should not occur
-			$S = 0;
-			break;
-		case '0-1':
-			$S = -1;
-			break;
-	}
+    // compute score: +1 for win, 0 for draw, -1 for loss
+    switch ($pgn_result) {
+        case '1-0':
+            $S = 1;
+            break;
+        case '1/2-1/2':
+        default: // should not occur
+            $S = 0;
+            break;
+        case '0-1':
+            $S = -1;
+            break;
+    }
 
-	return array($white_rating + $S * 10, $black_rating - $S * 10);
+    return [$white_rating + $S * 10, $black_rating - $S * 10];
 }
 
 /**
@@ -65,7 +65,7 @@ function chess_ratings_adj_linear($white_rating, $white_games, $black_rating, $b
  */
 function chess_ratings_num_provisional_games_linear()
 {
-	return 2;
+    return 2;
 }
 
 ?>

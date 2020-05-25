@@ -12,7 +12,7 @@ Bitte nicht auf diese Mail antworten.
 
 -----------
 
-{X_SITENAME} ({X_SITEURL}) 
+{X_SITENAME} ({X_SITEURL})
 webmaster
 {X_ADMINMAIL}
 
