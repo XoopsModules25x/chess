@@ -1069,13 +1069,13 @@ class ChessGame
         if ($move[\mb_strlen($move) - 1] >= 'A' && $move[\mb_strlen($move) - 1] <= 'Z') {
             $pawn_upg = $move[\mb_strlen($move) - 1];
 
-            $move = \mb_substr($move, 0, \mb_strlen($move) - 1);
+            $move = \mb_substr($move, 0, -1);
         }
 
         // remove trailing '=', if present
 
         if ('=' == $move[mb_strlen($move) - 1]) {
-            $move = \mb_substr($move, 0, \mb_strlen($move) - 1);
+            $move = \mb_substr($move, 0, -1);
         }
 
         if ('P' == $pawn_upg || 'K' == $pawn_upg) {
