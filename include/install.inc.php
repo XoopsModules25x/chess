@@ -126,7 +126,7 @@ function xoops_module_pre_update_chess($module, $oldversion)
  * @param int    $oldversion Old version number of module
  * @return bool                True if update succeeded, otherwise false
  */
-function xoops_module_update_chess(&$module, $oldversion)
+function xoops_module_update_chess($module, $oldversion)
 {
     global $xoopsDB;
 
