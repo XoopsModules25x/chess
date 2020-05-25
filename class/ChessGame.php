@@ -2144,7 +2144,7 @@ class ChessGame
 
         // Then replace each string of x's with the string length.
 
-        $this->gamestate['fen_piece_placement'] = \\preg_replace_callback('/(x+)/', static static function($matches) {return \\strlen($matches[1]);}, \\implode('/', $rows));
+        $this->gamestate['fen_piece_placement'] = \preg_replace_callback('/(x+)/', static function($matches) {return \strlen($matches[1]);}, \implode('/', $rows));
     }
 
     /**
