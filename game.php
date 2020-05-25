@@ -960,7 +960,7 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
         $expanded_row = preg_replace_callback(
             '/(\d)/',
 
-            function ($matches) {
+            static function ($matches) {
                 return str_repeat('x', $matches[1]);
             },
             $rank
