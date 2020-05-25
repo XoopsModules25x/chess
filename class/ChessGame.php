@@ -335,11 +335,11 @@ class ChessGame
             #echo "path: $pos: '$this->board[$pos]' "; #*#DEBUG#
 
             if (!$this->is_empty_tile($pos)) {
-                return 0;
+                return false;
             }
         }
 
-        return 1;
+        return true;
     }
 
     /**
@@ -573,23 +573,23 @@ class ChessGame
     {
         if ('w' == $this->board[$fig_pos][0]) {
             if ($fig_pos % 8 > 0 && $dest_pos == $fig_pos + 7) {
-                return 1;
+                return true;
             }
 
             if ($fig_pos % 8 < 7 && $dest_pos == $fig_pos + 9) {
-                return 1;
+                return true;
             }
         } elseif ('b' == $this->board[$fig_pos][0]) {
             if ($fig_pos % 8 < 7 && $dest_pos == $fig_pos - 7) {
-                return 1;
+                return true;
             }
 
             if ($fig_pos % 8 > 0 && $dest_pos == $fig_pos - 9) {
-                return 1;
+                return true;
             }
         }
 
-        return 0;
+        return false;
     }
 
     /**
@@ -616,12 +616,12 @@ class ChessGame
             }
 
             if ($dest_pos == $fig_pos + 8) {
-                return 1;
+                return true;
             }
 
             if ($first_move && ($dest_pos == $fig_pos + 16)) {
                 if ($this->is_empty_tile($fig_pos + 8)) {
-                    return 1;
+                    return true;
                 }
             }
         } elseif ('b' == $this->board[$fig_pos][0]) {
@@ -630,17 +630,17 @@ class ChessGame
             }
 
             if ($dest_pos == $fig_pos - 8) {
-                return 1;
+                return true;
             }
 
             if ($first_move && ($dest_pos == $fig_pos - 16)) {
                 if ($this->is_empty_tile($fig_pos - 8)) {
-                    return 1;
+                    return true;
                 }
             }
         }
 
-        return 0;
+        return false;
     }
 
     /**
@@ -663,12 +663,12 @@ class ChessGame
                         && $this->tileIsReachable($this->board[$i][1], $i, $dest_pos))) {
                     /*DEBUG: echo "attack test: $i: ",$opp,"P<br>"; */
 
-                    return 1;
+                    return true;
                 }
             }
         }
 
-        return 0;
+        return false;
     }
 
     /**
@@ -739,7 +739,7 @@ class ChessGame
 
             $this->board[$king_pos] = $contents;
 
-            return 0;
+            return false;
         }
 
         $this->board[$king_pos] = $contents;
@@ -770,7 +770,7 @@ class ChessGame
         /* if more than one there is no chance to escape */
 
         if ($count > 1) {
-            return 1;
+            return true;
         }
 
         /* check whether attacker can be killed by own figure */
@@ -808,7 +808,7 @@ class ChessGame
                     if ($can_kill_atk) {
                         /* DEBUG: echo "$i can kill attacker"; */
 
-                        return 0;
+                        return false;
                     }
                 }
             }
@@ -820,7 +820,7 @@ class ChessGame
          * is no way to block the path */
 
         if ('N' == $this->board[$dest_pos][1]) {
-            return 1;
+            return true;
         }
 
         /* if enemy is adjacent to king there is no
@@ -831,7 +831,7 @@ class ChessGame
         $dest_y = \floor($dest_pos / 8);
 
         if (\abs($dest_x - $king_x) <= 1 && \abs($dest_y - $king_y) <= 1) {
-            return 1;
+            return true;
         }
 
         /* get the list of tiles between king and attacking
@@ -853,13 +853,13 @@ class ChessGame
                             && $this->tileIsReachable($this->board[$i][1], $i, $pos))) {
                         /* DEBUG: echo "$i can block "; */
 
-                        return 0;
+                        return false;
                     }
                 }
             }
         }
 
-        return 1;
+        return true;
     }
 
     /**
@@ -889,104 +889,104 @@ class ChessGame
                                 continue;
                             }
 
-                            return 0;
+                            return false;
                         }
                         /* DEBUG:  echo "King cannot escape by itself! "; */
                         break;
                     case 'P':
                         if ('w' == $player) {
                             if ($this->is_empty_tile($i + 8)) {
-                                return 0;
+                                return false;
                             }
 
                             if ($i % 8 > 0 && $this->board[$i + 7][0] != $player) {
-                                return 0;
+                                return false;
                             }
 
                             if ($i % 8 < 7 && $this->board[$i + 9][0] != $player) {
-                                return 0;
+                                return false;
                             }
                         } else {
                             if ($this->is_empty_tile($i - 8)) {
-                                return 0;
+                                return false;
                             }
 
                             if ($i % 8 > 0 && $this->board[$i - 9][0] != $player) {
-                                return 0;
+                                return false;
                             }
 
                             if ($i % 8 < 7 && $this->board[$i - 7][0] != $player) {
-                                return 0;
+                                return false;
                             }
                         }
                         break;
                     case 'B':
                         if ($i - 9 >= 0 && $this->board[$i - 9][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i - 7 >= 0 && $this->board[$i - 7][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 9 <= 63 && $this->board[$i + 9][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 7 <= 63 && $this->board[$i + 7][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         break;
                     case 'R':
                         if ($i - 8 >= 0 && $this->board[$i - 8][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i - 1 >= 0 && $this->board[$i - 1][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 8 <= 63 && $this->board[$i + 8][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 1 <= 63 && $this->board[$i + 1][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         break;
                     case 'Q':
                         $adj_tiles = $this->getAdjTiles($i);
                         foreach ($adj_tiles as $pos) {
                             if ($this->board[$pos][0] != $player) {
-                                return 0;
+                                return false;
                             }
                         }
                         break;
                     case 'N':
                         if ($i - 17 >= 0 && $this->board[$i - 17][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i - 15 >= 0 && $this->board[$i - 15][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i - 6 >= 0 && $this->board[$i - 6][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 10 <= 63 && $this->board[$i + 10][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 17 <= 63 && $this->board[$i + 17][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 15 <= 63 && $this->board[$i + 15][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i + 6 <= 63 && $this->board[$i + 6][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         if ($i - 10 >= 0 && $this->board[$i - 10][0] != $player) {
-                            return 0;
+                            return false;
                         }
                         break;
                 }
             }
         }
 
-        return 1;
+        return true;
     }
 
     /**
