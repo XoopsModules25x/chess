@@ -475,9 +475,9 @@ class ChessGame
                 $change = 8;
             }
             if ($dx < $fx) {
-                $change -= 1;
+                --$change;
             } else {
-                $change += 1;
+                ++$change;
             }
             if ($this->pathIsNotBlocked($fig_pos + $change, $dest_pos, $change)) {
                 $result = 1;
@@ -516,9 +516,9 @@ class ChessGame
                 }
 
                 if ($dx < $fx) {
-                    $change -= 1;
+                    --$change;
                 } else {
-                    $change += 1;
+                    ++$change;
                 }
             } elseif ($fx == $dx) {
                 if ($dy < $fy) {
