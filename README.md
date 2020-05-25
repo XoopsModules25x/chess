@@ -7,6 +7,7 @@
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e741bfbfda054a728eadae5e2d137641)](https://www.codacy.com/manual/XOOPS/chess?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mambax7/chess&amp;utm_campaign=Badge_Grade)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/2d24dbc92a1ea323f43e/test_coverage)](https://codeclimate.com/github/mambax7/chess/test_coverage)
 [![SymfonyInsight](https://insight.symfony.com/projects/67dff878-c997-4264-a709-7dede15759d6/mini.svg)](https://insight.symfony.com/projects/67dff878-c997-4264-a709-7dede15759d6)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mambax7_chess&metric=alert_status)](https://sonarcloud.io/dashboard?id=mambax7_chess)
 [![Latest Pre-Release](https://img.shields.io/github/tag/XoopsModules25x/chess.svg?style=flat)](https://github.com/XoopsModules25x/chess/tags/)
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/chess.svg?style=flat)](https://github.com/XoopsModules25x/chess/releases/)
 
