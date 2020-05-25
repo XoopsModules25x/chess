@@ -459,10 +459,10 @@ function chess_show_accept_form($challenge_id)
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT game_type, fen, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) as create_date, is_rated
-		FROM   $challenges_table
-		WHERE  challenge_id = '$challenge_id'
-	"
+        SELECT game_type, fen, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) as create_date, is_rated
+        FROM   $challenges_table
+        WHERE  challenge_id = '$challenge_id'
+    "
         )
     );
 
@@ -589,10 +589,10 @@ function chess_show_delete_form($challenge_id, $show_arbiter_ctrl, $error_msg = 
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT game_type, fen, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) as create_date, is_rated
-		FROM   $challenges_table
-		WHERE  challenge_id = '$challenge_id'
-	"
+        SELECT game_type, fen, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) as create_date, is_rated
+        FROM   $challenges_table
+        WHERE  challenge_id = '$challenge_id'
+    "
         )
     );
 
@@ -709,10 +709,10 @@ function chess_accept_challenge($challenge_id, $coloroption, $notify_move_player
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT game_type, fen, color_option, notify_move_player1, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) as create_date, is_rated
-		FROM   $challenges_table
-		WHERE  challenge_id = '$challenge_id'
-	"
+        SELECT game_type, fen, color_option, notify_move_player1, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) as create_date, is_rated
+        FROM   $challenges_table
+        WHERE  challenge_id = '$challenge_id'
+    "
         )
     );
 
@@ -859,17 +859,17 @@ function chess_create_challenge($gametype, $fen, $coloroption, $rated, $notify_a
     $xoopsDB->query(
         trim(
             "
-		INSERT INTO $table
-		SET
-			game_type           = '$gametype',
-			fen                 = '$fen_q',
-			color_option        = '$coloroption',
-			notify_move_player1 = '$notify_move_player1',
-			player1_uid         = '$uid',
-			player2_uid         = '$opponent_uid',
-			create_date         = NOW(),
-			is_rated            = '$rated'
-	"
+        INSERT INTO $table
+        SET
+            game_type           = '$gametype',
+            fen                 = '$fen_q',
+            color_option        = '$coloroption',
+            notify_move_player1 = '$notify_move_player1',
+            player1_uid         = '$uid',
+            player2_uid         = '$opponent_uid',
+            create_date         = NOW(),
+            is_rated            = '$rated'
+    "
         )
     );
 
@@ -960,24 +960,24 @@ function chess_create_game($white_uid, $black_uid, $fen, $rated, $notify_move_pl
     $xoopsDB->query(
         trim(
             "
-		INSERT INTO $table
-		SET
-			white_uid                    = '$white_uid',
-			black_uid                    = '$black_uid',
-			create_date                  = NOW(),
-			start_date                   = '0000-00-00 00:00:00',
-			last_date                    = '0000-00-00 00:00:00',
-			fen_piece_placement          = '{$gamestate['fen_piece_placement']}',
-			fen_active_color             = '{$gamestate['fen_active_color']}',
-			fen_castling_availability    = '{$gamestate['fen_castling_availability']}',
-			fen_en_passant_target_square = '{$gamestate['fen_en_passant_target_square']}',
-			fen_halfmove_clock           = '{$gamestate['fen_halfmove_clock']}',
-			fen_fullmove_number          = '{$gamestate['fen_fullmove_number']}',
-			pgn_fen                      = '$fen_q',
-			pgn_result                   = '{$gamestate['pgn_result']}',
-			pgn_movetext                 = '{$gamestate['pgn_movetext']}',
-			is_rated                     = '$rated'
-	"
+        INSERT INTO $table
+        SET
+            white_uid                    = '$white_uid',
+            black_uid                    = '$black_uid',
+            create_date                  = NOW(),
+            start_date                   = '0000-00-00 00:00:00',
+            last_date                    = '0000-00-00 00:00:00',
+            fen_piece_placement          = '{$gamestate['fen_piece_placement']}',
+            fen_active_color             = '{$gamestate['fen_active_color']}',
+            fen_castling_availability    = '{$gamestate['fen_castling_availability']}',
+            fen_en_passant_target_square = '{$gamestate['fen_en_passant_target_square']}',
+            fen_halfmove_clock           = '{$gamestate['fen_halfmove_clock']}',
+            fen_fullmove_number          = '{$gamestate['fen_fullmove_number']}',
+            pgn_fen                      = '$fen_q',
+            pgn_result                   = '{$gamestate['pgn_result']}',
+            pgn_movetext                 = '{$gamestate['pgn_movetext']}',
+            is_rated                     = '$rated'
+    "
         )
     );
 

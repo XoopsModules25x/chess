@@ -220,13 +220,13 @@
                         <{* textarea tag not part of a form, only used for display purposes, and to allow easy copying *}>
                         <{strip}>
                         <textarea name="fen_display" rows="1" cols="40">
-					<{$chess_gamedata.fen_piece_placement}>&nbsp;
-					<{$chess_gamedata.fen_active_color}>&nbsp;
-					<{$chess_gamedata.fen_castling_availability}>&nbsp;
-					<{$chess_gamedata.fen_en_passant_target_square}>&nbsp;
-					<{$chess_gamedata.fen_halfmove_clock}>&nbsp;
-					<{$chess_gamedata.fen_fullmove_number}>
-				</textarea>
+                    <{$chess_gamedata.fen_piece_placement}>&nbsp;
+                    <{$chess_gamedata.fen_active_color}>&nbsp;
+                    <{$chess_gamedata.fen_castling_availability}>&nbsp;
+                    <{$chess_gamedata.fen_en_passant_target_square}>&nbsp;
+                    <{$chess_gamedata.fen_halfmove_clock}>&nbsp;
+                    <{$chess_gamedata.fen_fullmove_number}>
+                </textarea>
                         <{/strip}>
                     </td>
                 </tr>

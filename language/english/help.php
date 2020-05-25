@@ -56,7 +56,7 @@ A <em>self-play</em> game may be created if you wish to experiment with this sof
 define(
     '_HE_CHESS_CREATE_030',
     '
-	You may optionally provide an initial board setup position using Forsyth-Edwards Notation (FEN).
+    You may optionally provide an initial board setup position using Forsyth-Edwards Notation (FEN).
 '
 );
 
@@ -72,7 +72,7 @@ or you may choose a specific color.
 define(
     '_HE_CHESS_CREATE_050',
     '
-	You may specify whether the game will be rated.
+    You may specify whether the game will be rated.
 '
 );
 
@@ -98,14 +98,14 @@ define('_HE_CHESS_RATINGS_TITLE', 'Player rating system');
 define(
     '_HE_CHESS_RATINGS_CXR',
     '
-	CXR - An adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
+    CXR - An adaptation of the ELO rating system, used by permission of <a target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</a>
 '
 );
 
 define(
     '_HE_CHESS_RATINGS_LINEAR',
     '
-	Linear - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
+    Linear - A very simple system that adds (subtracts) a fixed number of points for a win (loss).
 '
 );
 

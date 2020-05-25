@@ -122,9 +122,9 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     $result = $xoopsDB->query(
         "
-		SELECT    COUNT(*)
-		FROM      $ratings_table AS p
-	"
+        SELECT    COUNT(*)
+        FROM      $ratings_table AS p
+    "
     );
 
     [$num_items] = $xoopsDB->fetchRow($result);
@@ -135,11 +135,11 @@ function chess_ratings($start = 0, $msg = '', $msg_class = 'errorMsg')
 
     $result = $xoopsDB->query(
         "
-		SELECT    player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
-		FROM      $ratings_table
-		ORDER BY  rating DESC, player_uid ASC
-		LIMIT     $start, $max_items_to_display
-	"
+        SELECT    player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
+        FROM      $ratings_table
+        ORDER BY  rating DESC, player_uid ASC
+        LIMIT     $start, $max_items_to_display
+    "
     );
 
     // user IDs that will require mapping to usernames

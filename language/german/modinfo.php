@@ -19,9 +19,9 @@ define('_MI_CHESS_DES', 'Ermöglicht den Benutzern, gegeneinander Schach zu spie
 define(
     '_MI_CHESS_CREDITS',
     '
-	Meiko Jensen (german language pack).
-	<br>
-	CXR Rating System used by permission of <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
+    Meiko Jensen (german language pack).
+    <br>
+    CXR Rating System used by permission of <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
 '
 );
 
@@ -70,36 +70,36 @@ define('_MI_CHESS_RATING_SYSTEM', 'Spielerbewertungssystem');
 define(
     '_MI_CHESS_RATING_SYSTEM_DES',
     '
-	Verfügbare Bewertungssysteme:
-	<br><br>
-	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_CXR . '    - Adaptation des ELO Bewertungssystem, Verwendung erlaubt durch <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
-	<br><br>
-	&nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_LINEAR . ' - Ein sehr einfaches System, das für jeden Sieg (Niederlage) eine feste Anzahl an Punkten addiert (abzieht).
-	<br><br>
-	Die Auswahl "' . _MI_CHESS_RATING_SYSTEM_NONE . '" schaltet das Bewertungssystem ab.
-	<br><br>
-	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >>
-	' . _MI_CHESS_SMNAME4 . ').
+    Verfügbare Bewertungssysteme:
+    <br><br>
+    &nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_CXR . '    - Adaptation des ELO Bewertungssystem, Verwendung erlaubt durch <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
+    <br><br>
+    &nbsp;&nbsp;' . _MI_CHESS_RATING_SYSTEM_LINEAR . ' - Ein sehr einfaches System, das für jeden Sieg (Niederlage) eine feste Anzahl an Punkten addiert (abzieht).
+    <br><br>
+    Die Auswahl "' . _MI_CHESS_RATING_SYSTEM_NONE . '" schaltet das Bewertungssystem ab.
+    <br><br>
+    Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >>
+    ' . _MI_CHESS_SMNAME4 . ').
 '
 );
 define('_MI_CHESS_INITIAL_RATING', 'Anfängliche Spielerbewertung');
 define(
     '_MI_CHESS_INITIAL_RATING_DES',
     '
-	Falls das "' . _MI_CHESS_RATING_SYSTEM_CXR . '" Bewertungssystem gewählt wird, sollte dieser Wert zwischen 800 und 2000 liegen.
-	<br><br>
-	Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
-	<br><br>
-	Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >> ' . _MI_CHESS_SMNAME4 . ').
+    Falls das "' . _MI_CHESS_RATING_SYSTEM_CXR . '" Bewertungssystem gewählt wird, sollte dieser Wert zwischen 800 und 2000 liegen.
+    <br><br>
+    Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
+    <br><br>
+    Nach Änderung dieser Auswahl sollten die Spielerbewertungen aktualisiert werden (unter Hauptmenü >> Schach >> ' . _MI_CHESS_SMNAME4 . ').
 '
 );
 define('_MI_CHESS_ALLOW_UNRATED', 'Unbewertete Partien erlauben?');
 define(
     '_MI_CHESS_ALLOW_UNRATED_DES',
     '
-	Darf ein Benutzer bei einer Herausforderung auswählen, daß diese Partie nicht in die Bewertung eingeht?
-	<br><br>
-	Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
+    Darf ein Benutzer bei einer Herausforderung auswählen, daß diese Partie nicht in die Bewertung eingeht?
+    <br><br>
+    Nur wirksam, falls ein Bewertungssystem ausgewählt wurde.
 '
 );
 

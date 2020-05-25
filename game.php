@@ -510,24 +510,24 @@ function chess_put_game($game_id, $gamedata)
     $xoopsDB->query(
         trim(
             "
-		UPDATE $table
-		SET
-			start_date                   = '{$gamedata['start_date']}',
-			last_date                    = '{$gamedata['last_date']}',
-			fen_piece_placement          = '{$gamedata['fen_piece_placement']}',
-			fen_active_color             = '{$gamedata['fen_active_color']}',
-			fen_castling_availability    = '{$gamedata['fen_castling_availability']}',
-			fen_en_passant_target_square = '{$gamedata['fen_en_passant_target_square']}',
-			fen_halfmove_clock           = '{$gamedata['fen_halfmove_clock']}',
-			fen_fullmove_number          = '{$gamedata['fen_fullmove_number']}',
-			pgn_result                   = '{$gamedata['pgn_result']}',
-			pgn_movetext                 = '$movetext_q',
-			offer_draw                   = '{$gamedata['offer_draw']}',
-			suspended                    = '$suspended_q',
-			white_confirm                = '{$gamedata['white_confirm']}',
-			black_confirm                = '{$gamedata['black_confirm']}'
-		WHERE  game_id = '$game_id'
-	"
+        UPDATE $table
+        SET
+            start_date                   = '{$gamedata['start_date']}',
+            last_date                    = '{$gamedata['last_date']}',
+            fen_piece_placement          = '{$gamedata['fen_piece_placement']}',
+            fen_active_color             = '{$gamedata['fen_active_color']}',
+            fen_castling_availability    = '{$gamedata['fen_castling_availability']}',
+            fen_en_passant_target_square = '{$gamedata['fen_en_passant_target_square']}',
+            fen_halfmove_clock           = '{$gamedata['fen_halfmove_clock']}',
+            fen_fullmove_number          = '{$gamedata['fen_fullmove_number']}',
+            pgn_result                   = '{$gamedata['pgn_result']}',
+            pgn_movetext                 = '$movetext_q',
+            offer_draw                   = '{$gamedata['offer_draw']}',
+            suspended                    = '$suspended_q',
+            white_confirm                = '{$gamedata['white_confirm']}',
+            black_confirm                = '{$gamedata['black_confirm']}'
+        WHERE  game_id = '$game_id'
+    "
         )
     );
 
@@ -606,7 +606,7 @@ function chess_move(&$gamedata, $move)
 
         #if ($new_gamestate['fen_castling_availability'] != $gamedata['fen_castling_availability']) {
 
-        #	echo "*** castling_availability changed from '{$gamedata['fen_castling_availability']}' to '{$new_gamestate['fen_castling_availability']}' ***<br>\n";
+        #    echo "*** castling_availability changed from '{$gamedata['fen_castling_availability']}' to '{$new_gamestate['fen_castling_availability']}' ***<br>\n";
 
         #}
 
@@ -917,8 +917,8 @@ function chess_show_board($gamedata, $orientation, $user_color, $move_performed,
     $xoopsTpl->assign(
         'xoops_module_header',
         '
-		<link rel="stylesheet" type="text/css" media="screen" href="' . XOOPS_URL . '/modules/chess/assets/css/style.css">
-	'
+        <link rel="stylesheet" type="text/css" media="screen" href="' . XOOPS_URL . '/modules/chess/assets/css/style.css">
+    '
     );
 
     $memberHandler = xoops_getHandler('member');

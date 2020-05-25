@@ -13,21 +13,21 @@ Need French translation.
 Investigate whether additional table indices should be added, e.g. players' user IDs.  Review all existing queries.
 Candidates for new indices:
  - chess_games (primary key = game_id)
-	suspended (first 19 bytes?) - admin/index.php, list suspended or active games
-	pgn_result - admin/index.php, list active games
-	create_date+start_date+last_date - admin/index.php, list active games
-	white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - blocks/blocks.php, list games
-	is_rated, white_uid, black_uid, pgn_result - include/functions.php, ratings calc
-	white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - index.php, list games
-	white_uid, black_uid, is_rated, create_date+start_date+last_date - player_stats.php, list games
+    suspended (first 19 bytes?) - admin/index.php, list suspended or active games
+    pgn_result - admin/index.php, list active games
+    create_date+start_date+last_date - admin/index.php, list active games
+    white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - blocks/blocks.php, list games
+    is_rated, white_uid, black_uid, pgn_result - include/functions.php, ratings calc
+    white_uid, black_uid, pgn_result, is_rated, create_date+start_date+last_date - index.php, list games
+    white_uid, black_uid, is_rated, create_date+start_date+last_date - player_stats.php, list games
  - chess_challenges (primary key = challenge_id)
-	create_date - admin/index.php, list challenges
-	game_type, create_date - blocks.php, list challenges
-	game_type, create_date - index.php, list challenges
-	player1_uid, player2_uid, is_rated, create_date - player_stats, list challenges
+    create_date - admin/index.php, list challenges
+    game_type, create_date - blocks.php, list challenges
+    game_type, create_date - index.php, list challenges
+    player1_uid, player2_uid, is_rated, create_date - player_stats, list challenges
  - chess_ratings (primary key = player_id)
-	games_won+games_lost+games_drawn, rating - blocks/blocks.php, list players
-	rating - player_stats.php, display player stats
+    games_won+games_lost+games_drawn, rating - blocks/blocks.php, list players
+    rating - player_stats.php, display player stats
 
 Investigate possible bug in 1.0.6 french translation: popup window to confirm draw fails to appear.
  - Reference: <http://dev.xoops.org/modules/xfmod/forum/forum.php?thread_id=1690&forum_id=299>
@@ -94,50 +94,50 @@ Do more testing of move-handling, including stalemate.
 
 Tests for XOOPS 2.0.13.2:
  1a) Do fresh install of 2.0.13.2 on localhost.
-	- /tmp/20051119_151511_chess1
+    - /tmp/20051119_151511_chess1
  1b) Add test users demo1 and demo2.
    - /tmp/20051119_152952_chess1
  1c) Install chess 1.0.6.
-	- /tmp/20051119_154337_chess1
+    - /tmp/20051119_154337_chess1
  1d) Add some data (import challenges and games tables from Dave-L.com). (chess106db.sql)
-	- /tmp/20051119_155056_chess1
+    - /tmp/20051119_155056_chess1
  1e) Upgrade chess to 1.0.7.
-	- /tmp/20051119_170228_chess1
+    - /tmp/20051119_170228_chess1
  1f) Do some testing.
-	- /tmp/20051119_170228_chess1
+    - /tmp/20051119_170228_chess1
  2a) Do fresh install of 2.0.13.2 on localhost.
-	- /tmp/20051119_151511_chess1
+    - /tmp/20051119_151511_chess1
  2b) Add test users demo1 and demo2.
    - /tmp/20051119_152952_chess1
  2c) Install chess 1.0.7.
-	- /tmp/20051119_170749_chess1
+    - /tmp/20051119_170749_chess1
 
 Repeat tests for XOOPS 2.2.3:
  1a) Do fresh install of 2.2.3 (xoops-2.2.3a-Final) on localhost.
-	- /tmp/20051113_203038_chess1
+    - /tmp/20051113_203038_chess1
  1b) Add test users demo1 and demo2.
    - /tmp/20051113_204513_chess1
  1c) Install chess 1.0.6.
 Notice [Xoops]: modifier xoops_format_date: missing 'timestamp' operand in file class/smarty/plugins/modifier.xoops_format_date.php line 39
 Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
 Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
-	- /tmp/20051113_210012_chess1
+    - /tmp/20051113_210012_chess1
  1d) Add some data (import challenges and games tables from Dave-L.com).
-	- /tmp/20051113_211532_chess1
+    - /tmp/20051113_211532_chess1
  1e) Upgrade chess to 1.0.7.
 Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
 Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
-	- /tmp/20051113_220239_chess1
+    - /tmp/20051113_220239_chess1
  1f) Do some testing.
-	- /tmp/20051113_221225_chess1
+    - /tmp/20051113_221225_chess1
  2a) Do fresh install of 2.2.3 (xoops-2.2.3a-Final) on localhost.
-	- /tmp/20051113_203038_chess1
+    - /tmp/20051113_203038_chess1
  2b) Add test users demo1 and demo2.
    - /tmp/20051113_204513_chess1
  2c) Install chess 1.0.7.
 Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_board.html" in file class/smarty/Smarty.class.php line 1084
 Warning [Xoops]: Smarty error: unable to read resource: "db:chess_game_prefsform.html" in file class/smarty/Smarty.class.php line 1084
-	- /tmp/20051113_221909_chess1
+    - /tmp/20051113_221909_chess1
 
 Need update script for database changes.
 
@@ -207,10 +207,10 @@ Rating system
  - ratings will be cached in a new table chess_players (player_id, rating_current, rating_initial)
  - cached ratings will be recomputed for the two participants in a game when the game concludes, or for all players using a new admin function.
  - new preference items:
-		rating_system: (select) rating system to use, includes choice "none" to disable ratings
-		provisional_games: (int) number of rated games that must be played before the normal rating system is used
-		initial_rating_default: (int)
-		unrated_game_player_choice: (yes/no) whether a challenger may create an unrated game
+        rating_system: (select) rating system to use, includes choice "none" to disable ratings
+        provisional_games: (int) number of rated games that must be played before the normal rating system is used
+        initial_rating_default: (int)
+        unrated_game_player_choice: (yes/no) whether a challenger may create an unrated game
  - when creating a challenge, the challenger may specify whether the game will be rated
  - add columns chess_challenges.is_rated and chess_games.is_rated - enum('1','0')
  - add display of all players' ratings (on main chess page and in new block)

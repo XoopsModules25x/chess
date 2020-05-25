@@ -87,17 +87,17 @@ function perform()
 
         do_query(
             "
-			INSERT INTO $challenges_table
-			SET
-				game_type           = '$game_type',
-				fen                 = '$fen',
-				color_option        = '$color_option',
-				notify_move_player1 = '$notify_move_player1',
-				player1_uid         = '$player1_uid',
-				player2_uid         = '$player2_uid',
-				create_date         = '$create_date',
-				is_rated            = '$is_rated'
-		"
+            INSERT INTO $challenges_table
+            SET
+                game_type           = '$game_type',
+                fen                 = '$fen',
+                color_option        = '$color_option',
+                notify_move_player1 = '$notify_move_player1',
+                player1_uid         = '$player1_uid',
+                player2_uid         = '$player2_uid',
+                create_date         = '$create_date',
+                is_rated            = '$is_rated'
+        "
         );
     }
 
@@ -160,17 +160,17 @@ function perform()
 
         do_query(
             "
-			INSERT INTO $games_table
-			SET
-				white_uid   = '$white_uid',
-				black_uid   = '$black_uid',
-				create_date = '$create_date',
-				start_date  = '$start_date',
-				last_date   = '$last_date',
-				pgn_result  = '$pgn_result',
-				suspended   = '$suspended',
-				is_rated    = '$is_rated'
-		"
+            INSERT INTO $games_table
+            SET
+                white_uid   = '$white_uid',
+                black_uid   = '$black_uid',
+                create_date = '$create_date',
+                start_date  = '$start_date',
+                last_date   = '$last_date',
+                pgn_result  = '$pgn_result',
+                suspended   = '$suspended',
+                is_rated    = '$is_rated'
+        "
         );
     }
 

@@ -182,15 +182,15 @@ function xoops_module_update_chess($module, $oldversion)
 
     $queries = [
         "CREATE TABLE `$ratings_table` (
-			`player_uid` mediumint(8) unsigned NOT NULL default '0',
-			`rating` smallint(6) unsigned NOT NULL default '1200',
-			`games_won` smallint(6) unsigned NOT NULL default '0',
-			`games_lost` smallint(6) unsigned NOT NULL default '0',
-			`games_drawn` smallint(6) unsigned NOT NULL default '0',
-			PRIMARY KEY (`player_uid`),
-			KEY `rating` (`rating`),
-			KEY `games` (`games_won`,`games_lost`,`games_drawn`)
-			) ENGINE=MyISAM",
+            `player_uid` mediumint(8) unsigned NOT NULL default '0',
+            `rating` smallint(6) unsigned NOT NULL default '1200',
+            `games_won` smallint(6) unsigned NOT NULL default '0',
+            `games_lost` smallint(6) unsigned NOT NULL default '0',
+            `games_drawn` smallint(6) unsigned NOT NULL default '0',
+            PRIMARY KEY (`player_uid`),
+            KEY `rating` (`rating`),
+            KEY `games` (`games_won`,`games_lost`,`games_drawn`)
+            ) ENGINE=MyISAM",
 
         "ALTER TABLE `$challenges_table` ADD `is_rated` ENUM('1','0') DEFAULT '1' NOT NULL",
         "ALTER TABLE `$challenges_table` ADD INDEX `game_type` (`game_type`)",

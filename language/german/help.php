@@ -56,7 +56,7 @@ Eine <EM>Partie gegen sich selbst</EM> kann jederzeit begonnen werden, um dieses
 define(
     '_HE_CHESS_CREATE_030',
     '
-	Man kann optional eine Schachbrett-Ausgangsstellung in der Forsyth-Edwards Notation (FEN) angeben.
+    Man kann optional eine Schachbrett-Ausgangsstellung in der Forsyth-Edwards Notation (FEN) angeben.
 '
 );
 
@@ -72,7 +72,7 @@ oder man kann selbst die eigene Farbe bestimmen.
 define(
     '_HE_CHESS_CREATE_050',
     '
-	Man kann angeben, ob die Partie bewertet werden soll.
+    Man kann angeben, ob die Partie bewertet werden soll.
 '
 );
 
@@ -98,14 +98,14 @@ define('_HE_CHESS_RATINGS_TITLE', 'Bewertungssystem');
 define(
     '_HE_CHESS_RATINGS_CXR',
     '
-	CXR - Eine Adaption des ELO Bewertungssystems, verwendet mit Genehmigung von <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
+    CXR - Eine Adaption des ELO Bewertungssystems, verwendet mit Genehmigung von <A target="_blank" href="http://chess-express.com/">Chess Express Ratings, Inc.</A>
 '
 );
 
 define(
     '_HE_CHESS_RATINGS_LINEAR',
     '
-	Linear - Ein sehr einfaches System, das für einen Sieg (Niederlage) eine feste Anzahl an Punkten addiert (subtrahiert).
+    Linear - Ein sehr einfaches System, das für einen Sieg (Niederlage) eine feste Anzahl an Punkten addiert (subtrahiert).
 '
 );
 

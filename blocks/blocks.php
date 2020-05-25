@@ -78,14 +78,14 @@ function b_chess_games_show($options)
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, UNIX_TIMESTAMP(create_date) AS create_date,
-		         UNIX_TIMESTAMP(start_date) AS start_date, UNIX_TIMESTAMP(last_date) AS last_date,
-		         UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS most_recent_date
-		FROM     $table
-		WHERE    $where
-		ORDER BY most_recent_date DESC
-		LIMIT    $limit
-	"
+        SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, UNIX_TIMESTAMP(create_date) AS create_date,
+                 UNIX_TIMESTAMP(start_date) AS start_date, UNIX_TIMESTAMP(last_date) AS last_date,
+                 UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS most_recent_date
+        FROM     $table
+        WHERE    $where
+        ORDER BY most_recent_date DESC
+        LIMIT    $limit
+    "
         )
     );
 
@@ -176,12 +176,12 @@ function b_chess_challenges_show($options)
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   challenge_id, game_type, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
-		FROM     $table
-		WHERE    $where
-		ORDER BY create_date DESC
-		LIMIT    $limit
-	"
+        SELECT   challenge_id, game_type, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
+        FROM     $table
+        WHERE    $where
+        ORDER BY create_date DESC
+        LIMIT    $limit
+    "
         )
     );
 
@@ -291,12 +291,12 @@ function b_chess_players_show($options)
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
-		FROM     $table
-		WHERE    $where
-		ORDER BY rating DESC, player_uid ASC
-		LIMIT    $limit
-	"
+        SELECT   player_uid, rating, (games_won+games_lost+games_drawn) AS games_played
+        FROM     $table
+        WHERE    $where
+        ORDER BY rating DESC, player_uid ASC
+        LIMIT    $limit
+    "
         )
     );
 
@@ -362,17 +362,17 @@ function b_chess_games_edit($options)
     $show_unrated = 2 == $options[2] ? 'checked' : '';
 
     return '
-		' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
-		<br>
-		<br>
-		<input type='radio' name='options[1]' value='1' $show_inplay    > " . _MB_CHESS_SHOW_GAMES_INPLAY . "
-		<input type='radio' name='options[1]' value='2' $show_concluded > " . _MB_CHESS_SHOW_GAMES_CONCLUDED . "
-		<input type='radio' name='options[1]' value='3' $show_both      > " . _MB_CHESS_SHOW_GAMES_BOTH . "
-		<br>
-		<br>
-		<input type='radio' name='options[2]' value='1' $show_rated_only> " . _MB_CHESS_SHOW_GAMES_RATED . "
-		<input type='radio' name='options[2]' value='2' $show_unrated   > " . _MB_CHESS_SHOW_GAMES_UNRATED . '
-	';
+        ' . _MB_CHESS_NUM_GAMES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
+        <br>
+        <br>
+        <input type='radio' name='options[1]' value='1' $show_inplay    > " . _MB_CHESS_SHOW_GAMES_INPLAY . "
+        <input type='radio' name='options[1]' value='2' $show_concluded > " . _MB_CHESS_SHOW_GAMES_CONCLUDED . "
+        <input type='radio' name='options[1]' value='3' $show_both      > " . _MB_CHESS_SHOW_GAMES_BOTH . "
+        <br>
+        <br>
+        <input type='radio' name='options[2]' value='1' $show_rated_only> " . _MB_CHESS_SHOW_GAMES_RATED . "
+        <input type='radio' name='options[2]' value='2' $show_unrated   > " . _MB_CHESS_SHOW_GAMES_UNRATED . '
+    ';
 }
 
 /**
@@ -390,12 +390,12 @@ function b_chess_challenges_edit($options)
     $show_both = 3 == $options[1] ? 'checked' : '';
 
     return '
-		' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
-		<br>
-		<input type='radio' name='options[1]' value='1' $show_open> " . _MB_CHESS_SHOW_CHALLENGES_OPEN . "
-		<input type='radio' name='options[1]' value='2' $show_user> " . _MB_CHESS_SHOW_CHALLENGES_USER . "
-		<input type='radio' name='options[1]' value='3' $show_both> " . _MB_CHESS_SHOW_CHALLENGES_BOTH . '
-	';
+        ' . _MB_CHESS_NUM_CHALLENGES . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
+        <br>
+        <input type='radio' name='options[1]' value='1' $show_open> " . _MB_CHESS_SHOW_CHALLENGES_OPEN . "
+        <input type='radio' name='options[1]' value='2' $show_user> " . _MB_CHESS_SHOW_CHALLENGES_USER . "
+        <input type='radio' name='options[1]' value='3' $show_both> " . _MB_CHESS_SHOW_CHALLENGES_BOTH . '
+    ';
 }
 
 /**
@@ -411,9 +411,9 @@ function b_chess_players_edit($options)
     $show_all = 2 == $options[1] ? 'checked' : '';
 
     return '
-		' . _MB_CHESS_NUM_PLAYERS . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
-		<br>
-		<input type='radio' name='options[1]' value='1' $show_nonprovisional> " . _MB_CHESS_SHOW_NONPROVISIONAL . "
-		<input type='radio' name='options[1]' value='2' $show_all           > " . _MB_CHESS_SHOW_ALL_RATINGS . '
-	';
+        ' . _MB_CHESS_NUM_PLAYERS . ": <input type='text' name='options[0]' value='{$options[0]}' size='3' maxlength='3'>
+        <br>
+        <input type='radio' name='options[1]' value='1' $show_nonprovisional> " . _MB_CHESS_SHOW_NONPROVISIONAL . "
+        <input type='radio' name='options[1]' value='2' $show_all           > " . _MB_CHESS_SHOW_ALL_RATINGS . '
+    ';
 }

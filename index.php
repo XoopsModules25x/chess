@@ -135,13 +135,13 @@ $gshow2 = Request::getInt('gshow2', 0);
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
-			UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
-		FROM     $games_table
-		WHERE    $where
-		ORDER BY last_activity DESC
-		LIMIT    $gstart, $max_items_to_display
-	"
+        SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
+            UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
+        FROM     $games_table
+        WHERE    $where
+        ORDER BY last_activity DESC
+        LIMIT    $gstart, $max_items_to_display
+    "
         )
     );
 
@@ -210,12 +210,12 @@ $gshow2 = Request::getInt('gshow2', 0);
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
-		FROM     $challenges_table
-		WHERE    $where
-		ORDER BY create_date DESC
-		LIMIT    $cstart, $max_items_to_display
-	"
+        SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
+        FROM     $challenges_table
+        WHERE    $where
+        ORDER BY create_date DESC
+        LIMIT    $cstart, $max_items_to_display
+    "
         )
     );
 

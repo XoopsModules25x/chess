@@ -75,25 +75,25 @@ function chess_admin_menu()
     global $xoopsModule;
 
     echo '
-	<h4> ' . _AM_CHESS_CONF . ' </h4>'
-        //	<table width='100%' border='0' cellspacing='1' class='outer'>
-        //	<tr>
-        //		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=suspended_games'>" . _AM_CHESS_SUSPENDED_GAMES . '</a>
-        //		<td>' . _AM_CHESS_SUSPENDED_GAMES_DES . "</td>
-        //	</tr>
-        //	<tr>
-        //		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=active_games'>" . _AM_CHESS_ACTIVE_GAMES . '</a>
-        //		<td>' . _AM_CHESS_ACTIVE_GAMES_DES . "</td>
-        //	</tr>
-        //	<tr>
-        //		<td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=challenges'>" . _AM_CHESS_CHALLENGES . '</a>
-        //		<td>' . _AM_CHESS_CHALLENGES_DES . "</td>
-        //	</tr>
-        //	<tr>
-        //		<td><a href='" . XOOPS_URL . '/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid') . "'>" . _AM_CHESS_PREFS . '</a>
-        //		<td>' . _AM_CHESS_PREFS_DESC . '</td>
-        //	</tr>
-        //	</table>
+    <h4> ' . _AM_CHESS_CONF . ' </h4>'
+        //    <table width='100%' border='0' cellspacing='1' class='outer'>
+        //    <tr>
+        //        <td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=suspended_games'>" . _AM_CHESS_SUSPENDED_GAMES . '</a>
+        //        <td>' . _AM_CHESS_SUSPENDED_GAMES_DES . "</td>
+        //    </tr>
+        //    <tr>
+        //        <td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=active_games'>" . _AM_CHESS_ACTIVE_GAMES . '</a>
+        //        <td>' . _AM_CHESS_ACTIVE_GAMES_DES . "</td>
+        //    </tr>
+        //    <tr>
+        //        <td><a href='" . XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . "/admin/index.php?op=challenges'>" . _AM_CHESS_CHALLENGES . '</a>
+        //        <td>' . _AM_CHESS_CHALLENGES_DES . "</td>
+        //    </tr>
+        //    <tr>
+        //        <td><a href='" . XOOPS_URL . '/modules/system/admin.php?fct=preferences&amp;op=showmod&amp;mod=' . $xoopsModule->getVar('mid') . "'>" . _AM_CHESS_PREFS . '</a>
+        //        <td>' . _AM_CHESS_PREFS_DESC . '</td>
+        //    </tr>
+        //    </table>
         //'
     ;
 }
@@ -132,12 +132,12 @@ function chess_admin_suspended_games()
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, suspended
-		FROM     $games_table
-		WHERE    suspended != ''
-		ORDER BY suspended
-		LIMIT    $start, $max_items_to_display
-	"
+        SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, suspended
+        FROM     $games_table
+        WHERE    suspended != ''
+        ORDER BY suspended
+        LIMIT    $start, $max_items_to_display
+    "
         )
     );
 
@@ -228,12 +228,12 @@ function chess_admin_active_games()
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, GREATEST(create_date,start_date,last_date) AS most_recent_date
-		FROM     $games_table
-		WHERE    pgn_result = '*' and suspended = ''
-		ORDER BY most_recent_date DESC
-		LIMIT    $start, $max_items_to_display
-	"
+        SELECT   game_id, white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date, GREATEST(create_date,start_date,last_date) AS most_recent_date
+        FROM     $games_table
+        WHERE    pgn_result = '*' and suspended = ''
+        ORDER BY most_recent_date DESC
+        LIMIT    $start, $max_items_to_display
+    "
         )
     );
 
@@ -298,11 +298,11 @@ function chess_admin_challenges()
     $result = $xoopsDB->query(
         trim(
             "
-		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
-		FROM     $challenges_table
-		ORDER BY create_date DESC
-		LIMIT    $start, $max_items_to_display
-	"
+        SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date
+        FROM     $challenges_table
+        ORDER BY create_date DESC
+        LIMIT    $start, $max_items_to_display
+    "
         )
     );
 

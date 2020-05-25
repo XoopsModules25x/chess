@@ -179,13 +179,13 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 
     $result = $xoopsDB->query(
         "
-		SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
-			UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
-		FROM      $games_table
-		WHERE     $where
-		ORDER BY  last_activity DESC
-		LIMIT     $gstart, $max_items_to_display
-	"
+        SELECT   game_id, fen_active_color, white_uid, black_uid, pgn_result, is_rated,
+            UNIX_TIMESTAMP(GREATEST(create_date,start_date,last_date)) AS last_activity
+        FROM      $games_table
+        WHERE     $where
+        ORDER BY  last_activity DESC
+        LIMIT     $gstart, $max_items_to_display
+    "
     );
 
     $games = [];
@@ -244,12 +244,12 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
 
     $result = $xoopsDB->query(
         "
-		SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
-		FROM     $challenges_table
-		WHERE    $where
-		ORDER BY create_date DESC
-		LIMIT    $cstart, $max_items_to_display
-	"
+        SELECT   challenge_id, game_type, color_option, player1_uid, player2_uid, UNIX_TIMESTAMP(create_date) AS create_date, is_rated
+        FROM     $challenges_table
+        WHERE    $where
+        ORDER BY create_date DESC
+        LIMIT    $cstart, $max_items_to_display
+    "
     );
 
     $challenges = [];
@@ -321,10 +321,10 @@ function chess_player_stats($player_uid, $player_uname, $show_option = _CHESS_SH
     if ('none' != $rating_system) {
         $result = $xoopsDB->query(
             "
-			SELECT   player_uid, rating, games_won, games_lost, games_drawn, (games_won+games_lost+games_drawn) AS games_played
-			FROM     $ratings_table
-			ORDER BY rating DESC, player_uid ASC
-		"
+            SELECT   player_uid, rating, games_won, games_lost, games_drawn, (games_won+games_lost+games_drawn) AS games_played
+            FROM     $ratings_table
+            ORDER BY rating DESC, player_uid ASC
+        "
         );
 
         $ranking = 0;

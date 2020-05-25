@@ -71,10 +71,10 @@ function chess_notify_item_info($category, $item_id)
         $result = $xoopsDB->query(
             trim(
                 "
-			SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
-			FROM   $table
-			WHERE  game_id = '$item_id'
-		"
+            SELECT white_uid, black_uid, UNIX_TIMESTAMP(start_date) AS start_date
+            FROM   $table
+            WHERE  game_id = '$item_id'
+        "
             )
         );
 

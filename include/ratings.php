@@ -63,15 +63,15 @@ function chess_ratings_adj($gid)
 
     $result = $xoopsDB->query(
         "
-		SELECT
-			g.white_uid AS white_uid, g.black_uid AS black_uid, g.pgn_result AS pgn_result, w.rating AS white_rating, b.rating AS black_rating,
-			(w.games_won+w.games_lost+w.games_drawn) AS white_games, (b.games_won+b.games_lost+b.games_drawn) AS black_games
-		FROM      $games_table AS g
-		LEFT JOIN $ratings_table AS w ON w.player_uid = g.white_uid
-		LEFT JOIN $ratings_table AS b ON b.player_uid = g.black_uid
-		WHERE     g.game_id = '$gid' AND g.is_rated = '1' AND g.pgn_result != '*'
-			AND (w.player_uid IS NULL OR b.player_uid IS NULL OR w.player_uid != b.player_uid)
-	"
+        SELECT
+            g.white_uid AS white_uid, g.black_uid AS black_uid, g.pgn_result AS pgn_result, w.rating AS white_rating, b.rating AS black_rating,
+            (w.games_won+w.games_lost+w.games_drawn) AS white_games, (b.games_won+b.games_lost+b.games_drawn) AS black_games
+        FROM      $games_table AS g
+        LEFT JOIN $ratings_table AS w ON w.player_uid = g.white_uid
+        LEFT JOIN $ratings_table AS b ON b.player_uid = g.black_uid
+        WHERE     g.game_id = '$gid' AND g.is_rated = '1' AND g.pgn_result != '*'
+            AND (w.player_uid IS NULL OR b.player_uid IS NULL OR w.player_uid != b.player_uid)
+    "
     );
 
     // check that game exists and is rated
@@ -124,20 +124,20 @@ function chess_ratings_adj($gid)
 
     $xoopsDB->query(
         "
-		UPDATE $ratings_table
-		SET    rating = '$white_rating_new', $white_col = $white_col + 1
-		WHERE  player_uid = '{$row['white_uid']}'
-	"
+        UPDATE $ratings_table
+        SET    rating = '$white_rating_new', $white_col = $white_col + 1
+        WHERE  player_uid = '{$row['white_uid']}'
+    "
     );
 
     $xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
 
     $xoopsDB->query(
         "
-		UPDATE $ratings_table
-		SET    rating = '$black_rating_new', $black_col = $black_col + 1
-		WHERE  player_uid = '{$row['black_uid']}'
-	"
+        UPDATE $ratings_table
+        SET    rating = '$black_rating_new', $black_col = $black_col + 1
+        WHERE  player_uid = '{$row['black_uid']}'
+    "
     );
 
     $xoopsDB->errno() and trigger_error($xoopsDB->errno() . ':' . $xoopsDB->error(), E_USER_ERROR);
@@ -178,11 +178,11 @@ function chess_recalc_ratings()
 
     $result = $xoopsDB->query(
         "
-		SELECT    white_uid, black_uid, pgn_result
-		FROM      $games_table
-		WHERE     is_rated = '1' AND pgn_result != '*' AND white_uid != black_uid
-		ORDER BY  last_date ASC
-	"
+        SELECT    white_uid, black_uid, pgn_result
+        FROM      $games_table
+        WHERE     is_rated = '1' AND pgn_result != '*' AND white_uid != black_uid
+        ORDER BY  last_date ASC
+    "
     );
 
     $players = [];
