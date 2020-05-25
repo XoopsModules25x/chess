@@ -108,8 +108,8 @@
             <table>
 
                 <{* #*#TBD# - color of player names in th-tag not visible enough in some themes, e.g. default theme, since they're in a-tags. *}>
-                <th style="text-align:center" colspan="2"><a href="<{$smarty.const.XOOPS_URL}>/modules/chess/player_stats.php?player_uid=<{$chess_gamedata.white_uid}>"><font size="+1"><b><{$chess_white_user|replace:' ':'&nbsp;'}></b></font></a>&nbsp;<{$smarty.const._MD_CHESS_LABEL_VS}>&nbsp;<a
-                            href="<{$smarty.const.XOOPS_URL}>/modules/chess/player_stats.php?player_uid=<{$chess_gamedata.black_uid}>"><font size="+1"><b><{$chess_black_user|replace:' ':'&nbsp;'}></b></font></a></th>
+                <th style="text-align:center" colspan="2"><a href="<{$smarty.const.XOOPS_URL}>/modules/chess/player_stats.php?player_uid=<{$chess_gamedata.white_uid}>"><span style="font-size: larger; "><b><{$chess_white_user|replace:' ':'&nbsp;'}></b></span></a>&nbsp;<{$smarty.const._MD_CHESS_LABEL_VS}>&nbsp;<a
+                            href="<{$smarty.const.XOOPS_URL}>/modules/chess/player_stats.php?player_uid=<{$chess_gamedata.black_uid}>"><span style="font-size: larger; "><b><{$chess_black_user|replace:' ':'&nbsp;'}></b></span></a></th>
 
                 <{* Display first and last move dates if defined, otherwise display game creation date. *}>
                 <{assign var=chess_date_format_nbsp value=$chess_date_format|replace:' ':'\&\n\b\s\p\;'}>
