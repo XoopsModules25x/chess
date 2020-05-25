@@ -1,4 +1,5 @@
-engines:
+version: "2"
+plugins:
   eslint:
     enabled: true
   csslint:
@@ -21,7 +22,14 @@ engines:
     enabled: true
     config:
       file_extensions: "php,inc,lib"
-      standard: "PSR1,PSR2"
+      standard: "PSR1,PSR2, PSR12"
+  sonar-php:
+    enabled: true
+plugins:
+  phan:
+    enabled: true
+    config:
+      file_extensions: "php"
 ratings:
   paths:
     - "**.inc"
