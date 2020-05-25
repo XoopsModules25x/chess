@@ -156,4 +156,25 @@ define('_MI_CHESS_UPDATING_DATABASE', 'Aktualisiere Datenbank-Tabellen ...');
 define('_MI_CHESS_INIT_RATINGS_TABLE', 'Initialisiere Bewertungstabellen ...');
 define('_MI_CHESS_UPDATE_SUCCESSFUL', 'Update erfolgreich abgeschlossen.');
 
+//2.01
+
+//Config
+define('MI_CHESS_EDITOR_ADMIN', 'Editor: Admin');
+define('MI_CHESS_EDITOR_ADMIN_DESC', 'Select the Editor to use by the Admin');
+define('MI_CHESS_EDITOR_USER', 'Editor: User');
+define('MI_CHESS_EDITOR_USER_DESC', 'Select the Editor to use by the User');
+
+//Help
+define('_MI_CHESS_DIRNAME', basename(dirname(__DIR__, 2)));
+define('_MI_CHESS_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
+define('_MI_CHESS_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_CHESS_OVERVIEW', 'Overview');
+
+//define('_MI_CHESS_HELP_DIR', __DIR__);
+
+//help multi-page
+define('_MI_CHESS_DISCLAIMER', 'Disclaimer');
+define('_MI_CHESS_LICENSE', 'License');
+define('_MI_CHESS_SUPPORT', 'Support');
+
 /**#@-*/

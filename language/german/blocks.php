@@ -59,5 +59,6 @@ define('_MB_CHESS_NO_NONPROV_GAMES', 'Es wurden keine bewerteten Partien beendet
 
 // miscellaneous
 define('_MB_CHESS_ERROR', '*error*');
+define('_MB_CHESS_LABEL_NO_GAMES', 'Keine Partien');
 
 /**#@-*/
